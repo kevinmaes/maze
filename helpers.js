@@ -39,7 +39,7 @@ const getNextCell = ({ pathId, grid, currentCell, stack }) => {
 const getNextSolutionCell = ({ pathId, grid, currentCell, stack }) => {
   let next;
 
-  const neighbors = currentCell.getSolutionNeighbors(grid);
+  const neighbors = currentCell.getUnvisitedSolutionNeighbors(grid);
 
   // Pick random direction;
   if (neighbors.length) {

@@ -32,9 +32,10 @@ function seekSolution({
   startIndex = 0,
   endIndex = null
 }) {
+  console.log("seekSolution", seekSolution);
   // Get the currentSquare for A
   if (current) {
-    next = getNextCell({
+    next = getNextSolutionCell({
       pathId,
       grid,
       currentCell: current,

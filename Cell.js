@@ -109,8 +109,44 @@ class Cell {
     });
   }
 
-  markSolution(direction) {
+  getUnvisitedSolutionNeighbors(grid) {
+    const solutionNeighbors = this.getSolutionNeighbors(grid);
+
+    const unvisitedSolutionNeighbors = solutionNeighbors.filter(neighbor => {
+      return !neighbor.isVisitedSolution();
+    });
+
+    console.log("unvisitedSolutionNeighbors", unvisitedSolutionNeighbors);
+    return unvisitedSolutionNeighbors;
+  }
+
+  markSolution(prevCell) {
     // Add line in the correct direction
+    this.visitedSolution = true;
+    if (prevCell) {
+      if (
+        this.colIndex > prevCell.colIndex ||
+        this.colIndex < prevCell.colIndex
+      ) {
+        console.log("horizontal line");
+        this.solutionLine = "horizontal";
+      }
+      if (
+        this.rowIndex > prevCell.rowIndex ||
+        this.rowIndex < prevCell.rowIndex
+      ) {
+        console.log("vertical line");
+        this.solutionLine = "vertical";
+      } else {
+        this.solutionLine = "none";
+      }
+    }
+  }
+
+  unmarkSolution() {
+    // this.visitedSolution = false;
+    this.backtrackSolution = true;
+    // Remove line
   }
 
   unmarkSolution() {
@@ -119,6 +155,10 @@ class Cell {
 
   isVisited() {
     return this.visited;
+  }
+
+  isVisitedSolution() {
+    return this.visitedSolution;
   }
 
   markVisited(prevCell, pathId) {
@@ -253,5 +293,31 @@ class Cell {
 
     // Set cursor to false so it only shows on a single render.
     this.cursor = false;
+
+    if (this.solutionLine === "horizontal") {
+      stroke("red");
+      strokeWeight(2);
+
+      line(
+        this.x,
+        this.y + 0.5 * this.size,
+        this.x + this.size,
+        this.y + 0.5 * this.size
+      );
+      noStroke();
+    } else if (this.solutionLine === "vertical") {
+      console.log("vertical line");
+      this.solutionLine = "vertical";
+      stroke("red");
+      strokeWeight(2);
+
+      line(
+        this.x + 0.5 * this.size,
+        this.y,
+        this.x + 0.5 * this.size,
+        this.y + this.size
+      );
+      noStroke();
+    }
   }
 }

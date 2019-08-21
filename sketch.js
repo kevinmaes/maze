@@ -117,11 +117,11 @@ function draw() {
 
   if (pathsConnected) {
     // Implement solution here?
-    // solutionCurrentCell = seekSolution({
-    //   pathId: 's',
-    //   current: solutionCurrentCell,
-    //   stack: solutionStack,
-    // });
+    solutionCurrentCell = seekSolution({
+      pathId: "s",
+      current: solutionCurrentCell,
+      stack: solutionStack
+    });
 
     console.log("solutionCurrentCell", solutionCurrentCell);
   }
