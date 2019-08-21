@@ -1,4 +1,4 @@
-const FRAME_RATE = null;
+const FRAME_RATE = 2;
 
 const CELL_SIZE = 50;
 const BORDER_WEIGHT = 0.5 * CELL_SIZE;
@@ -115,17 +115,16 @@ function draw() {
     }
   }
 
-  //   if(pathsConnected) {
-  //     // Implement solution here?
-  //     solutionCurrentCell = seekSolution({
-  //       pathId: 's',
-  //       current: solutionCurrentCell,
-  //       stack: solutionStack,
-  //     });
+  if (pathsConnected) {
+    // Implement solution here?
+    // solutionCurrentCell = seekSolution({
+    //   pathId: 's',
+    //   current: solutionCurrentCell,
+    //   stack: solutionStack,
+    // });
 
-  //     console.log('solutionCurrentCell', solutionCurrentCell);
-
-  //   }
+    console.log("solutionCurrentCell", solutionCurrentCell);
+  }
 
   // Draw all cells.
   for (let cell of grid.cells) {
