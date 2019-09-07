@@ -1,11 +1,9 @@
-const FRAME_RATE = 2;
+const FRAME_RATE = null;
 
-const CELL_SIZE = 50;
+const CELL_SIZE = 25;
 const BORDER_WEIGHT = 0.5 * CELL_SIZE;
-// const GRID_COLUMNS = 54;
-// const GRID_ROWS = 40;
-const GRID_COLUMNS = 4;
-const GRID_ROWS = 4;
+const GRID_COLUMNS = 35;
+const GRID_ROWS = 25;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
@@ -24,7 +22,7 @@ let solutionStack = [];
 const grid = {
   rows: GRID_ROWS,
   cols: GRID_COLUMNS,
-  cells: []
+  cells: [],
 };
 
 function setup() {
@@ -43,10 +41,10 @@ function createGrid(cellTotal, cellSize) {
       grid,
       size: cellSize,
       borderWeight: BORDER_WEIGHT,
-      visitedColor: "rgb(208, 222, 247)",
+      visitedColor: 'rgb(208, 222, 247)',
       isStart: index === START_INDEX,
       isMiddle: index === middleIndex,
-      isEnd: index === END_INDEX
+      isEnd: index === END_INDEX,
     });
 
     // if (getIsBlockedInternal(cell)) {
@@ -67,22 +65,22 @@ let pathsConnected = false;
 
 function draw() {
   frameRate(FRAME_RATE);
-  background(255);
+  background('white');
 
   // Seek path A
   currentCellA = seek({
-    pathId: "a",
+    pathId: 'a',
     current: currentCellA,
     startIndex: START_INDEX,
-    stack: stackA
+    stack: stackA,
   });
 
   // Seek path Z.
   currentCellZ = seek({
-    pathId: "z",
+    pathId: 'z',
     current: currentCellZ,
     endIndex: END_INDEX,
-    stack: stackZ
+    stack: stackZ,
   });
 
   if (!pathsConnected && !currentCellA) {
@@ -105,7 +103,7 @@ function draw() {
           thisMiddleRowCell.connectToNeighbor(otherPathNeighbor);
           pathsConnected = true;
           console.log(
-            "connected cells",
+            'Paths connect between indices:',
             thisMiddleRowCell.index,
             otherPathNeighbor.index
           );
@@ -118,12 +116,12 @@ function draw() {
   if (pathsConnected) {
     // Implement solution here?
     solutionCurrentCell = seekSolution({
-      pathId: "s",
+      pathId: 's',
       current: solutionCurrentCell,
-      stack: solutionStack
+      stack: solutionStack,
     });
 
-    console.log("solutionCurrentCell", solutionCurrentCell);
+    console.log('solutionCurrentCell', solutionCurrentCell);
   }
 
   // Draw all cells.

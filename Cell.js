@@ -4,14 +4,14 @@ class Cell {
     grid,
     size = 25,
     borderWeight = 2,
-    borderColor = "gray",
-    cursorColor = "yellow",
-    visitedColor = "rgba(0, 0, 0, 0.1)",
-    backtrackColor = "white",
+    borderColor = 'gray',
+    cursorColor = 'yellow',
+    visitedColor = 'rgba(0, 0, 0, 0.1)',
+    backtrackColor = 'white',
     renderInitial = false,
     isStart = false,
     isMiddle = false,
-    isEnd = false
+    isEnd = false,
   }) {
     this.index = index;
     this.grid = grid;
@@ -29,23 +29,12 @@ class Cell {
     this.isMiddle = isMiddle;
     this.isEnd = isEnd;
 
-    // if (renderInitial || this.isStart || this.isMiddle || this.isEnd) {
-    if (renderInitial || this.isStart || this.isEnd) {
+    if (renderInitial) {
       this.walls = [true, true, true, true];
     } else {
-      if (
-        this.colIndex === 0 ||
-        this.colIndex === grid.cols - 1 ||
-        this.rowIndex === 0 ||
-        this.rowIndex === grid.rows - 1
-      ) {
-        this.walls = [true, true, true, true];
-      } else {
-        this.walls = [false, false, false, false];
-      }
+      this.walls = [false, false, false, false];
     }
 
-    // this.walls = [false, false, false, false];
     this.visited = false;
   }
 
@@ -259,7 +248,7 @@ class Cell {
       case this.visited:
         return this.visitedColor;
       default:
-        return "white";
+        return 'white';
     }
   }
 
