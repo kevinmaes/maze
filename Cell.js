@@ -13,8 +13,6 @@ class Cell {
     isMiddle = false,
     isEnd = false,
   }) {
-    this.index = index;
-    this.grid = grid;
     this.colIndex = index % grid.cols;
     this.rowIndex = Math.floor(index / grid.cols);
     this.x = this.colIndex * size + borderWeight;
