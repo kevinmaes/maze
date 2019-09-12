@@ -19,54 +19,12 @@ let solutionCurrentCell;
 let nextNextCell;
 let solutionStack = [];
 
-class Grid {
-  constructor({ rows, cols }) {
-    this.rows = rows;
-    this.cols = cols;
-    this.cells = [];
-  }
-
-  getNeighbors(cell) {
-    const neighbors = DIRECTIONS.map(direction => {
-      const [nRowIndex, nColIndex] = direction.getIndices(
-        cell.rowIndex,
-        cell.colIndex
-      );
-      // Ensure it is on the grid.
-      if (
-        nRowIndex < 0 ||
-        nColIndex < 0 ||
-        nRowIndex > this.rows - 1 ||
-        nColIndex > this.cols - 1
-      ) {
-        return null;
-      }
-      const index = nRowIndex * this.cols + nColIndex;
-      return index;
-    })
-      .filter(index => index !== null)
-      .map(index => this.cells[index]);
-    return neighbors;
-  }
-
-  getUnvisitedNeighbors(cell) {
-    return this.getNeighbors(cell).filter(neighbor => {
-      return !neighbor.isVisited();
-    });
-  }
-}
-
-const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
-// const grid = {
-//   rows: GRID_ROWS,
-//   cols: GRID_COLUMNS,
-//   cells: [],
-// };
-
 function setup() {
   createCanvas(1000, 1000);
   createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
 }
+
+const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
 
 function createGrid(cellTotal, cellSize) {
   const middleColIndex = Math.floor(GRID_COLUMNS / 2);
