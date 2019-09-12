@@ -204,10 +204,6 @@ class Cell {
       this.walls[1] = false;
       neighborCell.walls[3] = false;
     }
-
-    // this.backgroundColor = 'red';
-    // neighborCell.backgroundColor = 'red';
-    // this.draw();
   }
 
   getFillColor() {
