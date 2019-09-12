@@ -79,20 +79,20 @@ class Cell {
   connect(cell, { mutual } = { mutual: true }) {
     this.connections.push(cell);
 
-    if (this.rowIndex > cell.rowIndex) {
-      this.walls[NORTH] = false;
-    }
-
-    if (this.rowIndex < cell.rowIndex) {
+    if (cell.rowIndex > this.rowIndex) {
       this.walls[SOUTH] = false;
     }
 
-    if (this.colIndex > cell.colIndex) {
-      this.walls[WEST] = false;
+    if (cell.rowIndex < this.rowIndex) {
+      this.walls[NORTH] = false;
     }
 
-    if (this.colIndex < cell.colIndex) {
+    if (cell.colIndex > this.colIndex) {
       this.walls[EAST] = false;
+    }
+
+    if (cell.colIndex < this.colIndex) {
+      this.walls[WEST] = false;
     }
 
     if (mutual) {
