@@ -164,18 +164,20 @@ class Cell {
   }
 
   draw() {
-    const fillColor = this.getFillColor();
-    fill(fillColor);
+    this.drawFill(this.getFillColor());
+    this.drawWalls(this.walls);
+
+    // Set cursor to false so it only shows on a single render.
+    this.cursor = false;
+  }
+
+  drawFill(color) {
+    fill(color);
     noStroke();
 
     const fillX = this.x + 0.5 * this.borderWeight;
     const fillY = this.y + 0.5 * this.borderWeight;
     square(fillX, fillY, this.size);
-
-    this.drawWalls(this.walls);
-
-    // Set cursor to false so it only shows on a single render.
-    this.cursor = false;
   }
 
   drawWalls(walls) {
