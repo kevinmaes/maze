@@ -209,19 +209,19 @@ class Cell {
     stroke(this.borderColor);
     strokeWeight(this.borderWeight);
 
-    if (this.walls[0]) {
+    if (this.walls[NORTH]) {
       line(this.x, this.y, this.x + this.size, this.y);
     }
 
-    if (this.walls[1]) {
+    if (this.walls[EAST]) {
       line(this.x + this.size, this.y, this.x + this.size, this.y + this.size);
     }
 
-    if (this.walls[2]) {
+    if (this.walls[SOUTH]) {
       line(this.x, this.y + this.size, this.x + this.size, this.y + this.size);
     }
 
-    if (this.walls[3]) {
+    if (this.walls[WEST]) {
       line(this.x, this.y, this.x, this.y + this.size);
     }
 
