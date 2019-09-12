@@ -72,31 +72,8 @@ class Cell {
     });
   }
 
-  getSolutionNeighbors(grid) {
-    return this.getNeighbors(grid).filter(neighbor => {
-      if (neighbor.colIndex > this.colIndex) {
-        if (this.walls[EAST]) {
-          return false;
-        }
-      }
-      if (neighbor.colIndex < this.colIndex) {
-        if (this.walls[WEST]) {
-          return false;
-        }
-      }
-
-      if (neighbor.rowIndex > this.rowIndex) {
-        if (this.walls[SOUTH]) {
-          return false;
-        }
-      }
-      if (neighbor.rowIndex < this.rowIndex) {
-        if (this.walls[NORTH]) {
-          return false;
-        }
-      }
-      return true;
-    });
+  getConnections() {
+    return this.connections;
   }
 
   connect(cell, { mutual } = { mutual: true }) {
