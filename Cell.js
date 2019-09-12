@@ -6,7 +6,8 @@ const WEST = 3;
 class Cell {
   constructor({
     index,
-    grid,
+    rowIndex,
+    colIndex,
     size = 25,
     borderWeight = 2,
     borderColor = 'gray',
@@ -18,8 +19,9 @@ class Cell {
     isMiddle = false,
     isEnd = false,
   }) {
-    this.colIndex = index % grid.cols;
-    this.rowIndex = Math.floor(index / grid.cols);
+    this.index = index;
+    this.rowIndex = rowIndex;
+    this.colIndex = colIndex;
     this.x = this.colIndex * size + borderWeight;
     this.y = this.rowIndex * size + borderWeight;
     this.size = size;

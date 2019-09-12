@@ -34,7 +34,8 @@ function createGrid(cellTotal, cellSize) {
   for (let index = 0; index < cellTotal; index++) {
     const cell = new Cell({
       index,
-      grid,
+      colIndex: index % grid.cols,
+      rowIndex: Math.floor(index / grid.cols),
       size: cellSize,
       borderWeight: BORDER_WEIGHT,
       visitedColor: 'rgb(208, 222, 247)',
