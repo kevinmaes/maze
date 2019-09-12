@@ -1,32 +1,25 @@
 const getNextCell = ({ pathId, grid, currentCell, stack }) => {
-  let next;
+  // Pick next unvisited neighbor.
+  const next = grid.pickNeighbor(currentCell);
 
-  const neighbors = grid.getUnvisitedNeighbors(currentCell);
-
-  // Pick random direction;
-  if (neighbors.length) {
-    next = grid.pickNeighbor(currentCell);
+  // If next cell is found, mark it as visited.
+  if (next) {
     return next.visit(currentCell, pathId);
+  }
+
+  // Dead end, must backtrack.
+  const prevCell = stack.pop();
+
+  if (prevCell) {
+    prevCell.backtrack = true;
+
+    return getNextCell({
+      grid,
+      currentCell: prevCell,
+      stack,
+    });
   } else {
-    // Dead end, must backtrack.
-    const prevCell = stack.pop();
-
-    if (prevCell) {
-      prevCell.backtrack = true;
-      next = getNextCell({
-        grid,
-        currentCell: prevCell,
-        stack,
-      });
-
-      if (next === null) {
-        return next;
-      }
-
-      return next.visit(prevCell, pathId);
-    } else {
-      // Search is complete.
-      return null;
-    }
+    // Search is complete.
+    return null;
   }
 };
