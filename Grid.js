@@ -34,7 +34,8 @@ class Grid {
     });
   }
 
-  pickNeighbor(neighbors) {
+  pickNeighbor(cell) {
+    const neighbors = this.getUnvisitedNeighbors(cell);
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];
   }

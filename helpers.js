@@ -5,7 +5,7 @@ const getNextCell = ({ pathId, grid, currentCell, stack }) => {
 
   // Pick random direction;
   if (neighbors.length) {
-    next = grid.pickNeighbor(neighbors);
+    next = grid.pickNeighbor(currentCell);
     return next.visit(currentCell, pathId);
   } else {
     // Dead end, must backtrack.
