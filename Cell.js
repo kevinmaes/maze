@@ -27,6 +27,8 @@ class Cell {
     this.isMiddle = isMiddle;
     this.isEnd = isEnd;
 
+    this.connections = [];
+
     if (renderInitial) {
       this.walls = [true, true, true, true];
     } else {
@@ -94,6 +96,22 @@ class Cell {
       }
       return true;
     });
+  }
+
+  connect(cell, { mutual = true }) {
+    this.connections.push(cell);
+
+    if (mutual) {
+      cell.connect(this, { mutual: false });
+    }
+  }
+
+  disconnect(cell, { mutual = true }) {
+    this.connections = this.connections.filter(c => c.index === cell.index);
+
+    if (mutual) {
+      cell.disconnect(this, { mutual: false });
+    }
   }
 
   markSolution(direction) {
