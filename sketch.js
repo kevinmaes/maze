@@ -113,17 +113,10 @@ function draw() {
     }
   }
 
-  //   if(pathsConnected) {
-  //     // Implement solution here?
-  //     solutionCurrentCell = seekSolution({
-  //       pathId: 's',
-  //       current: solutionCurrentCell,
-  //       stack: solutionStack,
-  //     });
-
-  //     console.log('solutionCurrentCell', solutionCurrentCell);
-
-  //   }
+  if (pathsConnected) {
+    console.log('Grid', grid);
+    // console.log('Grid', JSON.stringify(grid));
+  }
 
   // Draw all cells.
   for (let cell of grid.cells) {
