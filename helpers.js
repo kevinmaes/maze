@@ -6,7 +6,7 @@ const pickNeighbor = neighbors => {
 const getNextCell = ({ pathId, grid, currentCell, stack }) => {
   let next;
 
-  const neighbors = currentCell.getUnvisitedNeighbors(grid);
+  const neighbors = grid.getUnvisitedNeighbors(currentCell);
 
   // Pick random direction;
   if (neighbors.length) {

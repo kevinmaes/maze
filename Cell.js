@@ -43,35 +43,6 @@ class Cell {
     this.visited = false;
   }
 
-  getNeighbors(grid) {
-    const neighbors = DIRECTIONS.map(direction => {
-      const [nRowIndex, nColIndex] = direction.getIndices(
-        this.rowIndex,
-        this.colIndex
-      );
-      // Ensure it is on the grid.
-      if (
-        nRowIndex < 0 ||
-        nColIndex < 0 ||
-        nRowIndex > grid.rows - 1 ||
-        nColIndex > grid.cols - 1
-      ) {
-        return null;
-      }
-      const index = nRowIndex * grid.cols + nColIndex;
-      return index;
-    })
-      .filter(index => index !== null)
-      .map(index => grid.cells[index]);
-    return neighbors;
-  }
-
-  getUnvisitedNeighbors(grid) {
-    return this.getNeighbors(grid).filter(neighbor => {
-      return !neighbor.isVisited();
-    });
-  }
-
   getConnections() {
     return this.connections;
   }
