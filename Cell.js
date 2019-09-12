@@ -90,7 +90,6 @@ class Cell {
   }
 
   visit(prevCell, pathId) {
-    // console.log('pathId', pathId);
     this.pathId = pathId;
     this.visited = true;
 
