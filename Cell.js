@@ -167,13 +167,6 @@ class Cell {
       this.connect(prevCell);
     }
 
-    // Open the start and end cells to enter/exit the maze.
-    if (this.isStart) {
-      this.walls[WEST] = false;
-    } else if (this.isEnd) {
-      this.walls[EAST] = false;
-    }
-
     return this;
   }
 
