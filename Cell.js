@@ -103,22 +103,18 @@ class Cell {
 
     if (this.rowIndex > cell.rowIndex) {
       this.walls[0] = false;
-      cell.walls[2] = false;
     }
 
     if (this.rowIndex < cell.rowIndex) {
       this.walls[2] = false;
-      cell.walls[0] = false;
     }
 
     if (this.colIndex > cell.colIndex) {
       this.walls[3] = false;
-      cell.walls[1] = false;
     }
 
     if (this.colIndex < cell.colIndex) {
       this.walls[1] = false;
-      cell.walls[3] = false;
     }
 
     if (mutual) {
