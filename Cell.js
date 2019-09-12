@@ -98,15 +98,35 @@ class Cell {
     });
   }
 
-  connect(cell, { mutual = true }) {
+  connect(cell, { mutual } = { mutual: true }) {
     this.connections.push(cell);
+
+    if (this.rowIndex > cell.rowIndex) {
+      this.walls[0] = false;
+      cell.walls[2] = false;
+    }
+
+    if (this.rowIndex < cell.rowIndex) {
+      this.walls[2] = false;
+      cell.walls[0] = false;
+    }
+
+    if (this.colIndex > cell.colIndex) {
+      this.walls[3] = false;
+      cell.walls[1] = false;
+    }
+
+    if (this.colIndex < cell.colIndex) {
+      this.walls[1] = false;
+      cell.walls[3] = false;
+    }
 
     if (mutual) {
       cell.connect(this, { mutual: false });
     }
   }
 
-  disconnect(cell, { mutual = true }) {
+  disconnect(cell, { mutual } = { mutual: true }) {
     this.connections = this.connections.filter(c => c.index === cell.index);
 
     if (mutual) {
@@ -142,34 +162,12 @@ class Cell {
     const cursorY = this.y + 0.5 * this.borderWeight;
     square(cursorX, cursorY, this.size - this.borderWeight);
 
-    // if (!this.isStart && !this.isMiddle && !this.isEnd) {
-    //   this.walls = [true, true, true, true];
-    // }
-
     if (!this.isStart && !this.isEnd) {
       this.walls = [true, true, true, true];
     }
 
     if (prevCell) {
-      if (this.rowIndex > prevCell.rowIndex) {
-        this.walls[0] = false;
-        prevCell.walls[2] = false;
-      }
-
-      if (this.rowIndex < prevCell.rowIndex) {
-        this.walls[2] = false;
-        prevCell.walls[0] = false;
-      }
-
-      if (this.colIndex > prevCell.colIndex) {
-        this.walls[3] = false;
-        prevCell.walls[1] = false;
-      }
-
-      if (this.colIndex < prevCell.colIndex) {
-        this.walls[1] = false;
-        prevCell.walls[3] = false;
-      }
+      this.connect(prevCell);
     }
 
     // Open the start and end cells to enter/exit the maze.
