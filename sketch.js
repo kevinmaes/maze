@@ -89,7 +89,7 @@ function draw() {
       i++
     ) {
       const thisMiddleRowCell = grid.cells[i];
-      const cellANeighbors = thisMiddleRowCell.getNeighbors(grid);
+      const cellANeighbors = grid.getNeighbors(thisMiddleRowCell);
 
       if (cellANeighbors.length) {
         const otherPathNeighbor = cellANeighbors.find(cell =>
