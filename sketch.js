@@ -100,7 +100,7 @@ function draw() {
         );
 
         if (otherPathNeighbor) {
-          thisMiddleRowCell.connectToNeighbor(otherPathNeighbor);
+          thisMiddleRowCell.connect(otherPathNeighbor);
           pathsConnected = true;
           // console.log(
           //   'Paths connect between indices:',

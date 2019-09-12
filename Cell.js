@@ -1,3 +1,8 @@
+const NORTH = 0;
+const EAST = 1;
+const SOUTH = 2;
+const WEST = 3;
+
 class Cell {
   constructor({
     index,
@@ -70,27 +75,23 @@ class Cell {
   getSolutionNeighbors(grid) {
     return this.getNeighbors(grid).filter(neighbor => {
       if (neighbor.colIndex > this.colIndex) {
-        // Right
-        if (this.walls[1]) {
+        if (this.walls[EAST]) {
           return false;
         }
       }
       if (neighbor.colIndex < this.colIndex) {
-        // Left
-        if (this.walls[3]) {
+        if (this.walls[WEST]) {
           return false;
         }
       }
 
       if (neighbor.rowIndex > this.rowIndex) {
-        // Down
-        if (this.walls[2]) {
+        if (this.walls[SOUTH]) {
           return false;
         }
       }
       if (neighbor.rowIndex < this.rowIndex) {
-        // Up
-        if (this.walls[0]) {
+        if (this.walls[NORTH]) {
           return false;
         }
       }
@@ -102,19 +103,19 @@ class Cell {
     this.connections.push(cell);
 
     if (this.rowIndex > cell.rowIndex) {
-      this.walls[0] = false;
+      this.walls[NORTH] = false;
     }
 
     if (this.rowIndex < cell.rowIndex) {
-      this.walls[2] = false;
+      this.walls[SOUTH] = false;
     }
 
     if (this.colIndex > cell.colIndex) {
-      this.walls[3] = false;
+      this.walls[WEST] = false;
     }
 
     if (this.colIndex < cell.colIndex) {
-      this.walls[1] = false;
+      this.walls[EAST] = false;
     }
 
     if (mutual) {
@@ -168,9 +169,9 @@ class Cell {
 
     // Open the start and end cells to enter/exit the maze.
     if (this.isStart) {
-      this.walls[3] = false;
+      this.walls[WEST] = false;
     } else if (this.isEnd) {
-      this.walls[1] = false;
+      this.walls[EAST] = false;
     }
 
     return this;
@@ -178,28 +179,6 @@ class Cell {
 
   hasDifferentPathId(cell) {
     return this.pathId && cell.pathId && this.pathId !== cell.pathId;
-  }
-
-  connectToNeighbor(neighborCell) {
-    if (this.rowIndex > neighborCell.rowIndex) {
-      this.walls[0] = false;
-      neighborCell.walls[2] = false;
-    }
-
-    if (this.rowIndex < neighborCell.rowIndex) {
-      this.walls[2] = false;
-      neighborCell.walls[0] = false;
-    }
-
-    if (this.colIndex > neighborCell.colIndex) {
-      this.walls[3] = false;
-      neighborCell.walls[1] = false;
-    }
-
-    if (this.colIndex < neighborCell.colIndex) {
-      this.walls[1] = false;
-      neighborCell.walls[3] = false;
-    }
   }
 
   getFillColor() {
