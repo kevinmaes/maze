@@ -172,6 +172,13 @@ class Cell {
     const fillY = this.y + 0.5 * this.borderWeight;
     square(fillX, fillY, this.size);
 
+    this.drawWalls(this.walls);
+
+    // Set cursor to false so it only shows on a single render.
+    this.cursor = false;
+  }
+
+  drawWalls(walls) {
     stroke(this.borderColor);
     strokeWeight(this.borderWeight);
 
@@ -190,8 +197,5 @@ class Cell {
     if (this.walls[WEST]) {
       line(this.x, this.y, this.x, this.y + this.size);
     }
-
-    // Set cursor to false so it only shows on a single render.
-    this.cursor = false;
   }
 }
