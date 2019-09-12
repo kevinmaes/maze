@@ -5,7 +5,7 @@ function seek({ pathId, current, stack, startIndex = 0, endIndex = null }) {
       pathId,
       grid,
       currentCell: current,
-      stack
+      stack,
     });
   } else {
     if (endIndex !== null) {
@@ -16,7 +16,7 @@ function seek({ pathId, current, stack, startIndex = 0, endIndex = null }) {
       next.isStart = true;
     }
 
-    next.markVisited(null, pathId);
+    next.visit(null, pathId);
   }
 
   if (next) {
@@ -30,7 +30,7 @@ function seekSolution({
   current,
   stack,
   startIndex = 0,
-  endIndex = null
+  endIndex = null,
 }) {
   // Get the currentSquare for A
   if (current) {
@@ -38,7 +38,7 @@ function seekSolution({
       pathId,
       grid,
       currentCell: current,
-      stack
+      stack,
     });
   } else {
     next = grid.cells[startIndex];

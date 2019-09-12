@@ -11,7 +11,7 @@ const getNextCell = ({ pathId, grid, currentCell, stack }) => {
   // Pick random direction;
   if (neighbors.length) {
     next = pickNeighbor(neighbors);
-    return next.markVisited(currentCell, pathId);
+    return next.visit(currentCell, pathId);
   } else {
     // Dead end, must backtrack.
     const prevCell = stack.pop();
@@ -21,14 +21,14 @@ const getNextCell = ({ pathId, grid, currentCell, stack }) => {
       next = getNextCell({
         grid,
         currentCell: prevCell,
-        stack
+        stack,
       });
 
       if (next === null) {
         return next;
       }
 
-      return next.markVisited(prevCell, pathId);
+      return next.visit(prevCell, pathId);
     } else {
       // Search is complete.
       return null;
@@ -55,7 +55,7 @@ const getNextSolutionCell = ({ pathId, grid, currentCell, stack }) => {
       next = getNextCell({
         grid,
         currentCell: prevCell,
-        stack
+        stack,
       });
 
       if (next === null) {
