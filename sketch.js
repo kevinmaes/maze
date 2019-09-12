@@ -112,7 +112,6 @@ function draw() {
 
   if (pathsConnected) {
     console.log('Grid', grid);
-    // console.log('Grid', JSON.stringify(grid));
   }
 
   // Draw all cells.
