@@ -112,18 +112,6 @@ class Cell {
     return this;
   }
 
-  // markSolution(direction) {
-  //   // Add line in the correct direction
-
-  //   return this;
-  // }
-
-  // unmarkSolution() {
-  //   // Remove line
-
-  //   return this;
-  // }
-
   isVisited() {
     return this.visited;
   }
