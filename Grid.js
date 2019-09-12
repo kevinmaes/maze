@@ -33,4 +33,9 @@ class Grid {
       return !neighbor.isVisited();
     });
   }
+
+  pickNeighbor(neighbors) {
+    const nextIndex = Math.floor(Math.random() * neighbors.length);
+    return neighbors[nextIndex];
+  }
 }

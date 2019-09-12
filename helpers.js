@@ -1,8 +1,3 @@
-const pickNeighbor = neighbors => {
-  const nextIndex = Math.floor(Math.random() * neighbors.length);
-  return neighbors[nextIndex];
-};
-
 const getNextCell = ({ pathId, grid, currentCell, stack }) => {
   let next;
 
@@ -10,7 +5,7 @@ const getNextCell = ({ pathId, grid, currentCell, stack }) => {
 
   // Pick random direction;
   if (neighbors.length) {
-    next = pickNeighbor(neighbors);
+    next = grid.pickNeighbor(neighbors);
     return next.visit(currentCell, pathId);
   } else {
     // Dead end, must backtrack.
