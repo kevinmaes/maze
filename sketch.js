@@ -102,11 +102,11 @@ function draw() {
         if (otherPathNeighbor) {
           thisMiddleRowCell.connectToNeighbor(otherPathNeighbor);
           pathsConnected = true;
-          console.log(
-            'Paths connect between indices:',
-            thisMiddleRowCell.index,
-            otherPathNeighbor.index
-          );
+          // console.log(
+          //   'Paths connect between indices:',
+          //   thisMiddleRowCell.index,
+          //   otherPathNeighbor.index
+          // );
           break;
         }
       }
