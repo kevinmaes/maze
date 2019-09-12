@@ -1,5 +1,4 @@
 function seek({ pathId, current, stack, startIndex = 0, endIndex = null }) {
-  // Get the currentSquare for A
   if (current) {
     next = getNextCell({
       pathId,
