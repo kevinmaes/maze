@@ -121,6 +121,8 @@ class Cell {
     if (mutual) {
       cell.connect(this, { mutual: false });
     }
+
+    return this;
   }
 
   disconnect(cell, { mutual } = { mutual: true }) {
@@ -129,6 +131,8 @@ class Cell {
     if (mutual) {
       cell.disconnect(this, { mutual: false });
     }
+
+    return this;
   }
 
   markSolution(direction) {
