@@ -2,8 +2,8 @@ const FRAME_RATE = null;
 
 const CELL_SIZE = 25;
 const BORDER_WEIGHT = 0.5 * CELL_SIZE;
-const GRID_COLUMNS = 5;
-const GRID_ROWS = 5;
+const GRID_COLUMNS = 25;
+const GRID_ROWS = 25;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
