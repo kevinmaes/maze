@@ -111,7 +111,7 @@ function draw() {
   }
 
   if (pathsConnected) {
-    console.log('Grid', grid);
+    // console.log('Grid', grid);
   }
 
   // Draw all cells.
