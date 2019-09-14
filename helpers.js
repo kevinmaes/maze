@@ -1,71 +1,25 @@
-const pickNeighbor = neighbors => {
-  const nextIndex = Math.floor(Math.random() * neighbors.length);
-  return neighbors[nextIndex];
-};
-
 const getNextCell = ({ pathId, grid, currentCell, stack }) => {
-  let next;
+  // Pick next unvisited neighbor.
+  const next = grid.pickNeighbor(currentCell);
 
-  const neighbors = currentCell.getUnvisitedNeighbors(grid);
-
-  // Pick random direction;
-  if (neighbors.length) {
-    next = pickNeighbor(neighbors);
-    return next.markVisited(currentCell, pathId);
-  } else {
-    // Dead end, must backtrack.
-    const prevCell = stack.pop();
-
-    if (prevCell) {
-      prevCell.backtrack = true;
-      next = getNextCell({
-        grid,
-        currentCell: prevCell,
-        stack
-      });
-
-      if (next === null) {
-        return next;
-      }
-
-      return next.markVisited(prevCell, pathId);
-    } else {
-      // Search is complete.
-      return null;
-    }
+  // If next cell is found, mark it as visited.
+  if (next) {
+    return next.visit(currentCell, pathId);
   }
-};
 
-const getNextSolutionCell = ({ pathId, grid, currentCell, stack }) => {
-  let next;
+  // Dead end, must backtrack.
+  const prevCell = stack.pop();
 
-  const neighbors = currentCell.getSolutionNeighbors(grid);
+  if (prevCell) {
+    prevCell.backtrack = true;
 
-  // Pick random direction;
-  if (neighbors.length) {
-    next = pickNeighbor(neighbors);
-    return next.markSolution(currentCell, pathId);
+    return getNextCell({
+      grid,
+      currentCell: prevCell,
+      stack,
+    });
   } else {
-    // Dead end, must backtrack.
-    const prevCell = stack.pop();
-
-    if (prevCell) {
-      prevCell.backtrack = true;
-      prevCell.unmarkSolution();
-      next = getNextCell({
-        grid,
-        currentCell: prevCell,
-        stack
-      });
-
-      if (next === null) {
-        return next;
-      }
-
-      return next.markSolution(prevCell, pathId);
-    } else {
-      // Search is complete.
-      return null;
-    }
+    // Search is complete.
+    return null;
   }
 };

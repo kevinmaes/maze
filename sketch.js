@@ -2,7 +2,7 @@ const FRAME_RATE = null;
 
 const CELL_SIZE = 25;
 const BORDER_WEIGHT = 0.5 * CELL_SIZE;
-const GRID_COLUMNS = 35;
+const GRID_COLUMNS = 25;
 const GRID_ROWS = 25;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
@@ -19,16 +19,12 @@ let solutionCurrentCell;
 let nextNextCell;
 let solutionStack = [];
 
-const grid = {
-  rows: GRID_ROWS,
-  cols: GRID_COLUMNS,
-  cells: [],
-};
-
 function setup() {
   createCanvas(1000, 1000);
   createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
 }
+
+const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
 
 function createGrid(cellTotal, cellSize) {
   const middleColIndex = Math.floor(GRID_COLUMNS / 2);
@@ -38,7 +34,8 @@ function createGrid(cellTotal, cellSize) {
   for (let index = 0; index < cellTotal; index++) {
     const cell = new Cell({
       index,
-      grid,
+      colIndex: index % grid.cols,
+      rowIndex: Math.floor(index / grid.cols),
       size: cellSize,
       borderWeight: BORDER_WEIGHT,
       visitedColor: 'rgb(208, 222, 247)',
@@ -92,7 +89,7 @@ function draw() {
       i++
     ) {
       const thisMiddleRowCell = grid.cells[i];
-      const cellANeighbors = thisMiddleRowCell.getNeighbors(grid);
+      const cellANeighbors = grid.getNeighbors(thisMiddleRowCell);
 
       if (cellANeighbors.length) {
         const otherPathNeighbor = cellANeighbors.find(cell =>
@@ -100,30 +97,22 @@ function draw() {
         );
 
         if (otherPathNeighbor) {
-          thisMiddleRowCell.connectToNeighbor(otherPathNeighbor);
+          thisMiddleRowCell.connect(otherPathNeighbor);
           pathsConnected = true;
-          console.log(
-            'Paths connect between indices:',
-            thisMiddleRowCell.index,
-            otherPathNeighbor.index
-          );
+          // console.log(
+          //   'Paths connect between indices:',
+          //   thisMiddleRowCell.index,
+          //   otherPathNeighbor.index
+          // );
           break;
         }
       }
     }
   }
 
-  //   if(pathsConnected) {
-  //     // Implement solution here?
-  //     solutionCurrentCell = seekSolution({
-  //       pathId: 's',
-  //       current: solutionCurrentCell,
-  //       stack: solutionStack,
-  //     });
-
-  //     console.log('solutionCurrentCell', solutionCurrentCell);
-
-  //   }
+  if (pathsConnected) {
+    // console.log('Grid', grid);
+  }
 
   // Draw all cells.
   for (let cell of grid.cells) {
