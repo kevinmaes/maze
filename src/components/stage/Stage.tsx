@@ -37,7 +37,7 @@ const Stage = (props: Props) => {
       context.stroke();
       context.restore();
     }
-  });
+  }, []);
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
