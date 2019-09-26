@@ -20,7 +20,7 @@ const App: React.FC = () => {
           Learn React
         </a>
       </header> */}
-      <Stage />
+      <Stage width={1000} height={1000} />
     </div>
   );
 };
