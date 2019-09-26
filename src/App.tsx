@@ -1,7 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Stage from './components/stage/Stage';
+// import Stage from './components/stage/Stage';
+import { P5Stage } from './components/p5Stage/P5Stage';
 
 const App: React.FC = () => {
   return (
@@ -20,7 +21,7 @@ const App: React.FC = () => {
           Learn React
         </a>
       </header> */}
-      <Stage width={1000} height={1000} />
+      <P5Stage width={1000} height={1000} />
     </div>
   );
 };
