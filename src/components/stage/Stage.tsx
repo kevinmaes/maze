@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 
+import { useAnimationFrame } from '../hooks/useAnimationFrame';
+
 interface Props {
   width?: number;
   height?: number;
@@ -11,6 +13,12 @@ interface Canvas {
     getContext?: Function;
   };
 }
+
+interface RequestRef {
+  current: Number | undefined;
+}
+
+let count = 0;
 
 const Stage = (props: Props) => {
   // Declare a new state variable, which we'll call "count"
@@ -38,6 +46,33 @@ const Stage = (props: Props) => {
       context.restore();
     }
   }, []);
+
+  useAnimationFrame((deltaTime: number) => {
+    if (count > 10) {
+      return;
+    }
+
+    if (canvas && canvas.current) {
+      const context = canvas.current.getContext('2d');
+
+      context.save();
+      context.fillStyle = 'hsl(0, 0%, 95%)';
+
+      context.strokeStyle = 'blue';
+      context.beginPath();
+      context.arc(
+        (Math.random() * width) / 2,
+        (Math.random() * height) / 2,
+        width / 4,
+        0,
+        Math.PI * 2
+      );
+      context.stroke();
+      context.restore();
+    }
+
+    count += 1;
+  });
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
