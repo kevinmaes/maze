@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Stage from './stage/Stage';
+import Stage from './components/stage/Stage';
 
 const App: React.FC = () => {
   return (
