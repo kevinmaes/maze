@@ -3,7 +3,7 @@ const EAST = 1;
 const SOUTH = 2;
 const WEST = 3;
 
-class Cell {
+export class Cell {
   constructor({
     index,
     rowIndex,

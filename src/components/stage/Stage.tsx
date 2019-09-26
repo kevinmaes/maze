@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
+import { setup } from '../../generation/sketch';
 import { useAnimationFrame } from '../hooks/useAnimationFrame';
 
 interface Props {
@@ -44,6 +45,8 @@ const Stage = (props: Props) => {
       context.arc(width / 2, height / 2, width / 4, 0, Math.PI * 2);
       context.stroke();
       context.restore();
+
+      createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
     }
   }, []);
 

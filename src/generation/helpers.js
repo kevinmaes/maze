@@ -1,4 +1,4 @@
-const getNextCell = ({ pathId, grid, currentCell, stack }) => {
+export const getNextCell = ({ pathId, grid, currentCell, stack }) => {
   // Pick next unvisited neighbor.
   const next = grid.pickNeighbor(currentCell);
 

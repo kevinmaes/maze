@@ -1,4 +1,6 @@
-class Grid {
+import { DIRECTIONS } from './constants';
+
+export class Grid {
   constructor({ rows, cols }) {
     this.rows = rows;
     this.cols = cols;

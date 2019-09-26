@@ -1,4 +1,14 @@
-function seek({ pathId, current, stack, startIndex = 0, endIndex = null }) {
+import { getNextCell } from './helpers';
+
+export const seek = ({
+  grid,
+  pathId,
+  current,
+  stack,
+  startIndex = 0,
+  endIndex = null,
+}) => {
+  let next;
   if (current) {
     next = getNextCell({
       pathId,
@@ -22,4 +32,4 @@ function seek({ pathId, current, stack, startIndex = 0, endIndex = null }) {
     stack.push(next);
     return next;
   }
-}
+};
