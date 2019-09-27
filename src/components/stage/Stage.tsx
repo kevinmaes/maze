@@ -45,7 +45,7 @@ const Stage = (props: Props) => {
       context.stroke();
       context.restore();
 
-      createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
+      // createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
     }
   }, []);
 
