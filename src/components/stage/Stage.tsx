@@ -1,6 +1,5 @@
 import React, { useRef, useEffect } from 'react';
 
-import { setup } from '../../generation/sketch';
 import { useAnimationFrame } from '../hooks/useAnimationFrame';
 
 interface Props {
