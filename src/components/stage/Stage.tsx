@@ -49,10 +49,8 @@ const Stage = (props: Props) => {
     }
   }, []);
 
-  useAnimationFrame((deltaTime: number) => {
-    if (count > 10) {
-      return;
-    }
+  useAnimationFrame({ fps: 5 }, (deltaTime: number) => {
+    // console.log({ deltaTime });
 
     if (canvas && canvas.current) {
       const context = canvas.current.getContext('2d');
