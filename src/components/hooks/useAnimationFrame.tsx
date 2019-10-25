@@ -35,5 +35,5 @@ export const useAnimationFrame: UseAnimationFrame = ({ fps }, callback) => {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, []); // Make sure the effect runs only once
+  }, [fps]); // Make sure the effect runs only once
 };

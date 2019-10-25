@@ -37,13 +37,23 @@ const Stage = (props: Props) => {
 
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
-  const currentCellARef = React.useRef<Cell | null>(null);
-  const currentCellZRef = React.useRef<Cell | null>(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS })
   );
+
+  const currentCellARef = React.useRef<Cell | null>(null);
+  const currentCellZRef = React.useRef<Cell | null>(null);
   const stackARef = React.useRef<Cell[]>([]);
   const stackZRef = React.useRef<Cell[]>([]);
+
+  React.useEffect(() => {
+    gridRef.current = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
+    currentCellARef.current = null;
+    currentCellZRef.current = null;
+    stackARef.current = [];
+    stackZRef.current = [];
+    console.log('reset');
+  }, [fps]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -81,7 +91,7 @@ const Stage = (props: Props) => {
 
       createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
     }
-  }, []);
+  }, [fps]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
