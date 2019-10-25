@@ -72,15 +72,10 @@ const Stage = (props: Props) => {
             isStart: index === START_INDEX,
             isMiddle: index === middleIndex,
             isEnd: index === END_INDEX,
-            renderInitial: false,
+            renderInitial: true,
           });
 
           gridRef.current.cells.push(cell);
-        }
-
-        // Draw all cells.
-        for (let cell of gridRef.current.cells) {
-          cell.draw();
         }
       };
 
@@ -89,8 +84,6 @@ const Stage = (props: Props) => {
   }, []);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
-    // console.log({ deltaTime });
-
     if (canvas && canvas.current) {
       const ctx = canvas.current.getContext('2d');
 
@@ -133,11 +126,11 @@ const Stage = (props: Props) => {
             if (otherPathNeighbor) {
               thisMiddleRowCell.connect(otherPathNeighbor);
               setPathsAreConnected(true);
-              console.log(
-                'Paths connect between indices:',
-                thisMiddleRowCell.index,
-                otherPathNeighbor.index
-              );
+              // console.log(
+              //   'Paths connect between indices:',
+              //   thisMiddleRowCell.index,
+              //   otherPathNeighbor.index
+              // );
               break;
             }
           }
@@ -153,7 +146,7 @@ const Stage = (props: Props) => {
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
-  const style = { width, height, border: '4px solid red' };
+  const style = { width, height, border: '1px solid black' };
 
   return <canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
