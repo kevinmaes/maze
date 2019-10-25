@@ -29,6 +29,7 @@ export const useAnimationFrame: UseAnimationFrame = ({ fps }, callback) => {
 
   React.useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
+
     return () => {
       if (requestRef && requestRef.current) {
         cancelAnimationFrame(requestRef.current);

@@ -3,8 +3,9 @@ const EAST = 1;
 const SOUTH = 2;
 const WEST = 3;
 
-export class Cell {
+export default class Cell {
   constructor({
+    ctx,
     index,
     rowIndex,
     colIndex,
@@ -19,7 +20,9 @@ export class Cell {
     isMiddle = false,
     isEnd = false,
   }) {
-    this.index = index;
+    this.ctx = ctx;
+    index = index;
+
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
     this.x = this.colIndex * size + borderWeight;
@@ -89,31 +92,31 @@ export class Cell {
     return this.visited;
   }
 
-  visit(prevCell, pathId) {
-    this.pathId = pathId;
-    this.visited = true;
+  // visit(prevCell, pathId) {
+  //   this.pathId = pathId;
+  //   this.visited = true;
 
-    // Mark the search cursor with a different color.
-    // This will be set to false at the end of draw().
-    this.cursor = true;
+  //   // Mark the search cursor with a different color.
+  //   // This will be set to false at the end of draw().
+  //   this.cursor = true;
 
-    const fillColor = this.getFillColor();
-    fill(fillColor);
-    noStroke();
-    const cursorX = this.x + 0.5 * this.borderWeight;
-    const cursorY = this.y + 0.5 * this.borderWeight;
-    square(cursorX, cursorY, this.size - this.borderWeight);
+  //   const fillColor = this.getFillColor();
+  //   fill(fillColor);
+  //   noStroke();
+  //   const cursorX = this.x + 0.5 * this.borderWeight;
+  //   const cursorY = this.y + 0.5 * this.borderWeight;
+  //   square(cursorX, cursorY, this.size - this.borderWeight);
 
-    if (!this.isStart && !this.isEnd) {
-      this.walls = [true, true, true, true];
-    }
+  //   if (!this.isStart && !this.isEnd) {
+  //     this.walls = [true, true, true, true];
+  //   }
 
-    if (prevCell) {
-      this.connect(prevCell);
-    }
+  //   if (prevCell) {
+  //     this.connect(prevCell);
+  //   }
 
-    return this;
-  }
+  //   return this;
+  // }
 
   hasDifferentPathId(cell) {
     return this.pathId && cell.pathId && this.pathId !== cell.pathId;
@@ -144,32 +147,53 @@ export class Cell {
   }
 
   drawFill(color) {
-    fill(color);
-    noStroke();
-
     const fillX = this.x + 0.5 * this.borderWeight;
     const fillY = this.y + 0.5 * this.borderWeight;
-    square(fillX, fillY, this.size);
+
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(fillX, fillY, this.size, this.size);
   }
 
   drawWalls(walls) {
-    stroke(this.borderColor);
-    strokeWeight(this.borderWeight);
+    const { ctx } = this;
+
+    ctx.strokeStyle = this.borderColor;
+    ctx.lineWidth = this.borderWeight;
 
     if (this.walls[NORTH]) {
-      line(this.x, this.y, this.x + this.size, this.y);
+      this.line(this.x, this.y, this.x + this.size, this.y);
     }
 
     if (this.walls[EAST]) {
-      line(this.x + this.size, this.y, this.x + this.size, this.y + this.size);
+      this.line(
+        this.x + this.size,
+        this.y,
+        this.x + this.size,
+        this.y + this.size
+      );
     }
 
     if (this.walls[SOUTH]) {
-      line(this.x, this.y + this.size, this.x + this.size, this.y + this.size);
+      this.line(
+        this.x,
+        this.y + this.size,
+        this.x + this.size,
+        this.y + this.size
+      );
     }
 
     if (this.walls[WEST]) {
-      line(this.x, this.y, this.x, this.y + this.size);
+      this.line(this.x, this.y, this.x, this.y + this.size);
     }
+  }
+
+  line(x1, y1, x2, y2, color = '#000') {
+    const { ctx } = this;
+
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
   }
 }

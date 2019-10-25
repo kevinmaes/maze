@@ -1,6 +1,6 @@
 import { DIRECTIONS } from './constants';
 
-export class Grid {
+export default class Grid {
   constructor({ rows, cols }) {
     this.rows = rows;
     this.cols = cols;

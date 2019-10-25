@@ -1,6 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 
 import { useAnimationFrame } from '../hooks/useAnimationFrame';
+import Grid from '../../generation/Grid';
+import Cell from '../../generation/Cell';
 
 interface Props {
   width?: number;
@@ -20,6 +22,22 @@ interface RequestRef {
 
 let count = 0;
 
+// const GRID_ROWS = 2;
+// const GRID_COLUMNS = 2;
+// const CELL_SIZE = 50;
+// const BORDER_WEIGHT = 2;
+// const START_INDEX = 0;
+// const END_INDEX = 0;
+
+const CELL_SIZE = 25;
+// const BORDER_WEIGHT = 0.5 * CELL_SIZE;
+const BORDER_WEIGHT = 2;
+const GRID_COLUMNS = 25;
+const GRID_ROWS = 25;
+const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
+const START_INDEX = 0;
+const END_INDEX = CELL_TOTAL - 1;
+
 const Stage = (props: Props) => {
   // Declare a new state variable, which we'll call "count"
   const {
@@ -32,20 +50,51 @@ const Stage = (props: Props) => {
 
   useEffect(() => {
     if (canvas && canvas.current) {
-      const context = canvas.current.getContext('2d');
+      const ctx = canvas.current.getContext('2d');
 
-      context.save();
-      context.scale(pixelRatio, pixelRatio);
-      context.fillStyle = 'hsl(0, 0%, 95%)';
-      context.fillRect(0, 0, width, height);
+      ctx.save();
+      ctx.scale(pixelRatio, pixelRatio);
+      ctx.fillStyle = 'hsl(0, 0%, 95%)';
+      ctx.fillRect(0, 0, width, height);
 
-      context.strokeStyle = 'black';
-      context.beginPath();
-      context.arc(width / 2, height / 2, width / 4, 0, Math.PI * 2);
-      context.stroke();
-      context.restore();
+      // ctx.strokeStyle = 'black';
+      // ctx.beginPath();
+      // ctx.arc(width / 2, height / 2, width / 4, 0, Math.PI * 2);
+      // ctx.stroke();
+      // ctx.restore();
 
-      // createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
+      const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
+
+      const createGrid = (cellTotal: number, cellSize: number) => {
+        const middleColIndex = Math.floor(GRID_COLUMNS / 2);
+        const middleRowIndex = Math.floor(GRID_ROWS / 2);
+        const middleIndex = middleRowIndex * GRID_COLUMNS + middleRowIndex;
+
+        for (let index = 0; index < cellTotal; index++) {
+          const cell = new Cell({
+            ctx,
+            index,
+            colIndex: index % grid.cols,
+            rowIndex: Math.floor(index / grid.cols),
+            size: cellSize,
+            borderWeight: BORDER_WEIGHT,
+            visitedColor: 'rgb(208, 222, 247)',
+            isStart: index === START_INDEX,
+            isMiddle: index === middleIndex,
+            isEnd: index === END_INDEX,
+            renderInitial: true,
+          });
+
+          grid.cells.push(cell);
+        }
+
+        // Draw all cells.
+        for (let cell of grid.cells) {
+          cell.draw();
+        }
+      };
+
+      createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
     }
   }, []);
 
@@ -55,23 +104,21 @@ const Stage = (props: Props) => {
     if (canvas && canvas.current) {
       const context = canvas.current.getContext('2d');
 
-      context.save();
-      context.fillStyle = 'hsl(0, 0%, 95%)';
+      // context.save();
+      // context.fillStyle = 'hsl(0, 0%, 95%)';
 
-      context.strokeStyle = 'blue';
-      context.beginPath();
-      context.arc(
-        (Math.random() * width) / 2,
-        (Math.random() * height) / 2,
-        width / 4,
-        0,
-        Math.PI * 2
-      );
-      context.stroke();
-      context.restore();
+      // context.strokeStyle = 'blue';
+      // context.beginPath();
+      // context.arc(
+      //   (Math.random() * width) / 2,
+      //   (Math.random() * height) / 2,
+      //   width / 4,
+      //   0,
+      //   Math.PI * 2
+      // );
+      // context.stroke();
+      // context.restore();
     }
-
-    count += 1;
   });
 
   const dw = Math.floor(pixelRatio * width);
