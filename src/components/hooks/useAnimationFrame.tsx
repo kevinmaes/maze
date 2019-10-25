@@ -11,7 +11,7 @@ export const useAnimationFrame: UseAnimationFrame = ({ fps }, callback) => {
   const previousTimeRef = React.useRef<number | null>(null);
 
   const animate = (time: number) => {
-    if (previousTimeRef.current != undefined) {
+    if (previousTimeRef.current) {
       const elapsed = time - previousTimeRef.current;
 
       const deltaTime: number = time - previousTimeRef.current;

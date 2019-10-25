@@ -18,12 +18,6 @@ interface Canvas {
   };
 }
 
-interface RequestRef {
-  current: Number | undefined;
-}
-
-let count = 0;
-
 const CELL_SIZE = 25;
 // const BORDER_WEIGHT = 0.1 * CELL_SIZE;
 const BORDER_WEIGHT = 5;
@@ -34,7 +28,6 @@ const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
 
 const Stage = (props: Props) => {
-  // Declare a new state variable, which we'll call "count"
   const {
     width = 100,
     height = 100,
