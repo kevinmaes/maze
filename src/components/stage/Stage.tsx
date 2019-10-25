@@ -25,10 +25,10 @@ interface RequestRef {
 let count = 0;
 
 const CELL_SIZE = 25;
-// const BORDER_WEIGHT = 0.5 * CELL_SIZE;
-const BORDER_WEIGHT = 2;
-const GRID_COLUMNS = 40;
-const GRID_ROWS = 40;
+// const BORDER_WEIGHT = 0.1 * CELL_SIZE;
+const BORDER_WEIGHT = 5;
+const GRID_COLUMNS = 30;
+const GRID_ROWS = 50;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
@@ -72,10 +72,11 @@ const Stage = (props: Props) => {
             size: cellSize,
             borderWeight: BORDER_WEIGHT,
             visitedColor: 'rgb(208, 222, 247)',
+            backtrackColor: '#fff',
             isStart: index === START_INDEX,
             isMiddle: index === middleIndex,
             isEnd: index === END_INDEX,
-            renderInitial: true,
+            renderInitial: false,
           });
 
           gridRef.current.cells.push(cell);
@@ -106,11 +107,10 @@ const Stage = (props: Props) => {
         stack: stackARef.current,
       });
 
-      // console.log(
-      //   'currentCell and stack:',
-      //   currentCellARef.current,
-      //   stackARef.current
-      // );
+      // Draw all cells.
+      for (let cell of gridRef.current.cells) {
+        cell.draw();
+      }
     }
   });
 

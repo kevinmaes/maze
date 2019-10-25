@@ -21,7 +21,7 @@ export default class Cell {
     isEnd = false,
   }) {
     this.ctx = ctx;
-    index = index;
+    this.index = index;
 
     this.rowIndex = rowIndex;
     this.colIndex = colIndex;
@@ -96,16 +96,14 @@ export default class Cell {
     this.pathId = pathId;
     this.visited = true;
 
-    // Mark the search cursor with a different color.
+    // Mark the search cursor as true.
     // This will be set to false at the end of draw().
     this.cursor = true;
-    const fillColor = this.getFillColor();
-
-    this.drawFill(fillColor);
 
     if (!this.isStart && !this.isEnd) {
       this.walls = [true, true, true, true];
     }
+
     if (prevCell) {
       this.connect(prevCell);
     }
@@ -145,12 +143,7 @@ export default class Cell {
     const fillY = this.y + 0.5 * this.borderWeight;
 
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(
-      fillX,
-      fillY,
-      this.size - this.borderWeight,
-      this.size - this.borderWeight
-    );
+    this.ctx.fillRect(fillX, fillY, this.size, this.size);
   }
 
   drawWalls(walls) {

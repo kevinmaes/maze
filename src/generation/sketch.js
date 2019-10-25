@@ -100,9 +100,9 @@ function draw() {
     }
   }
 
-  if (pathsConnected) {
-    // console.log('Grid', grid);
-  }
+  // if (pathsConnected) {
+  //   // console.log('Grid', grid);
+  // }
 
   // Draw all cells.
   for (let cell of grid.cells) {
