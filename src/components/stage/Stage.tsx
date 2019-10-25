@@ -9,7 +9,8 @@ interface Props {
   width?: number;
   height?: number;
   pixelRatio?: number;
-  fps?: number;
+  fps: number;
+  borderWeight: number;
 }
 
 interface Canvas {
@@ -32,7 +33,8 @@ const Stage = (props: Props) => {
     width = 100,
     height = 100,
     pixelRatio = window.devicePixelRatio,
-    fps = 60,
+    fps,
+    borderWeight,
   } = props;
 
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
@@ -52,8 +54,7 @@ const Stage = (props: Props) => {
     currentCellZRef.current = null;
     stackARef.current = [];
     stackZRef.current = [];
-    console.log('reset');
-  }, [fps]);
+  }, [fps, borderWeight]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -76,7 +77,7 @@ const Stage = (props: Props) => {
             colIndex: index % gridRef.current.cols,
             rowIndex: Math.floor(index / gridRef.current.cols),
             size: cellSize,
-            borderWeight: BORDER_WEIGHT,
+            borderWeight,
             visitedColor: 'rgb(208, 222, 247)',
             backtrackColor: '#fff',
             isStart: index === START_INDEX,
@@ -91,7 +92,7 @@ const Stage = (props: Props) => {
 
       createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
     }
-  }, [fps]);
+  }, [fps, borderWeight]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
