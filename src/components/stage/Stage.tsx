@@ -35,12 +35,15 @@ const Stage = (props: Props) => {
     fps = 60,
   } = props;
 
+  const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const currentCellARef = React.useRef<Cell | null>(null);
+  const currentCellZRef = React.useRef<Cell | null>(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS })
   );
   const stackARef = React.useRef<Cell[]>([]);
+  const stackZRef = React.useRef<Cell[]>([]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -99,6 +102,47 @@ const Stage = (props: Props) => {
         startIndex: START_INDEX,
         stack: stackARef.current,
       });
+
+      // Seek path Z.
+      currentCellZRef.current = seek({
+        grid: gridRef.current,
+        pathId: 'z',
+        current: currentCellZRef.current,
+        endIndex: END_INDEX,
+        stack: stackZRef.current,
+      });
+
+      if (!pathsAreConnected && !currentCellARef.current) {
+        const middleRowIndex = Math.floor(GRID_ROWS / 2);
+
+        for (
+          let i = middleRowIndex * GRID_COLUMNS;
+          i < (middleRowIndex + 1) * GRID_COLUMNS;
+          i++
+        ) {
+          const thisMiddleRowCell = gridRef.current.cells[i];
+          const cellANeighbors = gridRef.current.getNeighbors(
+            thisMiddleRowCell
+          );
+
+          if (cellANeighbors.length) {
+            const otherPathNeighbor = cellANeighbors.find(cell =>
+              cell.hasDifferentPathId(thisMiddleRowCell)
+            );
+
+            if (otherPathNeighbor) {
+              thisMiddleRowCell.connect(otherPathNeighbor);
+              setPathsAreConnected(true);
+              console.log(
+                'Paths connect between indices:',
+                thisMiddleRowCell.index,
+                otherPathNeighbor.index
+              );
+              break;
+            }
+          }
+        }
+      }
 
       // Draw all cells.
       for (let cell of gridRef.current.cells) {
