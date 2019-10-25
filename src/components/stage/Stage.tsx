@@ -22,18 +22,11 @@ interface RequestRef {
 
 let count = 0;
 
-// const GRID_ROWS = 2;
-// const GRID_COLUMNS = 2;
-// const CELL_SIZE = 50;
-// const BORDER_WEIGHT = 2;
-// const START_INDEX = 0;
-// const END_INDEX = 0;
-
-const CELL_SIZE = 25;
+const CELL_SIZE = 100;
 // const BORDER_WEIGHT = 0.5 * CELL_SIZE;
 const BORDER_WEIGHT = 2;
-const GRID_COLUMNS = 25;
-const GRID_ROWS = 25;
+const GRID_COLUMNS = 2;
+const GRID_ROWS = 2;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
@@ -57,16 +50,10 @@ const Stage = (props: Props) => {
       ctx.fillStyle = 'hsl(0, 0%, 95%)';
       ctx.fillRect(0, 0, width, height);
 
-      // ctx.strokeStyle = 'black';
-      // ctx.beginPath();
-      // ctx.arc(width / 2, height / 2, width / 4, 0, Math.PI * 2);
-      // ctx.stroke();
-      // ctx.restore();
-
       const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
 
       const createGrid = (cellTotal: number, cellSize: number) => {
-        const middleColIndex = Math.floor(GRID_COLUMNS / 2);
+        // const middleColIndex = Math.floor(GRID_COLUMNS / 2);
         const middleRowIndex = Math.floor(GRID_ROWS / 2);
         const middleIndex = middleRowIndex * GRID_COLUMNS + middleRowIndex;
 

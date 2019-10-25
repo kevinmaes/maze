@@ -92,31 +92,32 @@ export default class Cell {
     return this.visited;
   }
 
-  // visit(prevCell, pathId) {
-  //   this.pathId = pathId;
-  //   this.visited = true;
+  visit(prevCell, pathId) {
+    console.log('visit', pathId);
+    //   this.pathId = pathId;
+    //   this.visited = true;
 
-  //   // Mark the search cursor with a different color.
-  //   // This will be set to false at the end of draw().
-  //   this.cursor = true;
+    //   // Mark the search cursor with a different color.
+    //   // This will be set to false at the end of draw().
+    //   this.cursor = true;
 
-  //   const fillColor = this.getFillColor();
-  //   fill(fillColor);
-  //   noStroke();
-  //   const cursorX = this.x + 0.5 * this.borderWeight;
-  //   const cursorY = this.y + 0.5 * this.borderWeight;
-  //   square(cursorX, cursorY, this.size - this.borderWeight);
+    //   const fillColor = this.getFillColor();
+    //   fill(fillColor);
+    //   noStroke();
+    //   const cursorX = this.x + 0.5 * this.borderWeight;
+    //   const cursorY = this.y + 0.5 * this.borderWeight;
+    //   square(cursorX, cursorY, this.size - this.borderWeight);
 
-  //   if (!this.isStart && !this.isEnd) {
-  //     this.walls = [true, true, true, true];
-  //   }
+    //   if (!this.isStart && !this.isEnd) {
+    //     this.walls = [true, true, true, true];
+    //   }
 
-  //   if (prevCell) {
-  //     this.connect(prevCell);
-  //   }
+    //   if (prevCell) {
+    //     this.connect(prevCell);
+    //   }
 
-  //   return this;
-  // }
+    //   return this;
+  }
 
   hasDifferentPathId(cell) {
     return this.pathId && cell.pathId && this.pathId !== cell.pathId;
