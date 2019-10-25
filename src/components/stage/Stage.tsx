@@ -21,8 +21,8 @@ interface Canvas {
 const CELL_SIZE = 25;
 // const BORDER_WEIGHT = 0.1 * CELL_SIZE;
 const BORDER_WEIGHT = 5;
-const GRID_COLUMNS = 30;
-const GRID_ROWS = 50;
+const GRID_COLUMNS = 20;
+const GRID_ROWS = 20;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
