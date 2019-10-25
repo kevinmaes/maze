@@ -1,13 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 
 import { useAnimationFrame } from '../hooks/useAnimationFrame';
 import Grid from '../../generation/Grid';
 import Cell from '../../generation/Cell';
+import { seek } from '../../generation/seek';
 
 interface Props {
   width?: number;
   height?: number;
   pixelRatio?: number;
+  fps?: number;
 }
 
 interface Canvas {
@@ -25,8 +27,8 @@ let count = 0;
 const CELL_SIZE = 100;
 // const BORDER_WEIGHT = 0.5 * CELL_SIZE;
 const BORDER_WEIGHT = 2;
-const GRID_COLUMNS = 2;
-const GRID_ROWS = 2;
+const GRID_COLUMNS = 4;
+const GRID_ROWS = 4;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
@@ -37,20 +39,24 @@ const Stage = (props: Props) => {
     width = 100,
     height = 100,
     pixelRatio = window.devicePixelRatio,
+    fps = 60,
   } = props;
 
-  const canvas: any = useRef(null);
+  const canvas: any = React.useRef(null);
+  const currentCellARef = React.useRef<Cell | null>(null);
+  const gridRef = React.useRef<Grid>(
+    new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS })
+  );
+  const stackARef = React.useRef<Cell[]>([]);
 
-  useEffect(() => {
-    if (canvas && canvas.current) {
+  React.useEffect(() => {
+    if (canvas && canvas.current && gridRef.current) {
       const ctx = canvas.current.getContext('2d');
 
       ctx.save();
       ctx.scale(pixelRatio, pixelRatio);
       ctx.fillStyle = 'hsl(0, 0%, 95%)';
       ctx.fillRect(0, 0, width, height);
-
-      const grid = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
 
       const createGrid = (cellTotal: number, cellSize: number) => {
         // const middleColIndex = Math.floor(GRID_COLUMNS / 2);
@@ -61,8 +67,8 @@ const Stage = (props: Props) => {
           const cell = new Cell({
             ctx,
             index,
-            colIndex: index % grid.cols,
-            rowIndex: Math.floor(index / grid.cols),
+            colIndex: index % gridRef.current.cols,
+            rowIndex: Math.floor(index / gridRef.current.cols),
             size: cellSize,
             borderWeight: BORDER_WEIGHT,
             visitedColor: 'rgb(208, 222, 247)',
@@ -72,11 +78,11 @@ const Stage = (props: Props) => {
             renderInitial: true,
           });
 
-          grid.cells.push(cell);
+          gridRef.current.cells.push(cell);
         }
 
         // Draw all cells.
-        for (let cell of grid.cells) {
+        for (let cell of gridRef.current.cells) {
           cell.draw();
         }
       };
@@ -85,26 +91,26 @@ const Stage = (props: Props) => {
     }
   }, []);
 
-  useAnimationFrame({ fps: 5 }, (deltaTime: number) => {
+  useAnimationFrame({ fps }, (deltaTime: number) => {
     // console.log({ deltaTime });
 
     if (canvas && canvas.current) {
-      const context = canvas.current.getContext('2d');
+      const ctx = canvas.current.getContext('2d');
 
-      // context.save();
-      // context.fillStyle = 'hsl(0, 0%, 95%)';
+      // Seek path A
+      currentCellARef.current = seek({
+        grid: gridRef.current,
+        pathId: 'a',
+        current: currentCellARef.current,
+        startIndex: START_INDEX,
+        stack: stackARef.current,
+      });
 
-      // context.strokeStyle = 'blue';
-      // context.beginPath();
-      // context.arc(
-      //   (Math.random() * width) / 2,
-      //   (Math.random() * height) / 2,
-      //   width / 4,
-      //   0,
-      //   Math.PI * 2
+      // console.log(
+      //   'currentCell and stack:',
+      //   currentCellARef.current,
+      //   stackARef.current
       // );
-      // context.stroke();
-      // context.restore();
     }
   });
 

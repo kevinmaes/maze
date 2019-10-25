@@ -6,7 +6,7 @@ import Stage from './components/stage/Stage';
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Stage width={1000} height={1000} />
+      <Stage width={1000} height={1000} fps={60} />
     </div>
   );
 };

@@ -93,30 +93,23 @@ export default class Cell {
   }
 
   visit(prevCell, pathId) {
-    console.log('visit', pathId);
-    //   this.pathId = pathId;
-    //   this.visited = true;
+    this.pathId = pathId;
+    this.visited = true;
 
-    //   // Mark the search cursor with a different color.
-    //   // This will be set to false at the end of draw().
-    //   this.cursor = true;
+    // Mark the search cursor with a different color.
+    // This will be set to false at the end of draw().
+    this.cursor = true;
+    const fillColor = this.getFillColor();
 
-    //   const fillColor = this.getFillColor();
-    //   fill(fillColor);
-    //   noStroke();
-    //   const cursorX = this.x + 0.5 * this.borderWeight;
-    //   const cursorY = this.y + 0.5 * this.borderWeight;
-    //   square(cursorX, cursorY, this.size - this.borderWeight);
+    this.drawFill(fillColor);
 
-    //   if (!this.isStart && !this.isEnd) {
-    //     this.walls = [true, true, true, true];
-    //   }
-
-    //   if (prevCell) {
-    //     this.connect(prevCell);
-    //   }
-
-    //   return this;
+    if (!this.isStart && !this.isEnd) {
+      this.walls = [true, true, true, true];
+    }
+    if (prevCell) {
+      this.connect(prevCell);
+    }
+    return this;
   }
 
   hasDifferentPathId(cell) {
@@ -152,7 +145,12 @@ export default class Cell {
     const fillY = this.y + 0.5 * this.borderWeight;
 
     this.ctx.fillStyle = color;
-    this.ctx.fillRect(fillX, fillY, this.size, this.size);
+    this.ctx.fillRect(
+      fillX,
+      fillY,
+      this.size - this.borderWeight,
+      this.size - this.borderWeight
+    );
   }
 
   drawWalls(walls) {
