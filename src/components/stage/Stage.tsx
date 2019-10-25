@@ -24,11 +24,11 @@ interface RequestRef {
 
 let count = 0;
 
-const CELL_SIZE = 100;
+const CELL_SIZE = 25;
 // const BORDER_WEIGHT = 0.5 * CELL_SIZE;
 const BORDER_WEIGHT = 2;
-const GRID_COLUMNS = 4;
-const GRID_ROWS = 4;
+const GRID_COLUMNS = 40;
+const GRID_ROWS = 40;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
 const END_INDEX = CELL_TOTAL - 1;
