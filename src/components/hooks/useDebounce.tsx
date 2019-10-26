@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 // Our hook
 export default function useDebounce(value: any, delay: number) {
   // State and setters for debounced value
-  const [debouncedValue, setDebouncedValue] = useState(value);
+  const [debouncedValue, setDebouncedValue] = React.useState(value);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Set debouncedValue to value (passed in) after the specified delay
     const handler = setTimeout(() => {
       setDebouncedValue(value);
@@ -22,8 +22,7 @@ export default function useDebounce(value: any, delay: number) {
     return () => {
       clearTimeout(handler);
     };
-  }, // ... need to be able to change that dynamically. // You could also add the "delay" var to inputs array if you ... // Only re-call effect if value changes
-  [value]);
+  }, [value]); // ... need to be able to change that dynamically. // You could also add the "delay" var to inputs array if you ... // Only re-call effect if value changes
 
   return debouncedValue;
 }
