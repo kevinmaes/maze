@@ -10,6 +10,7 @@ interface Props {
   height?: number;
   pixelRatio?: number;
   fps: number;
+  cellSize: number;
   borderWeight: number;
 }
 
@@ -19,9 +20,6 @@ interface Canvas {
   };
 }
 
-const CELL_SIZE = 10;
-// const BORDER_WEIGHT = 0.1 * CELL_SIZE;
-const BORDER_WEIGHT = 5;
 const GRID_COLUMNS = 50;
 const GRID_ROWS = 50;
 const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
@@ -34,6 +32,7 @@ const Stage = (props: Props) => {
     height = 100,
     pixelRatio = window.devicePixelRatio,
     fps,
+    cellSize,
     borderWeight,
   } = props;
 
@@ -54,7 +53,7 @@ const Stage = (props: Props) => {
     currentCellZRef.current = null;
     stackARef.current = [];
     stackZRef.current = [];
-  }, [fps, borderWeight]);
+  }, [fps, cellSize, borderWeight]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -90,9 +89,9 @@ const Stage = (props: Props) => {
         }
       };
 
-      createGrid(GRID_ROWS * GRID_COLUMNS, CELL_SIZE);
+      createGrid(GRID_ROWS * GRID_COLUMNS, cellSize);
     }
-  }, [fps, borderWeight]);
+  }, [fps, cellSize, borderWeight]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
