@@ -7,7 +7,7 @@ import Stage from './components/stage/Stage';
 import useDebounce from '../src/components/hooks/useDebounce';
 
 const FPS_DEFAULT = 60;
-const CELL_SIZE_DEFAULT = 100;
+const CELL_SIZE_DEFAULT = 25;
 const BORDER_WEIGHT_DEFAULT = 1;
 
 const DEBOUNCE_MS = 500;
