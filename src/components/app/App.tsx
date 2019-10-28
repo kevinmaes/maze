@@ -6,6 +6,7 @@ import useDebounce from '../hooks/useDebounce';
 import { useTypesafeActions } from '../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
+import { Form } from './App.css.js';
 
 const FPS_DEFAULT = 60;
 const CELL_SIZE_DEFAULT = 25;
@@ -40,7 +41,7 @@ const App: React.FC = () => {
         borderWeight={debouncedBorderWeight}
         pixelRatio={1}
       />
-      <form>
+      <Form>
         <label>
           FPS
           <input
@@ -80,7 +81,7 @@ const App: React.FC = () => {
             }
           />
         </label>
-      </form>
+      </Form>
     </div>
   );
 };
