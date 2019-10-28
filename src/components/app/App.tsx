@@ -57,9 +57,11 @@ const App: React.FC = () => {
         <label>
           Cell Size
           <input
-            type="number"
+            type="range"
             name="cellSize"
             value={state.cellSize}
+            min="10"
+            max="100"
             onChange={({ target: { value } }) =>
               actions.setCellSize(parseInt(value, 10))
             }
@@ -68,9 +70,11 @@ const App: React.FC = () => {
         <label>
           Border Weight
           <input
-            type="number"
+            type="range"
             name="borderWeight"
             value={state.borderWeight}
+            min="1"
+            max="20"
             onChange={({ target: { value } }) =>
               actions.setBorderWeight(parseInt(value, 10))
             }
