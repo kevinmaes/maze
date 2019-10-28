@@ -35,9 +35,11 @@ const App: React.FC = () => {
         <label>
           FPS
           <input
-            type="number"
+            type="range"
             name="fps"
             value={fps}
+            min="1"
+            max="60"
             onChange={({ target: { value } }) => setFPS(parseInt(value, 10))}
           />
         </label>
