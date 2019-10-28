@@ -11,7 +11,7 @@ const END_INDEX = CELL_TOTAL - 1;
 let currentCellA;
 let currentCellZ;
 let nextA;
-let nextZ;
+// let nextZ;
 const stackA = [];
 const stackZ = [];
 
@@ -43,16 +43,6 @@ function createGrid(cellTotal, cellSize) {
       isMiddle: index === middleIndex,
       isEnd: index === END_INDEX,
     });
-
-    // if (getIsBlockedInternal(cell)) {
-    //   cell.blockedInternal = true;
-    //   cell.visited = true;
-    // }
-
-    // if (getIsBlockedExternal(cell)) {
-    //   cell.blockedExternal = true;
-    //   cell.visited = true;
-    // }
 
     grid.cells.push(cell);
   }
@@ -110,9 +100,9 @@ function draw() {
     }
   }
 
-  if (pathsConnected) {
-    // console.log('Grid', grid);
-  }
+  // if (pathsConnected) {
+  //   // console.log('Grid', grid);
+  // }
 
   // Draw all cells.
   for (let cell of grid.cells) {
