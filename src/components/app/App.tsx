@@ -3,8 +3,8 @@ import debounce from 'lodash/debounce';
 
 import logo from './logo.svg';
 import './App.css';
-import Stage from './components/stage/Stage';
-import useDebounce from '../src/components/hooks/useDebounce';
+import Stage from '../stage/Stage';
+import useDebounce from '../hooks/useDebounce';
 
 const FPS_DEFAULT = 60;
 const CELL_SIZE_DEFAULT = 25;
