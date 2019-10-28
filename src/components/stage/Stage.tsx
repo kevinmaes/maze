@@ -4,6 +4,7 @@ import { useAnimationFrame } from '../hooks/useAnimationFrame';
 import Grid from '../../generation/Grid';
 import Cell from '../../generation/Cell';
 import { seek } from '../../generation/seek';
+import { Canvas } from './Stage.css';
 
 interface Props {
   width?: number;
@@ -158,7 +159,7 @@ const Stage = (props: Props) => {
   const dh = Math.floor(pixelRatio * height);
   const style = { width, height, border: '1px solid black' };
 
-  return <canvas ref={canvas} width={dw} height={dh} style={style} />;
+  return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
 
 export default Stage;
