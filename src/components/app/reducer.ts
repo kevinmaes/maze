@@ -10,6 +10,7 @@ import { AppState } from './types';
 export const Actions = {
   setFPS: createStandardAction('SET_FPS')<number>(),
   setCellSize: createStandardAction('SET_SELL_SIZE')<number>(),
+  setBorderWeight: createStandardAction('SET_BORDER_WEIGHT')<number>(),
 };
 
 export const reducer = (
@@ -21,6 +22,8 @@ export const reducer = (
       return { ...s, fps: payload };
     case getType(Actions.setCellSize):
       return { ...s, cellSize: payload };
+    case getType(Actions.setBorderWeight):
+      return { ...s, borderWeight: payload };
   }
 };
 

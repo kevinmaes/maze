@@ -16,6 +16,7 @@ const DEBOUNCE_MS = 500;
 const initialState = {
   fps: FPS_DEFAULT,
   cellSize: CELL_SIZE_DEFAULT,
+  borderWeight: BORDER_WEIGHT_DEFAULT,
 };
 
 const App: React.FC = () => {
@@ -25,11 +26,9 @@ const App: React.FC = () => {
     Actions
   );
 
-  const [borderWeight, setBorderWeight] = React.useState(BORDER_WEIGHT_DEFAULT);
-
   const debouncedFPS = useDebounce(state.fps, DEBOUNCE_MS);
   const debouncedCellSize = useDebounce(state.cellSize, DEBOUNCE_MS);
-  const debouncedBorderWeight = useDebounce(borderWeight, DEBOUNCE_MS);
+  const debouncedBorderWeight = useDebounce(state.borderWeight, DEBOUNCE_MS);
 
   return (
     <div className="App">
@@ -71,9 +70,9 @@ const App: React.FC = () => {
           <input
             type="number"
             name="borderWeight"
-            value={borderWeight}
+            value={state.borderWeight}
             onChange={({ target: { value } }) =>
-              setBorderWeight(parseInt(value, 10))
+              actions.setBorderWeight(parseInt(value, 10))
             }
           />
         </label>
