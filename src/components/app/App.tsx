@@ -15,6 +15,7 @@ const DEBOUNCE_MS = 500;
 
 const initialState = {
   fps: FPS_DEFAULT,
+  cellSize: CELL_SIZE_DEFAULT,
 };
 
 const App: React.FC = () => {
@@ -24,11 +25,10 @@ const App: React.FC = () => {
     Actions
   );
 
-  const [cellSize, setCellSize] = React.useState(CELL_SIZE_DEFAULT);
   const [borderWeight, setBorderWeight] = React.useState(BORDER_WEIGHT_DEFAULT);
 
   const debouncedFPS = useDebounce(state.fps, DEBOUNCE_MS);
-  const debouncedCellSize = useDebounce(cellSize, DEBOUNCE_MS);
+  const debouncedCellSize = useDebounce(state.cellSize, DEBOUNCE_MS);
   const debouncedBorderWeight = useDebounce(borderWeight, DEBOUNCE_MS);
 
   return (
@@ -60,9 +60,9 @@ const App: React.FC = () => {
           <input
             type="number"
             name="cellSize"
-            value={cellSize}
+            value={state.cellSize}
             onChange={({ target: { value } }) =>
-              setCellSize(parseInt(value, 10))
+              actions.setCellSize(parseInt(value, 10))
             }
           />
         </label>

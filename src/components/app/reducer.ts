@@ -9,12 +9,18 @@ import { AppState } from './types';
 
 export const Actions = {
   setFPS: createStandardAction('SET_FPS')<number>(),
+  setCellSize: createStandardAction('SET_SELL_SIZE')<number>(),
 };
 
-export const reducer = (s: AppState, a: ActionType<typeof Actions>) => {
-  switch (a.type) {
+export const reducer = (
+  s: AppState,
+  { type, payload }: ActionType<typeof Actions>
+) => {
+  switch (type) {
     case getType(Actions.setFPS):
-      return { ...s, fps: a.payload };
+      return { ...s, fps: payload };
+    case getType(Actions.setCellSize):
+      return { ...s, cellSize: payload };
   }
 };
 
