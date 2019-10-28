@@ -1,7 +1,5 @@
 import React from 'react';
-import debounce from 'lodash/debounce';
 
-import logo from './logo.svg';
 import './App.css';
 import Stage from '../stage/Stage';
 import useDebounce from '../hooks/useDebounce';
