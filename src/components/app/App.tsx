@@ -9,7 +9,6 @@ import { Actions, reducer } from './reducer';
 import { Form } from './App.css.js';
 
 const FPS_DEFAULT = 10;
-const CELL_SIZE_DEFAULT = 25;
 const BORDER_WEIGHT_DEFAULT = 1;
 const GRID_SIZE_DEFAULT = 10;
 
@@ -64,8 +63,9 @@ const App: React.FC = () => {
             type="range"
             name="fps"
             value={state.fps}
-            min="1"
+            min="5"
             max="60"
+            step={5}
             onChange={({ target: { value } }) =>
               actions.setFPS(parseInt(value, 10))
             }
@@ -79,6 +79,7 @@ const App: React.FC = () => {
             value={state.cellSize}
             min={CellSize.MIN}
             max={CellSize.MAX}
+            step={5}
             onChange={({ target: { value } }) =>
               actions.setCellSize(parseInt(value, 10))
             }
@@ -91,7 +92,7 @@ const App: React.FC = () => {
             name="borderWeight"
             value={state.borderWeight}
             min="1"
-            max="20"
+            max="10"
             onChange={({ target: { value } }) =>
               actions.setBorderWeight(parseInt(value, 10))
             }
@@ -103,7 +104,7 @@ const App: React.FC = () => {
             type="range"
             name="gridColumns"
             value={state.gridColumns}
-            min="1"
+            min="2"
             max="50"
             onChange={({ target: { value } }) =>
               actions.setGridColumns(parseInt(value, 10))
@@ -116,7 +117,7 @@ const App: React.FC = () => {
             type="range"
             name="gridRows"
             value={state.gridRows}
-            min="1"
+            min="2"
             max="50"
             onChange={({ target: { value } }) =>
               actions.setGridRows(parseInt(value, 10))
