@@ -13,11 +13,20 @@ const CELL_SIZE_DEFAULT = 25;
 const BORDER_WEIGHT_DEFAULT = 1;
 const GRID_SIZE_DEFAULT = 10;
 
+const APP_WIDTH = 800;
+const APP_HEIGHT = 600;
+
+const CellSize = {
+  DEFAULT: 20,
+  MIN: 5,
+  MAX: 100,
+};
+
 const DEBOUNCE_MS = 500;
 
 const initialState = {
   fps: FPS_DEFAULT,
-  cellSize: CELL_SIZE_DEFAULT,
+  cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
   gridColumns: GRID_SIZE_DEFAULT,
   gridRows: GRID_SIZE_DEFAULT,
@@ -39,8 +48,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Stage
-        width={500}
-        height={500}
+        width={APP_WIDTH}
+        height={APP_HEIGHT}
         fps={debouncedFPS}
         cellSize={debouncedCellSize}
         borderWeight={debouncedBorderWeight}
@@ -50,7 +59,7 @@ const App: React.FC = () => {
       />
       <Form>
         <label>
-          FPS
+          FPS ({state.fps})
           <input
             type="range"
             name="fps"
@@ -63,20 +72,20 @@ const App: React.FC = () => {
           />
         </label>
         <label>
-          Cell Size
+          Cell Size ({state.cellSize})
           <input
             type="range"
             name="cellSize"
             value={state.cellSize}
-            min="10"
-            max="100"
+            min={CellSize.MIN}
+            max={CellSize.MAX}
             onChange={({ target: { value } }) =>
               actions.setCellSize(parseInt(value, 10))
             }
           />
         </label>
         <label>
-          Border Weight
+          Border Weight ({state.borderWeight})
           <input
             type="range"
             name="borderWeight"
