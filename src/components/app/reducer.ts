@@ -11,6 +11,8 @@ export const Actions = {
   setFPS: createStandardAction('SET_FPS')<number>(),
   setCellSize: createStandardAction('SET_SELL_SIZE')<number>(),
   setBorderWeight: createStandardAction('SET_BORDER_WEIGHT')<number>(),
+  setGridColumns: createStandardAction('SET_GRID_COLUMNS')<number>(),
+  setGridRows: createStandardAction('SET_GRID_ROWS')<number>(),
 };
 
 export const reducer = (
@@ -24,6 +26,10 @@ export const reducer = (
       return { ...s, cellSize: payload };
     case getType(Actions.setBorderWeight):
       return { ...s, borderWeight: payload };
+    case getType(Actions.setGridColumns):
+      return { ...s, gridColumns: payload };
+    case getType(Actions.setGridRows):
+      return { ...s, gridRows: payload };
   }
 };
 

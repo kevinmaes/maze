@@ -13,6 +13,8 @@ interface Props {
   fps: number;
   cellSize: number;
   borderWeight: number;
+  gridColumns: number;
+  gridRows: number;
 }
 
 interface Canvas {
@@ -21,11 +23,7 @@ interface Canvas {
   };
 }
 
-const GRID_COLUMNS = 50;
-const GRID_ROWS = 50;
-const CELL_TOTAL = GRID_COLUMNS * GRID_ROWS;
 const START_INDEX = 0;
-const END_INDEX = CELL_TOTAL - 1;
 
 const Stage = (props: Props) => {
   const {
@@ -35,12 +33,14 @@ const Stage = (props: Props) => {
     fps,
     cellSize,
     borderWeight,
+    gridColumns,
+    gridRows,
   } = props;
 
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
-    new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS })
+    new Grid({ cols: gridColumns, rows: gridRows })
   );
 
   const currentCellARef = React.useRef<Cell | null>(null);
@@ -48,13 +48,17 @@ const Stage = (props: Props) => {
   const stackARef = React.useRef<Cell[]>([]);
   const stackZRef = React.useRef<Cell[]>([]);
 
+  const cellTotal = gridColumns * gridRows;
+
+  const endIndex = cellTotal - 1;
+
   React.useEffect(() => {
-    gridRef.current = new Grid({ rows: GRID_ROWS, cols: GRID_COLUMNS });
+    gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
     currentCellZRef.current = null;
     stackARef.current = [];
     stackZRef.current = [];
-  }, [fps, cellSize, borderWeight]);
+  }, [fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -66,9 +70,9 @@ const Stage = (props: Props) => {
       ctx.fillRect(0, 0, width, height);
 
       const createGrid = (cellTotal: number, cellSize: number) => {
-        // const middleColIndex = Math.floor(GRID_COLUMNS / 2);
-        const middleRowIndex = Math.floor(GRID_ROWS / 2);
-        const middleIndex = middleRowIndex * GRID_COLUMNS + middleRowIndex;
+        // const middleColIndex = Math.floor(gridColumns / 2);
+        const middleRowIndex = Math.floor(gridRows / 2);
+        const middleIndex = middleRowIndex * gridColumns + middleRowIndex;
 
         for (let index = 0; index < cellTotal; index++) {
           const cell = new Cell({
@@ -82,7 +86,7 @@ const Stage = (props: Props) => {
             backtrackColor: '#fff',
             isStart: index === START_INDEX,
             isMiddle: index === middleIndex,
-            isEnd: index === END_INDEX,
+            isEnd: index === endIndex,
             renderInitial: true,
           });
 
@@ -90,9 +94,9 @@ const Stage = (props: Props) => {
         }
       };
 
-      createGrid(GRID_ROWS * GRID_COLUMNS, cellSize);
+      createGrid(cellTotal, cellSize);
     }
-  }, [fps, cellSize, borderWeight]);
+  }, [fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
@@ -112,16 +116,16 @@ const Stage = (props: Props) => {
         grid: gridRef.current,
         pathId: 'z',
         current: currentCellZRef.current,
-        endIndex: END_INDEX,
+        endIndex,
         stack: stackZRef.current,
       });
 
       if (!pathsAreConnected && !currentCellARef.current) {
-        const middleRowIndex = Math.floor(GRID_ROWS / 2);
+        const middleRowIndex = Math.floor(gridRows / 2);
 
         for (
-          let i = middleRowIndex * GRID_COLUMNS;
-          i < (middleRowIndex + 1) * GRID_COLUMNS;
+          let i = middleRowIndex * gridColumns;
+          i < (middleRowIndex + 1) * gridColumns;
           i++
         ) {
           const thisMiddleRowCell = gridRef.current.cells[i];

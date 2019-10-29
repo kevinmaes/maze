@@ -8,9 +8,10 @@ import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form } from './App.css.js';
 
-const FPS_DEFAULT = 60;
+const FPS_DEFAULT = 10;
 const CELL_SIZE_DEFAULT = 25;
 const BORDER_WEIGHT_DEFAULT = 1;
+const GRID_SIZE_DEFAULT = 10;
 
 const DEBOUNCE_MS = 500;
 
@@ -18,6 +19,8 @@ const initialState = {
   fps: FPS_DEFAULT,
   cellSize: CELL_SIZE_DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
+  gridColumns: GRID_SIZE_DEFAULT,
+  gridRows: GRID_SIZE_DEFAULT,
 };
 
 const App: React.FC = () => {
@@ -30,6 +33,8 @@ const App: React.FC = () => {
   const debouncedFPS = useDebounce(state.fps, DEBOUNCE_MS);
   const debouncedCellSize = useDebounce(state.cellSize, DEBOUNCE_MS);
   const debouncedBorderWeight = useDebounce(state.borderWeight, DEBOUNCE_MS);
+  const debouncedGridColumns = useDebounce(state.gridColumns, DEBOUNCE_MS);
+  const debouncedGridRows = useDebounce(state.gridRows, DEBOUNCE_MS);
 
   return (
     <div className="App">
@@ -39,6 +44,8 @@ const App: React.FC = () => {
         fps={debouncedFPS}
         cellSize={debouncedCellSize}
         borderWeight={debouncedBorderWeight}
+        gridColumns={debouncedGridColumns}
+        gridRows={debouncedGridRows}
         pixelRatio={1}
       />
       <Form>
@@ -78,6 +85,32 @@ const App: React.FC = () => {
             max="20"
             onChange={({ target: { value } }) =>
               actions.setBorderWeight(parseInt(value, 10))
+            }
+          />
+        </label>
+        <label>
+          Grid Columns ({state.gridColumns})
+          <input
+            type="range"
+            name="gridColumns"
+            value={state.gridColumns}
+            min="1"
+            max="50"
+            onChange={({ target: { value } }) =>
+              actions.setGridColumns(parseInt(value, 10))
+            }
+          />
+        </label>
+        <label>
+          Grid Rows ({state.gridRows})
+          <input
+            type="range"
+            name="gridRows"
+            value={state.gridRows}
+            min="1"
+            max="50"
+            onChange={({ target: { value } }) =>
+              actions.setGridRows(parseInt(value, 10))
             }
           />
         </label>
