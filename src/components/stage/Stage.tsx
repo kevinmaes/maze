@@ -27,6 +27,7 @@ interface Canvas {
 const START_INDEX = 0;
 
 const Stage = (props: Props) => {
+  console.log({ props });
   const {
     playRequestTS,
     width = 100,
@@ -168,4 +169,4 @@ const Stage = (props: Props) => {
   return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
 
-export default Stage;
+export default React.memo(Stage);
