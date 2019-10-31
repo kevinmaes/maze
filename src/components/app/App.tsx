@@ -24,7 +24,8 @@ const CellSize = {
 
 const DEBOUNCE_MS = 500;
 
-const initialState = {
+const initialState: AppState = {
+  playRequestTS: 0,
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
@@ -48,6 +49,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <Stage
+        playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
         height={APP_HEIGHT}
         fps={debouncedFPS}
@@ -123,6 +125,14 @@ const App: React.FC = () => {
             }
           />
         </label>
+        <button
+          onClick={event => {
+            event.preventDefault();
+            actions.createPlayRequest(new Date().getTime());
+          }}
+        >
+          Replay
+        </button>
       </Form>
     </div>
   );

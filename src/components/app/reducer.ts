@@ -8,6 +8,7 @@ import {
 import { AppState } from './types';
 
 export const Actions = {
+  createPlayRequest: createStandardAction('CREATE_PLAY_REQUEST')<number>(),
   setFPS: createStandardAction('SET_FPS')<number>(),
   setCellSize: createStandardAction('SET_SELL_SIZE')<number>(),
   setBorderWeight: createStandardAction('SET_BORDER_WEIGHT')<number>(),
@@ -20,6 +21,8 @@ export const reducer = (
   { type, payload }: ActionType<typeof Actions>
 ) => {
   switch (type) {
+    case getType(Actions.createPlayRequest):
+      return { ...s, playRequestTS: payload };
     case getType(Actions.setFPS):
       return { ...s, fps: payload };
     case getType(Actions.setCellSize):
