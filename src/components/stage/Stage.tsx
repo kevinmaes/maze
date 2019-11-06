@@ -7,6 +7,7 @@ import { seek } from '../../generation/seek';
 import { Canvas } from './Stage.css';
 
 interface Props {
+  playRequestTS: number;
   width?: number;
   height?: number;
   pixelRatio?: number;
@@ -26,7 +27,9 @@ interface Canvas {
 const START_INDEX = 0;
 
 const Stage = (props: Props) => {
+  console.log({ props });
   const {
+    playRequestTS,
     width = 100,
     height = 100,
     pixelRatio = window.devicePixelRatio,
@@ -58,7 +61,7 @@ const Stage = (props: Props) => {
     currentCellZRef.current = null;
     stackARef.current = [];
     stackZRef.current = [];
-  }, [fps, cellSize, borderWeight, gridColumns, gridRows]);
+  }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -96,7 +99,7 @@ const Stage = (props: Props) => {
 
       createGrid(cellTotal, cellSize);
     }
-  }, [fps, cellSize, borderWeight, gridColumns, gridRows]);
+  }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
@@ -166,4 +169,4 @@ const Stage = (props: Props) => {
   return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
 
-export default Stage;
+export default React.memo(Stage);
