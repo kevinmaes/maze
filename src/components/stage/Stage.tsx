@@ -16,6 +16,7 @@ interface Props {
   borderWeight: number;
   gridColumns: number;
   gridRows: number;
+  settingsChanging: boolean;
 }
 
 interface Canvas {
@@ -169,4 +170,7 @@ const Stage = (props: Props) => {
   return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
 
-export default React.memo(Stage);
+export default React.memo(Stage, (prevProps, nextProps) => {
+  console.log('nextProps.settingsChanging', nextProps.settingsChanging);
+  return nextProps.settingsChanging;
+});

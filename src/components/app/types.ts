@@ -5,4 +5,5 @@ export interface AppState {
   gridColumns: number;
   gridRows: number;
   borderWeight: number;
+  settingsChanging?: boolean;
 }

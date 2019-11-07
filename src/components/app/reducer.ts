@@ -1,5 +1,5 @@
 import {
-  createAction,
+  // createAction,
   getType,
   createStandardAction,
   ActionType,
@@ -14,6 +14,7 @@ export const Actions = {
   setBorderWeight: createStandardAction('SET_BORDER_WEIGHT')<number>(),
   setGridColumns: createStandardAction('SET_GRID_COLUMNS')<number>(),
   setGridRows: createStandardAction('SET_GRID_ROWS')<number>(),
+  setSettingsChanging: createStandardAction('SET_SETTINGS_CHANGING')<any>(),
 };
 
 export const reducer = (
@@ -33,6 +34,8 @@ export const reducer = (
       return { ...s, gridColumns: payload };
     case getType(Actions.setGridRows):
       return { ...s, gridRows: payload };
+    case getType(Actions.setSettingsChanging):
+      return { ...s, settingsChanging: payload };
   }
 };
 

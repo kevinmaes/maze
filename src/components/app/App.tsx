@@ -2,7 +2,6 @@ import React from 'react';
 
 import './App.css';
 import Stage from '../stage/Stage';
-import useDebounce from '../hooks/useDebounce';
 import { useTypesafeActions } from '../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
@@ -21,8 +20,6 @@ const CellSize = {
   MAX: 100,
 };
 
-const DEBOUNCE_MS = 500;
-
 const initialState: AppState = {
   playRequestTS: 0,
   fps: FPS_DEFAULT,
@@ -30,6 +27,7 @@ const initialState: AppState = {
   borderWeight: BORDER_WEIGHT_DEFAULT,
   gridColumns: GRID_SIZE_DEFAULT,
   gridRows: GRID_SIZE_DEFAULT,
+  settingsChanging: false,
 };
 
 const App: React.FC = () => {
@@ -39,24 +37,19 @@ const App: React.FC = () => {
     Actions
   );
 
-  const debouncedFPS = useDebounce(state.fps, DEBOUNCE_MS);
-  const debouncedCellSize = useDebounce(state.cellSize, DEBOUNCE_MS);
-  const debouncedBorderWeight = useDebounce(state.borderWeight, DEBOUNCE_MS);
-  const debouncedGridColumns = useDebounce(state.gridColumns, DEBOUNCE_MS);
-  const debouncedGridRows = useDebounce(state.gridRows, DEBOUNCE_MS);
-
   return (
     <div className="App">
       <Stage
         playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
         height={APP_HEIGHT}
-        fps={debouncedFPS}
-        cellSize={debouncedCellSize}
-        borderWeight={debouncedBorderWeight}
-        gridColumns={debouncedGridColumns}
-        gridRows={debouncedGridRows}
+        fps={state.fps}
+        cellSize={state.cellSize}
+        borderWeight={state.borderWeight}
+        gridColumns={state.gridColumns}
+        gridRows={state.gridRows}
         pixelRatio={1}
+        settingsChanging={Boolean(state.settingsChanging)}
       />
       <Form>
         <label>
@@ -68,9 +61,11 @@ const App: React.FC = () => {
             min="5"
             max="60"
             step={5}
-            onChange={({ target: { value } }) =>
-              actions.setFPS(parseInt(value, 10))
-            }
+            onMouseDown={() => actions.setSettingsChanging(true)}
+            onMouseUp={() => actions.setSettingsChanging(false)}
+            onChange={({ target: { value } }) => {
+              actions.setFPS(parseInt(value, 10));
+            }}
           />
         </label>
         <label>
@@ -82,6 +77,8 @@ const App: React.FC = () => {
             min={CellSize.MIN}
             max={CellSize.MAX}
             step={5}
+            onMouseDown={() => actions.setSettingsChanging(true)}
+            onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
               actions.setCellSize(parseInt(value, 10))
             }
@@ -95,6 +92,8 @@ const App: React.FC = () => {
             value={state.borderWeight}
             min="1"
             max="10"
+            onMouseDown={() => actions.setSettingsChanging(true)}
+            onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
               actions.setBorderWeight(parseInt(value, 10))
             }
@@ -108,6 +107,8 @@ const App: React.FC = () => {
             value={state.gridColumns}
             min="2"
             max="50"
+            onMouseDown={() => actions.setSettingsChanging(true)}
+            onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
               actions.setGridColumns(parseInt(value, 10))
             }
@@ -121,6 +122,8 @@ const App: React.FC = () => {
             value={state.gridRows}
             min="2"
             max="50"
+            onMouseDown={() => actions.setSettingsChanging(true)}
+            onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
               actions.setGridRows(parseInt(value, 10))
             }
