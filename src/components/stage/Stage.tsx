@@ -27,20 +27,17 @@ interface Canvas {
 
 const START_INDEX = 0;
 
-const Stage = (props: Props) => {
-  console.log({ props });
-  const {
-    playRequestTS,
-    width = 100,
-    height = 100,
-    pixelRatio = window.devicePixelRatio,
-    fps,
-    cellSize,
-    borderWeight,
-    gridColumns,
-    gridRows,
-  } = props;
-
+const Stage = ({
+  playRequestTS,
+  width = 100,
+  height = 100,
+  pixelRatio = window.devicePixelRatio,
+  fps,
+  cellSize,
+  borderWeight,
+  gridColumns,
+  gridRows,
+}: Props) => {
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
@@ -170,7 +167,4 @@ const Stage = (props: Props) => {
   return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
 };
 
-export default React.memo(Stage, (prevProps, nextProps) => {
-  console.log('nextProps.settingsChanging', nextProps.settingsChanging);
-  return nextProps.settingsChanging;
-});
+export default React.memo(Stage, (_, { settingsChanging }) => settingsChanging);
