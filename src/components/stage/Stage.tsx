@@ -97,12 +97,22 @@ const Stage = ({
 
       createGrid(cellTotal, cellSize);
     }
-  }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
+  }, [
+    playRequestTS,
+    fps,
+    cellSize,
+    borderWeight,
+    cellTotal,
+    gridColumns,
+    gridRows,
+    endIndex,
+    height,
+    pixelRatio,
+    width,
+  ]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
-      const ctx = canvas.current.getContext('2d');
-
       // Seek path A
       currentCellARef.current = seek({
         grid: gridRef.current,

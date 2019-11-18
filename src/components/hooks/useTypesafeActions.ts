@@ -22,14 +22,11 @@ export function useTypesafeActions<
       };
     }
 
-    const newActions = Object.keys(actions).reduce(
-      (ba, actionName) => {
-        ba[actionName] = bindActionCreator(actions[actionName], dispatch);
-        return ba;
-      },
-      {} as { [key: string]: (...args: any[]) => any }
-    );
+    const newActions = Object.keys(actions).reduce((ba, actionName) => {
+      ba[actionName] = bindActionCreator(actions[actionName], dispatch);
+      return ba;
+    }, {} as { [key: string]: (...args: any[]) => any });
     return newActions;
-  }, [dispatch]);
+  }, [dispatch, actions]);
   return [state, boundActions as Actions];
 }
