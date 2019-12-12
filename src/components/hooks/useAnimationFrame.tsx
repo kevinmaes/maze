@@ -10,22 +10,25 @@ export const useAnimationFrame: UseAnimationFrame = ({ fps }, callback) => {
   const requestRef = React.useRef<number | null>(null);
   const previousTimeRef = React.useRef<number | null>(null);
 
-  const animate = (time: number) => {
-    if (previousTimeRef.current) {
-      const elapsed = time - previousTimeRef.current;
+  const animate = React.useCallback(
+    (time: number) => {
+      if (previousTimeRef.current) {
+        const elapsed = time - previousTimeRef.current;
 
-      const deltaTime: number = time - previousTimeRef.current;
-      if (elapsed > fpsInterval) {
-        callback(deltaTime);
-        previousTimeRef.current = time;
+        const deltaTime: number = time - previousTimeRef.current;
+        if (elapsed > fpsInterval) {
+          callback(deltaTime);
+          previousTimeRef.current = time;
+        } else {
+          previousTimeRef.current = time - elapsed;
+        }
       } else {
-        previousTimeRef.current = time - elapsed;
+        previousTimeRef.current = time;
       }
-    } else {
-      previousTimeRef.current = time;
-    }
-    requestRef.current = requestAnimationFrame(animate);
-  };
+      requestRef.current = requestAnimationFrame(animate);
+    },
+    [fpsInterval, callback]
+  );
 
   React.useEffect(() => {
     requestRef.current = requestAnimationFrame(animate);
@@ -35,5 +38,5 @@ export const useAnimationFrame: UseAnimationFrame = ({ fps }, callback) => {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [fps]); // Make sure the effect runs only once
+  }, [fps, animate]); // Make sure the effect runs only once
 };

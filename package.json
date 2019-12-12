@@ -14,6 +14,8 @@
     "react-dom": "16.9.0",
     "react-p5-wrapper": "2.0.0",
     "react-scripts": "3.1.2",
+    "styled-components": "4.4.0",
+    "typesafe-actions": "4.4.2",
     "typescript": "3.6.3"
   },
   "scripts": {
