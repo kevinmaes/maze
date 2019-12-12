@@ -2,6 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+[![Run on Repl.it](https://repl.it/badge/github/kevinmaes/maze)](https://repl.it/github/kevinmaes/maze)
+
 In the project directory, you can run:
 
 ### `npm start`
