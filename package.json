@@ -11,7 +11,7 @@
     "lodash": "4.17.15",
     "p5": "1.0.0",
     "react": "16.9.0",
-    "react-dom": "16.9.0",
+    "react-dom": "16.13.0",
     "react-p5-wrapper": "2.0.0",
     "react-scripts": "3.3.0",
     "styled-components": "4.4.0",
