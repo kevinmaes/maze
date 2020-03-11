@@ -30,7 +30,7 @@ const initialState: AppState = {
   settingsChanging: false,
 };
 
-const App: React.FC = () => {
+const App = () => {
   const [state, actions] = useTypesafeActions<AppState, typeof Actions>(
     reducer,
     initialState,
