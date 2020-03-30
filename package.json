@@ -13,7 +13,7 @@
     "p5": "1.0.0",
     "react-dom": "16.13.1",
     "react-p5-wrapper": "2.0.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "3.4.0",
     "styled-components": "5.0.1",
     "typesafe-actions": "5.1.0",
     "typescript": "3.8.3"
