@@ -145,18 +145,18 @@ const Stage = ({
           );
 
           if (cellANeighbors.length) {
-            const otherPathNeighbor = cellANeighbors.find(cell =>
+            const otherPathNeighbor = cellANeighbors.find((cell) =>
               cell.hasDifferentPathId(thisMiddleRowCell)
             );
 
             if (otherPathNeighbor) {
               thisMiddleRowCell.connect(otherPathNeighbor);
               setPathsAreConnected(true);
-              // console.log(
-              //   'Paths connect between indices:',
-              //   thisMiddleRowCell.index,
-              //   otherPathNeighbor.index
-              // );
+              console.log(
+                'Paths connect between indices:',
+                thisMiddleRowCell.index,
+                otherPathNeighbor.index
+              );
               break;
             }
           }
