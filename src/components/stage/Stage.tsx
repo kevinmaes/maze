@@ -145,7 +145,7 @@ const Stage = ({
           );
 
           if (cellANeighbors.length) {
-            const otherPathNeighbor = cellANeighbors.find(cell =>
+            const otherPathNeighbor = cellANeighbors.find((cell) =>
               cell.hasDifferentPathId(thisMiddleRowCell)
             );
 
