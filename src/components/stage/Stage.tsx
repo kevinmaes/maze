@@ -152,11 +152,11 @@ const Stage = ({
             if (otherPathNeighbor) {
               thisMiddleRowCell.connect(otherPathNeighbor);
               setPathsAreConnected(true);
-              console.log(
-                'Paths connect between indices:',
-                thisMiddleRowCell.index,
-                otherPathNeighbor.index
-              );
+              // console.log(
+              //   'Paths connect between indices:',
+              //   thisMiddleRowCell.index,
+              //   otherPathNeighbor.index
+              // );
               break;
             }
           }
