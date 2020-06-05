@@ -16,7 +16,7 @@
     "react-scripts": "3.4.1",
     "styled-components": "5.1.0",
     "typesafe-actions": "5.1.0",
-    "typescript": "3.8.3"
+    "typescript": "3.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
