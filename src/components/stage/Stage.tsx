@@ -59,6 +59,9 @@ const Stage = ({
     currentCellZRef.current = null;
     stackARef.current = [];
     stackZRef.current = [];
+
+    // Reset the pathsAreConnected when drawing this new maze.
+    setPathsAreConnected(false);
   }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {
