@@ -40,7 +40,7 @@ const Stage = ({
   gridRows,
 }: Props) => {
   const {
-    machine: { current },
+    machine: { current, send },
   } = React.useContext(AppContext);
   console.log('State state', current.value);
 
@@ -67,7 +67,7 @@ const Stage = ({
   ]);
 
   React.useEffect(() => {
-    console.log('Initialization effect');
+    console.log('Initialization effect start');
 
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
@@ -95,6 +95,9 @@ const Stage = ({
       borderWeight,
       endIndex,
     });
+
+    console.log('Initialization effect end');
+    send('START');
   }, [
     playRequestTS,
     fps,
