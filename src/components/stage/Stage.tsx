@@ -111,6 +111,7 @@ const Stage = ({
     pixelRatio,
     width,
     createGridCallback,
+    send,
   ]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {

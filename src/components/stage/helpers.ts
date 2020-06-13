@@ -1,4 +1,3 @@
-import Grid from '../../generation/Grid';
 import Cell from '../../generation/Cell';
 import { START_INDEX } from './constants';
 
