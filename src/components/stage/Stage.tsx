@@ -5,6 +5,7 @@ import Grid from '../../generation/Grid';
 import Cell from '../../generation/Cell';
 import { seek } from '../../generation/seek';
 import { Canvas } from './Stage.css';
+import { AppContext } from '../app/App';
 
 interface Props {
   playRequestTS: number;
@@ -38,6 +39,11 @@ const Stage = ({
   gridColumns,
   gridRows,
 }: Props) => {
+  const {
+    machine: { current },
+  } = React.useContext(AppContext);
+  console.log('State state', current.value);
+
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
