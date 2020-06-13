@@ -6,6 +6,8 @@ import Cell from '../../generation/Cell';
 import { seek } from '../../generation/seek';
 import { Canvas } from './Stage.css';
 import { AppContext } from '../app/App';
+import { createGrid } from './helpers';
+import { START_INDEX } from './constants';
 
 interface Props {
   playRequestTS: number;
@@ -25,8 +27,6 @@ interface Canvas {
     getContext?: Function;
   };
 }
-
-const START_INDEX = 0;
 
 const Stage = ({
   playRequestTS,
@@ -59,6 +59,13 @@ const Stage = ({
 
   const endIndex = cellTotal - 1;
 
+  const createGridCallback = React.useCallback(createGrid, [
+    borderWeight,
+    endIndex,
+    gridColumns,
+    gridRows,
+  ]);
+
   React.useEffect(() => {
     console.log('Initialization effect');
 
@@ -71,40 +78,23 @@ const Stage = ({
     // Reset the pathsAreConnected when drawing this new maze.
     setPathsAreConnected(false);
 
-    const ctx = canvas.current.getContext('2d');
+    const canvasCtx = canvas.current.getContext('2d');
 
-    ctx.save();
-    ctx.scale(pixelRatio, pixelRatio);
-    ctx.fillStyle = 'hsl(0, 0%, 95%)';
-    ctx.fillRect(0, 0, width, height);
+    canvasCtx.save();
+    canvasCtx.scale(pixelRatio, pixelRatio);
+    canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
+    canvasCtx.fillRect(0, 0, width, height);
 
-    const createGrid = (cellTotal: number, cellSize: number) => {
-      console.log('createGrid');
-      // const middleColIndex = Math.floor(gridColumns / 2);
-      const middleRowIndex = Math.floor(gridRows / 2);
-      const middleIndex = middleRowIndex * gridColumns + middleRowIndex;
-
-      for (let index = 0; index < cellTotal; index++) {
-        const cell = new Cell({
-          ctx,
-          index,
-          colIndex: index % gridRef.current.cols,
-          rowIndex: Math.floor(index / gridRef.current.cols),
-          size: cellSize,
-          borderWeight,
-          visitedColor: 'rgb(208, 222, 247)',
-          backtrackColor: '#fff',
-          isStart: index === START_INDEX,
-          isMiddle: index === middleIndex,
-          isEnd: index === endIndex,
-          renderInitial: true,
-        });
-
-        gridRef.current.cells.push(cell);
-      }
-    };
-
-    createGrid(cellTotal, cellSize);
+    createGridCallback({
+      canvasCtx,
+      cellTotal,
+      cellSize,
+      gridRows,
+      gridColumns,
+      gridRef,
+      borderWeight,
+      endIndex,
+    });
   }, [
     playRequestTS,
     fps,
@@ -117,6 +107,7 @@ const Stage = ({
     height,
     pixelRatio,
     width,
+    createGridCallback,
   ]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
