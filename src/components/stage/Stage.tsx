@@ -60,6 +60,8 @@ const Stage = ({
   const endIndex = cellTotal - 1;
 
   React.useEffect(() => {
+    console.log('Initialization effect');
+
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
     currentCellZRef.current = null;
@@ -68,44 +70,41 @@ const Stage = ({
 
     // Reset the pathsAreConnected when drawing this new maze.
     setPathsAreConnected(false);
-  }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
-  React.useEffect(() => {
-    if (canvas && canvas.current && gridRef.current) {
-      const ctx = canvas.current.getContext('2d');
+    const ctx = canvas.current.getContext('2d');
 
-      ctx.save();
-      ctx.scale(pixelRatio, pixelRatio);
-      ctx.fillStyle = 'hsl(0, 0%, 95%)';
-      ctx.fillRect(0, 0, width, height);
+    ctx.save();
+    ctx.scale(pixelRatio, pixelRatio);
+    ctx.fillStyle = 'hsl(0, 0%, 95%)';
+    ctx.fillRect(0, 0, width, height);
 
-      const createGrid = (cellTotal: number, cellSize: number) => {
-        // const middleColIndex = Math.floor(gridColumns / 2);
-        const middleRowIndex = Math.floor(gridRows / 2);
-        const middleIndex = middleRowIndex * gridColumns + middleRowIndex;
+    const createGrid = (cellTotal: number, cellSize: number) => {
+      console.log('createGrid');
+      // const middleColIndex = Math.floor(gridColumns / 2);
+      const middleRowIndex = Math.floor(gridRows / 2);
+      const middleIndex = middleRowIndex * gridColumns + middleRowIndex;
 
-        for (let index = 0; index < cellTotal; index++) {
-          const cell = new Cell({
-            ctx,
-            index,
-            colIndex: index % gridRef.current.cols,
-            rowIndex: Math.floor(index / gridRef.current.cols),
-            size: cellSize,
-            borderWeight,
-            visitedColor: 'rgb(208, 222, 247)',
-            backtrackColor: '#fff',
-            isStart: index === START_INDEX,
-            isMiddle: index === middleIndex,
-            isEnd: index === endIndex,
-            renderInitial: true,
-          });
+      for (let index = 0; index < cellTotal; index++) {
+        const cell = new Cell({
+          ctx,
+          index,
+          colIndex: index % gridRef.current.cols,
+          rowIndex: Math.floor(index / gridRef.current.cols),
+          size: cellSize,
+          borderWeight,
+          visitedColor: 'rgb(208, 222, 247)',
+          backtrackColor: '#fff',
+          isStart: index === START_INDEX,
+          isMiddle: index === middleIndex,
+          isEnd: index === endIndex,
+          renderInitial: true,
+        });
 
-          gridRef.current.cells.push(cell);
-        }
-      };
+        gridRef.current.cells.push(cell);
+      }
+    };
 
-      createGrid(cellTotal, cellSize);
-    }
+    createGrid(cellTotal, cellSize);
   }, [
     playRequestTS,
     fps,
