@@ -1,15 +1,15 @@
 import { Machine } from 'xstate';
 
-const grid = new Grid();
-const startCell = grid.start();
+// const grid = new Grid();
+// const startCell = grid.start();
 
-const machine = Machine(
+export const machine = Machine(
   {
     id: 'maze-generation',
     initial: 'initializing',
     context: {
-      grid,
-      currentCell: startCell,
+      // grid,
+      // currentCell: startCell,
       stack: [],
     },
     states: {
