@@ -20,8 +20,8 @@ export const machine = Machine(
       },
       seeking: {
         onEntry: ['pushToStack', 'getNeighboringCells', 'pickNextCell'],
-        on: {
-          NEXT: [
+        after: {
+          SEEK_INTERVAL: [
             {
               cond: 'isDeadEnd',
               target: 'backtracking',
@@ -50,7 +50,31 @@ export const machine = Machine(
   {
     guards: {
       isDeadEnd: (ctx) => {
+        console.log('isDeadEnd');
         return false;
+      },
+      isAtStart: (ctx) => {
+        console.log('isAtStart');
+        return false;
+      },
+    },
+    actions: {
+      pushToStack: (ctx, event) => {
+        console.log('pushToStack', event);
+      },
+      popFromStack: (ctx, event) => {
+        console.log('popFromStack', event);
+      },
+      getNeighboringCells: (ctx, event) => {
+        console.log('getNeighboringCells', event);
+      },
+      pickNextCell: (ctx, event) => {
+        console.log('pickNextCell', event);
+      },
+    },
+    delays: {
+      SEEK_INTERVAL: (ctx) => {
+        return 2000;
       },
     },
   }
