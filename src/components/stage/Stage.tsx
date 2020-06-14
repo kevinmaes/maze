@@ -51,9 +51,7 @@ const Stage = ({
   );
 
   const currentCellARef = React.useRef<Cell | null>(null);
-  // const currentCellZRef = React.useRef<Cell | null>(null);
   const stackARef = React.useRef<Cell[]>([]);
-  // const stackZRef = React.useRef<Cell[]>([]);
 
   const cellTotal = gridColumns * gridRows;
 
@@ -71,9 +69,7 @@ const Stage = ({
 
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
-    // currentCellZRef.current = null;
     stackARef.current = [];
-    // stackZRef.current = [];
 
     // Reset the pathsAreConnected when drawing this new maze.
     setPathsAreConnected(false);
@@ -116,7 +112,6 @@ const Stage = ({
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
     if (canvas && canvas.current) {
-      // Seek path A
       currentCellARef.current = seek({
         grid: gridRef.current,
         pathId: 'a',
@@ -124,47 +119,6 @@ const Stage = ({
         startIndex: START_INDEX,
         stack: stackARef.current,
       });
-
-      // Seek path Z.
-      // currentCellZRef.current = seek({
-      //   grid: gridRef.current,
-      //   pathId: 'z',
-      //   current: currentCellZRef.current,
-      //   endIndex,
-      //   stack: stackZRef.current,
-      // });
-
-      // if (!pathsAreConnected && !currentCellARef.current) {
-      //   const middleRowIndex = Math.floor(gridRows / 2);
-
-      //   for (
-      //     let i = middleRowIndex * gridColumns;
-      //     i < (middleRowIndex + 1) * gridColumns;
-      //     i++
-      //   ) {
-      //     const thisMiddleRowCell = gridRef.current.cells[i];
-      //     const cellANeighbors = gridRef.current.getNeighbors(
-      //       thisMiddleRowCell
-      //     );
-
-      //     if (cellANeighbors.length) {
-      //       const otherPathNeighbor = cellANeighbors.find((cell) =>
-      //         cell.hasDifferentPathId(thisMiddleRowCell)
-      //       );
-
-      //       if (otherPathNeighbor) {
-      //         thisMiddleRowCell.connect(otherPathNeighbor);
-      //         setPathsAreConnected(true);
-      //         // console.log(
-      //         //   'Paths connect between indices:',
-      //         //   thisMiddleRowCell.index,
-      //         //   otherPathNeighbor.index
-      //         // );
-      //         break;
-      //       }
-      //     }
-      //   }
-      // }
 
       // Draw all cells.
       for (let cell of gridRef.current.cells) {
