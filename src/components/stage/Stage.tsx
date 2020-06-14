@@ -110,22 +110,22 @@ const Stage = ({
     send,
   ]);
 
-  useAnimationFrame({ fps }, (deltaTime: number) => {
-    if (canvas && canvas.current) {
-      currentCellARef.current = seek({
-        grid: gridRef.current,
-        pathId: 'a',
-        current: currentCellARef.current,
-        startIndex: START_INDEX,
-        stack: stackARef.current,
-      });
+  // useAnimationFrame({ fps }, (deltaTime: number) => {
+  //   if (canvas && canvas.current) {
+  //     currentCellARef.current = seek({
+  //       grid: gridRef.current,
+  //       pathId: 'a',
+  //       current: currentCellARef.current,
+  //       startIndex: START_INDEX,
+  //       stack: stackARef.current,
+  //     });
 
-      // Draw all cells.
-      for (let cell of gridRef.current.cells) {
-        cell.draw();
-      }
-    }
-  });
+  //     // Draw all cells.
+  //     for (let cell of gridRef.current.cells) {
+  //       cell.draw();
+  //     }
+  //   }
+  // });
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
