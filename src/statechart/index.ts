@@ -1,5 +1,5 @@
-import { Machine } from 'xstate';
-
+import { Machine, assign } from 'xstate';
+import Grid from '../generation/Grid';
 // const grid = new Grid();
 // const startCell = grid.start();
 
@@ -8,12 +8,19 @@ export const machine = Machine(
     id: 'maze-generation',
     initial: 'initializing',
     context: {
-      // grid,
+      // canvas: null,
+      settings: {
+        gridColumns: 5,
+        gridRows: 5,
+      },
+      grid: null,
       // currentCell: startCell,
       stack: [],
     },
     states: {
       initializing: {
+        // onEntry: ['createCanvas']
+        onEntry: ['createGrid'],
         on: {
           START: 'seeking',
         },
@@ -59,8 +66,15 @@ export const machine = Machine(
       },
     },
     actions: {
+      createGrid: (ctx, event) => {
+        console.log('createGrid fn');
+        return assign({
+          grid: ({ settings: { gridColumns, gridRows } }) =>
+            new Grid({ cols: gridColumns, rows: gridRows }),
+        });
+      },
       pushToStack: (ctx, event) => {
-        console.log('pushToStack', event);
+        console.log('pushToStack', ctx, event);
       },
       popFromStack: (ctx, event) => {
         console.log('popFromStack', event);
@@ -74,7 +88,7 @@ export const machine = Machine(
     },
     delays: {
       SEEK_INTERVAL: (ctx) => {
-        return 2000;
+        return 10000;
       },
     },
   }

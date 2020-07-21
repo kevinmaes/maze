@@ -45,7 +45,6 @@ const Stage = ({
   console.log('State state', current.value);
 
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
-  const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
@@ -66,6 +65,7 @@ const Stage = ({
 
   React.useEffect(() => {
     console.log('Initialization effect start');
+    const canvas: any = React.useRef(null);
 
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
