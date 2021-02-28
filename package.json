@@ -10,7 +10,7 @@
     "@types/react-dom": "16.9.8",
     "lodash": "4.17.19",
     "p5": "1.1.9",
-    "react": "16.13.1",
+    "react": "17.0.1",
     "react-dom": "16.13.1",
     "react-p5-wrapper": "2.0.0",
     "react-scripts": "^4.0.3",
