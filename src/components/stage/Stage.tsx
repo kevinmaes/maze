@@ -19,7 +19,7 @@ interface Props {
   settingsChanging: boolean;
 }
 
-interface Canvas {
+interface ICanvas {
   current?: {
     getContext?: Function;
   };
