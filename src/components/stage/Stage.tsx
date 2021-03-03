@@ -22,11 +22,11 @@ interface Props {
   settingsChanging: boolean;
 }
 
-interface Canvas {
-  current?: {
-    getContext?: Function;
-  };
-}
+// interface ICanvas {
+//   current?: {
+//     getContext?: Function;
+//   };
+// }
 
 const Stage = ({
   playRequestTS,
