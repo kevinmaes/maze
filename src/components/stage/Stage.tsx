@@ -19,11 +19,11 @@ interface Props {
   settingsChanging: boolean;
 }
 
-interface ICanvas {
-  current?: {
-    getContext?: Function;
-  };
-}
+// interface ICanvas {
+//   current?: {
+//     getContext?: Function;
+//   };
+// }
 
 const START_INDEX = 0;
 
