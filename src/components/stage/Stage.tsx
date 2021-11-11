@@ -75,8 +75,9 @@ const Stage = ({
 
       const createGrid = (cellTotal: number, cellSize: number) => {
         // const middleColIndex = Math.floor(gridColumns / 2);
-        const middleRowIndex = Math.floor(gridRows / 2);
-        const middleIndex = middleRowIndex * gridColumns + middleRowIndex;
+        const middleRowIndex = Math.floor(gridRef.current.rows / 2);
+        const middleIndex =
+          middleRowIndex * gridRef.current.cols + middleRowIndex;
 
         for (let index = 0; index < cellTotal; index++) {
           const cell = new Cell({
@@ -143,9 +144,8 @@ const Stage = ({
           i++
         ) {
           const thisMiddleRowCell = gridRef.current.cells[i];
-          const cellANeighbors = gridRef.current.getNeighbors(
-            thisMiddleRowCell
-          );
+          const cellANeighbors =
+            gridRef.current.getNeighbors(thisMiddleRowCell);
 
           if (cellANeighbors.length) {
             const otherPathNeighbor = cellANeighbors.find((cell) =>
