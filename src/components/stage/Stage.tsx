@@ -66,12 +66,12 @@ const Stage = ({
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
-      const ctx = canvas.current.getContext('2d');
+      const canvasCtx = canvas.current.getContext('2d');
 
-      ctx.save();
-      ctx.scale(pixelRatio, pixelRatio);
-      ctx.fillStyle = 'hsl(0, 0%, 95%)';
-      ctx.fillRect(0, 0, width, height);
+      canvasCtx.save();
+      canvasCtx.scale(pixelRatio, pixelRatio);
+      canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
+      canvasCtx.fillRect(0, 0, width, height);
 
       const createGrid = (cellTotal: number, cellSize: number) => {
         // const middleColIndex = Math.floor(gridColumns / 2);
@@ -81,7 +81,7 @@ const Stage = ({
 
         for (let index = 0; index < cellTotal; index++) {
           const cell = new Cell({
-            ctx,
+            canvasCtx,
             index,
             colIndex: index % gridRef.current.cols,
             rowIndex: Math.floor(index / gridRef.current.cols),
