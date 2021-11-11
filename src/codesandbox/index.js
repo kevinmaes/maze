@@ -4,8 +4,8 @@ import { seek } from './seek';
 // const startCell = grid.start();
 
 const settings = {
-  gridColumns: 5,
-  gridRows: 5,
+  gridColumns: 2,
+  gridRows: 2,
   startIndex: 0,
 };
 
@@ -36,13 +36,11 @@ export const machine = Machine(
     states: {
       idle: {
         entry: ['createGrid', 'pickStartCell'],
-        // entry: ["createGrid"],
         on: {
           START: { target: 'seeking', action: 'createGrid' },
         },
       },
       seeking: {
-        // entry: ["pushToStack", "getNeighboringCells", "pickNextCell"]
         entry: ['pickNextCell', 'pushToStack'],
         on: {
           SEEK_NEXT: { target: 'seeking' },
