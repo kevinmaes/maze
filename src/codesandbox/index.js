@@ -18,6 +18,7 @@ export const machine = Machine(
         gridColumns: 4,
         gridRows: 4,
         startIndex: 0,
+        pathId: 'abc',
       },
       grid: null,
       currentCell: null,
@@ -62,28 +63,30 @@ export const machine = Machine(
       isDeadEnd: ({ unvisitedNeighbors }) => {
         return unvisitedNeighbors.length === 0;
       },
-      isBackAtStart: (ctx) => {
-        return ctx.stack.length === 0;
+      isBackAtStart: ({ stack }) => {
+        return stack.length === 0;
       },
     },
     actions: {
-      createGrid: assign(({ settings }) => ({
-        grid: new Grid({
-          cols: settings.gridColumns,
-          rows: settings.gridRows,
-          startIndex: settings.startIndex,
-        }),
-      })),
+      createGrid: assign(
+        ({ settings: { gridColumns, gridRows, startIndex } }) => ({
+          grid: new Grid({
+            cols: gridColumns,
+            rows: gridRows,
+            startIndex: startIndex,
+          }),
+        })
+      ),
       pickStartCell: assign(({ grid }) => ({
         currentCell: grid.getStartCell(),
       })),
       findNeighbors: assign(({ grid, currentCell }) => ({
         unvisitedNeighbors: grid.getUnvisitedNeighbors(currentCell),
       })),
-      pickNextCell: assign(({ grid, currentCell }) => ({
+      pickNextCell: assign(({ settings, grid, currentCell }) => ({
         currentCell: seek({
           grid,
-          pathId: 'a',
+          pathId: settings.pathId,
           current: currentCell,
           startIndex: 0,
         }),
@@ -102,9 +105,7 @@ export const machine = Machine(
       }),
     },
     delays: {
-      SEEK_INTERVAL: (ctx) => {
-        return 1;
-      },
+      SEEK_INTERVAL: 100,
     },
   }
 );
