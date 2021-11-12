@@ -1,4 +1,4 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/1f2825b7-88c1-4044-ba25-3fed0157841c/deploy-status)](https://app.netlify.com/sites/maes/deploys)
+![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=therealsujitk-vercel-badge)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
