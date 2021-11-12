@@ -19,12 +19,6 @@ interface Props {
   settingsChanging: boolean;
 }
 
-// interface ICanvas {
-//   current?: {
-//     getContext?: Function;
-//   };
-// }
-
 const START_INDEX = 0;
 
 const Stage = ({
