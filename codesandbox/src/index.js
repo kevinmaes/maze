@@ -28,7 +28,14 @@ export const machine = Machine(
     },
     states: {
       start: {
-        entry: ['createGrid', 'pickStartCell', 'pushToStack'],
+        entry: [
+          () => {
+            console.log('------------ START -------------');
+          },
+          'createGrid',
+          'pickStartCell',
+          'pushToStack',
+        ],
         after: {
           SEEK_INTERVAL: { target: 'seek' },
         },
@@ -125,6 +132,5 @@ service.start();
 
 // Listen for restart.
 document.getElementById('restart').addEventListener('click', () => {
-  console.log('-------------------------');
   service.send('RESTART');
 });
