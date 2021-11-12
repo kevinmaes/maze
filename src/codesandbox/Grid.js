@@ -49,7 +49,9 @@ export default class Grid {
   }
 
   getStartCell() {
-    return this.getCellByIndex();
+    const startCell = this.getCellByIndex();
+    startCell.visited = true;
+    return startCell;
   }
 
   getCellByIndex(index = 0) {

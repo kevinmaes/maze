@@ -1,21 +1,18 @@
-import { getNextCell } from './helpers';
-
 export const seek = ({
   grid,
   pathId,
   current,
-  stack,
   startIndex = 0,
   endIndex = null,
 }) => {
   let next;
   if (current) {
-    next = getNextCell({
-      pathId,
-      grid,
-      currentCell: current,
-      stack,
-    });
+    next = grid.pickNeighbor(current);
+
+    // If next cell is found, mark it as visited.
+    if (next) {
+      return next.visit(current, pathId);
+    }
   } else {
     if (endIndex !== null) {
       next = grid.cells[endIndex];
@@ -29,9 +26,4 @@ export const seek = ({
   }
 
   return next;
-
-  // if (next) {
-  //   stack.push(next);
-  //   return next;
-  // }
 };

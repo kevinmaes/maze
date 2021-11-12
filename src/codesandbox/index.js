@@ -1,58 +1,53 @@
 import { Machine, interpret, assign } from 'xstate';
+import { inspect } from '@xstate/inspect';
+
 import Grid from './Grid';
 import { seek } from './seek';
-// const startCell = grid.start();
 
-const settings = {
-  gridColumns: 2,
-  gridRows: 2,
-  startIndex: 0,
-};
-
-// const SEEK_INTERVAL = 5000;
-
-// const grid = new Grid({
-//   cols: settings.gridColumns,
-//   rows: settings.gridRows,
-//   startIndex: settings.startIndex
-// });
-// const startCell = grid.getStartCell();
-
-// console.log({ grid });
-
-console.log('starting');
+inspect({
+  url: 'https://statecharts.io/inspect',
+  iframe: false,
+});
 
 export const machine = Machine(
   {
     id: 'maze-generation',
     initial: 'idle',
     context: {
-      // canvas: null,
-      settings,
+      settings: {
+        gridColumns: 4,
+        gridRows: 4,
+        startIndex: 0,
+      },
       grid: null,
       currentCell: null,
+      unvisitedNeighbors: [],
       stack: [],
     },
     states: {
       idle: {
-        entry: ['createGrid', 'pickStartCell'],
-        on: {
-          START: { target: 'seeking', action: 'createGrid' },
+        entry: ['createGrid', 'pickStartCell', 'pushToStack'],
+        after: {
+          SEEK_INTERVAL: { target: 'seeking' },
         },
       },
       seeking: {
+        entry: ['findNeighbors'],
+        always: [{ target: 'advancing' }],
+      },
+      advancing: {
+        always: [{ target: 'backtracking', cond: 'isDeadEnd' }],
         entry: ['pickNextCell', 'pushToStack'],
-        on: {
-          SEEK_NEXT: { target: 'seeking' },
+        after: {
+          SEEK_INTERVAL: { target: 'seeking' },
         },
-        exit: ['afterSeek'],
       },
       backtracking: {
         entry: ['popFromStack'],
         always: [
           {
             target: 'complete',
-            cond: 'isAtStart',
+            cond: 'isBackAtStart',
           },
           {
             target: 'seeking',
@@ -64,84 +59,60 @@ export const machine = Machine(
   },
   {
     guards: {
-      isDeadEnd: (ctx) => {
-        console.log('isDeadEnd');
-        return false;
+      isDeadEnd: ({ unvisitedNeighbors }) => {
+        return unvisitedNeighbors.length === 0;
       },
-      isAtStart: (ctx) => {
-        console.log('isAtStart');
-        return false;
+      isBackAtStart: (ctx) => {
+        return ctx.stack.length === 0;
       },
     },
     actions: {
-      createGrid: assign({
-        grid: (ctx, event) => {
-          const grid = new Grid({
-            cols: settings.gridColumns,
-            rows: settings.gridRows,
-            startIndex: settings.startIndex,
-          });
-
-          return grid;
-        },
+      createGrid: assign(({ settings }) => ({
+        grid: new Grid({
+          cols: settings.gridColumns,
+          rows: settings.gridRows,
+          startIndex: settings.startIndex,
+        }),
+      })),
+      pickStartCell: assign(({ grid }) => ({
+        currentCell: grid.getStartCell(),
+      })),
+      findNeighbors: assign(({ grid, currentCell }) => ({
+        unvisitedNeighbors: grid.getUnvisitedNeighbors(currentCell),
+      })),
+      pickNextCell: assign(({ grid, currentCell }) => ({
+        currentCell: seek({
+          grid,
+          pathId: 'a',
+          current: currentCell,
+          startIndex: 0,
+        }),
+      })),
+      pushToStack: assign(({ stack, currentCell }) => {
+        if (currentCell) {
+          stack.push(currentCell);
+        }
+        return stack;
       }),
-      pickStartCell: assign({
-        currentCell: ({ grid }) => {
-          return grid.getStartCell();
-        },
+      popFromStack: assign(({ stack }) => {
+        const prevCell = stack.pop();
+        prevCell.backtrack = true;
+        console.log(`  (backtracking to cell index: ${prevCell.index})`);
+        return { stack, currentCell: prevCell };
       }),
-      pickNextCell: assign({
-        currentCell: ({ stack, grid, currentCell }) => {
-          console.log('action pickNextCell', currentCell);
-          const current = seek({
-            grid,
-            pathId: 'a',
-            current: currentCell,
-            startIndex: 0,
-            stack,
-          });
-
-          console.log('pickNextCell current', current);
-
-          return current;
-        },
-      }),
-      pushToStack: assign({
-        stack: ({ stack, grid, currentCell }) => {
-          if (currentCell) {
-            stack.push(currentCell);
-          }
-
-          console.log('action pushToStack', stack.length);
-          return stack;
-        },
-      }),
-      popFromStack: (ctx, event) => {
-        console.log('popFromStack', event);
-      },
-      afterSeek: (ctx, event) => {
-        console.log('afterSeek', ctx);
-      },
     },
     delays: {
-      // SEEK_INTERVAL: ctx => {
-      //   return 60000;
-      // }
+      SEEK_INTERVAL: (ctx) => {
+        return 1;
+      },
     },
   }
 );
 
-const service = interpret(machine).onTransition((state) => {
-  console.log('state', state.value);
+const service = interpret(machine, { devTools: true }).onTransition((state) => {
+  console.log(
+    `state: ${state.value}, cell index: ${state.context.currentCell.index}`
+  );
 });
 
 service.start();
-
-service.send('START');
-setTimeout(() => {
-  service.send('SEEK_NEXT');
-}, 3000);
-
-// console.log("initialState", machine.initialState, machine.context);
-// const s1 = machine.transition("idle", "START");
-// console.log("s1", s1.value, s1.context);
