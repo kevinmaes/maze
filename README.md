@@ -8,7 +8,7 @@ Welcome! This repo is where I work on my passion for creating mazes with code.
 
 It is a work in progress and I welcome contributors of ideas, comments, or code.
 
-View the latest deployed version of this app [here](https://maze-kevinmaes.vercel.app/)!
+View the latest deployed version of this app [here](https://maze-generation.vercel.app/)!
 
 Thanks for visiting!
 
