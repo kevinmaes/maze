@@ -5,7 +5,7 @@ const WEST = 3;
 
 export default class Cell {
   constructor({
-    ctx,
+    canvasCtx,
     index,
     rowIndex,
     colIndex,
@@ -20,7 +20,7 @@ export default class Cell {
     isMiddle = false,
     isEnd = false,
   }) {
-    this.ctx = ctx;
+    this.canvasCtx = canvasCtx;
     this.index = index;
 
     this.rowIndex = rowIndex;
@@ -79,7 +79,7 @@ export default class Cell {
   }
 
   disconnect(cell, { mutual } = { mutual: true }) {
-    this.connections = this.connections.filter(c => c.index === cell.index);
+    this.connections = this.connections.filter((c) => c.index === cell.index);
 
     if (mutual) {
       cell.disconnect(this, { mutual: false });
@@ -142,15 +142,15 @@ export default class Cell {
     const fillX = this.x + 0.5 * this.borderWeight;
     const fillY = this.y + 0.5 * this.borderWeight;
 
-    this.ctx.fillStyle = color;
-    this.ctx.fillRect(fillX, fillY, this.size, this.size);
+    this.canvasCtx.fillStyle = color;
+    this.canvasCtx.fillRect(fillX, fillY, this.size, this.size);
   }
 
   drawWalls(walls) {
-    const { ctx } = this;
+    const { canvasCtx } = this;
 
-    ctx.strokeStyle = this.borderColor;
-    ctx.lineWidth = this.borderWeight;
+    canvasCtx.strokeStyle = this.borderColor;
+    canvasCtx.lineWidth = this.borderWeight;
 
     if (this.walls[NORTH]) {
       this.line(this.x, this.y, this.x + this.size, this.y);
@@ -180,12 +180,12 @@ export default class Cell {
   }
 
   line(x1, y1, x2, y2, color = '#000') {
-    const { ctx } = this;
+    const { canvasCtx } = this;
 
-    ctx.strokeStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
+    canvasCtx.strokeStyle = color;
+    canvasCtx.beginPath();
+    canvasCtx.moveTo(x1, y1);
+    canvasCtx.lineTo(x2, y2);
+    canvasCtx.stroke();
   }
 }
