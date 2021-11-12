@@ -30,21 +30,21 @@ export const machine = Machine(
       start: {
         entry: ['createGrid', 'pickStartCell', 'pushToStack'],
         after: {
-          SEEK_INTERVAL: { target: 'seeking' },
+          SEEK_INTERVAL: { target: 'seek' },
         },
       },
-      seeking: {
+      seek: {
         entry: ['findNeighbors'],
-        always: [{ target: 'advancing' }],
+        always: [{ target: 'advance' }],
       },
-      advancing: {
-        always: [{ target: 'backtracking', cond: 'isDeadEnd' }],
+      advance: {
+        always: [{ target: 'backtrack', cond: 'isDeadEnd' }],
         entry: ['pickNextCell', 'pushToStack'],
         after: {
-          SEEK_INTERVAL: { target: 'seeking' },
+          SEEK_INTERVAL: { target: 'seek' },
         },
       },
-      backtracking: {
+      backtrack: {
         entry: ['popFromStack'],
         always: [
           {
@@ -52,7 +52,7 @@ export const machine = Machine(
             cond: 'isBackAtStart',
           },
           {
-            target: 'seeking',
+            target: 'seek',
           },
         ],
       },
@@ -105,7 +105,7 @@ export const machine = Machine(
       popFromStack: assign(({ stack }) => {
         const prevCell = stack.pop();
         prevCell.backtrack = true;
-        console.log(`  (backtracking to cell index: ${prevCell.index})`);
+        console.log(`  (backtrack to cell index: ${prevCell.index})`);
         return { stack, currentCell: prevCell };
       }),
     },
