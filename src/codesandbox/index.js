@@ -7,16 +7,17 @@ import { seek } from './seek';
 inspect({
   url: 'https://statecharts.io/inspect',
   iframe: false,
+  // iframe: () => document.querySelector("iframe[data-xstate]")
 });
 
 export const machine = Machine(
   {
     id: 'maze-generation',
-    initial: 'idle',
+    initial: 'start',
     context: {
       settings: {
-        gridColumns: 4,
-        gridRows: 4,
+        gridColumns: 3,
+        gridRows: 3,
         startIndex: 0,
         pathId: 'abc',
       },
@@ -26,7 +27,7 @@ export const machine = Machine(
       stack: [],
     },
     states: {
-      idle: {
+      start: {
         entry: ['createGrid', 'pickStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: { target: 'seeking' },
@@ -55,7 +56,11 @@ export const machine = Machine(
           },
         ],
       },
-      complete: {},
+      complete: {
+        on: {
+          RESTART: 'start',
+        },
+      },
     },
   },
   {
@@ -117,3 +122,9 @@ const service = interpret(machine, { devTools: true }).onTransition((state) => {
 });
 
 service.start();
+
+// Listen for restart.
+document.getElementById('restart').addEventListener('click', () => {
+  console.log('-------------------------');
+  service.send('RESTART');
+});
