@@ -1,5 +1,19 @@
 ![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=therealsujitk-vercel-badge)
 
+# Maze
+
+## Algorithms for maze generation
+
+Welcome! This repo is where I work on my passion for creating mazes with code.
+
+It is a work in progress and I welcome contributors of ideas, comments, or code.
+
+View the latest deployed version of this app [here](https://maze-kevinmaes.vercel.app/)!
+
+Thanks for visiting!
+
+---
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
