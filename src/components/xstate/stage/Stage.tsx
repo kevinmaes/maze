@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAnimationFrame } from '../../hooks/useAnimationFrame';
 import Grid from '../generation/Grid';
-import type { Grid as TGrid, GridMethods } from '../generation/Grid';
+import type { Grid as TGrid } from '../generation/Grid';
 import Cell from '../generation/Cell';
 import type { Cell as TCell } from '../generation/Cell';
 import { seek } from '../generation/seek';
@@ -36,7 +36,7 @@ const Stage = ({
 }: Props) => {
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
-  const gridRef = React.useRef<GridMethods>(
+  const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
 

@@ -1,8 +1,8 @@
 import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
-import { Grid as TGrid, GridMethods } from './types';
+import { Grid as TGrid } from './types';
 
-export default class Grid implements TGrid, GridMethods {
+export default class Grid implements TGrid {
   rows: number;
   cols: number;
   cellTotal: number;

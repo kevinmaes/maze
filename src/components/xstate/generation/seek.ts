@@ -1,8 +1,8 @@
-import type { GridMethods } from './Grid';
+import type { GridMethods as Grid } from './Grid';
 import type { Cell } from './Cell';
 
 interface SeekOptions {
-  grid: GridMethods;
+  grid: Grid;
   pathId: string;
   current: Cell | null;
   startIndex: number;
