@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useAnimationFrame } from '../../hooks/useAnimationFrame';
 import Grid from '../generation/Grid';
-import type { Grid as TGrid } from '../generation/Grid';
+import type { Grid as TGrid, GridMethods } from '../generation/Grid';
 import Cell from '../generation/Cell';
 import type { Cell as TCell } from '../generation/Cell';
 import { seek } from '../generation/seek';
@@ -36,7 +36,7 @@ const Stage = ({
 }: Props) => {
   const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
-  const gridRef = React.useRef<TGrid>(
+  const gridRef = React.useRef<GridMethods>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
 
@@ -71,16 +71,16 @@ const Stage = ({
 
       const createGrid = (cellTotal: number, cellSize: number) => {
         // const middleColIndex = Math.floor(gridColumns / 2);
-        const middleRowIndex = Math.floor(gridRef.current.rows / 2);
+        const middleRowIndex = Math.floor(gridRef.current.getRows() / 2);
         const middleIndex =
-          middleRowIndex * gridRef.current.cols + middleRowIndex;
+          middleRowIndex * gridRef.current.getColumns() + middleRowIndex;
 
         for (let index = 0; index < cellTotal; index++) {
           const cell = new Cell({
             canvasCtx,
             index,
-            colIndex: index % gridRef.current.cols,
-            rowIndex: Math.floor(index / gridRef.current.cols),
+            colIndex: index % gridRef.current.getColumns(),
+            rowIndex: Math.floor(index / gridRef.current.getRows()),
             size: cellSize,
             borderWeight,
             visitedColor: 'rgb(208, 222, 247)',
@@ -168,10 +168,9 @@ const Stage = ({
       // const gridRefElement: TGrid = gridRef.current as unknown as TGrid;
 
       // if (gridRefElement) {
-      //   // for (let cell of gridRef.current.cells) {
-      //   for (let cell of gridRefElement.getCells()) {
-      //     cell.draw();
-      //   }
+      for (let cell of gridRef.current.getCells()) {
+        cell.draw();
+      }
       // }
     }
   });

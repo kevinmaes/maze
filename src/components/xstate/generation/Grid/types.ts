@@ -8,6 +8,12 @@ export interface Grid {
   cellSize?: number;
   canvasCtx?: any;
   cells?: TCell[];
-  getNeighbors?: Function;
-  getCells?: Function;
+}
+
+export interface GridMethods {
+  getCells: Function;
+  getRows: Function;
+  getColumns: Function;
+  getNeighbors: Function;
+  pickNeighbor: Function;
 }

@@ -1,8 +1,8 @@
-import type { Grid } from './Grid';
+import type { GridMethods } from './Grid';
 import type { Cell } from './Cell';
 
 interface SeekOptions {
-  grid: Grid;
+  grid: GridMethods;
   pathId: string;
   current: Cell | null;
   startIndex: number;
@@ -11,7 +11,7 @@ interface SeekOptions {
 }
 
 export const seek = ({
-  grid: any,
+  grid,
   pathId,
   current,
   startIndex = 0,
@@ -27,10 +27,10 @@ export const seek = ({
     }
   } else {
     if (endIndex !== null) {
-      next = grid.cells[endIndex];
+      next = grid.getCells()[endIndex];
       next.isEnd = true;
     } else {
-      next = grid.cells[startIndex];
+      next = grid.getCells()[startIndex];
       next.isStart = true;
     }
 

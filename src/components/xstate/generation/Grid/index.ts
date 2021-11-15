@@ -1,5 +1,5 @@
 import Grid from './Grid';
 
-export type { Grid } from './types';
+export type { Grid, GridMethods } from './types';
 
 export default Grid;
