@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useAnimationFrame } from '../../hooks/useAnimationFrame';
 import Grid from '../generation/Grid';
-import type { Grid as TGrid } from '../generation/Grid';
+// import type { Grid as TGrid } from '../generation/Grid';
 import Cell from '../generation/Cell';
-import type { Cell as TCell } from '../generation/Cell';
+// import type { Cell as TCell } from '../generation/Cell';
 import { seek } from '../generation/seek';
 import { Canvas } from './Stage.css';
 
@@ -34,7 +34,7 @@ const Stage = ({
   gridColumns,
   gridRows,
 }: Props) => {
-  const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
+  // const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
@@ -50,14 +50,14 @@ const Stage = ({
   const endIndex = cellTotal - 1;
 
   React.useEffect(() => {
-    gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
+    // gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
     // currentCellZRef.current = null;
     stackARef.current = [];
     // stackZRef.current = [];
 
     // Reset the pathsAreConnected when drawing this new maze.
-    setPathsAreConnected(false);
+    // setPathsAreConnected(false);
   }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {
@@ -76,6 +76,9 @@ const Stage = ({
           middleRowIndex * gridRef.current.getColumns() + middleRowIndex;
 
         for (let index = 0; index < cellTotal; index++) {
+          // const [pathsAreConnected, setPathsAreConnected] =
+          //   React.useState(false);
+          // console.log('canvasCtx before new Cell', canvasCtx);
           const cell = new Cell({
             canvasCtx,
             index,
@@ -91,7 +94,7 @@ const Stage = ({
             renderInitial: true,
           });
 
-          // gridRef.current.cells.push(cell);
+          gridRef.current.cells.push(cell);
         }
       };
 
@@ -121,7 +124,7 @@ const Stage = ({
         pathId: 'a',
         current: currentCellARef.current,
         startIndex: START_INDEX,
-        stack: stackARef.current,
+        // stack: stackARef.current,
       });
 
       // // Seek path Z.

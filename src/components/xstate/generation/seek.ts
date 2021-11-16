@@ -1,13 +1,14 @@
-import type { GridMethods as Grid } from './Grid';
+// import type { GridMethods as Grid, GridMethods } from './Grid';
+// import type { GridMethods } from './Grid';
 import type { Cell } from './Cell';
 
 interface SeekOptions {
-  grid: Grid;
+  // grid: Grid | GridMethods;
+  grid: any;
   pathId: string;
   current: Cell | null;
   startIndex: number;
   endIndex?: number | null;
-  stack: Cell[];
 }
 
 export const seek = ({

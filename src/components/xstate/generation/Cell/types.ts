@@ -13,6 +13,13 @@ export interface Cell {
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;
-  draw?: Function;
+}
+
+export interface CellMethods {
+  draw: Function;
   connect?: Function;
+  isVisited: Function;
+  setAsBacktrack: Function;
+  setAsVisited: Function;
+  getIndex: Function;
 }

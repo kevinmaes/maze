@@ -1,7 +1,8 @@
 import React from 'react';
 
 import './App.css';
-import Stage from '../stage/Stage';
+// import Stage from '../stage/Stage';
+import Stage from '../xstate/stage';
 import { useTypesafeActions } from '../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
@@ -130,7 +131,7 @@ const App = () => {
           />
         </label>
         <button
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             actions.createPlayRequest(new Date().getTime());
           }}

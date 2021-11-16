@@ -1,4 +1,5 @@
 import { DIRECTIONS } from '../directions';
+import type { Cell as TCell, CellMethods } from '../Cell';
 import Cell from '../Cell';
 import { Grid as TGrid } from './types';
 
@@ -71,9 +72,9 @@ export default class Grid implements TGrid {
     return this.cols;
   }
 
-  getStartCell() {
+  getStartCell(): TCell {
     const startCell = this.getCellByIndex();
-    startCell.visited = true;
+    startCell.setAsVisited();
     return startCell;
   }
 
@@ -81,7 +82,7 @@ export default class Grid implements TGrid {
     return this.cells[index];
   }
 
-  getNeighbors(cell: Cell) {
+  getNeighbors(cell: TCell) {
     const neighbors = DIRECTIONS.map((direction) => {
       const [nRowIndex, nColIndex] = direction.getIndices(
         cell.rowIndex,
@@ -105,13 +106,13 @@ export default class Grid implements TGrid {
     return neighbors;
   }
 
-  getUnvisitedNeighbors(cell: Cell) {
-    return this.getNeighbors(cell).filter((neighbor: Cell) => {
+  getUnvisitedNeighbors(cell: TCell) {
+    return this.getNeighbors(cell).filter((neighbor: CellMethods) => {
       return !neighbor.isVisited();
     });
   }
 
-  pickNeighbor(cell: Cell) {
+  pickNeighbor(cell: TCell) {
     const neighbors = this.getUnvisitedNeighbors(cell);
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];

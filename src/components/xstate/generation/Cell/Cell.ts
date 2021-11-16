@@ -78,6 +78,10 @@ export default class Cell implements TCell {
     this.visited = false;
   }
 
+  getIndex() {
+    return this.index;
+  }
+
   getConnections() {
     return this.connections;
   }
@@ -120,6 +124,14 @@ export default class Cell implements TCell {
 
   isVisited() {
     return this.visited;
+  }
+
+  setAsBacktrack() {
+    this.backtrack = true;
+  }
+
+  setAsVisited() {
+    this.visited = true;
   }
 
   visit(prevCell: Cell, pathId: string) {
@@ -171,6 +183,7 @@ export default class Cell implements TCell {
   drawFill(color: string) {
     const fillX = this.x + 0.5 * this.borderWeight;
     const fillY = this.y + 0.5 * this.borderWeight;
+    console.log('canvas', this.canvasCtx);
 
     this.canvasCtx.fillStyle = color;
     this.canvasCtx.fillRect(fillX, fillY, this.size, this.size);
