@@ -7,15 +7,11 @@ export default class Cell {
     this.visited = false;
   }
 
-  getConnections() {
-    return this.connections;
-  }
-
   isVisited() {
     return this.visited;
   }
 
-  visit(prevCell, pathId) {
+  visit() {
     this.visited = true;
 
     return this;

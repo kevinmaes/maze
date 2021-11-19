@@ -15,10 +15,9 @@ export const machine = createMachine(
     initial: 'start',
     context: {
       settings: {
-        gridColumns: 4,
-        gridRows: 4,
+        gridColumns: 2,
+        gridRows: 2,
         startIndex: 0,
-        pathId: 'a',
       },
       grid: null,
       currentCell: null,
@@ -100,7 +99,7 @@ export const machine = createMachine(
 
         // If next cell is found, mark it as visited.
         if (next) {
-          next.visit(currentCell);
+          next.visit();
         }
 
         return { currentCell: next };

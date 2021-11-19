@@ -14,7 +14,6 @@ export default class Grid {
   create() {
     for (let index = 0; index < this.cellTotal; index++) {
       const cell = new Cell({
-        canvasCtx: this.canvasCtx,
         index,
         colIndex: index % this.cols,
         rowIndex: Math.floor(index / this.cols),
@@ -22,6 +21,10 @@ export default class Grid {
 
       this.cells.push(cell);
     }
+  }
+
+  getCells() {
+    return this.cells;
   }
 
   getStartCell() {
