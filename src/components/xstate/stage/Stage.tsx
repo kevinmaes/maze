@@ -41,24 +41,11 @@ const Stage = ({
   );
 
   const currentCellARef = React.useRef<Cell | null>(null);
-  // const currentCellZRef = React.useRef<Cell | null>(null);
   const stackARef = React.useRef<Cell[]>([]);
-  // const stackZRef = React.useRef<Cell[]>([]);
 
   const cellTotal = gridColumns * gridRows;
 
   const endIndex = cellTotal - 1;
-
-  React.useEffect(() => {
-    // gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
-    currentCellARef.current = null;
-    // currentCellZRef.current = null;
-    stackARef.current = [];
-    // stackZRef.current = [];
-
-    // Reset the pathsAreConnected when drawing this new maze.
-    // setPathsAreConnected(false);
-  }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
@@ -69,36 +56,13 @@ const Stage = ({
       canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
       canvasCtx.fillRect(0, 0, width, height);
 
-      const createGrid = (cellTotal: number, cellSize: number) => {
-        // const middleColIndex = Math.floor(gridColumns / 2);
-        const middleRowIndex = Math.floor(gridRef.current.getRows() / 2);
-        const middleIndex =
-          middleRowIndex * gridRef.current.getColumns() + middleRowIndex;
-
-        for (let index = 0; index < cellTotal; index++) {
-          // const [pathsAreConnected, setPathsAreConnected] =
-          //   React.useState(false);
-          // console.log('canvasCtx before new Cell', canvasCtx);
-          const cell = new Cell({
-            canvasCtx,
-            index,
-            colIndex: index % gridRef.current.getColumns(),
-            rowIndex: Math.floor(index / gridRef.current.getRows()),
-            size: cellSize,
-            borderWeight,
-            visitedColor: 'rgb(208, 222, 247)',
-            backtrackColor: '#fff',
-            isStart: index === START_INDEX,
-            isMiddle: index === middleIndex,
-            isEnd: index === endIndex,
-            renderInitial: true,
-          });
-
-          gridRef.current.cells.push(cell);
-        }
-      };
-
-      createGrid(cellTotal, cellSize);
+      gridRef.current = new Grid({
+        cols: gridColumns,
+        rows: gridRows,
+        canvasCtx,
+        cellSize,
+        borderWeight,
+      });
     }
   }, [
     playRequestTS,
@@ -115,9 +79,7 @@ const Stage = ({
   ]);
 
   useAnimationFrame({ fps }, (deltaTime: number) => {
-    // const canvasElement = canvas.current;
     if (canvas && canvas.current) {
-      // if (canvas && canvasElement) {
       // Seek path A
       currentCellARef.current = seek({
         grid: gridRef.current,
@@ -168,13 +130,9 @@ const Stage = ({
       // }
 
       // Draw all cells.
-      // const gridRefElement: TGrid = gridRef.current as unknown as TGrid;
-
-      // if (gridRefElement) {
       for (let cell of gridRef.current.getCells()) {
         cell.draw();
       }
-      // }
     }
   });
 

@@ -183,7 +183,6 @@ export default class Cell implements TCell {
   drawFill(color: string) {
     const fillX = this.x + 0.5 * this.borderWeight;
     const fillY = this.y + 0.5 * this.borderWeight;
-    console.log('canvas', this.canvasCtx);
 
     this.canvasCtx.fillStyle = color;
     this.canvasCtx.fillRect(fillX, fillY, this.size, this.size);
