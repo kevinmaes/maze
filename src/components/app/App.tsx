@@ -9,7 +9,7 @@ import { Form } from './App.css.js';
 
 const FPS_DEFAULT = 60;
 const BORDER_WEIGHT_DEFAULT = 1;
-const GRID_SIZE_DEFAULT = 30;
+const GRID_SIZE_DEFAULT = 10;
 
 const APP_WIDTH = 800;
 const APP_HEIGHT = 600;
@@ -91,7 +91,7 @@ const App = () => {
             name="borderWeight"
             value={state.borderWeight}
             min="1"
-            max="10"
+            max={0.5 * state.cellSize}
             onMouseDown={() => actions.setSettingsChanging(true)}
             onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
