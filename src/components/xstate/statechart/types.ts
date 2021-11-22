@@ -6,9 +6,10 @@ export interface Settings {
   gridRows: number;
   startIndex: number;
   pathId: string;
+  fps: number;
 }
 
-type CurrentCell = Cell | CellMethods;
+export type CurrentCell = Cell | CellMethods;
 // type NeighborCell = Cell | CellMethods;
 type StackCell = Cell | CellMethods;
 
@@ -24,9 +25,22 @@ export interface MazeGenerationContext {
   stack: StackCell[];
 }
 
-export type MazeGenerationEvent = { type: 'RESTART' };
+export type MazeGenerationEvent =
+  | { type: 'INJECT_REFS'; gridRef: any }
+  | { type: 'RESTART' };
 
 export type Typestate =
+  | {
+      value: 'idle';
+      context: {
+        settings: Settings;
+        grid: undefined;
+        currentCell: undefined;
+        unvisitedNeighbors: [];
+        stack: StackCell[];
+        fps: number;
+      };
+    }
   | {
       value: 'start';
       context: {
@@ -35,6 +49,7 @@ export type Typestate =
         currentCell: undefined;
         unvisitedNeighbors: [];
         stack: StackCell[];
+        fps: number;
       };
     }
   | {
@@ -45,6 +60,7 @@ export type Typestate =
         currentCell: CurrentCell;
         unvisitedNeighbors: [];
         stack: [];
+        fps: number;
       };
     }
   | {
@@ -55,6 +71,7 @@ export type Typestate =
         currentCell: CurrentCell;
         unvisitedNeighbors: [];
         stack: [];
+        fps: number;
       };
     }
   | {
@@ -65,6 +82,7 @@ export type Typestate =
         currentCell: CurrentCell;
         unvisitedNeighbors: [];
         stack: [];
+        fps: number;
       };
     }
   | {
@@ -75,5 +93,6 @@ export type Typestate =
         currentCell: CurrentCell;
         unvisitedNeighbors: [];
         stack: [];
+        fps: number;
       };
     };

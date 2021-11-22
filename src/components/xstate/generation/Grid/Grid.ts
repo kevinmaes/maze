@@ -117,4 +117,12 @@ export default class Grid implements TGrid {
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];
   }
+
+  // Draw all cells.
+  draw() {
+    const cells = this.getCells();
+    for (let cell of cells) {
+      cell.draw();
+    }
+  }
 }

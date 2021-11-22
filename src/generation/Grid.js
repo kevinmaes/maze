@@ -8,7 +8,7 @@ export default class Grid {
   }
 
   getNeighbors(cell) {
-    const neighbors = DIRECTIONS.map(direction => {
+    const neighbors = DIRECTIONS.map((direction) => {
       const [nRowIndex, nColIndex] = direction.getIndices(
         cell.rowIndex,
         cell.colIndex
@@ -25,13 +25,13 @@ export default class Grid {
       const index = nRowIndex * this.cols + nColIndex;
       return index;
     })
-      .filter(index => index !== null)
-      .map(index => this.cells[index]);
+      .filter((index) => index !== null)
+      .map((index) => this.cells[index]);
     return neighbors;
   }
 
   getUnvisitedNeighbors(cell) {
-    return this.getNeighbors(cell).filter(neighbor => {
+    return this.getNeighbors(cell).filter((neighbor) => {
       return !neighbor.isVisited();
     });
   }

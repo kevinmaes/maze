@@ -8,9 +8,9 @@ import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form } from './App.css.js';
 
-const FPS_DEFAULT = 10;
+const FPS_DEFAULT = 60;
 const BORDER_WEIGHT_DEFAULT = 1;
-const GRID_SIZE_DEFAULT = 10;
+const GRID_SIZE_DEFAULT = 3;
 
 const APP_WIDTH = 800;
 const APP_HEIGHT = 600;

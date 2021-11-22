@@ -1,5 +1,4 @@
 import { createMachine, interpret, assign } from 'xstate';
-import { inspect } from '@xstate/inspect';
 import type {
   MazeGenerationContext,
   MazeGenerationEvent,
@@ -12,12 +11,6 @@ import type { GridMethods } from '../generation/Grid';
 import { seek } from '../generation/seek';
 import { Cell, CellMethods } from '../generation/Cell';
 
-inspect({
-  url: 'https://statecharts.io/inspect',
-  iframe: false,
-  // iframe: () => document.querySelector("iframe[data-xstate]")
-});
-
 export const machine = createMachine<
   MazeGenerationContext,
   MazeGenerationEvent,
@@ -26,13 +19,14 @@ export const machine = createMachine<
   {
     id: 'maze-generation',
     strict: false,
-    initial: 'start',
+    initial: 'idle',
     context: {
       settings: {
-        gridColumns: 3,
-        gridRows: 3,
+        gridColumns: 0,
+        gridRows: 0,
         startIndex: 0,
         pathId: 'abc',
+        fps: 0,
       },
       grid: undefined,
       currentCell: undefined,
@@ -40,13 +34,17 @@ export const machine = createMachine<
       stack: [],
     },
     states: {
+      idle: {
+        on: {
+          INJECT_REFS: { target: 'start' },
+        },
+      },
       start: {
         entry: [
           () => {
             console.log('------------ START -------------');
           },
-          'initGrid',
-          // 'pickStartCell',
+          'initGeneration',
           'pushToStack',
         ],
         after: {
@@ -56,11 +54,19 @@ export const machine = createMachine<
       seek: {
         // entry: ['findNeighbors'],
         entry: [
-          assign(({ grid, currentCell }) => ({
-            unvisitedNeighbors: (grid as GridMethods).getUnvisitedNeighbors(
-              currentCell
-            ),
-          })),
+          assign(({ grid, currentCell }) => {
+            // console.log('finding neighbors');
+            const unvisitedNeighbors = (
+              grid as GridMethods
+            ).getUnvisitedNeighbors(currentCell);
+            // console.log('unvisited', unvisitedNeighbors);
+            return { unvisitedNeighbors };
+            // return {
+            //   unvisitedNeighbors: (grid as GridMethods).getUnvisitedNeighbors(
+            //     currentCell
+            //   ),
+            // };
+          }),
         ],
         always: [{ target: 'advance' }],
       },
@@ -68,6 +74,7 @@ export const machine = createMachine<
         always: [{ target: 'backtrack', cond: 'isDeadEnd' }],
         entry: ['pickNextCell', 'pushToStack'],
         after: {
+          // 1000: { target: 'seek' },
           SEEK_INTERVAL: { target: 'seek' },
         },
       },
@@ -100,33 +107,29 @@ export const machine = createMachine<
       },
     },
     actions: {
-      // createGrid: assign(
-      //   ({ settings: { gridColumns, gridRows, startIndex } }) => ({
-      //     grid: new Grid({
-      //       cols: gridColumns,
-      //       rows: gridRows,
-      //       startIndex: startIndex,
-      //     }),
-      //   })
+      initGeneration: assign(({ settings }, { gridRef, fps }: any) => {
+        const newSettings = {
+          ...settings,
+          gridColumns: gridRef.current.cols,
+          gridRows: gridRef.current.rows,
+          fps,
+        };
+        const currentCell = gridRef.current.getStartCell();
+        // console.log('currentCell (start)', currentCell);
+
+        return {
+          settings,
+          grid: gridRef.current,
+          currentCell,
+        };
+      }),
+
+      //     return {
+      //       grid: gridRef.current,
+      //       currentCell: gridRef.current.getStartCell(),
+      //     };
+      //   }
       // ),
-      // pickStartCell: assign(({ grid }) => ({
-      //   currentCell: grid.getStartCell(),
-      // })),
-
-      initGrid: assign(
-        ({ settings: { gridColumns, gridRows, startIndex } }) => {
-          const grid = new Grid({
-            cols: gridColumns,
-            rows: gridRows,
-            startIndex: startIndex,
-          });
-
-          return {
-            grid,
-            currentCell: grid.getStartCell(),
-          };
-        }
-      ),
 
       // pickStartCell: assign(({ grid }, event) => {
       //   // if (event.type !== 'RESTART') {
@@ -148,9 +151,11 @@ export const machine = createMachine<
         }),
       })),
       pushToStack: assign(({ stack, currentCell }) => {
+        // console.log('action: pushToStack', currentCell);
         if (currentCell) {
           stack.push(currentCell);
         }
+        // console.log('stack length', stack.length);
         return { stack };
       }),
       popFromStack: assign(({ stack }) => {
@@ -161,16 +166,20 @@ export const machine = createMachine<
       }),
     },
     delays: {
-      SEEK_INTERVAL: 100,
+      SEEK_INTERVAL: ({ settings: { fps = 1000 } }) => {
+        const ms = 1000 / fps;
+        console.log('SEEK_INTERVAL', fps);
+        // return ms;
+        return 1000;
+      },
     },
   }
 );
 
-// const service = interpret(machine, { devTools: true }).onTransition((state) => {
-//   console.log(
-//     `state: ${state.value}, cell index: ${state.context.currentCell.index}`
-//   );
-// });
+const service = interpret(machine).onTransition((state) => {
+  const currentCell = state.context.currentCell as CellMethods;
+  console.log(`state: ${state.value}, cell index: ${currentCell.getIndex()}`);
+});
 
 // service.start();
 
