@@ -68,6 +68,7 @@ const Stage = ({
   React.useEffect(() => {
     if (canvas && canvas.current && gridRef.current) {
       const canvasCtx = canvas.current.getContext('2d');
+      canvasCtx.clearRect(0, 0, width, height);
 
       // canvasCtx.save();
       // canvasCtx.scale(pixelRatio, pixelRatio);
