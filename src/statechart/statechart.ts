@@ -5,10 +5,10 @@ import type {
   Typestate,
 } from './types';
 
-import type { GridMethods } from '../generation/Grid';
+import type { GridMethods } from '../components/generation/Grid';
 
-import { seek } from '../generation/seek';
-import { Cell, CellMethods } from '../generation/Cell';
+import { seek } from '../components/generation/seek';
+import { Cell, CellMethods } from '../components/generation/Cell';
 
 export const machine = createMachine<
   MazeGenerationContext,

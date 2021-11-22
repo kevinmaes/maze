@@ -18,5 +18,5 @@
     "typeRoots": ["types", "node_modules/@types"],
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src", "reference/generation", "reference/stage"]
 }
