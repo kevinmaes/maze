@@ -217,6 +217,9 @@ export default class Cell implements TCell {
     }
 
     if (this.walls[WEST]) {
+      if (this.isStart) {
+        return;
+      }
       this.line(this.x, this.y, this.x, this.y + this.size);
     }
   }
