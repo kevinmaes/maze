@@ -70,10 +70,10 @@ const Stage = ({
     if (canvas && canvas.current && gridRef.current) {
       const canvasCtx = canvas.current.getContext('2d');
 
-      canvasCtx.save();
-      canvasCtx.scale(pixelRatio, pixelRatio);
-      canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
-      canvasCtx.fillRect(0, 0, width, height);
+      // canvasCtx.save();
+      // canvasCtx.scale(pixelRatio, pixelRatio);
+      // canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
+      // canvasCtx.fillRect(0, 0, width, height);
 
       gridRef.current = new Grid({
         cols: gridColumns,
@@ -160,9 +160,8 @@ const Stage = ({
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
-  const style = { width, height, border: '1px solid black' };
 
-  return <Canvas ref={canvas} width={dw} height={dh} style={style} />;
+  return <Canvas ref={canvas} width={dw} height={dh} />;
 };
 
 export default React.memo(Stage, (_, { settingsChanging }) => settingsChanging);
