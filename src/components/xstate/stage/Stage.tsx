@@ -2,9 +2,7 @@ import React from 'react';
 
 import { useAnimationFrame } from '../../hooks/useAnimationFrame';
 import Grid from '../generation/Grid';
-// import type { Grid as TGrid } from '../generation/Grid';
 import Cell from '../generation/Cell';
-// import type { Cell as TCell } from '../generation/Cell';
 import { seek } from '../generation/seek';
 import { Canvas } from './Stage.css';
 
