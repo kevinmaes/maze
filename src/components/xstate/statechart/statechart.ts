@@ -32,12 +32,11 @@ export const machine = createMachine<
       unvisitedNeighbors: [],
       stack: [],
     },
+    on: {
+      INJECT_REFS: { target: 'start' },
+    },
     states: {
-      idle: {
-        on: {
-          INJECT_REFS: { target: 'start' },
-        },
-      },
+      idle: {},
       start: {
         entry: [
           () => {
