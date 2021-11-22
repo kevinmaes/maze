@@ -199,12 +199,14 @@ export default class Cell implements TCell {
     }
 
     if (this.walls[EAST]) {
-      this.line(
-        this.x + this.size,
-        this.y,
-        this.x + this.size,
-        this.y + this.size
-      );
+      if (!this.isEnd) {
+        this.line(
+          this.x + this.size,
+          this.y,
+          this.x + this.size,
+          this.y + this.size
+        );
+      }
     }
 
     if (this.walls[SOUTH]) {
@@ -217,10 +219,9 @@ export default class Cell implements TCell {
     }
 
     if (this.walls[WEST]) {
-      if (this.isStart) {
-        return;
+      if (!this.isStart) {
+        this.line(this.x, this.y, this.x, this.y + this.size);
       }
-      this.line(this.x, this.y, this.x, this.y + this.size);
     }
   }
 
