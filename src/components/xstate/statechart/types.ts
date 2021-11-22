@@ -10,11 +10,9 @@ export interface Settings {
 }
 
 export type CurrentCell = Cell | CellMethods;
-// type NeighborCell = Cell | CellMethods;
 type StackCell = Cell | CellMethods;
 
 export type ContextGrid = Grid | GridMethods;
-// type ContextGrid = GridMethods;
 
 export interface MazeGenerationContext {
   settings: Settings;
