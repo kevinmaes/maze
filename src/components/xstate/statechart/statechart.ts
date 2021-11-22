@@ -1,11 +1,10 @@
-import { createMachine, interpret, assign } from 'xstate';
+import { createMachine, assign } from 'xstate';
 import type {
   MazeGenerationContext,
   MazeGenerationEvent,
   Typestate,
 } from './types';
 
-import Grid from '../generation/Grid';
 import type { GridMethods } from '../generation/Grid';
 
 import { seek } from '../generation/seek';
@@ -59,7 +58,6 @@ export const machine = createMachine<
         always: [{ target: 'backtrack', cond: 'isDeadEnd' }],
         entry: ['pickNextCell', 'pushToStack'],
         after: {
-          // 1000: { target: 'seek' },
           SEEK_INTERVAL: { target: 'seek' },
         },
       },
@@ -140,15 +138,3 @@ export const machine = createMachine<
     },
   }
 );
-
-const service = interpret(machine).onTransition((state) => {
-  const currentCell = state.context.currentCell as CellMethods;
-  console.log(`state: ${state.value}, cell index: ${currentCell.getIndex()}`);
-});
-
-// service.start();
-
-// // Listen for restart.
-// document.getElementById('restart').addEventListener('click', () => {
-//   service.send('RESTART');
-// });
