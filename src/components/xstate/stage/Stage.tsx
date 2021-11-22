@@ -67,9 +67,7 @@ const Stage = ({
   // }, []);
 
   React.useEffect(() => {
-    console.log('useEffect');
     if (canvas && canvas.current && gridRef.current) {
-      console.log('useEffect conditional');
       const canvasCtx = canvas.current.getContext('2d');
 
       canvasCtx.save();
