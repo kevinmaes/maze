@@ -26,7 +26,7 @@ export const machine = createMachine<
         gridRows: 0,
         startIndex: 0,
         pathId: 'abc',
-        fps: 0,
+        fps: 3,
       },
       grid: undefined,
       currentCell: undefined,
@@ -108,6 +108,7 @@ export const machine = createMachine<
     },
     actions: {
       initGeneration: assign(({ settings }, { gridRef, fps }: any) => {
+        // console.log('initGeneration fps', fps);
         const newSettings = {
           ...settings,
           gridColumns: gridRef.current.cols,
@@ -118,7 +119,7 @@ export const machine = createMachine<
         // console.log('currentCell (start)', currentCell);
 
         return {
-          settings,
+          settings: newSettings,
           grid: gridRef.current,
           currentCell,
         };
@@ -166,11 +167,8 @@ export const machine = createMachine<
       }),
     },
     delays: {
-      SEEK_INTERVAL: ({ settings: { fps = 1000 } }) => {
-        const ms = 1000 / fps;
-        console.log('SEEK_INTERVAL', fps);
-        // return ms;
-        return 1000;
+      SEEK_INTERVAL: ({ settings: { fps } }) => {
+        return 1000 / fps;
       },
     },
   }

@@ -10,13 +10,13 @@ import { Form } from './App.css.js';
 
 const FPS_DEFAULT = 60;
 const BORDER_WEIGHT_DEFAULT = 1;
-const GRID_SIZE_DEFAULT = 3;
+const GRID_SIZE_DEFAULT = 30;
 
 const APP_WIDTH = 800;
 const APP_HEIGHT = 600;
 
 const CellSize = {
-  DEFAULT: 20,
+  DEFAULT: 10,
   MIN: 5,
   MAX: 100,
 };
