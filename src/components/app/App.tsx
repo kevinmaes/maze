@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './App.css';
-// import Stage from '../stage/Stage';
 import Stage from '../xstate/stage';
 import { useTypesafeActions } from '../hooks/useTypesafeActions';
 import { AppState } from './types';
