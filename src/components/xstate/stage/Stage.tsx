@@ -83,7 +83,6 @@ const Stage = ({
         borderWeight,
       });
 
-      console.log('injecting fps', fps);
       send('INJECT_REFS', { gridRef, fps });
     }
   }, [

@@ -52,22 +52,7 @@ export const machine = createMachine<
         },
       },
       seek: {
-        // entry: ['findNeighbors'],
-        entry: [
-          assign(({ grid, currentCell }) => {
-            // console.log('finding neighbors');
-            const unvisitedNeighbors = (
-              grid as GridMethods
-            ).getUnvisitedNeighbors(currentCell);
-            // console.log('unvisited', unvisitedNeighbors);
-            return { unvisitedNeighbors };
-            // return {
-            //   unvisitedNeighbors: (grid as GridMethods).getUnvisitedNeighbors(
-            //     currentCell
-            //   ),
-            // };
-          }),
-        ],
+        entry: ['findNeighbors'],
         always: [{ target: 'advance' }],
       },
       advance: {
@@ -108,7 +93,6 @@ export const machine = createMachine<
     },
     actions: {
       initGeneration: assign(({ settings }, { gridRef, fps }: any) => {
-        // console.log('initGeneration fps', fps);
         const newSettings = {
           ...settings,
           gridColumns: gridRef.current.cols,
@@ -116,7 +100,6 @@ export const machine = createMachine<
           fps,
         };
         const currentCell = gridRef.current.getStartCell();
-        // console.log('currentCell (start)', currentCell);
 
         return {
           settings: newSettings,
@@ -124,25 +107,11 @@ export const machine = createMachine<
           currentCell,
         };
       }),
-
-      //     return {
-      //       grid: gridRef.current,
-      //       currentCell: gridRef.current.getStartCell(),
-      //     };
-      //   }
-      // ),
-
-      // pickStartCell: assign(({ grid }, event) => {
-      //   // if (event.type !== 'RESTART') {
-      //   //   return;
-      //   // }
-      //   return {
-      //     currentCell: grid?.getStartCell(),
-      //   };
-      // }),
-      // findNeighbors: assign(({ grid, currentCell }) => ({
-      //   unvisitedNeighbors: grid.getUnvisitedNeighbors(currentCell),
-      // })),
+      findNeighbors: assign(({ grid, currentCell }) => ({
+        unvisitedNeighbors: (grid as GridMethods).getUnvisitedNeighbors(
+          currentCell
+        ),
+      })),
       pickNextCell: assign(({ settings, grid, currentCell }) => ({
         currentCell: seek({
           grid,
@@ -152,17 +121,15 @@ export const machine = createMachine<
         }),
       })),
       pushToStack: assign(({ stack, currentCell }) => {
-        // console.log('action: pushToStack', currentCell);
         if (currentCell) {
           stack.push(currentCell);
         }
-        // console.log('stack length', stack.length);
         return { stack };
       }),
       popFromStack: assign(({ stack }) => {
         const prevCell = stack.pop() as CellMethods;
         prevCell?.setAsBacktrack();
-        console.log(`  (backtrack to cell index: ${prevCell?.getIndex()})`);
+        // console.log(`  (backtrack to cell index: ${prevCell?.getIndex()})`);
         return { stack, currentCell: prevCell };
       }),
     },
