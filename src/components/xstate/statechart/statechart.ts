@@ -102,6 +102,7 @@ export const machine = createMachine<
           settings: newSettings,
           grid: gridRef.current,
           currentCell,
+          stack: [],
         };
       }),
       findNeighbors: assign(({ grid, currentCell }) => ({
