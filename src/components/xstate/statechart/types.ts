@@ -19,7 +19,6 @@ export interface MazeGenerationContext {
   grid: ContextGrid | undefined;
   currentCell: CurrentCell | undefined;
   unvisitedNeighbors: Cell[];
-  // stack: CellMethods[];
   stack: StackCell[];
 }
 
