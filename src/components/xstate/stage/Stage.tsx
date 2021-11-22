@@ -150,10 +150,6 @@ const Stage = ({
   //     //   }
   //     // }
 
-  // if (state.value === 'advance' || state.value === 'backtrack') {
-  //   gridRef.current.draw();
-  // }
-
   if (gridRef.current && gridRef.current.canvasCtx) {
     gridRef.current.draw();
   }
