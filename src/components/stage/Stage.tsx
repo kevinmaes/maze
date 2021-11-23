@@ -2,7 +2,6 @@ import React from 'react';
 import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
-import Cell from '../generation/Cell';
 import { Canvas } from './Stage.css';
 import { machine } from '../../statechart/statechart';
 
@@ -19,7 +18,7 @@ interface Props {
   settingsChanging: boolean;
 }
 
-const START_INDEX = 0;
+// const START_INDEX = 0;
 
 const Stage = ({
   playRequestTS,
@@ -37,23 +36,12 @@ const Stage = ({
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
-  // let canvasCtx: any;
 
-  // const [state, send] = useMachine(machine, {
-  //   actions: {
-  //     injectRefs: () => {},
-  //   },
-  // });
+  // eslint-disable-next-line
   const [state, send] = useMachine(machine);
 
-  // console.log(
-  //   'current state value',
-  //   state.value,
-  //   (state.context.currentCell as CellMethods)?.getIndex()
-  // );
-
-  const currentCellARef = React.useRef<Cell | null>(null);
-  const stackARef = React.useRef<Cell[]>([]);
+  // const currentCellARef = React.useRef<Cell | null>(null);
+  // const stackARef = React.useRef<Cell[]>([]);
 
   const cellTotal = gridColumns * gridRows;
 
@@ -92,6 +80,7 @@ const Stage = ({
     height,
     pixelRatio,
     width,
+    send,
   ]);
 
   // useAnimationFrame({ fps }, (deltaTime: number) => {
