@@ -2,7 +2,7 @@ import React from 'react';
 import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
-import { Canvas } from './Stage2.css';
+import { Canvas } from './Stage.css';
 import { machine } from '../../statechart/statechart';
 
 interface Props {
