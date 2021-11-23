@@ -34,10 +34,11 @@ const Stage = ({
   gridRows,
 }: Props) => {
   // const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
-  const canvas: any = React.useRef(null);
+  const canvasRef: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
+  let canvasCtx: any;
 
   // const [state, send] = useMachine(machine, {
   //   actions: {
@@ -66,14 +67,13 @@ const Stage = ({
   // }, []);
 
   React.useEffect(() => {
-    if (canvas && canvas.current && gridRef.current) {
-      const canvasCtx = canvas.current.getContext('2d');
-      canvasCtx.clearRect(0, 0, width, height);
-
-      // canvasCtx.save();
-      // canvasCtx.scale(pixelRatio, pixelRatio);
-      // canvasCtx.fillStyle = 'hsl(0, 0%, 95%)';
-      // canvasCtx.fillRect(0, 0, width, height);
+    if (canvasRef && canvasRef.current && gridRef.current) {
+      if (canvasCtx) {
+        canvasCtx.restore();
+      } else {
+        canvasCtx = canvasRef.current.getContext('2d');
+        canvasCtx.save();
+      }
 
       gridRef.current = new Grid({
         cols: gridColumns,
@@ -157,7 +157,7 @@ const Stage = ({
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
 
-  return <Canvas ref={canvas} width={dw} height={dh} />;
+  return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
 
 export default React.memo(Stage, (_, { settingsChanging }) => settingsChanging);
