@@ -29,7 +29,7 @@ export const machine = createMachine<
       },
       grid: undefined,
       currentCell: undefined,
-      unvisitedNeighbors: [],
+      eligibleNeighbors: [],
       stack: [],
     },
     on: {
@@ -81,8 +81,8 @@ export const machine = createMachine<
   },
   {
     guards: {
-      isDeadEnd: ({ unvisitedNeighbors }) => {
-        return unvisitedNeighbors.length === 0;
+      isDeadEnd: ({ eligibleNeighbors }) => {
+        return eligibleNeighbors.length === 0;
       },
       isBackAtStart: ({ stack }) => {
         return stack.length === 0;
@@ -106,7 +106,7 @@ export const machine = createMachine<
         };
       }),
       findNeighbors: assign(({ grid, currentCell }) => ({
-        unvisitedNeighbors: (grid as GridMethods).getEligibleNeighbors(
+        eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
           currentCell
         ),
       })),
