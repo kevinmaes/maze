@@ -7,7 +7,7 @@ import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form } from './App.css.js';
 
-const FPS_DEFAULT = 12;
+const FPS_DEFAULT = 24;
 const BORDER_WEIGHT_DEFAULT = 1;
 const GRID_SIZE_DEFAULT = 20;
 
@@ -25,7 +25,7 @@ const initialState: AppState = {
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
-  gridColumns: GRID_SIZE_DEFAULT,
+  gridColumns: GRID_SIZE_DEFAULT * 2,
   gridRows: GRID_SIZE_DEFAULT,
   settingsChanging: false,
 };
