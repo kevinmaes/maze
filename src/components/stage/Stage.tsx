@@ -3,7 +3,6 @@ import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
 import Cell, { CellMethods } from '../generation/Cell';
-import { seek } from '../generation/seek';
 import { Canvas } from './Stage.css';
 import { machine } from '../../statechart/statechart';
 
