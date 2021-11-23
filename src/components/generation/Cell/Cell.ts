@@ -199,6 +199,7 @@ export default class Cell implements TCell {
   drawWalls(walls: Walls) {
     const { canvasCtx } = this;
 
+    // Skip drawing walls if this is an internally blocked cell.
     if (this.blockedInternal) {
       return;
     }
