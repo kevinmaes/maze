@@ -1,18 +1,18 @@
 import React from 'react';
 
 import './App.css';
-import Stage from '../stage/Stage';
-import { useTypesafeActions } from '../hooks/useTypesafeActions';
+import Stage from '../Stage';
+import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form } from './App.css.js';
 
-const FPS_DEFAULT = 10;
+const FPS_DEFAULT = 24;
 const BORDER_WEIGHT_DEFAULT = 1;
-const GRID_SIZE_DEFAULT = 10;
+const GRID_SIZE_DEFAULT = 20;
 
-const APP_WIDTH = 800;
-const APP_HEIGHT = 600;
+const APP_WIDTH = window.innerWidth;
+const APP_HEIGHT = window.innerHeight;
 
 const CellSize = {
   DEFAULT: 20,
@@ -25,7 +25,7 @@ const initialState: AppState = {
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
-  gridColumns: GRID_SIZE_DEFAULT,
+  gridColumns: GRID_SIZE_DEFAULT * 2,
   gridRows: GRID_SIZE_DEFAULT,
   settingsChanging: false,
 };
@@ -91,7 +91,7 @@ const App = () => {
             name="borderWeight"
             value={state.borderWeight}
             min="1"
-            max="10"
+            max={0.5 * state.cellSize}
             onMouseDown={() => actions.setSettingsChanging(true)}
             onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
@@ -130,7 +130,7 @@ const App = () => {
           />
         </label>
         <button
-          onClick={event => {
+          onClick={(event) => {
             event.preventDefault();
             actions.createPlayRequest(new Date().getTime());
           }}
