@@ -31,7 +31,6 @@ const Stage = ({
   gridColumns,
   gridRows,
 }: Props) => {
-  // const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvasRef: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
@@ -40,18 +39,9 @@ const Stage = ({
   // eslint-disable-next-line
   const [state, send] = useMachine(machine);
 
-  // const currentCellARef = React.useRef<Cell | null>(null);
-  // const stackARef = React.useRef<Cell[]>([]);
-
   const cellTotal = gridColumns * gridRows;
 
   const endIndex = cellTotal - 1;
-
-  // React.useEffect(() => {
-  //   const machine = createMazeGenerationMachine({
-  //     grid: gridRef.current,
-  //   });
-  // }, []);
 
   React.useEffect(() => {
     if (canvasRef && canvasRef.current && gridRef.current) {
@@ -82,57 +72,6 @@ const Stage = ({
     width,
     send,
   ]);
-
-  // useAnimationFrame({ fps }, (deltaTime: number) => {
-  //   if (canvas && canvas.current) {
-  //     // Seek path A
-  //     currentCellARef.current = seek({
-  //       grid: gridRef.current,
-  //       pathId: 'a',
-  //       current: currentCellARef.current,
-  //       startIndex: START_INDEX,
-  //       // stack: stackARef.current,
-  //     });
-
-  //     // // Seek path Z.
-  //     // currentCellZRef.current = seek({
-  //     //   grid: gridRef.current,
-  //     //   pathId: 'z',
-  //     //   current: currentCellZRef.current,
-  //     //   endIndex,
-  //     //   stack: stackZRef.current,
-  //     // });
-
-  //     // if (!pathsAreConnected && !currentCellARef.current) {
-  //     //   const middleRowIndex = Math.floor(gridRows / 2);
-
-  //     //   for (
-  //     //     let i = middleRowIndex * gridColumns;
-  //     //     i < (middleRowIndex + 1) * gridColumns;
-  //     //     i++
-  //     //   ) {
-  //     //     const thisMiddleRowCell = gridRef.current.cells[i];
-  //     //     const cellANeighbors =
-  //     //       gridRef.current.getNeighbors(thisMiddleRowCell);
-
-  //     //     if (cellANeighbors.length) {
-  //     //       const otherPathNeighbor = cellANeighbors.find((cell: TCell) =>
-  //     //         cell.hasDifferentPathId(thisMiddleRowCell)
-  //     //       );
-
-  //     //       if (otherPathNeighbor) {
-  //     //         thisMiddleRowCell.connect(otherPathNeighbor);
-  //     //         setPathsAreConnected(true);
-  //     //         // console.log(
-  //     //         //   'Paths connect between indices:',
-  //     //         //   thisMiddleRowCell.index,
-  //     //         //   otherPathNeighbor.index
-  //     //         // );
-  //     //         break;
-  //     //       }
-  //     //     }
-  //     //   }
-  //     // }
 
   if (gridRef.current && gridRef.current.canvasCtx) {
     gridRef.current.draw();
