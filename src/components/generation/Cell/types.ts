@@ -19,7 +19,7 @@ export interface Cell {
 export interface CellMethods {
   draw: Function;
   connect?: Function;
-  isVisited: Function;
+  isIneligible: Function;
   setAsBacktrack: Function;
   setAsVisited: Function;
   getIndex: Function;

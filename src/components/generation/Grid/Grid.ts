@@ -119,7 +119,7 @@ export default class Grid implements TGrid {
 
   getUnvisitedNeighbors(cell: TCell) {
     return this.getNeighbors(cell).filter((neighbor: CellMethods) => {
-      return !neighbor.isVisited();
+      return !neighbor.isIneligible();
     });
   }
 

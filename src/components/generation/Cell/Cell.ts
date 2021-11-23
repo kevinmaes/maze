@@ -129,7 +129,7 @@ export default class Cell implements TCell {
     return this;
   }
 
-  isVisited() {
+  isIneligible() {
     return this.visited || this.blockedInternal;
   }
 
