@@ -1,7 +1,7 @@
 import type { Cell, CellMethods } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
-export interface Settings {
+interface Settings {
   gridColumns: number;
   gridRows: number;
   startIndex: number;
