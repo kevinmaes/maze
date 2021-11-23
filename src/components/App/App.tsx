@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './App.css';
-import Stage from '../Stage/Stage';
+import Stage from '../Stage2';
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
