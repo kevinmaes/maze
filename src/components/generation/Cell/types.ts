@@ -13,12 +13,13 @@ export interface Cell {
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;
+  isBlocked: boolean;
 }
 
 export interface CellMethods {
   draw: Function;
   connect?: Function;
-  isVisited: Function;
+  isIneligible: Function;
   setAsBacktrack: Function;
   setAsVisited: Function;
   getIndex: Function;

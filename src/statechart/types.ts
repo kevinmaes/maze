@@ -18,7 +18,7 @@ export interface MazeGenerationContext {
   settings: Settings;
   grid: ContextGrid | undefined;
   currentCell: CurrentCell | undefined;
-  unvisitedNeighbors: Cell[];
+  eligibleNeighbors: Cell[];
   stack: StackCell[];
 }
 
@@ -33,7 +33,7 @@ export type Typestate =
         settings: Settings;
         grid: undefined;
         currentCell: undefined;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: StackCell[];
         fps: number;
       };
@@ -44,7 +44,7 @@ export type Typestate =
         settings: Settings;
         grid: undefined;
         currentCell: undefined;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: StackCell[];
         fps: number;
       };
@@ -55,7 +55,7 @@ export type Typestate =
         settings: Settings;
         grid: ContextGrid;
         currentCell: CurrentCell;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: [];
         fps: number;
       };
@@ -66,7 +66,7 @@ export type Typestate =
         settings: Settings;
         grid: Grid | ContextGrid;
         currentCell: CurrentCell;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: [];
         fps: number;
       };
@@ -77,7 +77,7 @@ export type Typestate =
         settings: Settings;
         grid: Grid | ContextGrid;
         currentCell: CurrentCell;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: [];
         fps: number;
       };
@@ -88,7 +88,7 @@ export type Typestate =
         settings: Settings;
         grid: Grid | ContextGrid;
         currentCell: CurrentCell;
-        unvisitedNeighbors: [];
+        eligibleNeighbors: [];
         stack: [];
         fps: number;
       };

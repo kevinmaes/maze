@@ -9,7 +9,7 @@ import { Form } from './App.css.js';
 
 const FPS_DEFAULT = 24;
 const BORDER_WEIGHT_DEFAULT = 1;
-const GRID_SIZE_DEFAULT = 20;
+const GRID_SIZE_DEFAULT = 15;
 
 const APP_WIDTH = window.innerWidth;
 const APP_HEIGHT = window.innerHeight;
@@ -25,7 +25,8 @@ const initialState: AppState = {
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
-  gridColumns: GRID_SIZE_DEFAULT * 2,
+  // gridColumns: GRID_SIZE_DEFAULT * 2,
+  gridColumns: GRID_SIZE_DEFAULT,
   gridRows: GRID_SIZE_DEFAULT,
   settingsChanging: false,
 };

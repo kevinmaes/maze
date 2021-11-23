@@ -33,6 +33,7 @@ export default class Cell implements TCell {
   backtrack: boolean;
   blockedInternal: boolean;
   blockedExternal: boolean;
+  isBlocked: boolean;
 
   constructor({
     canvasCtx,
@@ -49,6 +50,7 @@ export default class Cell implements TCell {
     isStart = false,
     isMiddle = false,
     isEnd = false,
+    isBlocked = false,
   }: TCell) {
     this.canvasCtx = canvasCtx;
     this.index = index;
@@ -66,6 +68,11 @@ export default class Cell implements TCell {
     this.isStart = isStart;
     this.isMiddle = isMiddle;
     this.isEnd = isEnd;
+    this.isBlocked = isBlocked;
+
+    if (isBlocked) {
+      this.blockedInternal = true;
+    }
 
     this.connections = [];
 
@@ -122,8 +129,8 @@ export default class Cell implements TCell {
     return this;
   }
 
-  isVisited() {
-    return this.visited;
+  isIneligible() {
+    return this.visited || this.blockedInternal;
   }
 
   setAsBacktrack() {
@@ -191,11 +198,16 @@ export default class Cell implements TCell {
   drawWalls(walls: Walls) {
     const { canvasCtx } = this;
 
+    // Skip drawing walls if this is an internally blocked cell.
+    if (this.blockedInternal) {
+      return;
+    }
+
     canvasCtx.strokeStyle = this.borderColor;
     canvasCtx.lineWidth = this.borderWeight;
 
     if (this.walls[NORTH]) {
-      this.line(this.x, this.y, this.x + this.size, this.y);
+      this.line(this.x, this.y, this.x + this.size, this.y, this.borderColor);
     }
 
     if (this.walls[EAST]) {
@@ -204,7 +216,8 @@ export default class Cell implements TCell {
           this.x + this.size,
           this.y,
           this.x + this.size,
-          this.y + this.size
+          this.y + this.size,
+          this.borderColor
         );
       }
     }
@@ -214,13 +227,14 @@ export default class Cell implements TCell {
         this.x,
         this.y + this.size,
         this.x + this.size,
-        this.y + this.size
+        this.y + this.size,
+        this.borderColor
       );
     }
 
     if (this.walls[WEST]) {
       if (!this.isStart) {
-        this.line(this.x, this.y, this.x, this.y + this.size);
+        this.line(this.x, this.y, this.x, this.y + this.size, this.borderColor);
       }
     }
   }
