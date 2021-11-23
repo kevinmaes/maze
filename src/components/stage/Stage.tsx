@@ -38,7 +38,7 @@ const Stage = ({
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
-  let canvasCtx: any;
+  // let canvasCtx: any;
 
   // const [state, send] = useMachine(machine, {
   //   actions: {
@@ -67,13 +67,10 @@ const Stage = ({
   // }, []);
 
   React.useEffect(() => {
+    console.log('rows', gridRows);
     if (canvasRef && canvasRef.current && gridRef.current) {
-      if (canvasCtx) {
-        canvasCtx.restore();
-      } else {
-        canvasCtx = canvasRef.current.getContext('2d');
-        canvasCtx.save();
-      }
+      const canvasCtx = canvasRef.current.getContext('2d');
+      canvasCtx.clearRect(0, 0, width, height);
 
       gridRef.current = new Grid({
         cols: gridColumns,
@@ -156,6 +153,8 @@ const Stage = ({
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
+
+  console.log(dw, dh);
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };

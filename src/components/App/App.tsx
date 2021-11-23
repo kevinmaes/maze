@@ -11,8 +11,8 @@ const FPS_DEFAULT = 12;
 const BORDER_WEIGHT_DEFAULT = 1;
 const GRID_SIZE_DEFAULT = 10;
 
-const APP_WIDTH = 800;
-const APP_HEIGHT = 600;
+const APP_WIDTH = window.innerWidth;
+const APP_HEIGHT = window.innerHeight;
 
 const CellSize = {
   DEFAULT: 10,
