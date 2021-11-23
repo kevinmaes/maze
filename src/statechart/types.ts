@@ -9,7 +9,7 @@ export interface Settings {
   fps: number;
 }
 
-export type CurrentCell = Cell | CellMethods;
+type CurrentCell = Cell | CellMethods;
 type StackCell = Cell | CellMethods;
 
 export type ContextGrid = Grid | GridMethods;
