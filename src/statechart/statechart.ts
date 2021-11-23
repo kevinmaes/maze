@@ -106,7 +106,7 @@ export const machine = createMachine<
         };
       }),
       findNeighbors: assign(({ grid, currentCell }) => ({
-        unvisitedNeighbors: (grid as GridMethods).getUnvisitedNeighbors(
+        unvisitedNeighbors: (grid as GridMethods).getEligibleNeighbors(
           currentCell
         ),
       })),

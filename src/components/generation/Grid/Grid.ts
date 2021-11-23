@@ -117,14 +117,14 @@ export default class Grid implements TGrid {
     return neighbors;
   }
 
-  getUnvisitedNeighbors(cell: TCell) {
+  getEligibleNeighbors(cell: TCell) {
     return this.getNeighbors(cell).filter((neighbor: CellMethods) => {
       return !neighbor.isIneligible();
     });
   }
 
   pickNeighbor(cell: TCell) {
-    const neighbors = this.getUnvisitedNeighbors(cell);
+    const neighbors = this.getEligibleNeighbors(cell);
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];
   }

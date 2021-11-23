@@ -18,5 +18,5 @@ export interface GridMethods {
   getNeighbors: Function;
   pickNeighbor: Function;
   getStartCell: Function;
-  getUnvisitedNeighbors: Function;
+  getEligibleNeighbors: Function;
 }
