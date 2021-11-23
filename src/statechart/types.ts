@@ -35,7 +35,6 @@ export type Typestate =
         currentCell: undefined;
         eligibleNeighbors: [];
         stack: StackCell[];
-        fps: number;
       };
     }
   | {
@@ -46,7 +45,6 @@ export type Typestate =
         currentCell: undefined;
         eligibleNeighbors: [];
         stack: StackCell[];
-        fps: number;
       };
     }
   | {
@@ -57,7 +55,6 @@ export type Typestate =
         currentCell: CurrentCell;
         eligibleNeighbors: [];
         stack: [];
-        fps: number;
       };
     }
   | {
@@ -68,7 +65,6 @@ export type Typestate =
         currentCell: CurrentCell;
         eligibleNeighbors: [];
         stack: [];
-        fps: number;
       };
     }
   | {
@@ -79,7 +75,6 @@ export type Typestate =
         currentCell: CurrentCell;
         eligibleNeighbors: [];
         stack: [];
-        fps: number;
       };
     }
   | {
@@ -90,6 +85,5 @@ export type Typestate =
         currentCell: CurrentCell;
         eligibleNeighbors: [];
         stack: [];
-        fps: number;
       };
     };
