@@ -13,6 +13,7 @@ export interface Cell {
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;
+  isBlocked: boolean;
 }
 
 export interface CellMethods {

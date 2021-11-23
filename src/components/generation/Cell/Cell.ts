@@ -33,6 +33,7 @@ export default class Cell implements TCell {
   backtrack: boolean;
   blockedInternal: boolean;
   blockedExternal: boolean;
+  isBlocked: boolean;
 
   constructor({
     canvasCtx,
@@ -49,6 +50,7 @@ export default class Cell implements TCell {
     isStart = false,
     isMiddle = false,
     isEnd = false,
+    isBlocked = false,
   }: TCell) {
     this.canvasCtx = canvasCtx;
     this.index = index;
@@ -66,6 +68,11 @@ export default class Cell implements TCell {
     this.isStart = isStart;
     this.isMiddle = isMiddle;
     this.isEnd = isEnd;
+    this.isBlocked = isBlocked;
+
+    if (isBlocked) {
+      this.blockedInternal = true;
+    }
 
     this.connections = [];
 
@@ -123,7 +130,7 @@ export default class Cell implements TCell {
   }
 
   isVisited() {
-    return this.visited;
+    return this.visited || this.blockedInternal;
   }
 
   setAsBacktrack() {
@@ -160,6 +167,7 @@ export default class Cell implements TCell {
     switch (true) {
       case this.blockedExternal:
       case this.blockedInternal:
+        console.log('borderColor', this.borderColor);
         return this.borderColor;
       case this.cursor:
         return this.cursorColor;
@@ -191,6 +199,11 @@ export default class Cell implements TCell {
   drawWalls(walls: Walls) {
     const { canvasCtx } = this;
 
+    if (this.blockedInternal) {
+      return;
+    }
+
+    console.log('wall borderColor', this.borderColor, this.borderWeight);
     canvasCtx.strokeStyle = this.borderColor;
     canvasCtx.lineWidth = this.borderWeight;
 

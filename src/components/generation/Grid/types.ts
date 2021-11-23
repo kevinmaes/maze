@@ -8,6 +8,7 @@ export interface Grid {
   cellSize?: number;
   canvasCtx?: any;
   cells?: TCell[];
+  blockedCells?: number[];
 }
 
 export interface GridMethods {

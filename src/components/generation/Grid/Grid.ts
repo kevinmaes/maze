@@ -13,6 +13,7 @@ export default class Grid implements TGrid {
   endIndex: number;
   cells: Cell[];
   canvasCtx: any;
+  blockedCells: number[] = [];
 
   constructor({
     rows,
@@ -21,6 +22,7 @@ export default class Grid implements TGrid {
     startIndex = 0,
     cellSize = 10,
     canvasCtx,
+    blockedCells,
   }: TGrid) {
     this.rows = rows;
     this.cols = cols;
@@ -32,6 +34,10 @@ export default class Grid implements TGrid {
     this.cells = [];
     this.canvasCtx = canvasCtx;
 
+    if (blockedCells) {
+      this.blockedCells = blockedCells;
+    }
+
     this.create();
   }
 
@@ -41,6 +47,10 @@ export default class Grid implements TGrid {
     const middleIndex = middleRowIndex * this.cols + middleRowIndex;
 
     for (let index = 0; index < this.cellTotal; index++) {
+      const isBlocked = Boolean(
+        this.blockedCells.find((cellIndex) => cellIndex === index)
+      );
+
       const cell = new Cell({
         canvasCtx: this.canvasCtx,
         index,
@@ -54,6 +64,7 @@ export default class Grid implements TGrid {
         isMiddle: index === middleIndex,
         isEnd: index === this.endIndex,
         renderInitial: true,
+        isBlocked,
       });
 
       this.cells.push(cell);
