@@ -67,7 +67,6 @@ const Stage = ({
   // }, []);
 
   React.useEffect(() => {
-    console.log('rows', gridRows);
     if (canvasRef && canvasRef.current && gridRef.current) {
       const canvasCtx = canvasRef.current.getContext('2d');
       canvasCtx.clearRect(0, 0, width, height);
@@ -153,8 +152,6 @@ const Stage = ({
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);
-
-  console.log(dw, dh);
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
