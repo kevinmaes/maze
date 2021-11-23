@@ -167,7 +167,6 @@ export default class Cell implements TCell {
     switch (true) {
       case this.blockedExternal:
       case this.blockedInternal:
-        console.log('borderColor', this.borderColor);
         return this.borderColor;
       case this.cursor:
         return this.cursorColor;
@@ -204,12 +203,11 @@ export default class Cell implements TCell {
       return;
     }
 
-    console.log('wall borderColor', this.borderColor, this.borderWeight);
     canvasCtx.strokeStyle = this.borderColor;
     canvasCtx.lineWidth = this.borderWeight;
 
     if (this.walls[NORTH]) {
-      this.line(this.x, this.y, this.x + this.size, this.y);
+      this.line(this.x, this.y, this.x + this.size, this.y, this.borderColor);
     }
 
     if (this.walls[EAST]) {
@@ -218,7 +216,8 @@ export default class Cell implements TCell {
           this.x + this.size,
           this.y,
           this.x + this.size,
-          this.y + this.size
+          this.y + this.size,
+          this.borderColor
         );
       }
     }
@@ -228,13 +227,14 @@ export default class Cell implements TCell {
         this.x,
         this.y + this.size,
         this.x + this.size,
-        this.y + this.size
+        this.y + this.size,
+        this.borderColor
       );
     }
 
     if (this.walls[WEST]) {
       if (!this.isStart) {
-        this.line(this.x, this.y, this.x, this.y + this.size);
+        this.line(this.x, this.y, this.x, this.y + this.size, this.borderColor);
       }
     }
   }

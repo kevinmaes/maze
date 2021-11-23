@@ -54,7 +54,7 @@ const Stage = ({
         canvasCtx,
         cellSize,
         borderWeight,
-        blockedCells: [11, 12, 13],
+        blockedCells: [5, 20, 25, 30, 35, 40, 50, 55, 60, 70, 75, 80, 90],
       });
 
       send('INJECT_REFS', { gridRef, fps });
