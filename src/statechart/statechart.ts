@@ -3,12 +3,13 @@ import type {
   MazeGenerationContext,
   MazeGenerationEvent,
   Typestate,
+  ICell,
 } from './types';
 
 import type { GridMethods } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
-import { Cell, CellMethods } from '../components/generation/Cell';
+import { Cell } from '../components/generation/Cell';
 
 export const machine = createMachine<
   MazeGenerationContext,
@@ -125,7 +126,7 @@ export const machine = createMachine<
         return { stack };
       }),
       popFromStack: assign(({ stack }) => {
-        const prevCell = stack.pop() as CellMethods;
+        const prevCell = stack.pop() as ICell;
         prevCell?.setAsBacktrack();
         // console.log(`  (backtrack to cell index: ${prevCell?.getIndex()})`);
         return { stack, currentCell: prevCell };
