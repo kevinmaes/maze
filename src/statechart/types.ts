@@ -1,4 +1,4 @@
-import type { Cell, CellMethods } from '../components/generation/Cell';
+import type { ICell } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
 interface Settings {
@@ -9,15 +9,13 @@ interface Settings {
   fps: number;
 }
 
-export type ICell = Cell & CellMethods;
-
 export type ContextGrid = Grid & GridMethods;
 
 export interface MazeGenerationContext {
   settings: Settings;
   grid: ContextGrid | undefined;
   currentCell: ICell | undefined;
-  eligibleNeighbors: Cell[];
+  eligibleNeighbors: ICell[];
   stack: ICell[];
 }
 

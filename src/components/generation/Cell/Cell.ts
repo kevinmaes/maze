@@ -1,14 +1,14 @@
-import type { Cell as TCell } from './types';
+import type { ICell, Cell as CellProps } from './';
 
 const NORTH: number = 0;
 const EAST: number = 1;
 const SOUTH: number = 2;
 const WEST: number = 3;
 
-type Connections = TCell[];
+type Connections = ICell[];
 type Walls = boolean[];
 
-export default class Cell implements TCell {
+class Cell implements CellProps {
   canvasCtx: any;
   index: number;
   rowIndex: number;
@@ -51,7 +51,7 @@ export default class Cell implements TCell {
     isMiddle = false,
     isEnd = false,
     isBlocked = false,
-  }: TCell) {
+  }: ICell) {
     this.canvasCtx = canvasCtx;
     this.index = index;
 
@@ -249,3 +249,5 @@ export default class Cell implements TCell {
     canvasCtx.stroke();
   }
 }
+
+export default Cell;

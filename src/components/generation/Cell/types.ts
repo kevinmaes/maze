@@ -16,7 +16,7 @@ export interface Cell {
   isBlocked: boolean;
 }
 
-export interface CellMethods {
+interface CellMethods {
   draw: Function;
   connect?: Function;
   isIneligible: Function;
@@ -24,3 +24,5 @@ export interface CellMethods {
   setAsVisited: Function;
   getIndex: Function;
 }
+
+export type ICell = Cell & CellMethods;

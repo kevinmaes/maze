@@ -3,13 +3,12 @@ import type {
   MazeGenerationContext,
   MazeGenerationEvent,
   Typestate,
-  ICell,
 } from './types';
 
 import type { GridMethods } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
-import { Cell } from '../components/generation/Cell';
+import { ICell } from '../components/generation/Cell';
 
 export const machine = createMachine<
   MazeGenerationContext,
@@ -115,7 +114,7 @@ export const machine = createMachine<
         currentCell: seek({
           grid,
           pathId: settings.pathId,
-          current: currentCell as Cell,
+          current: currentCell as ICell,
           startIndex: 0,
         }),
       })),

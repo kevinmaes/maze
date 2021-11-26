@@ -1,5 +1,5 @@
 import Cell from './Cell';
 
-export type { Cell, CellMethods } from './types';
+export type { ICell, Cell } from './types';
 
 export default Cell;
