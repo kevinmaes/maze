@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAnimationFrame } from '../../src/components/hooks/useAnimationFrame';
+// import { useAnimationFrame } from '../../src/components/hooks/useAnimationFrame';
 import Grid from '../generation/Grid';
 import Cell from '../generation/Cell';
 import { seek } from '../generation/seek';
@@ -109,63 +109,63 @@ const Stage = ({
     width,
   ]);
 
-  useAnimationFrame({ fps }, (deltaTime: number) => {
-    if (canvas && canvas.current) {
-      // Seek path A
-      currentCellARef.current = seek({
-        grid: gridRef.current,
-        pathId: 'a',
-        current: currentCellARef.current,
-        startIndex: START_INDEX,
-        stack: stackARef.current,
-      });
+  // useAnimationFrame({ fps }, (deltaTime: number) => {
+  //   if (canvas && canvas.current) {
+  //     // Seek path A
+  //     currentCellARef.current = seek({
+  //       grid: gridRef.current,
+  //       pathId: 'a',
+  //       current: currentCellARef.current,
+  //       startIndex: START_INDEX,
+  //       stack: stackARef.current,
+  //     });
 
-      // Seek path Z.
-      // currentCellZRef.current = seek({
-      //   grid: gridRef.current,
-      //   pathId: 'z',
-      //   current: currentCellZRef.current,
-      //   endIndex,
-      //   stack: stackZRef.current,
-      // });
+  //     // Seek path Z.
+  //     // currentCellZRef.current = seek({
+  //     //   grid: gridRef.current,
+  //     //   pathId: 'z',
+  //     //   current: currentCellZRef.current,
+  //     //   endIndex,
+  //     //   stack: stackZRef.current,
+  //     // });
 
-      // if (!pathsAreConnected && !currentCellARef.current) {
-      //   const middleRowIndex = Math.floor(gridRows / 2);
+  //     // if (!pathsAreConnected && !currentCellARef.current) {
+  //     //   const middleRowIndex = Math.floor(gridRows / 2);
 
-      //   for (
-      //     let i = middleRowIndex * gridColumns;
-      //     i < (middleRowIndex + 1) * gridColumns;
-      //     i++
-      //   ) {
-      //     const thisMiddleRowCell = gridRef.current.cells[i];
-      //     const cellANeighbors =
-      //       gridRef.current.getNeighbors(thisMiddleRowCell);
+  //     //   for (
+  //     //     let i = middleRowIndex * gridColumns;
+  //     //     i < (middleRowIndex + 1) * gridColumns;
+  //     //     i++
+  //     //   ) {
+  //     //     const thisMiddleRowCell = gridRef.current.cells[i];
+  //     //     const cellANeighbors =
+  //     //       gridRef.current.getNeighbors(thisMiddleRowCell);
 
-      //     if (cellANeighbors.length) {
-      //       const otherPathNeighbor = cellANeighbors.find((cell) =>
-      //         cell.hasDifferentPathId(thisMiddleRowCell)
-      //       );
+  //     //     if (cellANeighbors.length) {
+  //     //       const otherPathNeighbor = cellANeighbors.find((cell) =>
+  //     //         cell.hasDifferentPathId(thisMiddleRowCell)
+  //     //       );
 
-      //       if (otherPathNeighbor) {
-      //         thisMiddleRowCell.connect(otherPathNeighbor);
-      //         setPathsAreConnected(true);
-      //         // console.log(
-      //         //   'Paths connect between indices:',
-      //         //   thisMiddleRowCell.index,
-      //         //   otherPathNeighbor.index
-      //         // );
-      //         break;
-      //       }
-      //     }
-      //   }
-      // }
+  //     //       if (otherPathNeighbor) {
+  //     //         thisMiddleRowCell.connect(otherPathNeighbor);
+  //     //         setPathsAreConnected(true);
+  //     //         // console.log(
+  //     //         //   'Paths connect between indices:',
+  //     //         //   thisMiddleRowCell.index,
+  //     //         //   otherPathNeighbor.index
+  //     //         // );
+  //     //         break;
+  //     //       }
+  //     //     }
+  //     //   }
+  //     // }
 
-      // Draw all cells.
-      for (let cell of gridRef.current.cells) {
-        cell.draw();
-      }
-    }
-  });
+  //     // Draw all cells.
+  //     for (let cell of gridRef.current.cells) {
+  //       cell.draw();
+  //     }
+  //   }
+  // });
 
   const dw = Math.floor(pixelRatio * width);
   const dh = Math.floor(pixelRatio * height);

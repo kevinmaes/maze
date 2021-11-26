@@ -1,7 +1,7 @@
 import type { Cell, CellMethods } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
-export interface Settings {
+interface Settings {
   gridColumns: number;
   gridRows: number;
   startIndex: number;
@@ -9,87 +9,60 @@ export interface Settings {
   fps: number;
 }
 
-export type CurrentCell = Cell | CellMethods;
-type StackCell = Cell | CellMethods;
+export type ICell = Cell & CellMethods;
 
-export type ContextGrid = Grid | GridMethods;
+export type ContextGrid = Grid & GridMethods;
 
 export interface MazeGenerationContext {
   settings: Settings;
   grid: ContextGrid | undefined;
-  currentCell: CurrentCell | undefined;
+  currentCell: ICell | undefined;
   eligibleNeighbors: Cell[];
-  stack: StackCell[];
+  stack: ICell[];
 }
 
 export type MazeGenerationEvent =
   | { type: 'INJECT_REFS'; gridRef: any }
   | { type: 'RESTART' };
 
+interface BaseContext {
+  settings: Settings;
+  eligibleNeighbors: [];
+  stack: ICell[];
+}
+
+interface InitialContext extends BaseContext {
+  grid: undefined;
+  currentCell: undefined;
+}
+
+interface Context extends BaseContext {
+  grid: ContextGrid;
+  currentCell: ICell;
+}
+
 export type Typestate =
   | {
       value: 'idle';
-      context: {
-        settings: Settings;
-        grid: undefined;
-        currentCell: undefined;
-        eligibleNeighbors: [];
-        stack: StackCell[];
-        fps: number;
-      };
+      context: InitialContext;
     }
   | {
       value: 'start';
-      context: {
-        settings: Settings;
-        grid: undefined;
-        currentCell: undefined;
-        eligibleNeighbors: [];
-        stack: StackCell[];
-        fps: number;
-      };
+      context: InitialContext;
     }
   | {
       value: 'seek';
-      context: {
-        settings: Settings;
-        grid: ContextGrid;
-        currentCell: CurrentCell;
-        eligibleNeighbors: [];
-        stack: [];
-        fps: number;
-      };
+      context: Context;
     }
   | {
       value: 'advance';
-      context: {
-        settings: Settings;
-        grid: Grid | ContextGrid;
-        currentCell: CurrentCell;
-        eligibleNeighbors: [];
-        stack: [];
-        fps: number;
-      };
+      context: Context;
     }
   | {
       value: 'backtrack';
-      context: {
-        settings: Settings;
-        grid: Grid | ContextGrid;
-        currentCell: CurrentCell;
-        eligibleNeighbors: [];
-        stack: [];
-        fps: number;
-      };
+      context: Context;
     }
   | {
       value: 'complete';
-      context: {
-        settings: Settings;
-        grid: Grid | ContextGrid;
-        currentCell: CurrentCell;
-        eligibleNeighbors: [];
-        stack: [];
-        fps: number;
-      };
+      context: Context;
     };
