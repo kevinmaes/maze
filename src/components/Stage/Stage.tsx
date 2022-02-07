@@ -1,7 +1,9 @@
 import React from 'react';
 import { useMachine } from '@xstate/react';
 
-import Grid from '../generation/Grid';
+// Intentionally importing new DesignGrid (referring to it as Grid).
+import Grid from '../generation/DesignGrid';
+
 import { Canvas } from './Stage.css';
 import { machine } from '../../statechart/statechart';
 
@@ -34,6 +36,7 @@ const Stage = ({
   const canvasRef: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
+    // new Grid({ cols: 10, rows: 10 })
   );
 
   // eslint-disable-next-line
@@ -48,12 +51,21 @@ const Stage = ({
       const canvasCtx = canvasRef.current.getContext('2d');
       canvasCtx.clearRect(0, 0, width, height);
 
+      // var grd = canvasCtx.createLinearGradient(0, 0, width, 0);
+      // grd.addColorStop(0, '#ECE9A8');
+      // grd.addColorStop(0.5, '#E4C6E3');
+      // grd.addColorStop(1, '#BCCDFE');
+      // canvasCtx.fillStyle = grd;
+      // canvasCtx.fillRect(0, 0, width, height);
+
       gridRef.current = new Grid({
-        cols: gridColumns,
-        rows: gridRows,
+        // cols: gridColumns,
+        // rows: gridRows,
+        cols: 20,
+        rows: 20,
         canvasCtx,
-        cellSize,
-        borderWeight,
+        cellSize: 100,
+        borderWeight: 50,
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
         blockedCells: [],
       });

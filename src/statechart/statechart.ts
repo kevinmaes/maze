@@ -46,9 +46,9 @@ export const machine = createMachine<
           'initGeneration',
           'pushToStack',
         ],
-        after: {
-          SEEK_INTERVAL: { target: 'seek' },
-        },
+        // after: {
+        //   SEEK_INTERVAL: { target: 'seek' },
+        // },
       },
       seek: {
         entry: ['findNeighbors'],
