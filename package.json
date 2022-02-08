@@ -5,7 +5,7 @@
   "dependencies": {
     "@types/jest": "26.0.24",
     "@types/lodash": "4.14.168",
-    "@types/node": "16.4.10",
+    "@types/node": "17.0.16",
     "@types/react": "17.0.39",
     "@types/react-dom": "17.0.9",
     "@xstate/inspect": "0.6.2",
