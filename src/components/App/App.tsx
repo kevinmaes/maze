@@ -80,7 +80,7 @@ const App = () => {
             name="borderWeight"
             value={state.borderWeight}
             min="1"
-            max={0.5 * state.cellSize}
+            max="10"
             onMouseDown={() => actions.setSettingsChanging(true)}
             onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
