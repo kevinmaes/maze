@@ -39,13 +39,7 @@ export const machine = createMachine<
     states: {
       idle: {},
       start: {
-        entry: [
-          () => {
-            console.log('------------ START -------------');
-          },
-          'initGeneration',
-          'pushToStack',
-        ],
+        entry: ['initGeneration', 'pushToStack'],
         after: {
           SEEK_INTERVAL: { target: 'seek' },
         },
