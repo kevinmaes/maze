@@ -40,18 +40,6 @@ const App = () => {
 
   return (
     <div className="App">
-      <Stage
-        playRequestTS={state.playRequestTS}
-        width={APP_WIDTH}
-        height={APP_HEIGHT}
-        fps={state.fps}
-        cellSize={state.cellSize}
-        borderWeight={state.borderWeight}
-        gridColumns={state.gridColumns}
-        gridRows={state.gridRows}
-        pixelRatio={1}
-        settingsChanging={Boolean(state.settingsChanging)}
-      />
       <Form>
         <label>
           FPS ({state.fps})
@@ -139,6 +127,20 @@ const App = () => {
           Replay
         </button>
       </Form>
+      <div>
+        <Stage
+          playRequestTS={state.playRequestTS}
+          width={APP_WIDTH}
+          height={APP_HEIGHT}
+          fps={state.fps}
+          cellSize={state.cellSize}
+          borderWeight={state.borderWeight}
+          gridColumns={state.gridColumns}
+          gridRows={state.gridRows}
+          pixelRatio={1}
+          settingsChanging={Boolean(state.settingsChanging)}
+        />
+      </div>
     </div>
   );
 };
