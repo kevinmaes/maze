@@ -5,7 +5,7 @@ import Stage from '../Stage';
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
-import { Form } from './App.css.js';
+import { Form, ReplayButton } from './App.css.js';
 
 const FPS_DEFAULT = 24;
 const BORDER_WEIGHT_DEFAULT = 1;
@@ -120,14 +120,14 @@ const App = () => {
             }
           />
         </label>
-        <button
+        <ReplayButton
           onClick={(event) => {
             event.preventDefault();
             actions.createPlayRequest(new Date().getTime());
           }}
         >
           Replay
-        </button>
+        </ReplayButton>
       </Form>
       <Stage
         playRequestTS={state.playRequestTS}
