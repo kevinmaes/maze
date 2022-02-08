@@ -5,7 +5,7 @@ import { AppState } from './types';
 export const Actions = {
   createPlayRequest: createAction('CREATE_PLAY_REQUEST')<number>(),
   setFPS: createAction('SET_FPS')<number>(),
-  setCellSize: createAction('SET_SELL_SIZE')<number>(),
+  setCellSize: createAction('SET_CELL_SIZE')<number>(),
   setBorderWeight: createAction('SET_BORDER_WEIGHT')<number>(),
   setGridColumns: createAction('SET_GRID_COLUMNS')<number>(),
   setGridRows: createAction('SET_GRID_ROWS')<number>(),
