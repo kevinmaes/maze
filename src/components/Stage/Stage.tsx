@@ -79,8 +79,8 @@ const Stage = ({
     gridRef.current.draw();
   }
 
-  const dw = Math.floor(pixelRatio * width);
-  const dh = Math.floor(pixelRatio * height);
+  const dw = Math.floor(pixelRatio * cellSize * gridColumns) + borderWeight;
+  const dh = Math.floor(pixelRatio * cellSize * gridRows) + borderWeight;
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
