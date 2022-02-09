@@ -6,6 +6,7 @@ import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form, ReplayButton } from './App.css.js';
+import twitterLogo from '../../assets/images/twitter.png';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -141,6 +142,16 @@ const App = () => {
         pixelRatio={1}
         settingsChanging={Boolean(state.settingsChanging)}
       />
+      <footer className="App-footer">
+        <a href="https://twitter.com/kvmaes" target="_blank">
+          <img
+            className="App-footer-image"
+            src={twitterLogo}
+            alt="Twitter logo"
+          />
+          @kvmaes
+        </a>
+      </footer>
     </div>
   );
 };
