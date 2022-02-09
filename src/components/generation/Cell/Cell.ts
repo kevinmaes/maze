@@ -42,8 +42,8 @@ export default class Cell implements TCell {
     colIndex,
     size = 25,
     borderWeight = 2,
-    borderColor = 'gray',
-    cursorColor = 'yellow',
+    borderColor = 'white',
+    cursorColor = 'white',
     visitedColor = 'rgba(0, 0, 0, 0.1)',
     backtrackColor = 'white',
     renderInitial = false,
@@ -175,16 +175,25 @@ export default class Cell implements TCell {
       case this.visited:
         return this.visitedColor;
       default:
-        return 'white';
+        // return 'white';
+        return 'rgba(0,0,0,0)';
     }
   }
 
   draw() {
+    this.clearFill();
     this.drawFill(this.getFillColor());
     this.drawWalls(this.walls);
 
     // Set cursor to false so it only shows on a single render.
     this.cursor = false;
+  }
+
+  clearFill() {
+    const fillX = this.x + 0.5 * this.borderWeight;
+    const fillY = this.y + 0.5 * this.borderWeight;
+
+    this.canvasCtx.clearRect(fillX, fillY, this.size, this.size);
   }
 
   drawFill(color: string) {
