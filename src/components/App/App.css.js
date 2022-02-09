@@ -19,4 +19,5 @@ export const ReplayButton = styled.button`
   color: white;
   font-weight: bold;
   background-color: #333;
+  text-transform: uppercase;
 `;
