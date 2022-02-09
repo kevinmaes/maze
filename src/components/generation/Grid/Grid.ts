@@ -58,7 +58,7 @@ export default class Grid implements TGrid {
         rowIndex: Math.floor(index / this.cols),
         size: this.cellSize,
         borderWeight: this.borderWeight,
-        visitedColor: 'rgba(236, 233, 168, 1)',
+        visitedColor: 'rgba(236, 233, 168, 0.4)',
         backtrackColor: 'rgba(255,0,0, 0)',
         isStart: index === this.startIndex,
         isMiddle: index === middleIndex,
