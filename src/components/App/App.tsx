@@ -1,12 +1,17 @@
-import React from 'react';
-
-import './App.css';
 import Stage from '../Stage';
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
-import { Form, P, ReplayButton } from './App.css.js';
-import twitterLogo from '../../assets/images/twitter.png';
+import {
+  AppContainer,
+  Form,
+  P,
+  ReplayButton,
+  Footer,
+  Link,
+  Image,
+} from './App.css.js';
+import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -40,7 +45,7 @@ const App = () => {
   );
 
   return (
-    <div className="App">
+    <AppContainer>
       <h1>Maze Generation</h1>
       <h2>Recursive Backtracker</h2>
       <p>
@@ -145,12 +150,24 @@ const App = () => {
         pixelRatio={1}
         settingsChanging={Boolean(state.settingsChanging)}
       />
-      <footer className="App-footer">
-        <a href="https://twitter.com/kvmaes" target="_blank" rel="noreferrer">
+      <Footer>
+        <Link
+          className="App-link"
+          href="https://twitter.com/kvmaes"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <Image
+            className="App-footer-image"
+            src={twitterLogo}
+            alt="Twitter logo"
+            width="20"
+            height="16"
+          />
           @kvmaes
-        </a>
-      </footer>
-    </div>
+        </Link>
+      </Footer>
+    </AppContainer>
   );
 };
 
