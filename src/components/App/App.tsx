@@ -8,7 +8,7 @@ import { Actions, reducer } from './reducer';
 import { Form, ReplayButton } from './App.css.js';
 
 const FPS_DEFAULT = 30;
-const BORDER_WEIGHT_DEFAULT = 1;
+const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 15;
 
 const APP_WIDTH = window.innerWidth;
