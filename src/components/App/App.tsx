@@ -5,7 +5,7 @@ import Stage from '../Stage';
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
-import { Form, ReplayButton } from './App.css.js';
+import { Form, P, ReplayButton } from './App.css.js';
 import twitterLogo from '../../assets/images/twitter.png';
 
 const FPS_DEFAULT = 30;
@@ -44,8 +44,8 @@ const App = () => {
       <h1>Maze Generation - Recursive Backtracker</h1>
       <h2>Built with React, XState, Canvas, TypeScript</h2>
       <Form>
-        <label>
-          FPS ({state.fps})
+        <P>
+          <label>FPS ({state.fps})</label>
           <input
             type="range"
             name="fps"
@@ -59,9 +59,9 @@ const App = () => {
               actions.setFPS(parseInt(value, 10));
             }}
           />
-        </label>
-        <label>
-          Cell Size ({state.cellSize})
+        </P>
+        <P>
+          <label>Cell Size ({state.cellSize})</label>
           <input
             type="range"
             name="cellSize"
@@ -75,9 +75,9 @@ const App = () => {
               actions.setCellSize(parseInt(value, 10))
             }
           />
-        </label>
-        <label>
-          Border Weight ({state.borderWeight})
+        </P>
+        <P>
+          <label>Border Weight ({state.borderWeight})</label>
           <input
             type="range"
             name="borderWeight"
@@ -90,9 +90,9 @@ const App = () => {
               actions.setBorderWeight(parseInt(value, 10))
             }
           />
-        </label>
-        <label>
-          Grid Columns ({state.gridColumns})
+        </P>
+        <P>
+          <label>Grid Columns ({state.gridColumns})</label>
           <input
             type="range"
             name="gridColumns"
@@ -105,9 +105,9 @@ const App = () => {
               actions.setGridColumns(parseInt(value, 10))
             }
           />
-        </label>
-        <label>
-          Grid Rows ({state.gridRows})
+        </P>
+        <P>
+          <label>Grid Rows ({state.gridRows})</label>
           <input
             type="range"
             name="gridRows"
@@ -120,7 +120,7 @@ const App = () => {
               actions.setGridRows(parseInt(value, 10))
             }
           />
-        </label>
+        </P>
         <ReplayButton
           onClick={(event) => {
             event.preventDefault();
