@@ -34,6 +34,7 @@ const Stage = ({
     new Grid({ cols: gridColumns, rows: gridRows })
   );
 
+  // eslint-disable-next-line
   const [_, send] = useMachine(machine);
 
   const cellTotal = gridColumns * gridRows;
