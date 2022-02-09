@@ -11,13 +11,13 @@ export const Form = styled.form`
 
 export const ReplayButton = styled.button`
   width 200px;
-  height: 30px;
+  height: 35px;
   margin: 0 auto;
   border-radius: 5px;
   border-color: #ddd;
   cursor: pointer;
   color: white;
   font-weight: bold;
-  background-color: #333;
+  background-color: #2563EB;
   text-transform: uppercase;
 `;
