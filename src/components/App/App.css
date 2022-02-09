@@ -1,10 +1,9 @@
 .App {
   text-align: center;
-  padding: 20px;
 }
 
 .App-footer {
-  height: 30px;
+  height: 200px;
   lineheight: 30px;
 }
 
