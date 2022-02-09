@@ -143,7 +143,7 @@ const App = () => {
         settingsChanging={Boolean(state.settingsChanging)}
       />
       <footer className="App-footer">
-        <a href="https://twitter.com/kvmaes" target="_blank">
+        <a href="https://twitter.com/kvmaes" target="_blank" rel="noreferrer">
           <img
             className="App-footer-image"
             src={twitterLogo}
