@@ -18,8 +18,6 @@ interface Props {
   settingsChanging: boolean;
 }
 
-// const START_INDEX = 0;
-
 const Stage = ({
   playRequestTS,
   width = 100,
