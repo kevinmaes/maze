@@ -7,8 +7,8 @@ import { AppState } from './types';
 import { Actions, reducer } from './reducer';
 import { Form, ReplayButton } from './App.css.js';
 
-const FPS_DEFAULT = 24;
-const BORDER_WEIGHT_DEFAULT = 1;
+const FPS_DEFAULT = 30;
+const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 15;
 
 const APP_WIDTH = window.innerWidth;
@@ -16,8 +16,8 @@ const APP_HEIGHT = window.innerHeight;
 
 const CellSize = {
   DEFAULT: 20,
-  MIN: 5,
-  MAX: 100,
+  MIN: 10,
+  MAX: 25,
 };
 
 const initialState: AppState = {
@@ -97,7 +97,7 @@ const App = () => {
             name="gridColumns"
             value={state.gridColumns}
             min="2"
-            max="50"
+            max="25"
             onMouseDown={() => actions.setSettingsChanging(true)}
             onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>
@@ -112,7 +112,7 @@ const App = () => {
             name="gridRows"
             value={state.gridRows}
             min="2"
-            max="50"
+            max="25"
             onMouseDown={() => actions.setSettingsChanging(true)}
             onMouseUp={() => actions.setSettingsChanging(false)}
             onChange={({ target: { value } }) =>

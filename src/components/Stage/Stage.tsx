@@ -18,8 +18,6 @@ interface Props {
   settingsChanging: boolean;
 }
 
-// const START_INDEX = 0;
-
 const Stage = ({
   playRequestTS,
   width = 100,
@@ -36,8 +34,7 @@ const Stage = ({
     new Grid({ cols: gridColumns, rows: gridRows })
   );
 
-  // eslint-disable-next-line
-  const [state, send] = useMachine(machine);
+  const [_, send] = useMachine(machine);
 
   const cellTotal = gridColumns * gridRows;
 
@@ -79,8 +76,8 @@ const Stage = ({
     gridRef.current.draw();
   }
 
-  const dw = Math.floor(pixelRatio * width);
-  const dh = Math.floor(pixelRatio * height);
+  const dw = Math.floor(pixelRatio * cellSize * gridColumns) + 2 * borderWeight;
+  const dh = Math.floor(pixelRatio * cellSize * gridRows) + 2 * borderWeight;
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
