@@ -34,7 +34,7 @@ const Stage = ({
     new Grid({ cols: gridColumns, rows: gridRows })
   );
 
-  const [state, send] = useMachine(machine);
+  const [_, send] = useMachine(machine);
 
   const cellTotal = gridColumns * gridRows;
 
