@@ -1,3 +1,4 @@
+import React from 'react';
 interface Props {
   currentStateValue: string; // Lock this down to the known state types.
 }
@@ -10,7 +11,7 @@ const controlRenderers = {
   done: () => {},
 };
 
-const Controls = ({ currentStateValue = 'idle' }: Props) => {
+export const Controls = ({ currentStateValue = 'idle' }: Props) => {
   const renderStateControls = (currentStateValue: string) => {
     switch (currentStateValue) {
       case 'idle':
@@ -67,5 +68,3 @@ const Controls = ({ currentStateValue = 'idle' }: Props) => {
 
   return <>{renderStateControls(currentStateValue)}</>;
 };
-
-export default Controls;
