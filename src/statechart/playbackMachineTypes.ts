@@ -7,7 +7,7 @@ export type PlaybackEvent =
   | { type: 'STOP' }
   | { type: 'PAUSE' }
   | { type: 'START_OVER' }
-  | { type: 'STEP_NEXT' }
+  | { type: 'STEP_FORWARD' }
   | { type: 'STEP_BACK' }
 
 
