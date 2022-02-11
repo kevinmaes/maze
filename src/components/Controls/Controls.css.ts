@@ -10,4 +10,9 @@ export const StepForward = styled.button``;
 export const ControlButton = styled.button`
   background: transparent;
   border: none;
+  cursor: pointer;
+
+  :disabled {
+    cursor: auto;
+  }
 `;

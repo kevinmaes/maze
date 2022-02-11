@@ -20,34 +20,37 @@ const controlRenderers = {
   done: () => {},
 };
 
+const iconFillColor = '#006400';
+const iconFillDisabledColor = '#D3D3D3';
+
 export const Controls = ({ currentStateValue = 'idle' }: Props) => {
   const renderStateControls = (currentStateValue: string) => {
     switch (currentStateValue) {
       case 'idle':
         return (
           <>
-            <ControlButton>
-              <StartOver />
+            <ControlButton disabled>
+              <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
             <ControlButton>
-              <Play />
+              <Play fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
-              <Stop />
+            <ControlButton disabled>
+              <Stop fill={iconFillDisabledColor} />
             </ControlButton>
           </>
         );
       case 'initialization':
         return (
           <>
-            <ControlButton>
-              <StartOver />
+            <ControlButton disabled>
+              <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton>
-              <Pause />
+            <ControlButton disabled>
+              <Pause fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton>
-              <Stop />
+            <ControlButton disabled>
+              <Stop fill={iconFillDisabledColor} />
             </ControlButton>
           </>
         );
@@ -55,13 +58,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
         return (
           <>
             <ControlButton>
-              <StartOver />
+              <StartOver fill={iconFillColor} />
             </ControlButton>
             <ControlButton>
-              <Pause />
+              <Pause fill={iconFillColor} />
             </ControlButton>
             <ControlButton>
-              <Stop />
+              <Stop fill={iconFillColor} />
             </ControlButton>
           </>
         );
@@ -69,13 +72,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
         return (
           <>
             <ControlButton>
-              <StepBack />
+              <StepBack fill={iconFillColor} />
             </ControlButton>
             <ControlButton>
-              <Play />
+              <Play fill={iconFillColor} />
             </ControlButton>
             <ControlButton>
-              <StepForward />
+              <StepForward fill={iconFillColor} />
             </ControlButton>
           </>
         );
@@ -83,13 +86,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
         return (
           <>
             <ControlButton>
-              <StartOver />
+              <StartOver fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
-              <Play />
+            <ControlButton disabled>
+              <Play fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton>
-              <Stop />
+            <ControlButton disabled>
+              <Stop fill={iconFillDisabledColor} />
             </ControlButton>
           </>
         );
