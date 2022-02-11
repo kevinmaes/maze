@@ -3,11 +3,12 @@ export type PlaybackContext {
 };
 
 export type PlaybackEvent =
-  | { type: 'START_PLAY' }
-  | { type: 'STOP_PLAY' }
+  | { type: 'PLAY' }
+  | { type: 'STOP' }
   | { type: 'PAUSE' }
-  | { type: 'RESUME' }
-  | { type: 'REPLAY' }
+  | { type: 'START_OVER' }
+  | { type: 'STEP_NEXT' }
+  | { type: 'STEP_BACK' }
 
 
 export type Typestate =
@@ -15,14 +16,21 @@ export type Typestate =
       value: 'idle';
       context: PlaybackContext;
     }
+    | {
+      value: 'initialization'
+      context: PlaybackContext;
+    }
   | {
       value: 'playing';
       context: PlaybackContext;
     }
-    | {
-      value: 'paused';
-      context: PlaybackContext;
+  | {
+    value: 'paused';
+    context: PlaybackContext;
     }
-
+  | {
+    value: 'done';
+    context: PlaybackContext;
+  }
 
  
