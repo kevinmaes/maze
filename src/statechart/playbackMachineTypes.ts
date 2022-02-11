@@ -1,4 +1,4 @@
-export type PlaybackContext {
+export type PlaybackContext = {
   mazeId: string;
 };
 
@@ -8,16 +8,15 @@ export type PlaybackEvent =
   | { type: 'PAUSE' }
   | { type: 'START_OVER' }
   | { type: 'STEP_FORWARD' }
-  | { type: 'STEP_BACK' }
-
+  | { type: 'STEP_BACK' };
 
 export type Typestate =
   | {
       value: 'idle';
       context: PlaybackContext;
     }
-    | {
-      value: 'initialization'
+  | {
+      value: 'initialization';
       context: PlaybackContext;
     }
   | {
@@ -25,12 +24,10 @@ export type Typestate =
       context: PlaybackContext;
     }
   | {
-    value: 'paused';
-    context: PlaybackContext;
+      value: 'paused';
+      context: PlaybackContext;
     }
   | {
-    value: 'done';
-    context: PlaybackContext;
-  }
-
- 
+      value: 'done';
+      context: PlaybackContext;
+    };
