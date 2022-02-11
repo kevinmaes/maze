@@ -2,7 +2,7 @@ export type PlaybackContext {
   mazeId: string;
 };
 
-export type PlaybackEvent 
+export type PlaybackEvent =
   | { type: 'START_PLAY' }
   | { type: 'STOP_PLAY' }
   | { type: 'PAUSE_PLAY' }
