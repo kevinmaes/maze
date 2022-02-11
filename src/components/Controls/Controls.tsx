@@ -6,7 +6,7 @@ import { ReactComponent as Stop } from '../../assets/images/controls/stop.svg';
 import { ReactComponent as Pause } from '../../assets/images/controls/pause.svg';
 import { ReactComponent as StepForward } from '../../assets/images/controls/step-forward.svg';
 import { ReactComponent as StepBack } from '../../assets/images/controls/step-back.svg';
-import { ControlButton } from './Controls.css';
+import { ControlsGroup, ControlButton } from './Controls.css';
 
 interface Props {
   currentStateValue: string; // Lock this down to the known state types.
@@ -28,7 +28,7 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
     switch (currentStateValue) {
       case 'idle':
         return (
-          <>
+          <ControlsGroup>
             <ControlButton disabled>
               <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
@@ -38,11 +38,11 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
             <ControlButton disabled>
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-          </>
+          </ControlsGroup>
         );
       case 'initialization':
         return (
-          <>
+          <ControlsGroup>
             <ControlButton disabled>
               <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
@@ -52,11 +52,11 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
             <ControlButton disabled>
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-          </>
+          </ControlsGroup>
         );
       case 'playing':
         return (
-          <>
+          <ControlsGroup>
             <ControlButton>
               <StartOver fill={iconFillColor} />
             </ControlButton>
@@ -66,11 +66,11 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
             <ControlButton>
               <Stop fill={iconFillColor} />
             </ControlButton>
-          </>
+          </ControlsGroup>
         );
       case 'paused':
         return (
-          <>
+          <ControlsGroup>
             <ControlButton>
               <StepBack fill={iconFillColor} />
             </ControlButton>
@@ -80,11 +80,11 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
             <ControlButton>
               <StepForward fill={iconFillColor} />
             </ControlButton>
-          </>
+          </ControlsGroup>
         );
       case 'done':
         return (
-          <>
+          <ControlsGroup>
             <ControlButton>
               <StartOver fill={iconFillColor} />
             </ControlButton>
@@ -94,11 +94,11 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
             <ControlButton disabled>
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-          </>
+          </ControlsGroup>
         );
 
       default:
-        return <>Can not load controls</>;
+        return <ControlsGroup>Can not load controls</ControlsGroup>;
     }
   };
 
