@@ -9,15 +9,22 @@ export const StepForward = styled.button``;
 
 export const ControlsGroup = styled.div`
   display: flex;
-  width: 110px;
-  justify-content: space-between;
+  width: 140px;
+  height: 50px;
+  justify-content: space-evenly;
+  padding: 0 10px;
+  border: 1px solid white;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
 `;
 
 export const ControlButton = styled.button`
   background: transparent;
   border: none;
+  height: 50px;
   cursor: pointer;
   margin: 0;
+  padding: 0;
 
   :disabled {
     cursor: auto;
