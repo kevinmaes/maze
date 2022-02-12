@@ -21,5 +21,19 @@ export const ControlButton = styled.button`
 
   :disabled {
     cursor: auto;
+    pointer-events: none;
+  }
+
+  :disabled > svg {
+    filter: drop-shadow(1px 1px 2px rgb(0 0 0 / 0.4));
+  }
+
+  & svg {
+    filter: drop-shadow(2px 2px 2px rgb(0 0 0 / 0.4));
+  }
+
+  & svg:active {
+    filter: drop-shadow(1px 1px 1px rgb(0 0 0 / 0.4));
+    transform: translate(1px, 1px);
   }
 `;

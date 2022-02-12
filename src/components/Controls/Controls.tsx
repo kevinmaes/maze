@@ -8,8 +8,15 @@ import { ReactComponent as StepForward } from '../../assets/images/controls/step
 import { ReactComponent as StepBack } from '../../assets/images/controls/step-back.svg';
 import { ControlsGroup, ControlButton } from './Controls.css';
 
+type CurrentStateValue =
+  | 'idle'
+  | 'initialization'
+  | 'playing'
+  | 'paused'
+  | 'done';
+
 interface Props {
-  currentStateValue: string; // Lock this down to the known state types.
+  currentStateValue: CurrentStateValue;
 }
 
 const controlRenderers = {
