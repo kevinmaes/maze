@@ -11,7 +11,7 @@ import {
   Footer,
   Link,
   Image,
-} from './App.css.js';
+} from './App.css';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import Stage from '../Stage';
@@ -39,7 +39,6 @@ const initialState: AppState = {
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
-  // gridColumns: GRID_SIZE_DEFAULT * 2,
   gridColumns: GRID_SIZE_DEFAULT,
   gridRows: GRID_SIZE_DEFAULT,
   settingsChanging: false,
