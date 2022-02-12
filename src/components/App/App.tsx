@@ -11,6 +11,7 @@ import {
   Link,
   Image,
 } from './App.css.js';
+import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 
 const FPS_DEFAULT = 30;
@@ -138,6 +139,7 @@ const App = () => {
           Replay
         </ReplayButton>
       </Form>
+      <Controls currentStateValue="idle" />
       <Stage
         playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
