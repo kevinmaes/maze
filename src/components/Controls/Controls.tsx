@@ -6,7 +6,11 @@ import { ReactComponent as Stop } from '../../assets/images/controls/stop.svg';
 import { ReactComponent as Pause } from '../../assets/images/controls/pause.svg';
 import { ReactComponent as StepForward } from '../../assets/images/controls/step-forward.svg';
 import { ReactComponent as StepBack } from '../../assets/images/controls/step-back.svg';
-import { ControlsGroup, ControlButton } from './Controls.css';
+import {
+  ControlsContainer,
+  ControlsGroup,
+  ControlButton,
+} from './Controls.css';
 
 type CurrentStateValue =
   | 'idle'
@@ -19,15 +23,7 @@ interface Props {
   currentStateValue: CurrentStateValue;
 }
 
-const controlRenderers = {
-  idle: () => {},
-  initialization: () => {},
-  playing: () => {},
-  paused: () => {},
-  done: () => {},
-};
-
-const iconFillColor = '#006400';
+const iconFillColor = '#2563EB';
 const iconFillDisabledColor = '#D3D3D3';
 
 export const Controls = ({ currentStateValue = 'idle' }: Props) => {
@@ -105,9 +101,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
         );
 
       default:
-        return <ControlsGroup>Can not load controls</ControlsGroup>;
+        return <>Can not load controls</>;
     }
   };
 
-  return <>{renderStateControls(currentStateValue)}</>;
+  return (
+    <ControlsContainer>
+      {renderStateControls(currentStateValue)}
+    </ControlsContainer>
+  );
 };

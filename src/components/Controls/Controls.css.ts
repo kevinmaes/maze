@@ -7,15 +7,21 @@ export const Pause = styled.button``;
 export const StepBack = styled.button``;
 export const StepForward = styled.button``;
 
-export const ControlsGroup = styled.div`
-  display: flex;
-  width: 140px;
+export const ControlsContainer = styled.div`
+  width: 200px;
   height: 50px;
-  justify-content: space-evenly;
-  padding: 0 10px;
   border: 1px solid white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
+  margin: auto;
+`;
+
+export const ControlsGroup = styled.div`
+  display: flex;
+  width: 150px;
+  height: 50px;
+  justify-content: space-evenly;
+  margin: auto;
 `;
 
 export const ControlButton = styled.button`
