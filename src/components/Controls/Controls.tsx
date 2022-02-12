@@ -1,5 +1,9 @@
 import React from 'react';
 
+import {
+  PlaybackMachineStateType,
+  EventId,
+} from '../../statechart/playbackMachineTypes';
 import { ReactComponent as StartOver } from '../../assets/images/controls/start-over.svg';
 import { ReactComponent as Play } from '../../assets/images/controls/play.svg';
 import { ReactComponent as Stop } from '../../assets/images/controls/stop.svg';
@@ -12,30 +16,31 @@ import {
   ControlButton,
 } from './Controls.css';
 
-type CurrentStateValue =
-  | 'idle'
-  | 'initialization'
-  | 'playing'
-  | 'paused'
-  | 'done';
-
 interface Props {
-  currentStateValue: CurrentStateValue;
+  currentPlaybackState: PlaybackMachineStateType;
+  onControlClick: Function;
 }
 
 const iconFillColor = '#2563EB';
 const iconFillDisabledColor = '#D3D3D3';
 
-export const Controls = ({ currentStateValue = 'idle' }: Props) => {
-  const renderStateControls = (currentStateValue: string) => {
-    switch (currentStateValue) {
+export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const {
+      currentTarget: { id },
+    } = event;
+    onControlClick(id);
+  };
+
+  const renderStateControls = (currentPlaybackState: string) => {
+    switch (currentPlaybackState) {
       case 'idle':
         return (
           <ControlsGroup>
             <ControlButton disabled>
               <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton>
+            <ControlButton id={EventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
             </ControlButton>
             <ControlButton disabled>
@@ -60,13 +65,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
       case 'playing':
         return (
           <ControlsGroup>
-            <ControlButton>
+            <ControlButton id={EventId.START_OVER} onClick={handleClick}>
               <StartOver fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
+            <ControlButton id={EventId.PAUSE} onClick={handleClick}>
               <Pause fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
+            <ControlButton id={EventId.STOP} onClick={handleClick}>
               <Stop fill={iconFillColor} />
             </ControlButton>
           </ControlsGroup>
@@ -74,13 +79,13 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
       case 'paused':
         return (
           <ControlsGroup>
-            <ControlButton>
+            <ControlButton id={EventId.STEP_BACK} onClick={handleClick}>
               <StepBack fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
+            <ControlButton id={EventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
             </ControlButton>
-            <ControlButton>
+            <ControlButton id={EventId.STEP_FORWARD} onClick={handleClick}>
               <StepForward fill={iconFillColor} />
             </ControlButton>
           </ControlsGroup>
@@ -88,7 +93,7 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
       case 'done':
         return (
           <ControlsGroup>
-            <ControlButton>
+            <ControlButton id={EventId.START_OVER} onClick={handleClick}>
               <StartOver fill={iconFillColor} />
             </ControlButton>
             <ControlButton disabled>
@@ -107,7 +112,7 @@ export const Controls = ({ currentStateValue = 'idle' }: Props) => {
 
   return (
     <ControlsContainer>
-      {renderStateControls(currentStateValue)}
+      {renderStateControls(currentPlaybackState)}
     </ControlsContainer>
   );
 };

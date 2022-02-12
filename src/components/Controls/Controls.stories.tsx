@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Controls } from './Controls';
+import { PlaybackMachineState } from '../../statechart/playbackMachineTypes';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,29 +22,29 @@ const Template: ComponentStory<typeof Controls> = (args) => (
 export const Idle = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Idle.args = {
-  currentStateValue: 'idle',
+  currentPlaybackState: PlaybackMachineState.IDLE,
 };
 
 export const Initialization = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Initialization.args = {
-  currentStateValue: 'initialization',
+  currentPlaybackState: PlaybackMachineState.INITIALIZATION,
 };
 
 export const Playing = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Playing.args = {
-  currentStateValue: 'playing',
+  currentPlaybackState: PlaybackMachineState.PLAYING,
 };
 
 export const Paused = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Paused.args = {
-  currentStateValue: 'paused',
+  currentPlaybackState: PlaybackMachineState.PAUSED,
 };
 
 export const Done = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Done.args = {
-  currentStateValue: 'done',
+  currentPlaybackState: PlaybackMachineState.DONE,
 };

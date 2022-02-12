@@ -1,4 +1,5 @@
-import Stage from '../Stage';
+import { useMachine } from '@xstate/react';
+
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 import { AppState } from './types';
 import { Actions, reducer } from './reducer';
@@ -13,6 +14,12 @@ import {
 } from './App.css.js';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
+import Stage from '../Stage';
+import { machine } from '../../statechart/playbackMachine';
+import {
+  PlaybackMachineStateType,
+  EventId,
+} from '../../statechart/playbackMachineTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -39,11 +46,23 @@ const initialState: AppState = {
 };
 
 const App = () => {
+  // eslint-disable-next-line
+  const [{ value }, send] = useMachine(machine);
+
+  const stateValue: PlaybackMachineStateType =
+    value as PlaybackMachineStateType;
+
   const [state, actions] = useTypesafeActions<AppState, typeof Actions>(
     reducer,
     initialState,
     Actions
   );
+
+  console.log({ stateValue });
+
+  const sendEventFromControl = (eventId: EventId) => {
+    send(eventId);
+  };
 
   return (
     <AppContainer>
@@ -139,7 +158,10 @@ const App = () => {
           Replay
         </ReplayButton>
       </Form>
-      <Controls currentStateValue="idle" />
+      <Controls
+        currentPlaybackState={stateValue}
+        onControlClick={sendEventFromControl}
+      />
       <Stage
         playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
