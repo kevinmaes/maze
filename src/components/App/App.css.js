@@ -28,7 +28,7 @@ export const ReplayButton = styled.button`
   font-weight: bold;
   background-color: #2563EB;
   text-transform: uppercase;
-  box-shadow: 2px 2px 15px 1px rgba(0,0,0,0.43);
+  box-shadow: 2px 2px 15px 1px rgba(0,0,0,0.4);
 `;
 
 export const Footer = styled.footer`
