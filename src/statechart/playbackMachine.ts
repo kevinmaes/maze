@@ -56,9 +56,6 @@ export const machine =
             STEP_FORWARD: {
               target: '#playback.paused',
             },
-            STEP_BACK: {
-              target: '#playback.paused',
-            },
           },
         },
         done: {
