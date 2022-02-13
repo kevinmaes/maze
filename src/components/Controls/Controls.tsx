@@ -9,7 +9,6 @@ import { ReactComponent as Play } from '../../assets/images/controls/play.svg';
 import { ReactComponent as Stop } from '../../assets/images/controls/stop.svg';
 import { ReactComponent as Pause } from '../../assets/images/controls/pause.svg';
 import { ReactComponent as StepForward } from '../../assets/images/controls/step-forward.svg';
-import { ReactComponent as StepBack } from '../../assets/images/controls/step-back.svg';
 import {
   ControlsContainer,
   ControlsGroup,
