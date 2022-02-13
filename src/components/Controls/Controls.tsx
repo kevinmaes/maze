@@ -3,6 +3,7 @@ import React from 'react';
 import {
   PlaybackMachineStateType,
   EventId,
+  PlaybackMachineState,
 } from '../../statechart/playbackMachineTypes';
 import { ReactComponent as StartOver } from '../../assets/images/controls/start-over.svg';
 import { ReactComponent as Play } from '../../assets/images/controls/play.svg';
@@ -16,7 +17,7 @@ import {
 } from './Controls.css';
 
 interface Props {
-  currentPlaybackState: PlaybackMachineStateType;
+  state: any;
   onControlClick: Function;
 }
 
@@ -24,7 +25,7 @@ const iconFillColor = '#2563EB';
 const iconFillInitializingColor = '#72B0FF';
 const iconFillDisabledColor = '#D3D3D3';
 
-export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
+export const Controls = ({ state, onControlClick }: Props) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { id },
@@ -32,9 +33,9 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
     onControlClick(id);
   };
 
-  const renderStateControls = (currentPlaybackState: string) => {
-    switch (currentPlaybackState) {
-      case 'idle':
+  const renderStateControls = (state: any) => {
+    switch (true) {
+      case state.matches(PlaybackMachineState.IDLE):
         return (
           <ControlsGroup>
             <ControlButton
@@ -59,7 +60,7 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case 'initialization':
+      case state.matches(PlaybackMachineState.INITIALIZATION):
         return (
           <ControlsGroup flash>
             <ControlButton
@@ -84,7 +85,7 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case 'playing':
+      case state.matches('generation.playing'):
         return (
           <ControlsGroup>
             <ControlButton id={EventId.START_OVER} onClick={handleClick}>
@@ -105,7 +106,7 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case 'paused':
+      case state.matches('generation.paused'):
         return (
           <ControlsGroup>
             <ControlButton
@@ -126,7 +127,7 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case 'done':
+      case state.matches(PlaybackMachineState.DONE):
         return (
           <ControlsGroup>
             <ControlButton id={EventId.START_OVER} onClick={handleClick}>
@@ -153,9 +154,5 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
     }
   };
 
-  return (
-    <ControlsContainer>
-      {renderStateControls(currentPlaybackState)}
-    </ControlsContainer>
-  );
+  return <ControlsContainer>{renderStateControls(state)}</ControlsContainer>;
 };

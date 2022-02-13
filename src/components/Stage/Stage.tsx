@@ -6,7 +6,6 @@ import { Canvas } from './Stage.css';
 import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
 
 interface Props {
-  playRequestTS: number;
   width?: number;
   height?: number;
   pixelRatio?: number;
@@ -15,11 +14,9 @@ interface Props {
   borderWeight: number;
   gridColumns: number;
   gridRows: number;
-  settingsChanging: boolean;
 }
 
-const Stage = ({
-  playRequestTS,
+export const Stage = ({
   width = 100,
   height = 100,
   pixelRatio = window.devicePixelRatio,
@@ -59,7 +56,6 @@ const Stage = ({
       send('INJECT_REFS', { gridRef, fps });
     }
   }, [
-    playRequestTS,
     fps,
     cellSize,
     borderWeight,
@@ -82,5 +78,3 @@ const Stage = ({
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
-
-export default React.memo(Stage, (_, { settingsChanging }) => settingsChanging);

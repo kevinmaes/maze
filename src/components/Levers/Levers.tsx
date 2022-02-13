@@ -15,13 +15,11 @@ const CellSize = {
 };
 
 const initialState: AppState = {
-  playRequestTS: 0,
   fps: FPS_DEFAULT,
   cellSize: CellSize.DEFAULT,
   borderWeight: BORDER_WEIGHT_DEFAULT,
   gridColumns: GRID_SIZE_DEFAULT,
   gridRows: GRID_SIZE_DEFAULT,
-  settingsChanging: false,
 };
 
 interface Props {
@@ -47,8 +45,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           min="5"
           max="60"
           step={5}
-          onMouseDown={() => actions.setSettingsChanging(true)}
-          onMouseUp={() => actions.setSettingsChanging(false)}
           onChange={({ target: { value } }) => {
             actions.setFPS(parseInt(value, 10));
           }}
@@ -63,8 +59,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           min={CellSize.MIN}
           max={CellSize.MAX}
           step={5}
-          onMouseDown={() => actions.setSettingsChanging(true)}
-          onMouseUp={() => actions.setSettingsChanging(false)}
           onChange={({ target: { value } }) =>
             actions.setCellSize(parseInt(value, 10))
           }
@@ -78,8 +72,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           value={state.borderWeight}
           min="1"
           max="10"
-          onMouseDown={() => actions.setSettingsChanging(true)}
-          onMouseUp={() => actions.setSettingsChanging(false)}
           onChange={({ target: { value } }) =>
             actions.setBorderWeight(parseInt(value, 10))
           }
@@ -93,8 +85,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           value={state.gridColumns}
           min="2"
           max="25"
-          onMouseDown={() => actions.setSettingsChanging(true)}
-          onMouseUp={() => actions.setSettingsChanging(false)}
           onChange={({ target: { value } }) =>
             actions.setGridColumns(parseInt(value, 10))
           }
@@ -108,8 +98,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           value={state.gridRows}
           min="2"
           max="25"
-          onMouseDown={() => actions.setSettingsChanging(true)}
-          onMouseUp={() => actions.setSettingsChanging(false)}
           onChange={({ target: { value } }) =>
             actions.setGridRows(parseInt(value, 10))
           }

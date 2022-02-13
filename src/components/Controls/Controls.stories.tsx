@@ -19,32 +19,46 @@ const Template: ComponentStory<typeof Controls> = (args) => (
   <Controls {...args} />
 );
 
+// const mockState = {
+//   matches: () => true,
+// };
+
 export const Idle = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Idle.args = {
-  currentPlaybackState: PlaybackMachineState.IDLE,
+  state: {
+    matches: (arg: string) => arg === 'idle',
+  },
 };
 
 export const Initialization = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Initialization.args = {
-  currentPlaybackState: PlaybackMachineState.INITIALIZATION,
+  state: {
+    matches: (arg: string) => arg === 'initialization',
+  },
 };
 
 export const Playing = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Playing.args = {
-  currentPlaybackState: PlaybackMachineState.PLAYING,
+  state: {
+    matches: (arg: string) => arg === 'generation.playing',
+  },
 };
 
 export const Paused = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Paused.args = {
-  currentPlaybackState: PlaybackMachineState.PAUSED,
+  state: {
+    matches: (arg: string) => arg === 'generation.paused',
+  },
 };
 
 export const Done = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Done.args = {
-  currentPlaybackState: PlaybackMachineState.DONE,
+  state: {
+    matches: (arg: string) => arg === 'done',
+  },
 };

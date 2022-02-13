@@ -1,6 +1,15 @@
-export type PlaybackContext = {
+export interface GenerationParams {
+  borderWeight: number;
+  cellSize: number;
+  fps: number;
+  gridColumns: number;
+  gridRows: number;
+}
+
+export interface PlaybackContext {
   mazeId: string;
-};
+  generationParams: GenerationParams;
+}
 
 export enum PlaybackMachineState {
   IDLE = 'idle',

@@ -14,51 +14,28 @@ import {
 } from './App.css';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
-import Stage from '../Stage';
+import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
   PlaybackMachineStateType,
   EventId,
+  PlaybackMachineState,
 } from '../../statechart/playbackMachineTypes';
 import { Levers } from '../Levers/Levers';
-
-const FPS_DEFAULT = 30;
-const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 15;
 
 const APP_WIDTH = window.innerWidth;
 const APP_HEIGHT = window.innerHeight;
 
-const CellSize = {
-  DEFAULT: 20,
-  MIN: 10,
-  MAX: 25,
-};
-
-const initialState: AppState = {
-  playRequestTS: 0,
-  fps: FPS_DEFAULT,
-  cellSize: CellSize.DEFAULT,
-  borderWeight: BORDER_WEIGHT_DEFAULT,
-  gridColumns: GRID_SIZE_DEFAULT,
-  gridRows: GRID_SIZE_DEFAULT,
-  settingsChanging: false,
-};
-
 const App = () => {
   // eslint-disable-next-line
-  const [{ value }, send] = useMachine(appMachine);
+  const [state, send] = useMachine(appMachine);
 
-  const stateValue: PlaybackMachineStateType =
-    value as PlaybackMachineStateType;
+  const { borderWeight, cellSize, fps, gridColumns, gridRows } =
+    state.context.generationParams;
 
-  const [state, actions] = useTypesafeActions<AppState, typeof Actions>(
-    reducer,
-    initialState,
-    Actions
-  );
-
-  console.log({ stateValue });
+  const leversEnabled =
+    state.matches(PlaybackMachineState.IDLE) ||
+    state.matches(PlaybackMachineState.DONE);
 
   const sendEventFromControl = (eventId: EventId) => {
     send(eventId);
@@ -73,21 +50,16 @@ const App = () => {
       </p>
       <Levers updateFromLevers={() => {}} enabled />
 
-      <Controls
-        currentPlaybackState={stateValue}
-        onControlClick={sendEventFromControl}
-      />
+      <Controls state={state} onControlClick={sendEventFromControl} />
       <Stage
-        playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
         height={APP_HEIGHT}
-        fps={state.fps}
-        cellSize={state.cellSize}
-        borderWeight={state.borderWeight}
-        gridColumns={state.gridColumns}
-        gridRows={state.gridRows}
+        fps={fps}
+        cellSize={cellSize}
+        borderWeight={borderWeight}
+        gridColumns={gridColumns}
+        gridRows={gridRows}
         pixelRatio={1}
-        settingsChanging={Boolean(state.settingsChanging)}
       />
       <Footer>
         <Link

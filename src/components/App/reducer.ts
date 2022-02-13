@@ -9,7 +9,6 @@ export const Actions = {
   setBorderWeight: createAction('SET_BORDER_WEIGHT')<number>(),
   setGridColumns: createAction('SET_GRID_COLUMNS')<number>(),
   setGridRows: createAction('SET_GRID_ROWS')<number>(),
-  setSettingsChanging: createAction('SET_SETTINGS_CHANGING')<any>(),
 };
 
 export const reducer = (
@@ -17,8 +16,6 @@ export const reducer = (
   { type, payload }: ActionType<typeof Actions>
 ) => {
   switch (type) {
-    case getType(Actions.createPlayRequest):
-      return { ...s, playRequestTS: payload };
     case getType(Actions.setFPS):
       return { ...s, fps: payload };
     case getType(Actions.setCellSize):
@@ -29,8 +26,6 @@ export const reducer = (
       return { ...s, gridColumns: payload };
     case getType(Actions.setGridRows):
       return { ...s, gridRows: payload };
-    case getType(Actions.setSettingsChanging):
-      return { ...s, settingsChanging: payload };
     default:
       return s;
   }
