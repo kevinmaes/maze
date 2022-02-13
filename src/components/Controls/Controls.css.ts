@@ -8,7 +8,7 @@ export const StepBack = styled.button``;
 export const StepForward = styled.button``;
 
 export const ControlsContainer = styled.div`
-  width: 200px;
+  width: 220px;
   height: 50px;
   border: 1px solid white;
   border-radius: 10px;
@@ -16,12 +16,30 @@ export const ControlsContainer = styled.div`
   margin: auto;
 `;
 
-export const ControlsGroup = styled.div`
+export const ControlsGroup = styled.div<{ flash?: boolean }>`
   display: flex;
-  width: 150px;
+  width: 170px;
   height: 50px;
   justify-content: space-evenly;
   margin: auto;
+
+  // TODO: Need to tweak this later
+  // & button {
+  //   animation-name: flash;
+  //   animation-iteration-count: 3;
+  //   animation-duration: 0.2s;
+  //   animation-play-state: ${({ flash }) => (flash ? 'running' : 'paused')};
+
+  //   @keyframes flash {
+  //     from {
+  //       opacity: 1;
+  //     }
+
+  //     to {
+  //       opacity: 0;
+  //     }
+  //   }
+  }
 `;
 
 export const ControlButton = styled.button`

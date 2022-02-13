@@ -6,7 +6,7 @@ import {
 } from './playbackMachineTypes';
 
 export const machine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAngI3QYwGsA6ASwlTAGIAFAGQEEBNRFAe1hIBcTWA7FkAA9EAFgAcARiIBmaWIAMEsQHYArADZ1EkcvUAaEJkQBaJVOUAmeetXKJ0kQE5181dIC+7g2iy5CpXi4SdFQSAC90bj5KAWR2IL4BYQQxEVUiVUdlR2lNeQc7aQMjBGNpeUciRQs1VXk05WUxHM9vDBx8Yh9MEl4oSgBlABV6ACUhgH0AeQA1AFFR2Pio-iQhRAkJeSIXMRVbZpF1MQtik1URIhELMTctG21HSVaQbr8u9t7+6noAVQG5ksOCskhstjt5Hs1E1HEcTmcEBZVBYqpo5BZYToLDoXm9OkRul9BkMptQgQlVqBkpttrt9jC4adDCYzERLNYnCJxOoMcoPF5Xu13gTPn0Yms4sCeJT1ggaRCoQdYccmSVZNtVBIbGJZHYRNI7LihfjkOgAK6wSA0BjMCXLaWgxHyba6PkSPn5DEHBFKMRXE4SRwWbEe1L8tq+E3my0QYlzagTABiU1GAHUxgARckgtbJcpSW5pCSahQ1Jo+3JXHSNVR1KyNORGyP+U0Wq3DeMTABC9AAwgBpbMO3OIaRKNnKeS6GnKLniBGWIhidTSWuOJSr1Q6sRNjot6NWoeJEcIcRSWQKJRqTTaXQ+rRXaQWaSOZG5exbZS74UQPhUYZjJMswLEeMrJKWRBPJY0KSG47oIhYEgoohORckomhNOIngCrwrAQHAsTGv4ZAUKBjqyCi6hBmYzhck+GgIqY2SQR+4iITc0HhoKzbEL0QQhOEkTDmwUrHlSiBZCiezlFBchjqkjHulImo8sGiErnyfLfiaopQGRJ7GHyGRWCoy62NYL76MypQYi6Kgqho+RIfY2n7m2ED6eJCBPlISK1rY9glkoqgIa4VRjo464nK4zgWOornEL+vBgJ5srqI0GQ6tqt7XEcCHaFUcWpBcwb6hcXF4oQqXJMYWTGZCTQ2JOK7OIxchSE8gbHM0NTbth7hAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QAcA2BDAngI3QYwGsA6ASwlTAGIAFAGQEEBNRFAe1hIBcTWA7FkAA9EAFhEB2IgFYpADgAMANgCc4gIxS1I5YsUAaEJkQBaAEzaisgMynZIqeLEiryteIC+7g2iy5CpXi4SdFQSAC90bj5KQVhOSLAidAAzTjAAJyIASQA5LIAVAH1c-IBRACUANXpaAWR2IL4BYQRxFSJTeXFbcRkrcStFKQMjBGN+yTVzZWdxVSklNU9vDBx8Yh9MEl4oSgBlfPpyooB5Soq6hqj+JCFENstbZR6reTUlcVkRkynTaREuhIVGp+qYrMsQJs-BtVttdtR6ABVPalS4ca7Ne6KR6yZ6yAZvD5fQyINTWIjKKQiKYAgavVymCFQ9ZETZw-b5E7UNGNG6gFoPWRPF6ExSfb5jaaWGx2BxOFxuJmraGs2E7Sg8jG3AXYoW4kXvMXE0amRR-AHOeQzXRSUyMryQ5Us5DoACusEgNAYzFu9XRPD5dwQal0FPxVnstueclsEqm8iIg2UzzmYrcmkUSt8zrdHogHNK1EKADETuUAOpHAAimoDmIQptkREBUlcXUUsnexsQHcTVhkIkUg8+tnBDuZ-hd7s9B0LhQAQvQAMIAaVrTW1iFsIgpynkQtMDnMIeUEp3vRBC0GJ-sijHK2zk9znvXgZaYkkMgUKnUmm0uglZQrETTo1BBQZ5CsWQhWULM1n8CA+CoA4jlOc5ylfes2mUDouh6PoBiGOMxCId51HbDtTE+TwHV4VgIDgOonX8MgKEwzcG2UJsGTtfouOTTRxAlMwRCbeRDwjbp7GTeR9zglVtiCEJwkiOtfSuNT+UQZNz2g3FZDkKk730ElJRcIgzTsKirH7JQhnvR1HxhLA4XYrSxjIxNZIMxQ3CFW9TGE-sm1xLjdFUC97QfeCNmfCA3KDHoiAkKRfL3USyTsONBgpNRVBEQ8Bh0O0pHkllEN4MAEpaIdgIUQY007YriKkXL7DaS0wNkzNx2Yghqp+Kw1C8-dUr88xUsC0zjHsBMrWpAq9zFakPBooA */
   createMachine<PlaybackContext, PlaybackEvent, Typestate>(
     {
       context: { mazeId: '' },
@@ -21,9 +21,6 @@ export const machine =
           },
         },
         initialization: {
-          // always: {
-          //   target: '#playback.playing',
-          // },
           after: {
             INIT_INTERVAL: {
               target: '#playback.playing',
@@ -79,7 +76,7 @@ export const machine =
       },
       delays: {
         INIT_INTERVAL: () => {
-          return 500;
+          return 1000;
         },
       },
     }
