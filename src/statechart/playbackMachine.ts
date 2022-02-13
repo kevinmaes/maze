@@ -76,7 +76,7 @@ export const machine =
       },
       delays: {
         INIT_INTERVAL: () => {
-          return 500;
+          return 1000;
         },
       },
     }

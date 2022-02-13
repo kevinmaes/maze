@@ -22,6 +22,7 @@ interface Props {
 }
 
 const iconFillColor = '#2563EB';
+const iconFillInitializingColor = '#72B0FF';
 const iconFillDisabledColor = '#D3D3D3';
 
 export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
@@ -37,28 +38,50 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
       case 'idle':
         return (
           <ControlsGroup>
-            <ControlButton disabled>
+            <ControlButton
+              id={EventId.START_OVER}
+              onClick={handleClick}
+              disabled
+            >
               <StartOver fill={iconFillDisabledColor} />
+            </ControlButton>
+            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+              <Stop fill={iconFillDisabledColor} />
             </ControlButton>
             <ControlButton id={EventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
             </ControlButton>
-            <ControlButton disabled>
-              <Stop fill={iconFillDisabledColor} />
+            <ControlButton
+              id={EventId.STEP_FORWARD}
+              onClick={handleClick}
+              disabled
+            >
+              <StepForward fill={iconFillDisabledColor} />
             </ControlButton>
           </ControlsGroup>
         );
       case 'initialization':
         return (
-          <ControlsGroup>
-            <ControlButton disabled>
-              <StartOver fill={iconFillDisabledColor} />
+          <ControlsGroup flash>
+            <ControlButton
+              id={EventId.START_OVER}
+              onClick={handleClick}
+              disabled
+            >
+              <StartOver fill={iconFillInitializingColor} />
             </ControlButton>
-            <ControlButton disabled>
-              <Pause fill={iconFillDisabledColor} />
+            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+              <Stop fill={iconFillInitializingColor} />
             </ControlButton>
-            <ControlButton disabled>
-              <Stop fill={iconFillDisabledColor} />
+            <ControlButton id={EventId.PAUSE} onClick={handleClick} disabled>
+              <Pause fill={iconFillInitializingColor} />
+            </ControlButton>
+            <ControlButton
+              id={EventId.STEP_FORWARD}
+              onClick={handleClick}
+              disabled
+            >
+              <StepForward fill={iconFillDisabledColor} />
             </ControlButton>
           </ControlsGroup>
         );
@@ -68,19 +91,33 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             <ControlButton id={EventId.START_OVER} onClick={handleClick}>
               <StartOver fill={iconFillColor} />
             </ControlButton>
+            <ControlButton id={EventId.STOP} onClick={handleClick}>
+              <Stop fill={iconFillColor} />
+            </ControlButton>
             <ControlButton id={EventId.PAUSE} onClick={handleClick}>
               <Pause fill={iconFillColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick}>
-              <Stop fill={iconFillColor} />
+            <ControlButton
+              id={EventId.STEP_FORWARD}
+              onClick={handleClick}
+              disabled
+            >
+              <StepForward fill={iconFillDisabledColor} />
             </ControlButton>
           </ControlsGroup>
         );
       case 'paused':
         return (
           <ControlsGroup>
-            <ControlButton id={EventId.STEP_BACK} onClick={handleClick}>
-              <StepBack fill={iconFillColor} />
+            <ControlButton
+              id={EventId.START_OVER}
+              onClick={handleClick}
+              disabled
+            >
+              <StartOver fill={iconFillDisabledColor} />
+            </ControlButton>
+            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+              <Stop fill={iconFillDisabledColor} />
             </ControlButton>
             <ControlButton id={EventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
@@ -96,11 +133,18 @@ export const Controls = ({ currentPlaybackState, onControlClick }: Props) => {
             <ControlButton id={EventId.START_OVER} onClick={handleClick}>
               <StartOver fill={iconFillColor} />
             </ControlButton>
-            <ControlButton disabled>
+            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+              <Stop fill={iconFillDisabledColor} />
+            </ControlButton>
+            <ControlButton id={EventId.PLAY} onClick={handleClick} disabled>
               <Play fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton disabled>
-              <Stop fill={iconFillDisabledColor} />
+            <ControlButton
+              id={EventId.STEP_FORWARD}
+              onClick={handleClick}
+              disabled
+            >
+              <StepForward fill={iconFillDisabledColor} />
             </ControlButton>
           </ControlsGroup>
         );
