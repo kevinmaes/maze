@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { machine } from '../../statechart/statechart';
+import { machine } from '../../statechart/recursiveBacktrackerMachine';
 
 interface Props {
   playRequestTS: number;
