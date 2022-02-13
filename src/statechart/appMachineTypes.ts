@@ -22,7 +22,7 @@ export enum AppMachineState {
 
 export type AppMachineStateType = `${AppMachineState}`;
 
-export enum EventId {
+export enum AppMachineEventId {
   START_OVER = 'START_OVER',
   PLAY = 'PLAY',
   STOP = 'STOP',
@@ -32,12 +32,12 @@ export enum EventId {
 }
 
 export type AppMachineEvent =
-  | { type: EventId.PLAY }
-  | { type: EventId.STOP }
-  | { type: EventId.PAUSE }
-  | { type: EventId.START_OVER }
-  | { type: EventId.STEP_FORWARD }
-  | { type: EventId.STEP_BACK };
+  | { type: AppMachineEventId.PLAY }
+  | { type: AppMachineEventId.STOP }
+  | { type: AppMachineEventId.PAUSE }
+  | { type: AppMachineEventId.START_OVER }
+  | { type: AppMachineEventId.STEP_FORWARD }
+  | { type: AppMachineEventId.STEP_BACK };
 
 export type Typestate =
   | {

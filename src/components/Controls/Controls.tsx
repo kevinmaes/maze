@@ -2,7 +2,7 @@ import React from 'react';
 
 import {
   AppMachineStateType,
-  EventId,
+  AppMachineEventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { ReactComponent as StartOver } from '../../assets/images/controls/start-over.svg';
@@ -39,20 +39,24 @@ export const Controls = ({ state, onControlClick }: Props) => {
         return (
           <ControlsGroup>
             <ControlButton
-              id={EventId.START_OVER}
+              id={AppMachineEventId.START_OVER}
               onClick={handleClick}
               disabled
             >
               <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.STOP}
+              onClick={handleClick}
+              disabled
+            >
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton id={EventId.PLAY} onClick={handleClick}>
+            <ControlButton id={AppMachineEventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
             </ControlButton>
             <ControlButton
-              id={EventId.STEP_FORWARD}
+              id={AppMachineEventId.STEP_FORWARD}
               onClick={handleClick}
               disabled
             >
@@ -64,20 +68,28 @@ export const Controls = ({ state, onControlClick }: Props) => {
         return (
           <ControlsGroup flash>
             <ControlButton
-              id={EventId.START_OVER}
+              id={AppMachineEventId.START_OVER}
               onClick={handleClick}
               disabled
             >
               <StartOver fill={iconFillInitializingColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.STOP}
+              onClick={handleClick}
+              disabled
+            >
               <Stop fill={iconFillInitializingColor} />
             </ControlButton>
-            <ControlButton id={EventId.PAUSE} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.PAUSE}
+              onClick={handleClick}
+              disabled
+            >
               <Pause fill={iconFillInitializingColor} />
             </ControlButton>
             <ControlButton
-              id={EventId.STEP_FORWARD}
+              id={AppMachineEventId.STEP_FORWARD}
               onClick={handleClick}
               disabled
             >
@@ -88,17 +100,20 @@ export const Controls = ({ state, onControlClick }: Props) => {
       case state.matches('generation.playing'):
         return (
           <ControlsGroup>
-            <ControlButton id={EventId.START_OVER} onClick={handleClick}>
+            <ControlButton
+              id={AppMachineEventId.START_OVER}
+              onClick={handleClick}
+            >
               <StartOver fill={iconFillColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick}>
+            <ControlButton id={AppMachineEventId.STOP} onClick={handleClick}>
               <Stop fill={iconFillColor} />
             </ControlButton>
-            <ControlButton id={EventId.PAUSE} onClick={handleClick}>
+            <ControlButton id={AppMachineEventId.PAUSE} onClick={handleClick}>
               <Pause fill={iconFillColor} />
             </ControlButton>
             <ControlButton
-              id={EventId.STEP_FORWARD}
+              id={AppMachineEventId.STEP_FORWARD}
               onClick={handleClick}
               disabled
             >
@@ -110,19 +125,26 @@ export const Controls = ({ state, onControlClick }: Props) => {
         return (
           <ControlsGroup>
             <ControlButton
-              id={EventId.START_OVER}
+              id={AppMachineEventId.START_OVER}
               onClick={handleClick}
               disabled
             >
               <StartOver fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.STOP}
+              onClick={handleClick}
+              disabled
+            >
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton id={EventId.PLAY} onClick={handleClick}>
+            <ControlButton id={AppMachineEventId.PLAY} onClick={handleClick}>
               <Play fill={iconFillColor} />
             </ControlButton>
-            <ControlButton id={EventId.STEP_FORWARD} onClick={handleClick}>
+            <ControlButton
+              id={AppMachineEventId.STEP_FORWARD}
+              onClick={handleClick}
+            >
               <StepForward fill={iconFillColor} />
             </ControlButton>
           </ControlsGroup>
@@ -130,17 +152,28 @@ export const Controls = ({ state, onControlClick }: Props) => {
       case state.matches(AppMachineState.DONE):
         return (
           <ControlsGroup>
-            <ControlButton id={EventId.START_OVER} onClick={handleClick}>
+            <ControlButton
+              id={AppMachineEventId.START_OVER}
+              onClick={handleClick}
+            >
               <StartOver fill={iconFillColor} />
             </ControlButton>
-            <ControlButton id={EventId.STOP} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.STOP}
+              onClick={handleClick}
+              disabled
+            >
               <Stop fill={iconFillDisabledColor} />
             </ControlButton>
-            <ControlButton id={EventId.PLAY} onClick={handleClick} disabled>
+            <ControlButton
+              id={AppMachineEventId.PLAY}
+              onClick={handleClick}
+              disabled
+            >
               <Play fill={iconFillDisabledColor} />
             </ControlButton>
             <ControlButton
-              id={EventId.STEP_FORWARD}
+              id={AppMachineEventId.STEP_FORWARD}
               onClick={handleClick}
               disabled
             >

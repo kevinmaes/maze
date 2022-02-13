@@ -18,7 +18,7 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
   AppMachineStateType,
-  EventId,
+  AppMachineEventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
@@ -36,7 +36,7 @@ const App = () => {
   const leversEnabled =
     state.matches(AppMachineState.IDLE) || state.matches(AppMachineState.DONE);
 
-  const sendEventFromControl = (eventId: EventId) => {
+  const sendEventFromControl = (eventId: AppMachineEventId) => {
     send(eventId);
   };
 
