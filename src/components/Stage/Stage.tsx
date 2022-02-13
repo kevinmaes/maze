@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { machine } from '../../statechart/recursiveBacktrackerMachine';
+import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
 
 interface Props {
   playRequestTS: number;
@@ -35,7 +35,7 @@ const Stage = ({
   );
 
   // eslint-disable-next-line
-  const [_, send] = useMachine(machine);
+  const [_, send] = useMachine(recursiveBacktrakerMachine);
 
   const cellTotal = gridColumns * gridRows;
 
