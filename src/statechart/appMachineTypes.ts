@@ -31,7 +31,7 @@ export enum EventId {
   STEP_BACK = 'STEP_BACK',
 }
 
-export type PlaybackEvent =
+export type AppMachineEvent =
   | { type: EventId.PLAY }
   | { type: EventId.STOP }
   | { type: EventId.PAUSE }
