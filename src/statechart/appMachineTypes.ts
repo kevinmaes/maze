@@ -6,7 +6,7 @@ export interface GenerationParams {
   gridRows: number;
 }
 
-export interface PlaybackContext {
+export interface AppContext {
   mazeId: string;
   generationParams: GenerationParams;
 }
@@ -41,21 +41,21 @@ export type PlaybackEvent =
 export type Typestate =
   | {
       value: PlaybackMachineState.IDLE;
-      context: PlaybackContext;
+      context: AppContext;
     }
   | {
       value: PlaybackMachineState.INITIALIZATION;
-      context: PlaybackContext;
+      context: AppContext;
     }
   | {
       value: PlaybackMachineState.PLAYING;
-      context: PlaybackContext;
+      context: AppContext;
     }
   | {
       value: PlaybackMachineState.PAUSED;
-      context: PlaybackContext;
+      context: AppContext;
     }
   | {
       value: PlaybackMachineState.DONE;
-      context: PlaybackContext;
+      context: AppContext;
     };
