@@ -4,7 +4,7 @@ import {
   PlaybackContext,
   PlaybackEvent,
   Typestate,
-} from './playbackMachineTypes';
+} from './appMachineTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;

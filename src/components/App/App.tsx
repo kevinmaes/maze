@@ -20,7 +20,7 @@ import {
   PlaybackMachineStateType,
   EventId,
   PlaybackMachineState,
-} from '../../statechart/playbackMachineTypes';
+} from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 
 const APP_WIDTH = window.innerWidth;
