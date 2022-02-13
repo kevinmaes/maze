@@ -97,7 +97,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case state.matches('generation.playing'):
+      case state.matches({ generating: 'playing' }):
         return (
           <ControlsGroup>
             <ControlButton
@@ -121,7 +121,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case state.matches('generation.paused'):
+      case state.matches({ generating: 'paused' }):
         return (
           <ControlsGroup>
             <ControlButton
