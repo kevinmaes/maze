@@ -15,7 +15,7 @@ import {
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import Stage from '../Stage';
-import { machine } from '../../statechart/appMachine';
+import { appMachine } from '../../statechart/appMachine';
 import {
   PlaybackMachineStateType,
   EventId,
@@ -46,7 +46,7 @@ const initialState: AppState = {
 
 const App = () => {
   // eslint-disable-next-line
-  const [{ value }, send] = useMachine(machine);
+  const [{ value }, send] = useMachine(appMachine);
 
   const stateValue: PlaybackMachineStateType =
     value as PlaybackMachineStateType;
