@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {
-  PlaybackMachineStateType,
+  AppMachineStateType,
   EventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';

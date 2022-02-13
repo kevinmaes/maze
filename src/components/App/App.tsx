@@ -17,7 +17,7 @@ import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
-  PlaybackMachineStateType,
+  AppMachineStateType,
   EventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';
