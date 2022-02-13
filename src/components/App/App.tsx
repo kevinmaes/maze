@@ -20,6 +20,7 @@ import {
   PlaybackMachineStateType,
   EventId,
 } from '../../statechart/playbackMachineTypes';
+import { Levers } from '../Levers/Levers';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -70,6 +71,7 @@ const App = () => {
       <p>
         <i>React, XState, Canvas, TypeScript</i>
       </p>
+      <Levers updateFromLevers={() => {}} enabled />
       <Form>
         <P>
           <label>FPS ({state.fps})</label>

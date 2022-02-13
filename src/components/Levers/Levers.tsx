@@ -2,7 +2,7 @@ import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 // TODO: Move these files.
 import { AppState } from '../App/types';
 import { Actions, reducer } from '../App/reducer';
-import { Form, P, ReplayButton } from './Levers.css';
+import { Form, P } from './Levers.css';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -115,14 +115,6 @@ export const Levers = ({ enabled, updateFromLevers }: Props) => {
           }
         />
       </P>
-      <ReplayButton
-        onClick={(event) => {
-          event.preventDefault();
-          actions.createPlayRequest(new Date().getTime());
-        }}
-      >
-        Replay
-      </ReplayButton>
     </Form>
   );
 };
