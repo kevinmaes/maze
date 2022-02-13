@@ -19,7 +19,7 @@ import { appMachine } from '../../statechart/appMachine';
 import {
   PlaybackMachineStateType,
   EventId,
-  PlaybackMachineState,
+  AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 
@@ -34,8 +34,7 @@ const App = () => {
     state.context.generationParams;
 
   const leversEnabled =
-    state.matches(PlaybackMachineState.IDLE) ||
-    state.matches(PlaybackMachineState.DONE);
+    state.matches(AppMachineState.IDLE) || state.matches(AppMachineState.DONE);
 
   const sendEventFromControl = (eventId: EventId) => {
     send(eventId);

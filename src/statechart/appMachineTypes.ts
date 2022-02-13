@@ -11,15 +11,16 @@ export interface AppContext {
   generationParams: GenerationParams;
 }
 
-export enum PlaybackMachineState {
+export enum AppMachineState {
   IDLE = 'idle',
   INITIALIZATION = 'initialization',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
+  GENERATION = 'generation',
+  PLAYING = 'generation.playing',
+  PAUSED = 'generation.paused',
   DONE = 'done',
 }
 
-export type PlaybackMachineStateType = `${PlaybackMachineState}`;
+export type PlaybackMachineStateType = `${AppMachineState}`;
 
 export enum EventId {
   START_OVER = 'START_OVER',
@@ -40,22 +41,22 @@ export type PlaybackEvent =
 
 export type Typestate =
   | {
-      value: PlaybackMachineState.IDLE;
+      value: AppMachineState.IDLE;
       context: AppContext;
     }
   | {
-      value: PlaybackMachineState.INITIALIZATION;
+      value: AppMachineState.INITIALIZATION;
       context: AppContext;
     }
   | {
-      value: PlaybackMachineState.PLAYING;
+      value: AppMachineState.PLAYING;
       context: AppContext;
     }
   | {
-      value: PlaybackMachineState.PAUSED;
+      value: AppMachineState.PAUSED;
       context: AppContext;
     }
   | {
-      value: PlaybackMachineState.DONE;
+      value: AppMachineState.DONE;
       context: AppContext;
     };

@@ -2,7 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Levers } from './Levers';
-import { PlaybackMachineState } from '../../statechart/appMachineTypes';
+import { AppMachineState } from '../../statechart/appMachineTypes';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

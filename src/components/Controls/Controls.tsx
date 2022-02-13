@@ -3,7 +3,7 @@ import React from 'react';
 import {
   PlaybackMachineStateType,
   EventId,
-  PlaybackMachineState,
+  AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { ReactComponent as StartOver } from '../../assets/images/controls/start-over.svg';
 import { ReactComponent as Play } from '../../assets/images/controls/play.svg';
@@ -35,7 +35,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
 
   const renderStateControls = (state: any) => {
     switch (true) {
-      case state.matches(PlaybackMachineState.IDLE):
+      case state.matches(AppMachineState.IDLE):
         return (
           <ControlsGroup>
             <ControlButton
@@ -60,7 +60,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case state.matches(PlaybackMachineState.INITIALIZATION):
+      case state.matches(AppMachineState.INITIALIZATION):
         return (
           <ControlsGroup flash>
             <ControlButton
@@ -127,7 +127,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           </ControlsGroup>
         );
-      case state.matches(PlaybackMachineState.DONE):
+      case state.matches(AppMachineState.DONE):
         return (
           <ControlsGroup>
             <ControlButton id={EventId.START_OVER} onClick={handleClick}>
