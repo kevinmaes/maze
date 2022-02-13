@@ -15,7 +15,7 @@ import {
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import Stage from '../Stage';
-import { machine } from '../../statechart/playbackMachine';
+import { machine } from '../../statechart/appMachine';
 import {
   PlaybackMachineStateType,
   EventId,

@@ -6,24 +6,24 @@ import {
 } from './playbackMachineTypes';
 
 export const machine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqA2BLAxsgLlgPYB2AdFhBmAMQAKAMgIICaioqRsWhp7IAD0QBaAGwAWAKxkA7FIBMogJyT5AZgCMMtQBoQATxEyAHErLHVy+QAYltjaYC+jvWky4CxclhI8sybAAvT1IaAVh8AjAyZAAzfDAAJzIASQA5FIAVAH10zIBRACUANSYGfk5uXhJ+IQQNOzIlcXkZeUkNSXEpST1DBGETcTI1ZutjUQ6TNvlnV3RsPGqyGBIkzxIoMkxkfR8oGgBlTKZCnIB5YqKKrj8+JEEReW6yDWtOuUljGQ01cfE+iJRGp5GRRNZ5A5RL9xL8ZEo5iA3IsQuRVutCJtthhdvt6EwAKqHfI3KpeWqIGQyMjqcTvNqiCSfDSAgaSZqvNTGUxfbkycazFxIhYeZboxIbLY7PabI6Zc50Ul3GoPOrCb7DaziOQODSiH50pSs4TiCYjb42D62cGSRHI0VeFZgNYSzFSnEyg5K6oUhBqU1kCETP6SUQWBzWXoGESm0RkcRKZTGcQgzRKLR2kVLR3iyXbZAAV1gkHozDYD0qyt9NlBmgc7OUGk66lExrUMmkWqp-tD8mM1m0okz7mzpCdLrzqELxYgcvydGyADFzoUAOqnAAi3vJqsQPbBSjUyn5-Lp2uNTekpo0NiUcm5KaUgvmI9R44x+3zRZL2-uoDqcb8mm8hKKYKZciGrJ-PGXKHmo-paIyVjDiiywQKQtDHKcFxXIUv4qv+Mahq82hHsmHRnimrJNmo5hal0JjKFqdgIoiJBEBAcD8Pao7eFQYD4b66omGCDJUsm8IUca8IaLIkYIVSkzgmoKEOmOPh+AEWDBD6Fa3LphEDN0oKmFS4gSB06hNtJyayA4zwQnY2idKpvHvq6n7Svsgm7ggoHmlqkbqF2IFGtGRnGLR7YTNYtjtnesIyK5b65m6X4zj5hk3tSib8tYR7QqRMgXhowyRQ4ozsqaEJtMlYrOh+myZY8CCSLRtL0ooTJSCy4ViPqrwCpIobTPyz7Cq+aEYc1dSWSM+WjIyXLcg41GMuabyRlqfbyIo4h1TuHD6YdLXCHYoL6oo4naiopXGhMwz6goij1g0Q7OI4QA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiA7AJwBWDAAYAHAEYAbABZxsyX1HC+AGhABPRACZpWjKIDMo-jy3iB04VsmiAvrbVpMWVkyzJcWAF7JmbApywjL5gGMgAZoxgAE4YAJIAcnEAKgD6ickAogBKAGpkJBx0DH7sSFyIAlpqmgh8whh8CloGAsI2kgI84vaO6BgwrDG+LlAYqLjI6qMEAMrJZNlpAPK5OUX0bmwc3AgCNhiyfAbirQY2XaI1iAY8Dadiolr8sgICPQ4gTgNgQ9EjrDGEymMyIZAAqrNMhsSiwyqBdjpxBhxFo+DxRDIjDx+NUNIhpDwDCJhN0DIIDMJZFoBL0vv1BsNmIDxpNpoC5sllkQYVt4RU9gcjiczhcMdcEDo9IZjOizBYrPs6d9Gf9mUC2TNeaUdpUheJjqcBOdRJcJQIlPpDOTJNZJPb0cqGb8maNxsgAK6wSDEchUcrFPm6yVVfTSU3k8zCcRycQSyx8Q5aNE2W5o0mSJ2YVUAoGe70QTmZIipABiy2yAHVFgARbVw4NnRqtHgyO7J0THSTxsQYIlU86yIknWmfFUutVu1D5n317blXb7USHA0i41iq74hDSAzE7ptY2CKSZsf9CBsQjzRYrNbZOf83adhrtTE4mPSdF8VRbySnDA2dplF3cl+AMexPlYWgIDgDhvhwfB72DSQcQwZ4DHDURZX4X8JR0aR-2kW1OhpRRrAtLNsFcZgPG8EZ5xoTYdQXRBxHaRMmmkNpuj4Ql3wlSRhAaNF+w3doPj6bMJ1zVkQUBRDmIQYx4xjVDKR3GRxGHcwKJzdV3S9SB5IRG4iQwXcbFOGxBAEnR4xQk5CNJLpw0HHSpPVIyBUkAwJV3IRW1RaN0NfaRpAo88hk83ZW3w+0Pz4VjxEMFoBH48xDkw0kiQxSwDC0LMou0TdaiSklBIEDiux4C0T3sIA */
   createMachine<PlaybackContext, PlaybackEvent, Typestate>(
     {
       context: { mazeId: '' },
-      id: 'application',
+      id: 'app',
       initial: 'idle',
       states: {
         idle: {
           on: {
             PLAY: {
-              target: '#application.initialization',
+              target: '#app.initialization',
             },
           },
         },
         initialization: {
           after: {
             INIT_INTERVAL: {
-              target: '#application.generating',
+              target: '#app.generating',
             },
           },
         },
@@ -33,31 +33,31 @@ export const machine =
             playing: {
               always: {
                 cond: 'isFinished',
-                target: '#application.done',
+                target: '#app.done',
               },
               on: {
                 START_OVER: {
-                  target: '#application.initialization',
+                  target: '#app.initialization',
                 },
                 PAUSE: {
-                  target: '#application.generating.paused',
+                  target: '#app.generating.paused',
                 },
                 STOP: {
-                  target: '#application.idle',
+                  target: '#app.idle',
                 },
               },
             },
             paused: {
               always: {
                 cond: 'isFinished',
-                target: '#application.done',
+                target: '#app.done',
               },
               on: {
                 PLAY: {
-                  target: '#application.generating.playing',
+                  target: '#app.generating.playing',
                 },
                 STEP_FORWARD: {
-                  target: '#application.generating.paused',
+                  target: '#app.generating.paused',
                 },
               },
             },
@@ -66,7 +66,7 @@ export const machine =
         done: {
           on: {
             START_OVER: {
-              target: '#application.initialization',
+              target: '#app.initialization',
             },
           },
         },
