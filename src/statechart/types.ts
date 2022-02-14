@@ -2,11 +2,11 @@ import type { Cell, CellMethods } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
 interface Settings {
-  gridColumns: number;
-  gridRows: number;
-  startIndex: number;
-  pathId: string;
-  fps: number;
+  fps: number; // Received from parent along with pause/play events.
+  gridColumns: number; // Passed down from parent.
+  gridRows: number; // Passed down from parent.
+  pathId: string; // Owned by the algorithm.
+  startIndex: number; // Owned by the algorithm.
 }
 
 export type ICell = Cell & CellMethods;

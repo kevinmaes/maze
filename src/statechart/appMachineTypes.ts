@@ -1,9 +1,9 @@
 export interface GenerationParams {
-  borderWeight: number;
-  cellSize: number;
-  fps: number;
-  gridColumns: number;
-  gridRows: number;
+  borderWeight: number; // Passed down to Grid/cell.
+  cellSize: number; // Passed down to Grid/cell.
+  fps: number; // Passed down to algo along with pause/play.
+  gridColumns: number; // Passed down to algo.
+  gridRows: number; // Passed down to algo.
 }
 
 export interface AppContext {
