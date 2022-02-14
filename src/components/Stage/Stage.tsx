@@ -52,8 +52,8 @@ export const Stage = ({
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
         blockedCells: [],
       });
-
-      send('INJECT_REFS', { gridRef, fps });
+      // TODO: Can omit fps and send that directly from appMachine -> algo machine.
+      send('INJECT_REFS', { gridRef });
     }
   }, [
     fps,
