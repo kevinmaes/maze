@@ -23,11 +23,17 @@ const Template: ComponentStory<typeof Controls> = (args) => (
 //   matches: () => true,
 // };
 
+type StateValue =
+  | string
+  | {
+      generating: string;
+    };
+
 export const Idle = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Idle.args = {
   state: {
-    matches: (arg: string) => arg === 'idle',
+    matches: (arg: StateValue) => arg === 'idle',
   },
 };
 
@@ -35,7 +41,7 @@ export const Initialization = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Initialization.args = {
   state: {
-    matches: (arg: string) => arg === 'initialization',
+    matches: (arg: StateValue) => arg === 'initialization',
   },
 };
 
@@ -43,7 +49,9 @@ export const Playing = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Playing.args = {
   state: {
-    matches: (arg: string) => arg === 'generation.playing',
+    // matches: (arg: StateValue) => arg === { generating: 'playing' },
+    matches: (arg: StateValue) =>
+      typeof arg !== 'string' ? arg['generating'] === 'playing' : false,
   },
 };
 
@@ -51,7 +59,8 @@ export const Paused = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Paused.args = {
   state: {
-    matches: (arg: string) => arg === 'generation.paused',
+    matches: (arg: StateValue) =>
+      typeof arg !== 'string' ? arg['generating'] === 'paused' : false,
   },
 };
 
@@ -59,6 +68,6 @@ export const Done = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Done.args = {
   state: {
-    matches: (arg: string) => arg === 'done',
+    matches: (arg: StateValue) => arg === 'done',
   },
 };
