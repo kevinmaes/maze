@@ -47,7 +47,7 @@ const App = () => {
       <p>
         <i>React, XState, Canvas, TypeScript</i>
       </p>
-      <Levers updateFromLevers={() => {}} enabled />
+      <Levers updateFromLevers={() => {}} enabled={leversEnabled} />
 
       <Controls state={state} onControlClick={sendEventFromControl} />
       <Stage

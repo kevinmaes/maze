@@ -1,14 +1,25 @@
 import styled from 'styled-components';
 
 export const Form = styled.form`
-  display: flex;
-  flex-direction: column;
   max-width: 400px;
   height: 180px;
-  justify-content: space-evenly;
-  margin: auto;
+  margin: 20px auto;
 `;
 
-export const P = styled.p`
-  margin: 0;
+export const Fieldset = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  height: 180px;
+  justify-content: space-evenly;
+  border: none;
+
+  & label {
+    margin-right: 10px;
+  }
+
+  :disabled {
+    & label {
+      color: gray;
+    }
+  }
 `;
