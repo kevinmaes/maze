@@ -1,8 +1,10 @@
-import { createMachine } from 'xstate';
+import { createTextChangeRange } from 'typescript';
+import { createMachine, assign } from 'xstate';
 import {
   GenerationParams,
   AppContext,
   AppMachineEvent,
+  AppMachineEventId,
   Typestate,
 } from './appMachineTypes';
 
@@ -34,6 +36,21 @@ export const appMachine =
       },
       id: 'app',
       initial: 'idle',
+      on: {
+        [AppMachineEventId.SET_GENERATION_PARAM]: {
+          actions: assign({
+            generationParams: (ctx, { name, value }) => {
+              const newGenerationParams = {
+                ...ctx.generationParams,
+                [name]: value,
+              };
+              console.log('new fps', newGenerationParams.fps);
+              return newGenerationParams;
+            },
+          }),
+          internal: true,
+        },
+      },
       states: {
         idle: {
           on: {

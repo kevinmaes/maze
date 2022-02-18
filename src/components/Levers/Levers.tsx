@@ -1,8 +1,11 @@
 import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 // TODO: Move these files.
 import { AppState } from '../App/types';
-import { Actions, reducer } from '../App/reducer';
 import { Form, Fieldset } from './Levers.css';
+import {
+  GenerationParamsId,
+  GenerationParams,
+} from '../../statechart/appMachineTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -24,84 +27,75 @@ const initialState: AppState = {
 
 interface Props {
   enabled: boolean;
+  params: GenerationParams;
   updateFromLevers: Function;
 }
 
-export const Levers = ({ enabled, updateFromLevers }: Props) => {
-  const [state, actions] = useTypesafeActions<AppState, typeof Actions>(
-    reducer,
-    initialState,
-    Actions
-  );
+export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
+  const onLeverChange = ({
+    target: { name, value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
+    return updateFromLevers({ name, value: parseInt(value, 10) });
+  };
 
   return (
     <Form>
       <Fieldset disabled={!enabled}>
         <div>
-          <label>FPS ({state.fps})</label>
+          <label>FPS ({params.fps})</label>
           <input
             type="range"
-            name="fps"
-            value={state.fps}
+            name={GenerationParamsId.FPS}
+            value={params.fps}
             min="5"
             max="60"
             step={5}
-            onChange={({ target: { value } }) => {
-              actions.setFPS(parseInt(value, 10));
-            }}
+            onChange={onLeverChange}
           />
         </div>
         <div>
-          <label>Cell Size ({state.cellSize})</label>
+          <label>Cell Size ({params.cellSize})</label>
           <input
             type="range"
-            name="cellSize"
-            value={state.cellSize}
+            name={GenerationParamsId.CELL_SIZE}
+            value={params.cellSize}
             min={CellSize.MIN}
             max={CellSize.MAX}
             step={5}
-            onChange={({ target: { value } }) =>
-              actions.setCellSize(parseInt(value, 10))
-            }
+            onChange={onLeverChange}
           />
         </div>
         <div>
-          <label>Border Weight ({state.borderWeight})</label>
+          <label>Border Weight ({params.borderWeight})</label>
           <input
             type="range"
-            name="borderWeight"
-            value={state.borderWeight}
+            name={GenerationParamsId.BORDER_WEIGHT}
+            value={params.borderWeight}
             min="1"
             max="10"
-            onChange={({ target: { value } }) =>
-              actions.setBorderWeight(parseInt(value, 10))
-            }
+            onChange={onLeverChange}
           />
         </div>
         <div>
-          <label>Grid Columns ({state.gridColumns})</label>
+          <label>Grid Columns ({params.gridColumns})</label>
           <input
             type="range"
-            name="gridColumns"
-            value={state.gridColumns}
+            name={GenerationParamsId.GRID_COLUMNS}
+            value={params.gridColumns}
             min="2"
             max="25"
-            onChange={({ target: { value } }) =>
-              actions.setGridColumns(parseInt(value, 10))
-            }
+            onChange={onLeverChange}
           />
         </div>
         <div>
-          <label>Grid Rows ({state.gridRows})</label>
+          <label>Grid Rows ({params.gridRows})</label>
           <input
             type="range"
-            name="gridRows"
-            value={state.gridRows}
+            name={GenerationParamsId.GRID_ROWS}
+            value={params.gridRows}
             min="2"
             max="25"
-            onChange={({ target: { value } }) =>
-              actions.setGridRows(parseInt(value, 10))
-            }
+            onChange={onLeverChange}
           />
         </div>
       </Fieldset>

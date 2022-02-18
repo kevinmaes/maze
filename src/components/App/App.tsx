@@ -36,15 +36,14 @@ const App = () => {
         <i>React, XState, Canvas, TypeScript</i>
       </p>
       <Levers
-        updateFromLevers={() => {
+        enabled={leversEnabled}
+        params={state.context.generationParams}
+        updateFromLevers={(data: { name: string; value: number }) => {
+          console.log(data.name, data.value);
+          send(AppMachineEventId.SET_GENERATION_PARAM, data);
           // Call send() with updated generation params (?) and then pass these down
           // to State and INJECT_FPS into algo machine via props?
-          //
-          // Or
-          //
-          // Pass Levers the send function from the algo machine so it can directly set all settings there?
         }}
-        enabled={leversEnabled}
       />
 
       <Controls state={state} onControlClick={sendEventFromControl} />

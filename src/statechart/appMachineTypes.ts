@@ -1,3 +1,11 @@
+export enum GenerationParamsId {
+  BORDER_WEIGHT = 'borderWeight',
+  CELL_SIZE = 'cellSize',
+  FPS = 'fps',
+  GRID_COLUMNS = 'gridColumns',
+  GRID_ROWS = 'gridRows',
+}
+
 export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
   borderWeight: number; // Passed down to Grid/cell.
@@ -40,6 +48,7 @@ export enum AppMachineEventId {
   PAUSE = 'PAUSE',
   STEP_FORWARD = 'STEP_FORWARD',
   STEP_BACK = 'STEP_BACK',
+  SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
 }
 
 export type AppMachineEvent =
@@ -48,7 +57,12 @@ export type AppMachineEvent =
   | { type: AppMachineEventId.PAUSE }
   | { type: AppMachineEventId.START_OVER }
   | { type: AppMachineEventId.STEP_FORWARD }
-  | { type: AppMachineEventId.STEP_BACK };
+  | { type: AppMachineEventId.STEP_BACK }
+  | {
+      type: AppMachineEventId.SET_GENERATION_PARAM;
+      name: string;
+      value: number;
+    };
 
 export type Typestate =
   | {
