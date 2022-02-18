@@ -5,10 +5,6 @@ import {
   GenerationParams,
 } from '../../statechart/appMachineTypes';
 
-const FPS_DEFAULT = 30;
-const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 15;
-
 const CellSize = {
   DEFAULT: 20,
   MIN: 10,

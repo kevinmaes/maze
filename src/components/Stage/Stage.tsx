@@ -4,10 +4,7 @@ import { useMachine } from '@xstate/react';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
 import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
-import {
-  GenerationParams,
-  GenerationParamsId,
-} from '../../statechart/appMachineTypes';
+import { GenerationParams } from '../../statechart/appMachineTypes';
 
 interface Props {
   generationParams: GenerationParams;
