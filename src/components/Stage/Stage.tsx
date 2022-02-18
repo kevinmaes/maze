@@ -3,7 +3,7 @@ import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
+// import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
 import { GenerationParams } from '../../statechart/appMachineTypes';
 
 interface Props {
@@ -27,7 +27,7 @@ export const Stage = ({
   );
 
   // eslint-disable-next-line
-  const [_, send] = useMachine(recursiveBacktrakerMachine);
+  // const [_, send] = useMachine(recursiveBacktrakerMachine);
 
   const cellTotal = gridColumns * gridRows;
 
@@ -48,7 +48,7 @@ export const Stage = ({
         blockedCells: [],
       });
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-      send('INJECT_REFS', { gridRef });
+      // send('INJECT_REFS', { gridRef });
     }
   }, [
     fps,
@@ -60,7 +60,7 @@ export const Stage = ({
     endIndex,
     height,
     width,
-    send,
+    // send,
   ]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {
