@@ -46,9 +46,9 @@ export interface AppMachineContext {
 export enum AppMachineState {
   IDLE = 'idle',
   INITIALIZING = 'initializing',
-  GENERATION = 'generation',
-  PLAYING = 'generation.playing',
-  PAUSED = 'generation.paused',
+  GENERATING = 'generating',
+  PLAYING = 'playing',
+  PAUSED = 'paused',
   DONE = 'done',
 }
 

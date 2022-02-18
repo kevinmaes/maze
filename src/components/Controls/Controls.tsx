@@ -64,7 +64,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           </ControlsGroup>
         );
       case state.matches({
-        [AppMachineState.INITIALIZING]: AppMachineState.INITIALIZING,
+        [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
       }):
         return (
           <ControlsGroup flash>
@@ -99,7 +99,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           </ControlsGroup>
         );
       case state.matches({
-        [AppMachineState.INITIALIZING]: AppMachineState.PLAYING,
+        [AppMachineState.GENERATING]: AppMachineState.PLAYING,
       }):
         return (
           <ControlsGroup>
@@ -125,7 +125,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           </ControlsGroup>
         );
       case state.matches({
-        [AppMachineState.INITIALIZING]: AppMachineState.PAUSED,
+        [AppMachineState.GENERATING]: AppMachineState.PAUSED,
       }):
         return (
           <ControlsGroup>
