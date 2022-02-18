@@ -59,7 +59,6 @@ export const Stage = ({
     gridRows,
     endIndex,
     height,
-    pixelRatio,
     width,
     send,
   ]);
