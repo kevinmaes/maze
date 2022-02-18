@@ -1,6 +1,4 @@
-import { useTypesafeActions } from '../../hooks/useTypesafeActions';
 // TODO: Move these files.
-import { AppState } from '../App/types';
 import { Form, Fieldset } from './Levers.css';
 import {
   GenerationParamsId,
@@ -15,14 +13,6 @@ const CellSize = {
   DEFAULT: 20,
   MIN: 10,
   MAX: 25,
-};
-
-const initialState: AppState = {
-  fps: FPS_DEFAULT,
-  cellSize: CellSize.DEFAULT,
-  borderWeight: BORDER_WEIGHT_DEFAULT,
-  gridColumns: GRID_SIZE_DEFAULT,
-  gridRows: GRID_SIZE_DEFAULT,
 };
 
 interface Props {
