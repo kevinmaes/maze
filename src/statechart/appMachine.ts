@@ -1,7 +1,7 @@
 import { createMachine, assign } from 'xstate';
 import {
   GenerationParams,
-  AppContext,
+  AppMachineContext,
   AppMachineEvent,
   AppMachineEventId,
   Typestate,
@@ -25,14 +25,17 @@ const defaultGenerationParams: GenerationParams = {
   gridRows: GRID_SIZE_DEFAULT,
 };
 
+const initialAppMachineContext: AppMachineContext = {
+  mazeId: '',
+  generationParams: defaultGenerationParams,
+  generationAlgorithmRef: null,
+};
+
 export const appMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiA7AJwBWDAAYAHAEYAbABZxsyX1HC+AGhABPRACZpWjKIDMo-jy3iB04VsmiAvrbVpMWVkyzJcWAF7JmbApywjL5gGMgAZoxgAE4YAJIAcnEAKgD6ickAogBKAGpkJBx0DH7sSFyIAlpqmgh8whh8CloGAsI2kgI84vaO6BgwrDG+LlAYqLjI6qMEAMrJZNlpAPK5OUX0bmwc3AgCNhiyfAbirQY2XaI1iAY8Dadiolr8sgICPQ4gTgNgQ9EjrDGEymMyIZAAqrNMhsSiwyqBdjpxBhxFo+DxRDIjDx+NUNIhpDwDCJhN0DIIDMJZFoBL0vv1BsNmIDxpNpoC5sllkQYVt4RU9gcjiczhcMdcEDo9IZjOizBYrPs6d9Gf9mUC2TNeaUdpUheJjqcBOdRJcJQIlPpDOTJNZJPb0cqGb8maNxsgAK6wSDEchUcrFPm6yVVfTSU3k8zCcRycQSyx8Q5aNE2W5o0mSJ2YVUAoGe70QTmZIipABiy2yAHVFgARbVw4NnRqtHgyO7J0THSTxsQYIlU86yIknWmfFUutVu1D5n317blXb7USHA0i41iq74hDSAzE7ptY2CKSZsf9CBsQjzRYrNbZOf83adhrtTE4mPSdF8VRbySnDA2dplF3cl+AMexPlYWgIDgDhvhwfB72DSQcQwZ4DHDURZX4X8JR0aR-2kW1OhpRRrAtLNsFcZgPG8EZ5xoTYdQXRBxHaRMmmkNpuj4Ql3wlSRhAaNF+w3doPj6bMJ1zVkQUBRDmIQYx4xjVDKR3GRxGHcwKJzdV3S9SB5IRG4iQwXcbFOGxBAEnR4xQk5CNJLpw0HHSpPVIyBUkAwJV3IRW1RaN0NfaRpAo88hk83ZW3w+0Pz4VjxEMFoBH48xDkw0kiQxSwDC0LMou0TdaiSklBIEDiux4C0T3sIA */
-  createMachine<AppContext, AppMachineEvent, Typestate>(
+  createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
-      context: {
-        mazeId: '',
-        generationParams: defaultGenerationParams,
-      },
+      context: initialAppMachineContext,
       id: 'app',
       initial: 'idle',
       on: {
@@ -108,7 +111,7 @@ export const appMachine =
     },
     {
       guards: {
-        isFinished: (context: AppContext) => false,
+        isFinished: (context: AppMachineContext) => false,
       },
       delays: {
         INIT_INTERVAL: () => {

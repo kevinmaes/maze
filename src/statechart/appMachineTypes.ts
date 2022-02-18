@@ -1,3 +1,15 @@
+import { Actor } from 'xstate';
+
+import {
+  MazeGenerationContext,
+  MazeGenerationEvent,
+} from './recursiveBacktrackerTypes';
+
+export type GenerationAlgorithmActor = Actor<
+  MazeGenerationContext,
+  MazeGenerationEvent
+>;
+
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
   CELL_SIZE = 'cellSize',
@@ -25,9 +37,11 @@ export interface GenerationParams {
   gridRows: number; // Passed down to algo.
 }
 
-export interface AppContext {
+export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
+  // Stores the GenerationAlgorithmActor to be spawned.
+  generationAlgorithmRef: null | GenerationAlgorithmActor;
 }
 
 export enum AppMachineState {
@@ -67,21 +81,21 @@ export type AppMachineEvent =
 export type Typestate =
   | {
       value: AppMachineState.IDLE;
-      context: AppContext;
+      context: AppMachineContext;
     }
   | {
       value: AppMachineState.INITIALIZATION;
-      context: AppContext;
+      context: AppMachineContext;
     }
   | {
       value: AppMachineState.PLAYING;
-      context: AppContext;
+      context: AppMachineContext;
     }
   | {
       value: AppMachineState.PAUSED;
-      context: AppContext;
+      context: AppMachineContext;
     }
   | {
       value: AppMachineState.DONE;
-      context: AppContext;
+      context: AppMachineContext;
     };
