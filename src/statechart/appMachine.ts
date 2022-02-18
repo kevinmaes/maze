@@ -57,6 +57,8 @@ export const appMachine =
           invoke: {
             src: 'generationAlgorithmMachine',
             data: (context: AppMachineContext) => ({
+              currentCell: undefined,
+              eligibleNeighbors: [],
               ...context.generationParams,
             }),
             onDone: [
