@@ -1,3 +1,4 @@
+import { spawn } from 'child_process';
 import { createMachine, assign } from 'xstate';
 import {
   GenerationParams,
@@ -5,7 +6,9 @@ import {
   AppMachineEvent,
   AppMachineEventId,
   Typestate,
+  GenerationAlgorithmActor,
 } from './appMachineTypes';
+import { recursiveBacktrakerMachine } from './recursiveBacktrackerMachine';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -28,27 +31,16 @@ const defaultGenerationParams: GenerationParams = {
 const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
-  generationAlgorithmRef: null,
+  generationAlgorithmRef: undefined,
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiA7AJwBWDAAYAHAEYAbABZxsyX1HC+AGhABPRACZpWjKIDMo-jy3iB04VsmiAvrbVpMWVkyzJcWAF7JmbApywjL5gGMgAZoxgAE4YAJIAcnEAKgD6ickAogBKAGpkJBx0DH7sSFyIAlpqmgh8whh8CloGAsI2kgI84vaO6BgwrDG+LlAYqLjI6qMEAMrJZNlpAPK5OUX0bmwc3AgCNhiyfAbirQY2XaI1iAY8Dadiolr8sgICPQ4gTgNgQ9EjrDGEymMyIZAAqrNMhsSiwyqBdjpxBhxFo+DxRDIjDx+NUNIhpDwDCJhN0DIIDMJZFoBL0vv1BsNmIDxpNpoC5sllkQYVt4RU9gcjiczhcMdcEDo9IZjOizBYrPs6d9Gf9mUC2TNeaUdpUheJjqcBOdRJcJQIlPpDOTJNZJPb0cqGb8maNxsgAK6wSDEchUcrFPm6yVVfTSU3k8zCcRycQSyx8Q5aNE2W5o0mSJ2YVUAoGe70QTmZIipABiy2yAHVFgARbVw4NnRqtHgyO7J0THSTxsQYIlU86yIknWmfFUutVu1D5n317blXb7USHA0i41iq74hDSAzE7ptY2CKSZsf9CBsQjzRYrNbZOf83adhrtTE4mPSdF8VRbySnDA2dplF3cl+AMexPlYWgIDgDhvhwfB72DSQcQwZ4DHDURZX4X8JR0aR-2kW1OhpRRrAtLNsFcZgPG8EZ5xoTYdQXRBxHaRMmmkNpuj4Ql3wlSRhAaNF+w3doPj6bMJ1zVkQUBRDmIQYx4xjVDKR3GRxGHcwKJzdV3S9SB5IRG4iQwXcbFOGxBAEnR4xQk5CNJLpw0HHSpPVIyBUkAwJV3IRW1RaN0NfaRpAo88hk83ZW3w+0Pz4VjxEMFoBH48xDkw0kiQxSwDC0LMou0TdaiSklBIEDiux4C0T3sIA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAAwB2DAGYAnKJ4BWYQCYZA4VIAsMgDQgAnogC0MqRgE8AbAA4jEqaJNKVAX1vq0mLKyZZkuLAC9kzNgU5YRl8wDGQAM0YwACcMAEkAOTiAFQB9ROSAUQAlADUyEg46Bj92JC4dSR4eDBlBUwE5YRM+PiN1LQRtYSVhDFaTUQFRMXkBJR57R3QMGFYY3xcoDFRcZA0lggBlZLJstIB5XJyi+jc2Dm4uySUMHhlJIyejJSH7jp0TEwwVJQFJL5iHiiP5KKYgJyzMDzaKLVjLVbrTZEMgAVS2mVOJRYZVAV26JhqE0kfBuxkMknEkg+CB4tyUVRupJM0hJfB4AnBkLmC2Y8JWaw28O2yQORCx51xFWut3uj2er0Mak0Oj0kgMxjMFkp1jsDghMx5sL5CMFmwlpUulVlD2eLzeys69xkInk1lafCsIMGXMN0N5SxWyAArrBIMRyFRysVJVausJzBhzEZhIIFEZWgnhDTtK87rIjMNRKY5CMbr7MEa4QiQ2GICLMkRUgAxA7ZADqewAIhacXHdKYk56eAm+CyM6JqSr430qhJM7qRiZOfruf7jYHULXw72LuV8Tc7raFQ6czJbu7pCYZOOpAmjBWMBA2IQdntDsdsrupVdgUJZAI5h-EBsgAjSxh8Bgjx8EoY72tYcj2PqrC0BAcAcJCOD4N+caHo0LI8C0fCjIWU6dNof5DrIgzSHISiDGCq4zC4bgeN4ix7jQZyWvuiDCAIQhNFU7JSMMzTZtOlgGK8HKNFU16GCYj5ViaApIvCOG8V0wG1PUy5NER7SSdIUEUr0iiGI0vTKeu1ZBqGkCaXiqqev0chmByDwFgIJg0sI6ptFUdTGKIY6SI8NkwtWTnStobK6YB+kyM0rRGeRzp3Oy1gZjIDSiDIoiPs+8wxb+Kh3MCIIpo8PRPGRvA+UmChWNewj+QJK7TKgpWVP5CUNAZqU5sSGBDIS4ytHoCiMfYQA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
       context: initialAppMachineContext,
       id: 'app',
       initial: 'idle',
-      on: {
-        [AppMachineEventId.SET_GENERATION_PARAM]: {
-          actions: assign({
-            generationParams: ({ generationParams }, { name, value }) => ({
-              ...generationParams,
-              [name]: value,
-            }),
-          }),
-          internal: true,
-        },
-      },
       states: {
         idle: {
           on: {
@@ -58,6 +50,7 @@ export const appMachine =
           },
         },
         initialization: {
+          entry: 'createGenerationAlgorithmMachine',
           after: {
             INIT_INTERVAL: {
               target: '#app.generating',
@@ -112,6 +105,30 @@ export const appMachine =
     {
       guards: {
         isFinished: (context: AppMachineContext) => false,
+      },
+      actions: {
+        createGenerationAlgorithmMachine: assign({
+          // generationAlgorithmRef: () =>
+          //   spawn(
+          //     recursiveBacktrakerMachine.withContext({
+          //       currentCell: undefined,
+          //       eligibleNeighbors: [],
+          //       fps: 3,
+          //       grid: undefined,
+          //       pathId: 'abc',
+          //       stack: [],
+          //       startIndex: 0,
+          // })
+          // ),
+          // generationAlgorithmRef: null,
+        }),
+        // createGenerationAlgorithmMachine: assign({
+        //   // generationAlgorithmRef: spawn(recursiveBacktrakerMachine),
+        //   generationAlgorithmRef: (ctx, event) => {
+        //     return spawn(recursiveBacktrakerMachine);
+        //     // return null;
+        //   },
+        // }),
       },
       delays: {
         INIT_INTERVAL: () => {

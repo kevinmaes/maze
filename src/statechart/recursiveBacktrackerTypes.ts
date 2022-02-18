@@ -15,14 +15,15 @@ export interface MazeGenerationContext {
   startIndex: number;
 }
 
-export type InjectFPSEvent = { type: 'INJECT_FPS'; fps: number };
-export type InjectRefsEvent = { type: 'INJECT_REFS'; gridRef: any };
-export type RestartEvent = { type: 'RESTART' };
+export type InjectRefsEvent = {
+  type: 'INJECT_REFS';
+  gridRef: any;
+  value: any;
+  context: Context;
+};
+export type RestartEvent = { type: 'RESTART'; value: any; context: Context };
 
-export type MazeGenerationEvent =
-  | InjectFPSEvent
-  | InjectRefsEvent
-  | RestartEvent;
+export type MazeGenerationEvent = InjectRefsEvent | RestartEvent;
 
 interface BaseContext {
   eligibleNeighbors: Cell[];
@@ -41,25 +42,31 @@ interface Context extends BaseContext {
 export type Typestate =
   | {
       value: 'idle';
+      type: string;
       context: Context;
     }
   | {
       value: 'start';
+      type: string;
       context: Context;
     }
   | {
       value: 'seek';
+      type: string;
       context: Context;
     }
   | {
       value: 'advance';
+      type: string;
       context: Context;
     }
   | {
       value: 'backtrack';
+      type: string;
       context: Context;
     }
   | {
       value: 'complete';
+      type: string;
       context: Context;
     };
