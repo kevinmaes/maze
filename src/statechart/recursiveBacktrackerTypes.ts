@@ -19,54 +19,44 @@ export type InjectRefsEvent = {
   type: 'INJECT_REFS';
   gridRef: any;
   value: any;
-  context: Context;
+  context: MazeGenerationContext;
 };
-export type RestartEvent = { type: 'RESTART'; value: any; context: Context };
+export type RestartEvent = {
+  type: 'RESTART';
+  value: any;
+  context: MazeGenerationContext;
+};
 
 export type MazeGenerationEvent = InjectRefsEvent | RestartEvent;
-
-interface BaseContext {
-  eligibleNeighbors: Cell[];
-  stack: ICell[];
-}
-
-interface Context extends BaseContext {
-  grid: ContextGrid;
-  currentCell: ICell;
-  fps: number;
-  pathId: string;
-  stack: ICell[];
-  startIndex: number;
-}
 
 export type Typestate =
   | {
       value: 'idle';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     }
   | {
       value: 'start';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     }
   | {
       value: 'seek';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     }
   | {
       value: 'advance';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     }
   | {
       value: 'backtrack';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     }
   | {
       value: 'complete';
       type: string;
-      context: Context;
+      context: MazeGenerationContext;
     };
