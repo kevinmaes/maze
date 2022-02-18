@@ -4,28 +4,26 @@ import { useMachine } from '@xstate/react';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
 import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
+import {
+  GenerationParams,
+  GenerationParamsId,
+} from '../../statechart/appMachineTypes';
 
 interface Props {
+  generationParams: GenerationParams;
   width?: number;
   height?: number;
   pixelRatio?: number;
-  fps: number;
-  cellSize: number;
-  borderWeight: number;
-  gridColumns: number;
-  gridRows: number;
 }
 
 export const Stage = ({
   width = 100,
   height = 100,
   pixelRatio = window.devicePixelRatio,
-  fps,
-  cellSize,
-  borderWeight,
-  gridColumns,
-  gridRows,
+  generationParams,
 }: Props) => {
+  const { fps, cellSize, borderWeight, gridColumns, gridRows } =
+    generationParams;
   const canvasRef: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })

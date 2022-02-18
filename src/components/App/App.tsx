@@ -18,8 +18,9 @@ const App = () => {
   // eslint-disable-next-line
   const [state, send] = useMachine(appMachine);
 
-  const { borderWeight, cellSize, fps, gridColumns, gridRows } =
-    state.context.generationParams;
+  const {
+    context: { generationParams },
+  } = state;
 
   const leversEnabled =
     state.matches(AppMachineState.IDLE) || state.matches(AppMachineState.DONE);
@@ -37,7 +38,7 @@ const App = () => {
       </p>
       <Levers
         enabled={leversEnabled}
-        params={state.context.generationParams}
+        params={generationParams}
         updateFromLevers={(data: { name: string; value: number }) => {
           send(AppMachineEventId.SET_GENERATION_PARAM, data);
           // Do we need to also INJECT_FPS into algo machine via props?
@@ -48,12 +49,8 @@ const App = () => {
       <Stage
         width={APP_WIDTH}
         height={APP_HEIGHT}
-        fps={fps}
-        cellSize={cellSize}
-        borderWeight={borderWeight}
-        gridColumns={gridColumns}
-        gridRows={gridRows}
         pixelRatio={1}
+        generationParams={generationParams}
       />
       <Footer>
         <Link
