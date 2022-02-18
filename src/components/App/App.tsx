@@ -1,23 +1,11 @@
 import { useMachine } from '@xstate/react';
 
-import { useTypesafeActions } from '../../hooks/useTypesafeActions';
-import { AppState } from './types';
-import { Actions, reducer } from './reducer';
-import {
-  AppContainer,
-  Form,
-  P,
-  ReplayButton,
-  Footer,
-  Link,
-  Image,
-} from './App.css';
+import { AppContainer, Footer, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
-  AppMachineStateType,
   AppMachineEventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';
