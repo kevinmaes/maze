@@ -1,4 +1,4 @@
-import { useMachine } from '@xstate/react';
+import { useActor, useMachine } from '@xstate/react';
 
 import { AppContainer, Footer, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
@@ -16,17 +16,23 @@ const APP_HEIGHT = window.innerHeight;
 
 const App = () => {
   // eslint-disable-next-line
-  const [state, send] = useMachine(appMachine);
+  const [appState, appSend] = useMachine(appMachine);
 
   const {
     context: { generationParams },
-  } = state;
+    children: { child },
+  } = appState;
+
+  // How can this be up 2 date and trigger a re render?
+  // See console for state changes in invoked child component
+  // const [generationState, generationSend] = useActor(child);
 
   const leversEnabled =
-    state.matches(AppMachineState.IDLE) || state.matches(AppMachineState.DONE);
+    appState.matches(AppMachineState.IDLE) ||
+    appState.matches(AppMachineState.DONE);
 
   const sendEventFromControl = (eventId: AppMachineEventId) => {
-    send(eventId);
+    appSend(eventId);
   };
 
   return (
@@ -40,12 +46,12 @@ const App = () => {
         enabled={leversEnabled}
         params={generationParams}
         updateFromLevers={(data: { name: string; value: number }) => {
-          send(AppMachineEventId.SET_GENERATION_PARAM, data);
+          appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
           // Do we need to also INJECT_FPS into algo machine via props?
         }}
       />
 
-      <Controls state={state} onControlClick={sendEventFromControl} />
+      <Controls state={appState} onControlClick={sendEventFromControl} />
       <Stage
         width={APP_WIDTH}
         height={APP_HEIGHT}
