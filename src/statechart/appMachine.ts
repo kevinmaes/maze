@@ -35,7 +35,7 @@ const defaultGenerationParams: GenerationParams = {
 const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
-  generationAlgorithmRef: 'default',
+  generationAlgorithmRef: undefined,
 };
 
 export const appMachine =
@@ -54,7 +54,7 @@ export const appMachine =
           },
         },
         initialization: {
-          entry: 'createGenerationAlgorithmMachine',
+          // entry: 'createGenerationAlgorithmMachine',
           after: {
             INIT_INTERVAL: {
               target: '#app.generating',
@@ -111,14 +111,12 @@ export const appMachine =
         isFinished: (context: AppMachineContext) => false,
       },
       actions: {
-        createGenerationAlgorithmMachine: assign({
-          generationAlgorithmRef: (ctx) => {
-            return 'xxx';
-            // return { ...ctx, generationAlgorithmRef: 'xxx' };
-            // const ref = spawn(recursiveBacktrakerMachine, 'mazegen');
-            // return ref;
-          },
-        }),
+        // createGenerationAlgorithmMachine: assign({
+        //   generationAlgorithmRef: (ctx, event) => {
+        //     // return 'xxx';
+        //     return spawn(recursiveBacktrakerMachine, 'mazegen');
+        //   },
+        // }),
       },
       delays: {
         INIT_INTERVAL: () => {
