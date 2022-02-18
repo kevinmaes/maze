@@ -1,18 +1,11 @@
-import { spawn } from 'xstate';
-import { createMachine, assign, StateMachine } from 'xstate';
+import { createMachine } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
   AppMachineEvent,
-  AppMachineEventId,
   Typestate,
-  GenerationAlgorithmActor,
 } from './appMachineTypes';
 import { recursiveBacktrakerMachine } from './recursiveBacktrackerMachine';
-import {
-  MazeGenerationContext,
-  MazeGenerationEvent,
-} from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
