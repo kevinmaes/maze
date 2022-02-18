@@ -39,7 +39,7 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EiyQGYMi6T0U9RauWtUBfG5rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3AgCfJJGosoCFgJmioqiApo6daLSGKr6onydSooC+gL1dg7oGM5uHqHeqLjIWqvEZACqAMp55fR+1UhciML6jfKqos18j6rC0ny9iK2DMtICPPpd7TEs3sIEcizALncnjWGy2YX2GQA8kRjpUWOxzrV+EIxBIZFYlCoetpENJRBhXiZpNSxGNFMIBHNQQsllDVhh1pttgiyAVsoiioVUacMaBamZhBgeCZ9KpjLI+GThO8ENM+FL6voqQoBDJRkywayVl4ObDtsKqqKLggeKZBl0xu1RKpZNN9CqBD8htTZXIBqpTDwDSyIctoRzkABXWCQYjkKjnCoimqXKYU-5ymZ8f6dN4k1XtIamSSSCyKYbNYTBpyhtkm1BRmMQAgIvJELIAMURBQA6ryACIW9EphA-RQYUQl17mPhyT08FXTceTySKqn6BSSYHzGuQ41rRuxodnMW8O1NR1dF1XKaLgSqDDZgal6SSSbTV7VjAQNiEHl8rIBSFRMTktEdV3HF5FH0fRBAgz0xhVPgAwnExPTfEZnjMOwQVYWgIDgDgwRwfBjytWpdRVDojDuK5RC1eoVEUL8jXDUI-ACYJVjIkcRnJKCYLgx1XkUD0LCLe5bVg5CpmYkFDVrfdTS5LweMxRBkMlcRVBfNQ7UkZV81aIR5Ekv4nlkljFPDBto0gNTT1HQQMF1VoxHMAzEKMv5H1GF432M8tJCsvdoQc61JFUdUBNg3VhK8vpIsaZp-iXZ0tWC+SFh-FxwqxHMhj0AxXzVboqP+ERqUnJ0oOpas8t4Qy+gUCd7novQfmEMZYP0HCbCAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EK1RlUrFPAZMkC+q1dIC+NzWkwxWYAE7JmrKNlZMsyXCwALywvAk5YRg8wDGQAM0Y3DABJADlkgBUAfTSMgFEAJQA1MhIOOgZmNg5uBAE5DEVRZQFRE2NFJoFNHQRFAGZ+jGlRUT5pCdFJVQEFOwd0DGc3D1DvVFxkLTXiMgBVAGU88vo-aqQuRCVJDHlVUeU+S2FpPh7EAaGLaVnVTp5RK0BPMQI4lmAXO5POtNtswgcMgB5IgnSosdgXWr8IRiCQyOQKZQmd4IEbDcY8CayMadYTA+ygxbLKFrDAbLY7BFkArZRFFQqos4Y0C1AbCDCUnj9P4TYTjUQabSIAT3DD9fhNPidRQWVSSEFg5mrLxs2E7QVVYWXBA8BTSRo0gRNazCfoCfokwQ8NVO+5-VSUxTmA1MiEraFs5AAV1gkGI5CoFwqQpqVz4Q2k-UUfwEFiznTeSrq4xESh4AxUrSzIacYZZJtQ0djEAICLyRCyADFEQUAOrcgAiFvRqdJWowUxkKjGcgE0h4JO+Euk036SjdzrpNfBkON6ybceH5xFvDtDq1ToVsjdHqLc6EalU-Uk4isVZ426N0IIEDYMVCAButAANYxIadZ7gggG0AAxqsbAANqiAAukeVq1IID7iFOaiSIMZgktijSfJmz7WP0zTbr+Lithk3K8vyBRoaOkjji8nyCKxOqvIoJLWIotxGMYUhrp0-R2AyrC0BAcAcGCOD4MxmLKpIhGjBKgLCHS7GqHKH4MuBu4RqEfgBMEaxKSeCDPqIIjSBxpgXjxJJBgJWmjC+trzkoiifhBEbsnCUCWda4ziq+L7zgGigrsILmSOK0oTE+zSZlqflGayjYxpAIW1LIQimK0YgAglWoudKBiGJmCgSLpki+QZoaZV4eWIFOdkOVxc7lUWG4YOmhjyNI9wKs09ILJg1FgG1NqiQYQZ4Subp8ICnoNLmAyEoYgyUjWs0KIRwgSTYQA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
       context: initialAppMachineContext,
@@ -54,7 +54,15 @@ export const appMachine =
           },
         },
         generating: {
-          initial: 'initializing',
+          invoke: {
+            src: 'generationAlgorithmMachine',
+            onDone: [
+              {
+                target: '#app.generating.initializing',
+              },
+            ],
+          },
+          // initial: 'initializing',
           states: {
             initializing: {
               after: {
@@ -109,13 +117,11 @@ export const appMachine =
       guards: {
         isFinished: (context: AppMachineContext) => false,
       },
-      actions: {
-        // createGenerationAlgorithmMachine: assign({
-        //   generationAlgorithmRef: (ctx, event) => {
-        //     // return 'xxx';
-        //     return spawn(recursiveBacktrakerMachine, 'mazegen');
-        //   },
-        // }),
+      services: {
+        generationAlgorithmMachine: () => {
+          // Can switch between algorithm machines by checking context here.
+          return recursiveBacktrakerMachine;
+        },
       },
       delays: {
         INIT_INTERVAL: () => {
