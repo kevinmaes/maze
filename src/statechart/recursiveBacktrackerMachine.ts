@@ -76,9 +76,6 @@ export const recursiveBacktrakerMachine =
         },
       },
       on: {
-        // INJECT_FPS: {
-        //   target: '#maze-generation.idle',
-        // },
         INJECT_REFS: {
           target: '#maze-generation.idle',
         },
