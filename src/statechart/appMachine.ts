@@ -39,14 +39,10 @@ export const appMachine =
       on: {
         [AppMachineEventId.SET_GENERATION_PARAM]: {
           actions: assign({
-            generationParams: (ctx, { name, value }) => {
-              const newGenerationParams = {
-                ...ctx.generationParams,
-                [name]: value,
-              };
-              console.log('new fps', newGenerationParams.fps);
-              return newGenerationParams;
-            },
+            generationParams: ({ generationParams }, { name, value }) => ({
+              ...generationParams,
+              [name]: value,
+            }),
           }),
           internal: true,
         },
