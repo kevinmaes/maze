@@ -39,7 +39,7 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAAwB2DAGYAnKJ4BWYQCYZA4VIAsMgDQgAnogC0MqRgE8AbAA4jEqaJNKVAX1vq0mLKyZZkuLAC9kzNgU5YRl8wDGQAM0YwACcMAEkAOTiAFQB9ROSAUQAlADUyEg46Bj92JC4dSR4eDBlBUwE5YRM+PiN1LQRtYSVhDFaTUQFRMXkBJR57R3QMGFYY3xcoDFRcZA0lggBlZLJstIB5XJyi+jc2Dm4uySUMHhlJIyejJSH7jp0TEwwVJQFJL5iHiiP5KKYgJyzMDzaKLVjLVbrTZEMgAVS2mVOJRYZVAV26JhqE0kfBuxkMknEkg+CB4tyUVRupJM0hJfB4AnBkLmC2Y8JWaw28O2yQORCx51xFWut3uj2er0Mak0Oj0kgMxjMFkp1jsDghMx5sL5CMFmwlpUulVlD2eLzeys69xkInk1lafCsIMGXMN0N5SxWyAArrBIMRyFRysVJVausJzBhzEZhIIFEZWgnhDTtK87rIjMNRKY5CMbr7MEa4QiQ2GICLMkRUgAxA7ZADqewAIhacXHdKYk56eAm+CyM6JqSr430qhJM7qRiZOfruf7jYHULXw72LuV8Tc7raFQ6czJbu7pCYZOOpAmjBWMBA2IQdntDsdsrupVdgUJZAI5h-EBsgAjSxh8Bgjx8EoY72tYcj2PqrC0BAcAcJCOD4N+caHo0LI8C0fCjIWU6dNof5DrIgzSHISiDGCq4zC4bgeN4ix7jQZyWvuiDCAIQhNFU7JSMMzTZtOlgGK8HKNFU16GCYj5ViaApIvCOG8V0wG1PUy5NER7SSdIUEUr0iiGI0vTKeu1ZBqGkCaXiqqev0chmByDwFgIJg0sI6ptFUdTGKIY6SI8NkwtWTnStobK6YB+kyM0rRGeRzp3Oy1gZjIDSiDIoiPs+8wxb+Kh3MCIIpo8PRPGRvA+UmChWNewj+QJK7TKgpWVP5CUNAZqU5sSGBDIS4ytHoCiMfYQA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EiyQGYMi6T0U9RauWtUBfG5rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3AgCfJJGosoCFgJmioqiApo6daLSGKr6onydSooC+gL1dg7oGM5uHqHeqLjIWqvEZACqAMp55fR+1UhciML6jfKqos18j6rC0ny9iK2DMtICPPpd7TEs3sIEcizALncnjWGy2YX2GQA8kRjpUWOxzrV+EIxBIZFYlCoetpENJRBhXiZpNSxGNFMIBHNQQsllDVhh1pttgiyAVsoiioVUacMaBamZhBgeCZ9KpjLI+GThO8ENM+FL6voqQoBDJRkywayVl4ObDtsKqqKLggeKZBl0xu1RKpZNN9CqBD8htTZXIBqpTDwDSyIctoRzkABXWCQYjkKjnCoimqXKYU-5ymZ8f6dN4k1XtIamSSSCyKYbNYTBpyhtkm1BRmMQAgIvJELIAMURBQA6ryACIW9EphA-RQYUQl17mPhyT08FXTceTySKqn6BSSYHzGuQ41rRuxodnMW8O1NR1dF1XKaLgSqDDZgal6SSSbTV7VjAQNiEHl8rIBSFRMTktEdV3HF5FH0fRBAgz0xhVPgAwnExPTfEZnjMOwQVYWgIDgDgwRwfBjytWpdRVDojDuK5RC1eoVEUL8jXDUI-ACYJVjIkcRnJKCYLgx1XkUD0LCLe5bVg5CpmYkFDVrfdTS5LweMxRBkMlcRVBfNQ7UkZV81aIR5Ekv4nlkljFPDBto0gNTT1HQQMF1VoxHMAzEKMv5H1GF432M8tJCsvdoQc61JFUdUBNg3VhK8vpIsaZp-iXZ0tWC+SFh-FxwqxHMhj0AxXzVboqP+ERqUnJ0oOpas8t4Qy+gUCd7novQfmEMZYP0HCbCAA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
       context: initialAppMachineContext,
@@ -49,35 +49,34 @@ export const appMachine =
         idle: {
           on: {
             PLAY: {
-              target: '#app.initialization',
-            },
-          },
-        },
-        initialization: {
-          // entry: 'createGenerationAlgorithmMachine',
-          after: {
-            INIT_INTERVAL: {
               target: '#app.generating',
             },
           },
         },
         generating: {
-          initial: 'playing',
+          initial: 'initializing',
           states: {
+            initializing: {
+              after: {
+                INIT_INTERVAL: {
+                  target: '#app.generating.playing',
+                },
+              },
+            },
             playing: {
               always: {
                 cond: 'isFinished',
                 target: '#app.done',
               },
               on: {
-                START_OVER: {
-                  target: '#app.initialization',
-                },
                 PAUSE: {
                   target: '#app.generating.paused',
                 },
                 STOP: {
                   target: '#app.idle',
+                },
+                START_OVER: {
+                  target: '#app.generating.initializing',
                 },
               },
             },
@@ -100,7 +99,7 @@ export const appMachine =
         done: {
           on: {
             START_OVER: {
-              target: '#app.initialization',
+              target: '#app.generating',
             },
           },
         },

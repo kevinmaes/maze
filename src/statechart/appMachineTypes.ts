@@ -45,7 +45,7 @@ export interface AppMachineContext {
 
 export enum AppMachineState {
   IDLE = 'idle',
-  INITIALIZATION = 'initialization',
+  INITIALIZING = 'initializing',
   GENERATION = 'generation',
   PLAYING = 'generation.playing',
   PAUSED = 'generation.paused',
@@ -83,7 +83,7 @@ export type Typestate =
       context: AppMachineContext;
     }
   | {
-      value: AppMachineState.INITIALIZATION;
+      value: AppMachineState.INITIALIZING;
       context: AppMachineContext;
     }
   | {

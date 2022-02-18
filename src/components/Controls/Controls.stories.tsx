@@ -37,11 +37,11 @@ Idle.args = {
   },
 };
 
-export const Initialization = Template.bind({});
+export const Initializing = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Initialization.args = {
+Initializing.args = {
   state: {
-    matches: (arg: StateValue) => arg === 'initialization',
+    matches: (arg: StateValue) => arg === 'initializing',
   },
 };
 
