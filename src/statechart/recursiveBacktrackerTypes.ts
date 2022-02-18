@@ -1,54 +1,51 @@
 import type { Cell, CellMethods } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
-interface Settings {
-  gridColumns: number;
-  gridRows: number;
-  startIndex: number;
-  pathId: string;
-  fps: number;
-}
-
 export type ICell = Cell & CellMethods;
 
 export type ContextGrid = Grid & GridMethods;
 
 export interface MazeGenerationContext {
-  settings: Settings;
-  grid: ContextGrid | undefined;
   currentCell: ICell | undefined;
   eligibleNeighbors: Cell[];
+  fps: number;
+  grid: ContextGrid | undefined;
+  pathId: string;
   stack: ICell[];
+  startIndex: number;
 }
+
+export type InjectFPSEvent = { type: 'INJECT_FPS'; fps: number };
+export type InjectRefsEvent = { type: 'INJECT_REFS'; gridRef: any };
+export type RestartEvent = { type: 'RESTART' };
 
 export type MazeGenerationEvent =
-  | { type: 'INJECT_REFS'; gridRef: any }
-  | { type: 'RESTART' };
+  | InjectFPSEvent
+  | InjectRefsEvent
+  | RestartEvent;
 
 interface BaseContext {
-  settings: Settings;
-  eligibleNeighbors: [];
+  eligibleNeighbors: Cell[];
   stack: ICell[];
-}
-
-interface InitialContext extends BaseContext {
-  grid: undefined;
-  currentCell: undefined;
 }
 
 interface Context extends BaseContext {
   grid: ContextGrid;
   currentCell: ICell;
+  fps: number;
+  pathId: string;
+  stack: ICell[];
+  startIndex: number;
 }
 
 export type Typestate =
   | {
       value: 'idle';
-      context: InitialContext;
+      context: Context;
     }
   | {
       value: 'start';
-      context: InitialContext;
+      context: Context;
     }
   | {
       value: 'seek';

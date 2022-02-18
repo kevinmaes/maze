@@ -1,23 +1,11 @@
 import { useMachine } from '@xstate/react';
 
-import { useTypesafeActions } from '../../hooks/useTypesafeActions';
-import { AppState } from './types';
-import { Actions, reducer } from './reducer';
-import {
-  AppContainer,
-  Form,
-  P,
-  ReplayButton,
-  Footer,
-  Link,
-  Image,
-} from './App.css';
+import { AppContainer, Footer, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
-  AppMachineStateType,
   AppMachineEventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';
@@ -47,7 +35,17 @@ const App = () => {
       <p>
         <i>React, XState, Canvas, TypeScript</i>
       </p>
-      <Levers updateFromLevers={() => {}} enabled={leversEnabled} />
+      <Levers
+        updateFromLevers={() => {
+          // Call send() with updated generation params (?) and then pass these down
+          // to State and INJECT_FPS into algo machine via props?
+          //
+          // Or
+          //
+          // Pass Levers the send function from the algo machine so it can directly set all settings there?
+        }}
+        enabled={leversEnabled}
+      />
 
       <Controls state={state} onControlClick={sendEventFromControl} />
       <Stage

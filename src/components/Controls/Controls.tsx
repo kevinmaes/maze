@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  AppMachineStateType,
   AppMachineEventId,
   AppMachineState,
 } from '../../statechart/appMachineTypes';

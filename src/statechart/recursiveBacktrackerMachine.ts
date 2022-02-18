@@ -4,7 +4,8 @@ import type {
   MazeGenerationEvent,
   Typestate,
   ICell,
-} from './types';
+  InjectRefsEvent,
+} from './recursiveBacktrackerTypes';
 
 import type { GridMethods } from '../components/generation/Grid';
 
@@ -16,17 +17,13 @@ export const recursiveBacktrakerMachine =
   createMachine<MazeGenerationContext, MazeGenerationEvent, Typestate>(
     {
       context: {
-        settings: {
-          gridColumns: 0,
-          gridRows: 0,
-          startIndex: 0,
-          pathId: 'abc',
-          fps: 3,
-        },
-        grid: undefined,
         currentCell: undefined,
         eligibleNeighbors: [],
+        fps: 3,
+        grid: undefined,
+        pathId: 'abc',
         stack: [],
+        startIndex: 0,
       },
       id: 'maze-generation',
       initial: 'idle',
@@ -79,32 +76,30 @@ export const recursiveBacktrakerMachine =
         },
       },
       on: {
+        INJECT_FPS: {
+          target: '#maze-generation.idle',
+        },
         INJECT_REFS: {
-          target: '#maze-generation.start',
+          target: '#maze-generation.idle',
         },
       },
     },
     {
       guards: {
-        isDeadEnd: ({ eligibleNeighbors }) => {
+        isDeadEnd: ({ eligibleNeighbors }: MazeGenerationContext) => {
           return eligibleNeighbors.length === 0;
         },
-        isBackAtStart: ({ stack }) => {
+        isBackAtStart: ({ stack }: MazeGenerationContext) => {
           return stack.length === 0;
         },
       },
       actions: {
-        initGeneration: assign(({ settings }, { gridRef, fps }: any) => {
-          const newSettings = {
-            ...settings,
-            gridColumns: gridRef.current.cols,
-            gridRows: gridRef.current.rows,
-            fps,
-          };
+        initGeneration: assign((ctx, event) => {
+          const gridRef: any = (event as InjectRefsEvent).gridRef;
           const currentCell = gridRef.current.getStartCell();
 
           return {
-            settings: newSettings,
+            ...ctx,
             grid: gridRef.current,
             currentCell,
             stack: [],
@@ -115,10 +110,10 @@ export const recursiveBacktrakerMachine =
             currentCell
           ),
         })),
-        pickNextCell: assign(({ settings, grid, currentCell }) => ({
+        pickNextCell: assign(({ grid, currentCell }) => ({
           currentCell: seek({
             grid,
-            pathId: settings.pathId,
+            pathId: 'abc',
             current: currentCell as Cell,
             startIndex: 0,
           }),
@@ -137,7 +132,7 @@ export const recursiveBacktrakerMachine =
         }),
       },
       delays: {
-        SEEK_INTERVAL: ({ settings: { fps } }) => {
+        SEEK_INTERVAL: ({ fps }: MazeGenerationContext) => {
           return 1000 / fps;
         },
       },
