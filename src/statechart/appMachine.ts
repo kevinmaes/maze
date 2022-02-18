@@ -39,7 +39,7 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EK1RlUrFPAZMkC+q1dIC+NzWkwxWYAE7JmrKNlZMsyXCwALywvAk5YRg8wDGQAM0Y3DABJADlkgBUAfTSMgFEAJQA1MhIOOgZmNg5uBAE5DEVRZQFRE2NFJoFNHQRFAGZ+jGlRUT5pCdFJVQEFOwd0DGc3D1DvVFxkLTXiMgBVAGU88vo-aqQuRCVJDHlVUeU+S2FpPh7EAaGLaVnVTp5RK0BPMQI4lmAXO5POtNtswgcMgB5IgnSosdgXWr8IRiCQyOQKZQmd4IEbDcY8CayMadYTA+ygxbLKFrDAbLY7BFkArZRFFQqos4Y0C1AbCDCUnj9P4TYTjUQabSIAT3DD9fhNPidRQWVSSEFg5mrLxs2E7QVVYWXBA8BTSRo0gRNazCfoCfokwQ8NVO+5-VSUxTmA1MiEraFs5AAV1gkGI5CoFwqQpqVz4Q2k-UUfwEFiznTeSrq4xESh4AxUrSzIacYZZJtQ0djEAICLyRCyADFEQUAOrcgAiFvRqdJWowUxkKjGcgE0h4JO+Euk036SjdzrpNfBkON6ybceH5xFvDtDq1ToVsjdHqLc6EalU-Uk4isVZ426N0IIEDYMVCAButAANYxIadZ7gggG0AAxqsbAANqiAAukeVq1IID7iFOaiSIMZgktijSfJmz7WP0zTbr+Lithk3K8vyBRoaOkjji8nyCKxOqvIoJLWIotxGMYUhrp0-R2AyrC0BAcAcGCOD4MxmLKpIhGjBKgLCHS7GqHKH4MuBu4RqEfgBMEaxKSeCDPqIIjSBxpgXjxJJBgJWmjC+trzkoiifhBEbsnCUCWda4ziq+L7zgGigrsILmSOK0oTE+zSZlqflGayjYxpAIW1LIQimK0YgAglWoudKBiGJmCgSLpki+QZoaZV4eWIFOdkOVxc7lUWG4YOmhjyNI9wKs09ILJg1FgG1NqiQYQZ4Subp8ICnoNLmAyEoYgyUjWs0KIRwgSTYQA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EAgXwyLp0gMySTw1T1HnVAXzua0mGKzAAnZM1ZRsrJljIuFgAXlg+BJywjF5gGMgAZoweGACSAHKpACoA+hlZAKIASgBqZCQcdAzMbBzcCKpyIqrywgJSAiY2Gtq6wiYY0pKqijIj3S0CDk7oGK4eXuG+qLjIWkvEZACqAMoFlfQBtUhcvDyjhv2KAtKCRiYtmjoIAv0YN3ySAqomsoojwj40xAzjmYDcnm8y1W6wiOyyAHkiAdqix2Cd6vwhGIJDI5AplDwBE9ENJRIM+NIsXwlKoyd9gaD5pClhgVmsNvCyEVcgiSsUUUd0aB6v1hIZ-lTjKpGhYTCSXpJySZOiYTIJRF0bEDHCDZszFj42TCNoKasLTggiXTmjJvpZpKNRHwFUYeBgHpJ-sMiSZFGrGfrwQsoWzkABXWCQYjkKgnKpCupnQQemx4vTDTWSBXtaSDKSia6FnhdHhEwMuYMso2oCNRiAEeEFIg5ABiCKKAHVuQARM1opNWyR8RQe4SOwuib6-Pgu3ovHh5+S3TV8VSU8SzitgiGG5Z16P944i3jfPOWO2NOlOufPPRCJXtQGiRdiX7bg1QggQNhxcIAN1oABrOJPzRMhcCgWh3CYAALABbABZZAAGNYPCMAjwteotRER01UEYdrluRQc1UIRRGMFVzgUARlCmXVQR-NxGyybleX5IosMHIi8P9dUBCIj5SPncj3Uafo6XVVRREaRQHF1VhaAgOAOFBHB8G4jFdGzedrHJaxXh+EtxC6WQPyrPc-ACIJQiWLSTwQT53WHJV5EUJRznHMjRzJGkLCVNQR2ECzd1DdlYSgBzLWMcU6Ief1zlkgRnTIuLnTFQL1w80KQ1ZWtI0gaLMUkNoMDpKc5DJL1FB4HNLBETU6Rkr4FADRigzC+z40Oc0ePXPiCMEkdhIVYdyULNUPM1LoR3LDrMGYzCetRY9LX4Aay0sfp5AShQFT4Mx3haaxjCVB5GgrYreGEBUFAUuwgA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
       context: initialAppMachineContext,
@@ -55,6 +55,7 @@ export const appMachine =
         },
         generating: {
           invoke: {
+            id: 'generationAlgorithmMachine',
             src: 'generationAlgorithmMachine',
             data: (context: AppMachineContext) => ({
               currentCell: undefined,
@@ -67,7 +68,6 @@ export const appMachine =
               },
             ],
           },
-          // initial: 'initializing',
           states: {
             initializing: {
               after: {
