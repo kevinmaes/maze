@@ -1,5 +1,5 @@
-import { spawn } from 'child_process';
-import { createMachine, assign } from 'xstate';
+import { spawn } from 'xstate';
+import { createMachine, assign, StateMachine } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -9,6 +9,10 @@ import {
   GenerationAlgorithmActor,
 } from './appMachineTypes';
 import { recursiveBacktrakerMachine } from './recursiveBacktrackerMachine';
+import {
+  MazeGenerationContext,
+  MazeGenerationEvent,
+} from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -31,7 +35,7 @@ const defaultGenerationParams: GenerationParams = {
 const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
-  generationAlgorithmRef: undefined,
+  generationAlgorithmRef: 'default',
 };
 
 export const appMachine =
@@ -108,27 +112,13 @@ export const appMachine =
       },
       actions: {
         createGenerationAlgorithmMachine: assign({
-          // generationAlgorithmRef: () =>
-          //   spawn(
-          //     recursiveBacktrakerMachine.withContext({
-          //       currentCell: undefined,
-          //       eligibleNeighbors: [],
-          //       fps: 3,
-          //       grid: undefined,
-          //       pathId: 'abc',
-          //       stack: [],
-          //       startIndex: 0,
-          // })
-          // ),
-          // generationAlgorithmRef: null,
+          generationAlgorithmRef: (ctx) => {
+            return 'xxx';
+            // return { ...ctx, generationAlgorithmRef: 'xxx' };
+            // const ref = spawn(recursiveBacktrakerMachine, 'mazegen');
+            // return ref;
+          },
         }),
-        // createGenerationAlgorithmMachine: assign({
-        //   // generationAlgorithmRef: spawn(recursiveBacktrakerMachine),
-        //   generationAlgorithmRef: (ctx, event) => {
-        //     return spawn(recursiveBacktrakerMachine);
-        //     // return null;
-        //   },
-        // }),
       },
       delays: {
         INIT_INTERVAL: () => {

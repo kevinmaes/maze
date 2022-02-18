@@ -40,8 +40,8 @@ export interface GenerationParams {
 export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
-  // Stores the GenerationAlgorithmActor to be spawned.
-  generationAlgorithmRef?: GenerationAlgorithmActor;
+  // generationAlgorithmRef: GenerationAlgorithmActor | unknown;
+  generationAlgorithmRef: string;
 }
 
 export enum AppMachineState {
