@@ -5,7 +5,7 @@ import type {
   Typestate,
   ICell,
   InjectRefsEvent,
-} from './types';
+} from './recursiveBacktrackerTypes';
 
 import type { GridMethods } from '../components/generation/Grid';
 
@@ -76,9 +76,9 @@ export const recursiveBacktrakerMachine =
         },
       },
       on: {
-        // INJECT_FPS: {
-        //   target: '#maze-generation.idle',
-        // },
+        INJECT_FPS: {
+          target: '#maze-generation.idle',
+        },
         INJECT_REFS: {
           target: '#maze-generation.idle',
         },
