@@ -34,9 +34,8 @@ interface Props {
 export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
   const onLeverChange = ({
     target: { name, value },
-  }: React.ChangeEvent<HTMLInputElement>) => {
-    return updateFromLevers({ name, value: parseInt(value, 10) });
-  };
+  }: React.ChangeEvent<HTMLInputElement>) =>
+    updateFromLevers({ name, value: parseInt(value, 10) });
 
   return (
     <Form>
