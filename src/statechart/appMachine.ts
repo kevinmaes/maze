@@ -56,6 +56,9 @@ export const appMachine =
         generating: {
           invoke: {
             src: 'generationAlgorithmMachine',
+            data: (context: AppMachineContext) => ({
+              ...context.generationParams,
+            }),
             onDone: [
               {
                 target: '#app.generating.initializing',
