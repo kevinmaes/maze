@@ -22,7 +22,7 @@ const App = () => {
     context: { generationParams },
     children: { child },
   } = appState;
-
+  console.log('child', child);
   // How can this be up 2 date and trigger a re render?
   // See console for state changes in invoked child component
   // const [generationState, generationSend] = useActor(child);
