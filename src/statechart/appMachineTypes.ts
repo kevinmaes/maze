@@ -84,8 +84,6 @@ export type AppMachineEvent =
   | {
       type: AppMachineEventId.INJECT_REFS;
       gridRef: any;
-      // value: any;
-      // context: MazeGenerationContext;
     };
 
 export type Typestate =
@@ -93,10 +91,10 @@ export type Typestate =
       value: AppMachineState.IDLE;
       context: AppMachineContext;
     }
-  // | {
-  //     value: AppMachineState.INITIALIZING;
-  //     context: AppMachineContext;
-  //   }
+  | {
+      value: AppMachineState.INITIALIZING;
+      context: AppMachineContext;
+    }
   | {
       value: AppMachineState.PLAYING;
       context: AppMachineContext;
