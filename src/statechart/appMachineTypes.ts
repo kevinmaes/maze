@@ -93,10 +93,10 @@ export type Typestate =
       value: AppMachineState.IDLE;
       context: AppMachineContext;
     }
-  | {
-      value: AppMachineState.INITIALIZING;
-      context: AppMachineContext;
-    }
+  // | {
+  //     value: AppMachineState.INITIALIZING;
+  //     context: AppMachineContext;
+  //   }
   | {
       value: AppMachineState.PLAYING;
       context: AppMachineContext;

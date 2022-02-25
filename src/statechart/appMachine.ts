@@ -53,47 +53,35 @@ export const appMachine =
           },
         },
         generating: {
-          invoke: {
-            id: 'generationAlgorithmMachine',
-            src: 'childMachine',
-            data: {
-              currentCell: undefined,
-              eligibleNeighbors: [],
-              fps: 3,
-              grid: (ctx: AppMachineContext) => ctx.gridRef,
-              pathId: 'abc',
-              stack: [],
-              startIndex: 0,
-            },
-            onDone: [
-              {
-                target: '#app.done',
-              },
-            ],
-          },
-          onEntry: send('START', { to: 'generationAlgorithmMachine' }),
-          initial: 'initializing',
+          initial: 'playing',
           states: {
             initializing: {
-              // invoke: {
-              //   id: 'generationAlgorithmMachine',
-              //   // src: 'childMachine',
-              //   src: generationAlgorithmMachine,
-              //   onDone: [
-              //     {
-              //       target: '#app.done',
-              //     },
-              //   ],
-              // },
-              // entry: 'initializingEntry',
-              // after: {
-              //   INIT_INTERVAL: {
-              //     target: '#app.generating.playing',
-              //   },
-              // },
+              invoke: {
+                id: 'generationAlgorithmMachine',
+                src: 'childMachine',
+                data: {
+                  currentCell: undefined,
+                  eligibleNeighbors: [],
+                  fps: 3,
+                  grid: (ctx: AppMachineContext) => ctx.gridRef,
+                  pathId: 'abc',
+                  stack: [],
+                  startIndex: 0,
+                },
+                onDone: [
+                  {
+                    target: '#app.done',
+                  },
+                ],
+              },
+              onEntry: send('START', { to: 'generationAlgorithmMachine' }),
+              after: {
+                INIT_INTERVAL: {
+                  target: '#app.generating.playing',
+                },
+              },
             },
             playing: {
-              // entry: 'startChildMachine',
               always: {
                 cond: 'isFinished',
                 target: '#app.done',
