@@ -78,11 +78,6 @@ export const generationAlgorithmMachine =
         },
         complete: {
           type: 'final',
-          // on: {
-          //   RESTART: {
-          //     target: '#generationAlgorithmMachine.start',
-          //   },
-          // },
         },
       },
       on: {

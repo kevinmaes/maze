@@ -21,20 +21,12 @@ export interface MazeGenerationContext {
 export type InjectRefsEvent = {
   type: 'INJECT_REFS';
   gridRef: Ref<Grid>;
-  // value: any;
-  // context: MazeGenerationContext;
 };
 
 export type StartEvent = {
   type: 'START';
 };
-// export type RestartEvent = {
-//   type: 'RESTART';
-//   value: any;
-//   context: MazeGenerationContext;
-// };
 
-// export type MazeGenerationEvent = InjectRefsEvent | RestartEvent;
 export type MazeGenerationEvent = InjectRefsEvent | StartEvent;
 
 export type Typestate =
