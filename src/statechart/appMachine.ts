@@ -6,7 +6,7 @@ import {
   Typestate,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import { InjectRefsEvent } from './recursiveBacktrackerTypes';
+import { ContextGrid, InjectRefsEvent } from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 60;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -53,7 +53,7 @@ export const appMachine =
           },
         },
         generating: {
-          initial: 'playing',
+          initial: 'initializing',
           states: {
             initializing: {
               invoke: {
@@ -63,7 +63,8 @@ export const appMachine =
                   currentCell: undefined,
                   eligibleNeighbors: [],
                   fps: 3,
-                  grid: (ctx: AppMachineContext) => ctx.gridRef,
+                  grid: (ctx: AppMachineContext) =>
+                    (ctx.gridRef as any).current,
                   pathId: 'abc',
                   stack: [],
                   startIndex: 0,
