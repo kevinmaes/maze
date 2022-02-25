@@ -156,17 +156,6 @@ export const appMachine =
             };
           }
         ),
-        // startChildMachine: (ctx, event) => {
-        //   // console.log('initializing entry sending to child machine');
-        //   // console.log('send', send);
-        //   // send<AppMachineContext, AppMachineEvent>('START');
-        //   // send('START', { to: 'generationAlgorithmMachine' });
-        //   // send('START');
-        //   // send<AppMachineContext, AppMachineEvent>('START', {
-        //   //   id: 'generationAlgorithmMachine',
-        //   // });
-        //   // console.log('initializing entry after sending to child machine');
-        // },
       },
       // services: {
       //   childMachine: () => {
