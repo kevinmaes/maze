@@ -73,62 +73,60 @@ export const appMachine =
             ],
           },
           onEntry: send('START', { to: 'generationAlgorithmMachine' }),
+          initial: 'initializing',
+          states: {
+            initializing: {
+              // invoke: {
+              //   id: 'generationAlgorithmMachine',
+              //   // src: 'childMachine',
+              //   src: generationAlgorithmMachine,
+              //   onDone: [
+              //     {
+              //       target: '#app.done',
+              //     },
+              //   ],
+              // },
+              // entry: 'initializingEntry',
+              // after: {
+              //   INIT_INTERVAL: {
+              //     target: '#app.generating.playing',
+              //   },
+              // },
+            },
+            playing: {
+              // entry: 'startChildMachine',
+              always: {
+                cond: 'isFinished',
+                target: '#app.done',
+              },
+              on: {
+                PAUSE: {
+                  target: '#app.generating.paused',
+                },
+                STOP: {
+                  target: '#app.idle',
+                },
+                START_OVER: {
+                  target: '#app.generating.initializing',
+                },
+              },
+            },
+            paused: {
+              always: {
+                cond: 'isFinished',
+                target: '#app.done',
+              },
+              on: {
+                PLAY: {
+                  target: '#app.generating.playing',
+                },
+                STEP_FORWARD: {
+                  target: '#app.generating.paused',
+                },
+              },
+            },
+          },
         },
-        // initial: 'initializing',
-        // states: {
-        //   initializing: {
-        //     entry: 'startChildMachine',
-        //     // invoke: {
-        //     //   id: 'generationAlgorithmMachine',
-        //     //   // src: 'childMachine',
-        //     //   src: generationAlgorithmMachine,
-        //     //   onDone: [
-        //     //     {
-        //     //       target: '#app.done',
-        //     //     },
-        //     //   ],
-        //     // },
-        //     // entry: 'initializingEntry',
-        //     // after: {
-        //     //   INIT_INTERVAL: {
-        //     //     target: '#app.generating.playing',
-        //     //   },
-        //     // },
-        //   },
-        //   playing: {
-        //     // entry: 'startChildMachine',
-        //     always: {
-        //       cond: 'isFinished',
-        //       target: '#app.done',
-        //     },
-        //     on: {
-        //       PAUSE: {
-        //         target: '#app.generating.paused',
-        //       },
-        //       STOP: {
-        //         target: '#app.idle',
-        //       },
-        //       START_OVER: {
-        //         target: '#app.generating.initializing',
-        //       },
-        //     },
-        //   },
-        //   paused: {
-        //     always: {
-        //       cond: 'isFinished',
-        //       target: '#app.done',
-        //     },
-        //     on: {
-        //       PLAY: {
-        //         target: '#app.generating.playing',
-        //       },
-        //       STEP_FORWARD: {
-        //         target: '#app.generating.paused',
-        //       },
-        //     },
-        //   },
-        // },
-        // },
         done: {
           on: {
             START_OVER: {
