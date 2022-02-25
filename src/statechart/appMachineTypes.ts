@@ -1,4 +1,6 @@
+import { Ref } from 'react';
 import { Actor } from 'xstate';
+import { Grid } from '../components/generation/Grid';
 
 import {
   MazeGenerationContext,
@@ -40,6 +42,7 @@ export interface GenerationParams {
 export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
+  gridRef: Ref<Grid> | undefined;
   generationAlgorithmRef?: GenerationAlgorithmActor;
 }
 
@@ -62,9 +65,11 @@ export enum AppMachineEventId {
   STEP_FORWARD = 'STEP_FORWARD',
   STEP_BACK = 'STEP_BACK',
   SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
+  INJECT_REFS = 'INJECT_REFS',
 }
 
 export type AppMachineEvent =
+  | { type: 'TEST' }
   | { type: AppMachineEventId.PLAY }
   | { type: AppMachineEventId.STOP }
   | { type: AppMachineEventId.PAUSE }
@@ -75,6 +80,12 @@ export type AppMachineEvent =
       type: AppMachineEventId.SET_GENERATION_PARAM;
       name: string;
       value: number;
+    }
+  | {
+      type: AppMachineEventId.INJECT_REFS;
+      gridRef: any;
+      // value: any;
+      // context: MazeGenerationContext;
     };
 
 export type Typestate =

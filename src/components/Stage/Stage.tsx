@@ -3,13 +3,17 @@ import React from 'react';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
 // import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
-import { GenerationParams } from '../../statechart/appMachineTypes';
+import {
+  AppMachineEventId,
+  GenerationParams,
+} from '../../statechart/appMachineTypes';
 
 interface Props {
   generationParams: GenerationParams;
   width?: number;
   height?: number;
   pixelRatio?: number;
+  appSend: Function;
 }
 
 export const Stage = ({
@@ -17,6 +21,7 @@ export const Stage = ({
   height = 100,
   pixelRatio = window.devicePixelRatio,
   generationParams,
+  appSend,
 }: Props) => {
   const { fps, cellSize, borderWeight, gridColumns, gridRows } =
     generationParams;
@@ -47,7 +52,8 @@ export const Stage = ({
         blockedCells: [],
       });
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-      // send('INJECT_REFS', { gridRef });
+      console.log('appSend(INJECT_REFS)');
+      appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
   }, [
     fps,
@@ -59,7 +65,7 @@ export const Stage = ({
     endIndex,
     height,
     width,
-    // send,
+    appSend,
   ]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {

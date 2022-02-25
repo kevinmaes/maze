@@ -1,13 +1,14 @@
-import { createMachine } from 'xstate';
+import { createMachine, assign, send } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
   AppMachineEvent,
   Typestate,
 } from './appMachineTypes';
-import { recursiveBacktrakerMachine } from './recursiveBacktrackerMachine';
+import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
+import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 30;
+const FPS_DEFAULT = 60;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 15;
 
@@ -28,14 +29,19 @@ const defaultGenerationParams: GenerationParams = {
 const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
+  gridRef: undefined,
   generationAlgorithmRef: undefined,
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAjAGwAWDAA4ADMJ4AmAJzDJPYQFY+PAOwAaEAE9EAgXwyLp0gMySTw1T1HnVAXzua0mGKzAAnZM1ZRsrJljIuFgAXlg+BJywjF5gGMgAZoweGACSAHKpACoA+hlZAKIASgBqZCQcdAzMbBzcCKpyIqrywgJSAiY2Gtq6wiYY0pKqijIj3S0CDk7oGK4eXuG+qLjIWkvEZACqAMoFlfQBtUhcvDyjhv2KAtKCRiYtmjoIAv0YN3ySAqomsoojwj40xAzjmYDcnm8y1W6wiOyyAHkiAdqix2Cd6vwhGIJDI5AplDwBE9ENJRIM+NIsXwlKoyd9gaD5pClhgVmsNvCyEVcgiSsUUUd0aB6v1hIZ-lTjKpGhYTCSXpJySZOiYTIJRF0bEDHCDZszFj42TCNoKasLTggiXTmjJvpZpKNRHwFUYeBgHpJ-sMiSZFGrGfrwQsoWzkABXWCQYjkKgnKpCupnQQemx4vTDTWSBXtaSDKSia6FnhdHhEwMuYMso2oCNRiAEeEFIg5ABiCKKAHVuQARM1opNWyR8RQe4SOwuib6-Pgu3ovHh5+S3TV8VSU8SzitgiGG5Z16P944i3jfPOWO2NOlOufPPRCJXtQGiRdiX7bg1QggQNhxcIAN1oABrOJPzRMhcCgWh3CYAALABbABZZAAGNYPCMAjwteotRER01UEYdrluRQc1UIRRGMFVzgUARlCmXVQR-NxGyybleX5IosMHIi8P9dUBCIj5SPncj3Uafo6XVVRREaRQHF1VhaAgOAOFBHB8G4jFdGzedrHJaxXh+EtxC6WQPyrPc-ACIJQiWLSTwQT53WHJV5EUJRznHMjRzJGkLCVNQR2ECzd1DdlYSgBzLWMcU6Ief1zlkgRnTIuLnTFQL1w80KQ1ZWtI0gaLMUkNoMDpKc5DJL1FB4HNLBETU6Rkr4FADRigzC+z40Oc0ePXPiCMEkdhIVYdyULNUPM1LoR3LDrMGYzCetRY9LX4Aay0sfp5AShQFT4Mx3haaxjCVB5GgrYreGEBUFAUuwgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAtAKwAmAAwYAnAA5RAdiEBmcbIAs4gGyyVAGhABPRH0WixKlePGKBUyZL4BfG1rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3Ag8sg0YQorKBkISfLL6fFq6CALiUhgDwgrSJgCMAgIqdg7oGM5uHqHeqLjI2qvEZACqAMp55fR+1UhcvBMTGCqKUgKKQnKycnwTsgK9iAPiGBNSd0GKiEnUEsjmIEcizALncnjWGy2YX2GQA8kRjpUWOxzrVZBM+DdzC0QXxRHchACvggWooMFIJuTbh8hOJ3rN7JCFks4asMOtNtsUWQCtlUUVCpjTjjQLUeBYhl1RFcPi1ROrRNTprIbtJJEIVAJRJ0pLZOVCeSsvPzEdspVUZRcEPjCbcHo8+GSKVSdIgCSJ5DNRO18QyDBCLTDlvD+cgAK6wSDEchUc4VaU1RAiSn+oGyKQvUzSKRah4YMkg8kCPjiSlSNQR7lR3nW1DxxMQAgovJELIAMVRBQA6iKACL27GZhATITXAmmPgqfSWcR8etaxriCzkhm3UQvcHmpuwq1rdtJidnWWIF1E92kneUxRa6Tlt51w2f8wc+ZOZunggIDYGJQgAN1oABrGJLQdMhcCgWhXCYAALABbABZZAAGNkNCMBL0dPECTvElPUfH0+lUekJAMU0zBJQ9fwwICXC7DIRTFCUCgIqd+GEMRJBkeQlFUdRqR4K4VAwRR-iEbUjUXNdG1QAg0gAKTyABhbICjyPt9h43FeE6EQJGkOQFGUNRNF9BAVHrYYawkdpBE-UQ7E5VhaAgOAOChHB8EM68aTLAxjAEJQjRMURPlsxdrhkcwawmYx7PuZToRPGNQj8AJglWIKnR4ZRCTMoTLNEmy+gsARpP0aYVQZOQBAymC+QFJEoEKuUriGRQ1AGJ57naetZBfQknimFL9xrPgnkUVr-xjNsE0gbq-UUCb8UUfE1DuD5yWpF5apkgQJg9KZhDmhajz-LKCrTE4HV4ubDDKiyROs6kHM6f4zvVGZ7mVDKWPwx6sSvJ1bikp5lSkGRFwNMlqRnOkmTZYEjVDBRlPWupPTRwSPqssTbPlWcMHkQ1tRnBr9A8mwgA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>(
     {
       context: initialAppMachineContext,
+      schema: {
+        context: {} as AppMachineContext,
+        events: {} as AppMachineEvent,
+      },
       id: 'app',
       initial: 'idle',
       states: {
@@ -49,59 +55,81 @@ export const appMachine =
         generating: {
           invoke: {
             id: 'generationAlgorithmMachine',
-            src: 'generationAlgorithmMachine',
-            data: (context: AppMachineContext) => ({
+            // src: 'childMachine',
+            src: generationAlgorithmMachine,
+            autoForward: true,
+            data: {
               currentCell: undefined,
               eligibleNeighbors: [],
-              ...context.generationParams,
-            }),
+              fps: 3,
+              grid: (ctx: AppMachineContext) => ctx.gridRef,
+              pathId: 'abc',
+              stack: [],
+              startIndex: 0,
+            },
             onDone: [
               {
-                target: '#app.generating.initializing',
+                target: '#app.done',
               },
             ],
           },
-          states: {
-            initializing: {
-              after: {
-                INIT_INTERVAL: {
-                  target: '#app.generating.playing',
-                },
-              },
-            },
-            playing: {
-              always: {
-                cond: 'isFinished',
-                target: '#app.done',
-              },
-              on: {
-                PAUSE: {
-                  target: '#app.generating.paused',
-                },
-                STOP: {
-                  target: '#app.idle',
-                },
-                START_OVER: {
-                  target: '#app.generating.initializing',
-                },
-              },
-            },
-            paused: {
-              always: {
-                cond: 'isFinished',
-                target: '#app.done',
-              },
-              on: {
-                PLAY: {
-                  target: '#app.generating.playing',
-                },
-                STEP_FORWARD: {
-                  target: '#app.generating.paused',
-                },
-              },
-            },
-          },
+          onEntry: send('START', { to: 'generationAlgorithmMachine' }),
         },
+        // initial: 'initializing',
+        // states: {
+        //   initializing: {
+        //     entry: 'startChildMachine',
+        //     // invoke: {
+        //     //   id: 'generationAlgorithmMachine',
+        //     //   // src: 'childMachine',
+        //     //   src: generationAlgorithmMachine,
+        //     //   onDone: [
+        //     //     {
+        //     //       target: '#app.done',
+        //     //     },
+        //     //   ],
+        //     // },
+        //     // entry: 'initializingEntry',
+        //     // after: {
+        //     //   INIT_INTERVAL: {
+        //     //     target: '#app.generating.playing',
+        //     //   },
+        //     // },
+        //   },
+        //   playing: {
+        //     // entry: 'startChildMachine',
+        //     always: {
+        //       cond: 'isFinished',
+        //       target: '#app.done',
+        //     },
+        //     on: {
+        //       PAUSE: {
+        //         target: '#app.generating.paused',
+        //       },
+        //       STOP: {
+        //         target: '#app.idle',
+        //       },
+        //       START_OVER: {
+        //         target: '#app.generating.initializing',
+        //       },
+        //     },
+        //   },
+        //   paused: {
+        //     always: {
+        //       cond: 'isFinished',
+        //       target: '#app.done',
+        //     },
+        //     on: {
+        //       PLAY: {
+        //         target: '#app.generating.playing',
+        //       },
+        //       STEP_FORWARD: {
+        //         target: '#app.generating.paused',
+        //       },
+        //     },
+        //   },
+        // },
+        // },
         done: {
           on: {
             START_OVER: {
@@ -110,17 +138,43 @@ export const appMachine =
           },
         },
       },
+      on: {
+        INJECT_REFS: {
+          actions: ['storeGridRef'],
+        },
+      },
     },
     {
       guards: {
         isFinished: (context: AppMachineContext) => false,
       },
-      services: {
-        generationAlgorithmMachine: () => {
-          // Can switch between algorithm machines by checking context here.
-          return recursiveBacktrakerMachine;
-        },
+      actions: {
+        storeGridRef: assign<AppMachineContext, any>(
+          (_, event: InjectRefsEvent) => {
+            return {
+              gridRef: event.gridRef,
+            };
+          }
+        ),
+        // startChildMachine: (ctx, event) => {
+        //   // console.log('initializing entry sending to child machine');
+        //   // console.log('send', send);
+        //   // send<AppMachineContext, AppMachineEvent>('START');
+        //   // send('START', { to: 'generationAlgorithmMachine' });
+        //   // send('START');
+        //   // send<AppMachineContext, AppMachineEvent>('START', {
+        //   //   id: 'generationAlgorithmMachine',
+        //   // });
+        //   // console.log('initializing entry after sending to child machine');
+        // },
       },
+      // services: {
+      //   childMachine: () => {
+      //     console.log('service childMachine');
+      //     // Can switch between algorithm machines by checking context here.
+      //     return generationAlgorithmMachine;
+      //   },
+      // },
       delays: {
         INIT_INTERVAL: () => {
           return 1000;
