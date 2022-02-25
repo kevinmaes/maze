@@ -22,7 +22,6 @@ const App = () => {
 
   const {
     context: { generationParams },
-    children: { generationAlgorithmMachine },
   } = appState;
 
   React.useEffect(() => {
@@ -32,8 +31,6 @@ const App = () => {
       const childMachine = state.children?.generationAlgorithmMachine;
       if (childMachine) {
         console.log('childMachine', childMachine);
-        // childMachine.send('START');
-        // send('START');
       }
     });
 
