@@ -52,7 +52,6 @@ export const Stage = ({
         blockedCells: [],
       });
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-      console.log('appSend(INJECT_REFS)');
       appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
   }, [
