@@ -56,7 +56,6 @@ export const appMachine =
           invoke: {
             id: 'generationAlgorithmMachine',
             src: 'childMachine',
-            autoForward: true,
             data: {
               currentCell: undefined,
               eligibleNeighbors: [],
