@@ -55,8 +55,7 @@ export const appMachine =
         generating: {
           invoke: {
             id: 'generationAlgorithmMachine',
-            // src: 'childMachine',
-            src: generationAlgorithmMachine,
+            src: 'childMachine',
             autoForward: true,
             data: {
               currentCell: undefined,
@@ -157,13 +156,12 @@ export const appMachine =
           }
         ),
       },
-      // services: {
-      //   childMachine: () => {
-      //     console.log('service childMachine');
-      //     // Can switch between algorithm machines by checking context here.
-      //     return generationAlgorithmMachine;
-      //   },
-      // },
+      services: {
+        childMachine: () => {
+          // Can switch between algorithm machines by checking context here.
+          return generationAlgorithmMachine;
+        },
+      },
       delays: {
         INIT_INTERVAL: () => {
           return 1000;
