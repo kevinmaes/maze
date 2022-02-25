@@ -36,9 +36,6 @@ export const generationAlgorithmMachine =
             START: {
               target: '#generationAlgorithmMachine.start',
             },
-            // GO: {
-            //   target: '#generationAlgorithmMachine.start',
-            // },
           },
         },
         start: {
@@ -89,9 +86,6 @@ export const generationAlgorithmMachine =
         },
       },
       on: {
-        // TESTING: {
-        //   actions: ['testAction'],
-        // },
         INJECT_REFS: {
           target: '#generationAlgorithmMachine.maze-idle',
         },
@@ -107,9 +101,6 @@ export const generationAlgorithmMachine =
         },
       },
       actions: {
-        testAction: () => {
-          console.log('testAction');
-        },
         initGeneration: assign(
           (ctx: MazeGenerationContext, event: MazeGenerationEvent) => {
             console.log('child machine initGeneration action');

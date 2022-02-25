@@ -28,9 +28,6 @@ export type InjectRefsEvent = {
 export type StartEvent = {
   type: 'START';
 };
-// export type GoEvent = {
-//   type: 'GO';
-// };
 // export type RestartEvent = {
 //   type: 'RESTART';
 //   value: any;
@@ -39,8 +36,6 @@ export type StartEvent = {
 
 // export type MazeGenerationEvent = InjectRefsEvent | RestartEvent;
 export type MazeGenerationEvent = InjectRefsEvent | StartEvent;
-// | GoEvent
-// | { type: 'TESTING' };
 
 export type Typestate =
   | {
