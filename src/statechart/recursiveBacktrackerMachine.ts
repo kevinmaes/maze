@@ -104,7 +104,7 @@ export const generationAlgorithmMachine =
         initGeneration: assign(
           (ctx: MazeGenerationContext, event: MazeGenerationEvent) => {
             console.log('child machine initGeneration action');
-            const currentCell = (ctx.grid as any).current.getStartCell();
+            const currentCell = (ctx.grid as ContextGrid).getStartCell();
 
             return {
               ...ctx,
