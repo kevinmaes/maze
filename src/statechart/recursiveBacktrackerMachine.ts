@@ -21,7 +21,6 @@ const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
   pathId: 'abc',
   stack: [],
   startIndex: 0,
-  canPlay: false,
 };
 
 export const generationAlgorithmMachine =
