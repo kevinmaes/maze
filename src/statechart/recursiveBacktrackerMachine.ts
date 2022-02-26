@@ -50,11 +50,11 @@ export const generationAlgorithmMachine =
               actions: 'pause',
             },
           },
-          after: {
-            SEEK_INTERVAL: {
-              target: '#generationAlgorithmMachine.seek',
-            },
-          },
+          // after: {
+          //   SEEK_INTERVAL: {
+          //     target: '#generationAlgorithmMachine.seek',
+          //   },
+          // },
         },
         seek: {
           entry: 'findNeighbors',
@@ -64,11 +64,11 @@ export const generationAlgorithmMachine =
         },
         advance: {
           entry: ['pickNextCell', 'pushToStack'],
-          after: {
-            SEEK_INTERVAL: {
-              target: '#generationAlgorithmMachine.seek',
-            },
-          },
+          // after: {
+          //   SEEK_INTERVAL: {
+          //     target: '#generationAlgorithmMachine.seek',
+          //   },
+          // },
           always: {
             cond: 'isDeadEnd',
             target: '#generationAlgorithmMachine.backtrack',
