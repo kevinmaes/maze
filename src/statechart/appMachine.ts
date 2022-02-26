@@ -30,7 +30,6 @@ const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
   gridRef: undefined,
-  generationAlgorithmRef: undefined,
 };
 
 export const appMachine =

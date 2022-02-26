@@ -7,11 +7,6 @@ import {
   MazeGenerationEvent,
 } from './recursiveBacktrackerTypes';
 
-export type GenerationAlgorithmActor = Actor<
-  MazeGenerationContext,
-  MazeGenerationEvent
->;
-
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
   CELL_SIZE = 'cellSize',
@@ -45,7 +40,6 @@ export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
   gridRef: GridRef | undefined;
-  generationAlgorithmRef?: GenerationAlgorithmActor;
 }
 
 export enum AppMachineState {
