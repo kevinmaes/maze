@@ -1,6 +1,4 @@
-import React from 'react';
 import { useMachine } from '@xstate/react';
-// import { send } from 'xstate';
 
 import { AppContainer, Footer, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
