@@ -13,6 +13,7 @@ import { seek } from '../components/generation/seek';
 import { Cell } from '../components/generation/Cell';
 
 const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
+  canPlay: false,
   currentCell: undefined,
   eligibleNeighbors: [],
   fps: 3,
