@@ -1,11 +1,5 @@
 import { Ref } from 'react';
-import { Actor } from 'xstate';
 import { Grid } from '../components/generation/Grid';
-
-import {
-  MazeGenerationContext,
-  MazeGenerationEvent,
-} from './recursiveBacktrackerTypes';
 
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
