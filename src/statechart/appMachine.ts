@@ -52,7 +52,7 @@ export const appMachine =
           },
         },
         generating: {
-          initial: 'playing',
+          initial: 'initializing',
           invoke: {
             id: 'generationAlgorithmMachine',
             src: 'childMachine',
@@ -74,35 +74,15 @@ export const appMachine =
               },
             ],
           },
-          onEntry: 'startGenerationAlgorithmMachine',
+          // onEntry: 'startGenerationAlgorithmMachine',
           states: {
             initializing: {
-              // invoke: {
-              //   id: 'generationAlgorithmMachine',
-              //   src: 'childMachine',
-              //   data: {
-              //     currentCell: undefined,
-              //     eligibleNeighbors: [],
-              //     fps: 3,
-              //     grid: (ctx: AppMachineContext) =>
-              //       (ctx.gridRef as any).current,
-              //     pathId: 'abc',
-              //     stack: [],
-              //     startIndex: 0,
-              //     canPlay: false,
-              //   },
-              //   onDone: [
-              //     {
-              //       target: '#app.done',
-              //     },
-              //   ],
-              // },
-              // onEntry: send('START', { to: 'generationAlgorithmMachine' }),
-              // after: {
-              //   INIT_INTERVAL: {
-              //     target: '#app.generating.playing',
-              //   },
-              // },
+              onEntry: 'startGenerationAlgorithmMachine',
+              after: {
+                INITIALIZATION_DELAY: {
+                  target: '#app.generating.playing',
+                },
+              },
             },
             playing: {
               onEntry: 'playGenerationAlgorithmMachine',
@@ -182,7 +162,7 @@ export const appMachine =
         },
       },
       delays: {
-        INIT_INTERVAL: () => {
+        INITIALIZATION_DELAY: () => {
           return 1000;
         },
       },
