@@ -4,7 +4,6 @@ import type {
   MazeGenerationEvent,
   Typestate,
   ICell,
-  InjectRefsEvent,
   ContextGrid,
 } from './recursiveBacktrackerTypes';
 
