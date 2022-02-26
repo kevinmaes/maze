@@ -1,14 +1,5 @@
-import { Actor } from 'xstate';
-
-import {
-  MazeGenerationContext,
-  MazeGenerationEvent,
-} from './recursiveBacktrackerTypes';
-
-export type GenerationAlgorithmActor = Actor<
-  MazeGenerationContext,
-  MazeGenerationEvent
->;
+import { Ref } from 'react';
+import { Grid } from '../components/generation/Grid';
 
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
@@ -17,6 +8,8 @@ export enum GenerationParamsId {
   GRID_COLUMNS = 'gridColumns',
   GRID_ROWS = 'gridRows',
 }
+
+export type GridRef = Ref<Grid>;
 
 export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
@@ -40,7 +33,7 @@ export interface GenerationParams {
 export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
-  generationAlgorithmRef?: GenerationAlgorithmActor;
+  gridRef: GridRef | undefined;
 }
 
 export enum AppMachineState {
@@ -62,9 +55,11 @@ export enum AppMachineEventId {
   STEP_FORWARD = 'STEP_FORWARD',
   STEP_BACK = 'STEP_BACK',
   SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
+  INJECT_REFS = 'INJECT_REFS',
 }
 
 export type AppMachineEvent =
+  | { type: 'TEST' }
   | { type: AppMachineEventId.PLAY }
   | { type: AppMachineEventId.STOP }
   | { type: AppMachineEventId.PAUSE }
@@ -75,6 +70,10 @@ export type AppMachineEvent =
       type: AppMachineEventId.SET_GENERATION_PARAM;
       name: string;
       value: number;
+    }
+  | {
+      type: AppMachineEventId.INJECT_REFS;
+      gridRef: any;
     };
 
 export type Typestate =

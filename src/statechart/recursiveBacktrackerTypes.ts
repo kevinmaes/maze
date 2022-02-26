@@ -1,3 +1,4 @@
+import { Ref } from 'react';
 import type { Cell, CellMethods } from '../components/generation/Cell';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
@@ -18,21 +19,30 @@ export interface MazeGenerationContext {
 
 export type InjectRefsEvent = {
   type: 'INJECT_REFS';
-  gridRef: any;
-  value: any;
-  context: MazeGenerationContext;
-};
-export type RestartEvent = {
-  type: 'RESTART';
-  value: any;
-  context: MazeGenerationContext;
+  gridRef: Ref<Grid>;
 };
 
-export type MazeGenerationEvent = InjectRefsEvent | RestartEvent;
+export type StartEvent = {
+  type: 'START';
+};
+
+export type PlayEvent = {
+  type: 'PLAY';
+};
+
+export type PauseEvent = {
+  type: 'PAUSE';
+};
+
+export type MazeGenerationEvent =
+  | InjectRefsEvent
+  | StartEvent
+  | PlayEvent
+  | PauseEvent;
 
 export type Typestate =
   | {
-      value: 'idle';
+      value: 'maze-idle';
       type: string;
       context: MazeGenerationContext;
     }
