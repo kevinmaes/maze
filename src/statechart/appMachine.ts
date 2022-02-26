@@ -13,7 +13,7 @@ const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 2;
 
 const CellSize = {
-  DEFAULT: 20,
+  DEFAULT: 50,
   MIN: 10,
   MAX: 25,
 };
