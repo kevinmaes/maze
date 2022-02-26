@@ -1,3 +1,4 @@
+import React from 'react';
 import { useMachine } from '@xstate/react';
 
 import { AppContainer, Footer, Link, Image } from './App.css';
@@ -22,21 +23,21 @@ const App = () => {
     context: { generationParams },
   } = appState;
 
-  // React.useEffect(() => {
-  //   const subscription = appService.subscribe((state) => {
-  //     console.log('appState machine value', state.value);
+  React.useEffect(() => {
+    const subscription = appService.subscribe((state) => {
+      console.log('appState machine value', state.value);
 
-  //     const childMachine = state.children?.generationAlgorithmMachine;
-  //     if (childMachine) {
-  //       console.log(
-  //         'childMachine state value',
-  //         (childMachine as any).state.value
-  //       );
-  //     }
-  //   });
+      const childMachine = state.children?.generationAlgorithmMachine;
+      if (childMachine) {
+        console.log(
+          'childMachine state value',
+          (childMachine as any).state.value
+        );
+      }
+    });
 
-  //   return subscription.unsubscribe;
-  // }, [appService]); // note: service should never change
+    return subscription.unsubscribe;
+  }, [appService]); // note: service should never change
 
   const leversEnabled =
     appState.matches(AppMachineState.IDLE) ||
