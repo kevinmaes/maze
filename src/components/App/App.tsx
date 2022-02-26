@@ -1,4 +1,5 @@
-import { useActor, useMachine } from '@xstate/react';
+import React from 'react';
+import { useMachine } from '@xstate/react';
 
 import { AppContainer, Footer, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
@@ -16,16 +17,27 @@ const APP_HEIGHT = window.innerHeight;
 
 const App = () => {
   // eslint-disable-next-line
-  const [appState, appSend] = useMachine(appMachine);
+  const [appState, appSend, appService] = useMachine(appMachine);
 
   const {
     context: { generationParams },
-    children: { child },
   } = appState;
-  console.log('child', child);
-  // How can this be up 2 date and trigger a re render?
-  // See console for state changes in invoked child component
-  // const [generationState, generationSend] = useActor(child);
+
+  React.useEffect(() => {
+    const subscription = appService.subscribe((state) => {
+      console.log('appState machine value', state.value);
+
+      const childMachine = state.children?.generationAlgorithmMachine;
+      if (childMachine) {
+        console.log(
+          'childMachine state value',
+          (childMachine as any).state.value
+        );
+      }
+    });
+
+    return subscription.unsubscribe;
+  }, [appService]); // note: service should never change
 
   const leversEnabled =
     appState.matches(AppMachineState.IDLE) ||
@@ -57,6 +69,7 @@ const App = () => {
         height={APP_HEIGHT}
         pixelRatio={1}
         generationParams={generationParams}
+        appSend={appSend}
       />
       <Footer>
         <Link
