@@ -20,6 +20,8 @@ export enum GenerationParamsId {
   GRID_ROWS = 'gridRows',
 }
 
+export type GridRef = Ref<Grid>;
+
 export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
   borderWeight: number; // Passed down to Grid/cell.
@@ -42,7 +44,7 @@ export interface GenerationParams {
 export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
-  gridRef: Ref<Grid> | undefined;
+  gridRef: GridRef | undefined;
   generationAlgorithmRef?: GenerationAlgorithmActor;
 }
 

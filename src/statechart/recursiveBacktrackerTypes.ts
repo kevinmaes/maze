@@ -7,15 +7,14 @@ export type ICell = Cell & CellMethods;
 export type ContextGrid = Grid & GridMethods;
 
 export interface MazeGenerationContext {
-  // Generation Params passed down from parent machine.
+  canPlay: boolean;
+  currentCell: ICell | undefined;
+  eligibleNeighbors: Cell[];
   fps: number;
   grid: ContextGrid | undefined;
   pathId: string;
   stack: ICell[];
   startIndex: number;
-  // Specific context props, local to this machine.
-  currentCell: ICell | undefined;
-  eligibleNeighbors: Cell[];
 }
 
 export type InjectRefsEvent = {
@@ -27,7 +26,19 @@ export type StartEvent = {
   type: 'START';
 };
 
-export type MazeGenerationEvent = InjectRefsEvent | StartEvent;
+export type PlayEvent = {
+  type: 'PLAY';
+};
+
+export type PauseEvent = {
+  type: 'PAUSE';
+};
+
+export type MazeGenerationEvent =
+  | InjectRefsEvent
+  | StartEvent
+  | PlayEvent
+  | PauseEvent;
 
 export type Typestate =
   | {

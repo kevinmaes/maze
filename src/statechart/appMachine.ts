@@ -1,4 +1,4 @@
-import { createMachine, assign, send } from 'xstate';
+import { createMachine, assign, send, interpret } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -6,11 +6,11 @@ import {
   Typestate,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import { ContextGrid, InjectRefsEvent } from './recursiveBacktrackerTypes';
+import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 60;
+const FPS_DEFAULT = 1;
 const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 15;
+const GRID_SIZE_DEFAULT = 2;
 
 const CellSize = {
   DEFAULT: 20,
@@ -53,40 +53,64 @@ export const appMachine =
           },
         },
         generating: {
-          initial: 'initializing',
-          states: {
-            initializing: {
-              invoke: {
-                id: 'generationAlgorithmMachine',
-                src: 'childMachine',
-                data: {
-                  currentCell: undefined,
-                  eligibleNeighbors: [],
-                  fps: 3,
-                  grid: (ctx: AppMachineContext) =>
-                    (ctx.gridRef as any).current,
-                  pathId: 'abc',
-                  stack: [],
-                  startIndex: 0,
-                },
-                onDone: [
-                  {
-                    target: '#app.done',
-                  },
-                ],
-              },
-              onEntry: send('START', { to: 'generationAlgorithmMachine' }),
-              after: {
-                INIT_INTERVAL: {
-                  target: '#app.generating.playing',
-                },
-              },
+          initial: 'playing',
+          invoke: {
+            id: 'generationAlgorithmMachine',
+            src: 'childMachine',
+            data: (ctx) => {
+              return {
+                canPlay: false,
+                currentCell: undefined,
+                eligibleNeighbors: [],
+                fps: ctx.generationParams.fps,
+                grid: (ctx.gridRef as any).current,
+                pathId: 'abc',
+                stack: [],
+                startIndex: 0,
+              };
             },
-            playing: {
-              always: {
-                cond: 'isFinished',
+            onDone: [
+              {
                 target: '#app.done',
               },
+            ],
+          },
+          onEntry: send('START', { to: 'generationAlgorithmMachine' }),
+          states: {
+            initializing: {
+              // invoke: {
+              //   id: 'generationAlgorithmMachine',
+              //   src: 'childMachine',
+              //   data: {
+              //     currentCell: undefined,
+              //     eligibleNeighbors: [],
+              //     fps: 3,
+              //     grid: (ctx: AppMachineContext) =>
+              //       (ctx.gridRef as any).current,
+              //     pathId: 'abc',
+              //     stack: [],
+              //     startIndex: 0,
+              //     canPlay: false,
+              //   },
+              //   onDone: [
+              //     {
+              //       target: '#app.done',
+              //     },
+              //   ],
+              // },
+              // onEntry: send('START', { to: 'generationAlgorithmMachine' }),
+              // after: {
+              //   INIT_INTERVAL: {
+              //     target: '#app.generating.playing',
+              //   },
+              // },
+            },
+            playing: {
+              onEntry: send('PLAY', { to: 'generationAlgorithmMachine' }),
+              // always: {
+              //   cond: 'isFinished',
+              //   target: '#app.done',
+              // },
               on: {
                 PAUSE: {
                   target: '#app.generating.paused',
@@ -100,6 +124,7 @@ export const appMachine =
               },
             },
             paused: {
+              onEntry: send('PAUSE', { to: 'generationAlgorithmMachine' }),
               always: {
                 cond: 'isFinished',
                 target: '#app.done',
@@ -155,3 +180,9 @@ export const appMachine =
       },
     }
   );
+
+const service = interpret(appMachine).onTransition((state) => {
+  console.log('appMachine:', state.value);
+});
+
+service.start();

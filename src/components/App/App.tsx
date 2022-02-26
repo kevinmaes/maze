@@ -26,11 +26,14 @@ const App = () => {
 
   React.useEffect(() => {
     const subscription = appService.subscribe((state) => {
-      console.log('appState value', state.value, state);
+      console.log('appState machine value', state.value);
 
       const childMachine = state.children?.generationAlgorithmMachine;
       if (childMachine) {
-        console.log('childMachine', childMachine);
+        console.log(
+          'childMachine state value',
+          (childMachine as any).state.value
+        );
       }
     });
 

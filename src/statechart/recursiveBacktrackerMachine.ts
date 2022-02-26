@@ -1,4 +1,4 @@
-import { createMachine, assign } from 'xstate';
+import { createMachine, assign, interpret } from 'xstate';
 import type {
   MazeGenerationContext,
   MazeGenerationEvent,
@@ -21,6 +21,7 @@ const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
   pathId: 'abc',
   stack: [],
   startIndex: 0,
+  canPlay: false,
 };
 
 export const generationAlgorithmMachine =
@@ -40,11 +41,20 @@ export const generationAlgorithmMachine =
         },
         start: {
           entry: ['initGeneration', 'pushToStack'],
-          // after: {
-          //   SEEK_INTERVAL: {
-          //     target: '#generationAlgorithmMachine.seek',
-          //   },
-          // },
+          on: {
+            PLAY: {
+              actions: 'play',
+              // target: '#generationAlgorithmMachine.seek',
+            },
+            PAUSE: {
+              actions: 'pause',
+            },
+          },
+          after: {
+            SEEK_INTERVAL: {
+              target: '#generationAlgorithmMachine.seek',
+            },
+          },
         },
         seek: {
           entry: 'findNeighbors',
@@ -98,7 +108,6 @@ export const generationAlgorithmMachine =
       actions: {
         initGeneration: assign(
           (ctx: MazeGenerationContext, event: MazeGenerationEvent) => {
-            console.log('child machine initGeneration action');
             const currentCell = (ctx.grid as ContextGrid).getStartCell();
 
             return {
@@ -107,23 +116,45 @@ export const generationAlgorithmMachine =
             };
           }
         ),
+        play: assign((ctx) => {
+          console.log('child machine received play (assign now)');
+          return {
+            ...ctx,
+            canPlay: true,
+          };
+        }),
+        pause: assign((ctx) => {
+          console.log('child machine received pause (assign now)');
+          return {
+            ...ctx,
+            canPlay: false,
+          };
+        }),
         findNeighbors: assign(({ grid, currentCell }) => ({
           eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
             currentCell
           ),
         })),
-        pickNextCell: assign(({ grid, currentCell }) => ({
+        pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
           currentCell: seek({
             grid,
-            pathId: 'abc',
+            pathId,
             current: currentCell as Cell,
-            startIndex: 0,
+            startIndex,
           }),
         })),
         pushToStack: assign(({ stack, currentCell }) => {
+          // console.log('child machine pushToStack action');
+
           if (currentCell) {
             stack.push(currentCell);
           }
+
+          console.log(
+            'stack length / index:',
+            stack.length,
+            stack[stack.length - 1].index
+          );
           return { stack };
         }),
         popFromStack: assign(({ stack }) => {
@@ -140,3 +171,9 @@ export const generationAlgorithmMachine =
       },
     }
   );
+
+const service = interpret(generationAlgorithmMachine).onTransition((state) => {
+  console.log('recursiveBacktrackerMachine:', state.value);
+});
+
+service.start();
