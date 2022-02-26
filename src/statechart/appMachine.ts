@@ -74,7 +74,7 @@ export const appMachine =
               },
             ],
           },
-          onEntry: send('START', { to: 'generationAlgorithmMachine' }),
+          onEntry: 'startGenerationAlgorithmMachine',
           states: {
             initializing: {
               // invoke: {
@@ -105,7 +105,7 @@ export const appMachine =
               // },
             },
             playing: {
-              onEntry: send('PLAY', { to: 'generationAlgorithmMachine' }),
+              onEntry: 'playGenerationAlgorithmMachine',
               // always: {
               //   cond: 'isFinished',
               //   target: '#app.done',
@@ -123,7 +123,7 @@ export const appMachine =
               },
             },
             paused: {
-              onEntry: send('PAUSE', { to: 'generationAlgorithmMachine' }),
+              onEntry: 'pauseGenerationAlgorithmMachine',
               always: {
                 cond: 'isFinished',
                 target: '#app.done',
@@ -165,6 +165,15 @@ export const appMachine =
             };
           }
         ),
+        startGenerationAlgorithmMachine: send('START', {
+          to: 'generationAlgorithmMachine',
+        }),
+        playGenerationAlgorithmMachine: send('PLAY', {
+          to: 'generationAlgorithmMachine',
+        }),
+        pauseGenerationAlgorithmMachine: send('PAUSE', {
+          to: 'generationAlgorithmMachine',
+        }),
       },
       services: {
         childMachine: () => {
