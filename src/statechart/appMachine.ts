@@ -77,7 +77,6 @@ export const appMachine =
             },
           ],
         },
-        // onEntry: 'startGenerationAlgorithmMachine',
         states: {
           initializing: {
             onEntry: 'startGenerationAlgorithmMachine',
