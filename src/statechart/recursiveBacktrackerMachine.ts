@@ -41,11 +41,11 @@ export const generationAlgorithmMachine =
         entry: ['initGeneration', 'pushToStack'],
         on: {
           PLAY: {
-            actions: 'play',
+            actions: ['play'],
             // target: '#generationAlgorithmMachine.seek',
           },
           PAUSE: {
-            actions: 'pause',
+            actions: ['pause'],
           },
         },
         // after: {
@@ -55,7 +55,7 @@ export const generationAlgorithmMachine =
         // },
       },
       seek: {
-        entry: 'findNeighbors',
+        entry: ['findNeighbors'],
         always: {
           target: '#generationAlgorithmMachine.advance',
         },
@@ -73,7 +73,7 @@ export const generationAlgorithmMachine =
         },
       },
       backtrack: {
-        entry: 'popFromStack',
+        entry: ['popFromStack'],
         always: [
           {
             cond: 'isBackAtStart',
