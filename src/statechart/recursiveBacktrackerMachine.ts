@@ -84,6 +84,7 @@ export const generationAlgorithmMachine =
         ],
       },
       complete: {
+        entry: () => console.log('mazeGenAlgo complete'),
         type: 'final',
       },
     },
@@ -136,11 +137,19 @@ export const generationAlgorithmMachine =
           canPlay: false,
         };
       }),
-      findNeighbors: assign(({ grid, currentCell }) => ({
-        eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
-          currentCell
-        ),
-      })),
+      // findNeighbors: assign(({ grid, currentCell }) => ({
+      //   eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
+      //     currentCell
+      //   ),
+      // })),
+      findNeighbors: assign(({ grid, currentCell }) => {
+        console.log('findNeighbors');
+        return {
+          eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
+            currentCell
+          ),
+        };
+      }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({
           grid,
