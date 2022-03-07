@@ -66,10 +66,7 @@ export const generationAlgorithmMachine =
         },
         after: {
           SEEK_INTERVAL: {
-            cond: (ctx) => {
-              console.log(ctx.canPlay);
-              return ctx.canPlay;
-            },
+            cond: (ctx) => ctx.canPlay,
             target: '#generationAlgorithmMachine.seek',
           },
         },
