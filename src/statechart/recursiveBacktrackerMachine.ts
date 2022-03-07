@@ -1,4 +1,4 @@
-import { createMachine, assign, interpret } from 'xstate';
+import { createMachine, assign, interpret, sendParent } from 'xstate';
 import type {
   MazeGenerationContext,
   MazeGenerationEvent,
@@ -48,11 +48,11 @@ export const generationAlgorithmMachine =
             actions: ['pause'],
           },
         },
-        // after: {
-        //   SEEK_INTERVAL: {
-        //     target: '#generationAlgorithmMachine.seek',
-        //   },
-        // },
+        after: {
+          SEEK_INTERVAL: {
+            target: '#generationAlgorithmMachine.seek',
+          },
+        },
       },
       seek: {
         entry: ['findNeighbors'],
@@ -61,15 +61,15 @@ export const generationAlgorithmMachine =
         },
       },
       advance: {
-        entry: ['pickNextCell', 'pushToStack'],
-        // after: {
-        //   SEEK_INTERVAL: {
-        //     target: '#generationAlgorithmMachine.seek',
-        //   },
-        // },
+        entry: ['pickNextCell', 'pushToStack', sendParent('UPDATED')],
         always: {
           cond: 'isDeadEnd',
           target: '#generationAlgorithmMachine.backtrack',
+        },
+        after: {
+          SEEK_INTERVAL: {
+            target: '#generationAlgorithmMachine.seek',
+          },
         },
       },
       backtrack: {
@@ -132,6 +132,14 @@ export const generationAlgorithmMachine =
           currentCell
         ),
       })),
+      // findNeighbors: assign(({ grid, currentCell }) => {
+      //   const eligibleNeighbors = (grid as GridMethods).getEligibleNeighbors(
+      //     currentCell
+      //   );
+      //   return {
+      //     eligibleNeighbors,
+      //   };
+      // }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({
           grid,
@@ -140,24 +148,26 @@ export const generationAlgorithmMachine =
           startIndex,
         }),
       })),
+      // pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => {
+      //   const nextCurrentCell = seek({
+      //     grid,
+      //     pathId,
+      //     current: currentCell as Cell,
+      //     startIndex,
+      //   });
+      //   return {
+      //     currentCell: nextCurrentCell,
+      //   };
+      // }),
       pushToStack: assign(({ stack, currentCell }) => {
-        // console.log('child machine pushToStack action');
-
         if (currentCell) {
           stack.push(currentCell);
         }
-
-        console.log(
-          'stack length / index:',
-          stack.length,
-          stack[stack.length - 1].index
-        );
         return { stack };
       }),
       popFromStack: assign(({ stack }) => {
         const prevCell = stack.pop() as ICell;
         prevCell?.setAsBacktrack();
-        // console.log(`  (backtrack to cell index: ${prevCell?.getIndex()})`);
         return { stack, currentCell: prevCell };
       }),
     },

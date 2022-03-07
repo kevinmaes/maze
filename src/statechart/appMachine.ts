@@ -8,12 +8,12 @@ import {
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 1;
+const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 2;
+const GRID_SIZE_DEFAULT = 10;
 
 const CellSize = {
-  DEFAULT: 50,
+  DEFAULT: 20,
   MIN: 10,
   MAX: 25,
 };
@@ -130,6 +130,9 @@ export const appMachine =
       INJECT_REFS: {
         actions: ['storeGridRef'],
       },
+      UPDATED: {
+        actions: ['receiveChildUpdate'],
+      },
     },
   }).withConfig({
     guards: {
@@ -152,6 +155,7 @@ export const appMachine =
       pauseGenerationAlgorithmMachine: send('PAUSE', {
         to: 'generationAlgorithmMachine',
       }),
+      receiveChildUpdate: () => {},
     },
     services: {
       childMachine: () => {

@@ -59,7 +59,7 @@ export enum AppMachineEventId {
 }
 
 export type AppMachineEvent =
-  | { type: 'TEST' }
+  | { type: 'UPDATED' }
   | { type: AppMachineEventId.PLAY }
   | { type: AppMachineEventId.STOP }
   | { type: AppMachineEventId.PAUSE }
