@@ -98,6 +98,9 @@ export const generationAlgorithmMachine =
       PAUSE: {
         actions: ['pause'],
       },
+      STEP_FORWARD: {
+        target: '#generationAlgorithmMachine.seek',
+      },
     },
   }).withConfig({
     guards: {

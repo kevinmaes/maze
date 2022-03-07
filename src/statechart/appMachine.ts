@@ -116,7 +116,7 @@ export const appMachine =
                 target: '#app.generating.playing',
               },
               STEP_FORWARD: {
-                target: '#app.generating.paused',
+                actions: ['stepGenerationAlgorithmMachine'],
               },
             },
           },
@@ -157,6 +157,9 @@ export const appMachine =
         to: 'generationAlgorithmMachine',
       }),
       pauseGenerationAlgorithmMachine: send('PAUSE', {
+        to: 'generationAlgorithmMachine',
+      }),
+      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
         to: 'generationAlgorithmMachine',
       }),
       receiveChildUpdate: () => {},
