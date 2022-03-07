@@ -14,7 +14,7 @@ import {
 
 const FPS_DEFAULT = 1;
 const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 10;
+const GRID_SIZE_DEFAULT = 2;
 
 const CellSize = {
   DEFAULT: 20,
@@ -88,13 +88,9 @@ export const appMachine =
             },
           },
           playing: {
-            onEntry: 'playGenerationAlgorithmMachine',
-            // always: {
-            //   cond: 'isFinished',
-            //   target: '#app.done',
-            // },
             on: {
               PAUSE: {
+                actions: ['pauseGenerationAlgorithmMachine'],
                 target: '#app.generating.paused',
               },
               STOP: {
@@ -106,13 +102,9 @@ export const appMachine =
             },
           },
           paused: {
-            onEntry: 'pauseGenerationAlgorithmMachine',
-            always: {
-              cond: 'isFinished',
-              target: '#app.done',
-            },
             on: {
               PLAY: {
+                actions: ['playGenerationAlgorithmMachine'],
                 target: '#app.generating.playing',
               },
               STEP_FORWARD: {
@@ -123,6 +115,7 @@ export const appMachine =
         },
       },
       done: {
+        entry: () => console.log('appMachine done'),
         on: {
           START_OVER: {
             target: '#app.generating',
