@@ -56,10 +56,10 @@ export enum AppMachineEventId {
   STEP_BACK = 'STEP_BACK',
   SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
   INJECT_REFS = 'INJECT_REFS',
+  GENERATION_ALGORITHM_UPDATE = 'GENERATION_ALGORITHM_UPDATE',
 }
 
 export type AppMachineEvent =
-  | { type: 'UPDATED' }
   | { type: AppMachineEventId.PLAY }
   | { type: AppMachineEventId.STOP }
   | { type: AppMachineEventId.PAUSE }
@@ -74,7 +74,8 @@ export type AppMachineEvent =
   | {
       type: AppMachineEventId.INJECT_REFS;
       gridRef: any;
-    };
+    }
+  | { type: AppMachineEventId.GENERATION_ALGORITHM_UPDATE };
 
 export type Typestate =
   | {

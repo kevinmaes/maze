@@ -4,6 +4,7 @@ import {
   AppMachineContext,
   AppMachineEvent,
   Typestate,
+  AppMachineEventId,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 import { InjectRefsEvent } from './recursiveBacktrackerTypes';
@@ -127,10 +128,10 @@ export const appMachine =
       },
     },
     on: {
-      INJECT_REFS: {
+      [AppMachineEventId.INJECT_REFS]: {
         actions: ['storeGridRef'],
       },
-      UPDATED: {
+      [AppMachineEventId.GENERATION_ALGORITHM_UPDATE]: {
         actions: ['receiveChildUpdate'],
       },
     },
