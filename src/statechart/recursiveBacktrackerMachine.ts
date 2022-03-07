@@ -44,7 +44,6 @@ export const generationAlgorithmMachine =
         on: {
           PLAY: {
             actions: ['play'],
-            // target: '#generationAlgorithmMachine.seek',
           },
           PAUSE: {
             actions: ['pause'],
@@ -138,14 +137,6 @@ export const generationAlgorithmMachine =
           currentCell
         ),
       })),
-      // findNeighbors: assign(({ grid, currentCell }) => {
-      //   const eligibleNeighbors = (grid as GridMethods).getEligibleNeighbors(
-      //     currentCell
-      //   );
-      //   return {
-      //     eligibleNeighbors,
-      //   };
-      // }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({
           grid,
@@ -154,17 +145,6 @@ export const generationAlgorithmMachine =
           startIndex,
         }),
       })),
-      // pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => {
-      //   const nextCurrentCell = seek({
-      //     grid,
-      //     pathId,
-      //     current: currentCell as Cell,
-      //     startIndex,
-      //   });
-      //   return {
-      //     currentCell: nextCurrentCell,
-      //   };
-      // }),
       pushToStack: assign(({ stack, currentCell }) => {
         if (currentCell) {
           stack.push(currentCell);
