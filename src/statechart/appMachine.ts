@@ -12,7 +12,7 @@ import {
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 30;
+const FPS_DEFAULT = 1;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 10;
 
@@ -61,7 +61,7 @@ export const appMachine =
           src: 'childMachine',
           data: (ctx) => {
             return {
-              canPlay: false,
+              canPlay: true,
               currentCell: undefined,
               eligibleNeighbors: [],
               fps: ctx.generationParams.fps,

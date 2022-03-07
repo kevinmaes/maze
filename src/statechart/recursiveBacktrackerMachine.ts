@@ -41,16 +41,9 @@ export const generationAlgorithmMachine =
       },
       start: {
         entry: ['initGeneration', 'pushToStack'],
-        on: {
-          PLAY: {
-            actions: ['play'],
-          },
-          PAUSE: {
-            actions: ['pause'],
-          },
-        },
         after: {
           SEEK_INTERVAL: {
+            cond: (ctx) => ctx.canPlay,
             target: '#generationAlgorithmMachine.seek',
           },
         },
@@ -73,6 +66,10 @@ export const generationAlgorithmMachine =
         },
         after: {
           SEEK_INTERVAL: {
+            cond: (ctx) => {
+              console.log(ctx.canPlay);
+              return ctx.canPlay;
+            },
             target: '#generationAlgorithmMachine.seek',
           },
         },
@@ -96,6 +93,13 @@ export const generationAlgorithmMachine =
     on: {
       INJECT_REFS: {
         target: '#generationAlgorithmMachine.maze-idle',
+      },
+      PLAY: {
+        actions: ['play'],
+        target: '#generationAlgorithmMachine.seek',
+      },
+      PAUSE: {
+        actions: ['pause'],
       },
     },
   }).withConfig({
