@@ -7,7 +7,10 @@ import {
   AppMachineEventId,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import { InjectRefsEvent } from './recursiveBacktrackerTypes';
+import {
+  InjectRefsEvent,
+  MazeGenerationEventId,
+} from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -131,7 +134,7 @@ export const appMachine =
       [AppMachineEventId.INJECT_REFS]: {
         actions: ['storeGridRef'],
       },
-      [AppMachineEventId.GENERATION_ALGORITHM_UPDATE]: {
+      [MazeGenerationEventId.UPDATE]: {
         actions: ['receiveChildUpdate'],
       },
     },

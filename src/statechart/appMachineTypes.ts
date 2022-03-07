@@ -1,5 +1,6 @@
 import { Ref } from 'react';
 import { Grid } from '../components/generation/Grid';
+import { MazeGenerationEventId } from './recursiveBacktrackerTypes';
 
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
@@ -56,7 +57,6 @@ export enum AppMachineEventId {
   STEP_BACK = 'STEP_BACK',
   SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
   INJECT_REFS = 'INJECT_REFS',
-  GENERATION_ALGORITHM_UPDATE = 'GENERATION_ALGORITHM_UPDATE',
 }
 
 export type AppMachineEvent =
@@ -75,7 +75,7 @@ export type AppMachineEvent =
       type: AppMachineEventId.INJECT_REFS;
       gridRef: any;
     }
-  | { type: AppMachineEventId.GENERATION_ALGORITHM_UPDATE };
+  | { type: MazeGenerationEventId.UPDATE };
 
 export type Typestate =
   | {

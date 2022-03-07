@@ -17,28 +17,41 @@ export interface MazeGenerationContext {
   startIndex: number;
 }
 
+export enum MazeGenerationEventId {
+  INJECT_REFS = 'INJECT_REFS',
+  START = 'START',
+  PLAY = 'PLAY',
+  PAUSE = 'PAUSE',
+  UPDATE = 'UPDATE',
+}
+
 export type InjectRefsEvent = {
-  type: 'INJECT_REFS';
+  type: MazeGenerationEventId.INJECT_REFS;
   gridRef: Ref<Grid>;
 };
 
 export type StartEvent = {
-  type: 'START';
+  type: MazeGenerationEventId.START;
 };
 
 export type PlayEvent = {
-  type: 'PLAY';
+  type: MazeGenerationEventId.PLAY;
 };
 
 export type PauseEvent = {
-  type: 'PAUSE';
+  type: MazeGenerationEventId.PAUSE;
+};
+
+export type UpdateEvent = {
+  type: MazeGenerationEventId.UPDATE;
 };
 
 export type MazeGenerationEvent =
   | InjectRefsEvent
   | StartEvent
   | PlayEvent
-  | PauseEvent;
+  | PauseEvent
+  | UpdateEvent;
 
 export type Typestate =
   | {

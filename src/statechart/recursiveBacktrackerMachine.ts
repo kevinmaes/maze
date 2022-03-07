@@ -1,10 +1,12 @@
 import { createMachine, assign, interpret, sendParent } from 'xstate';
-import type {
+import {
   MazeGenerationContext,
   MazeGenerationEvent,
+  UpdateEvent,
   Typestate,
   ICell,
   ContextGrid,
+  MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
 import type { GridMethods } from '../components/generation/Grid';
@@ -61,7 +63,11 @@ export const generationAlgorithmMachine =
         },
       },
       advance: {
-        entry: ['pickNextCell', 'pushToStack', sendParent('UPDATED')],
+        entry: [
+          'pickNextCell',
+          'pushToStack',
+          sendParent(MazeGenerationEventId.UPDATE),
+        ],
         always: {
           cond: 'isDeadEnd',
           target: '#generationAlgorithmMachine.backtrack',
