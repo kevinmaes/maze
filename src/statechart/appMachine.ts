@@ -22,7 +22,7 @@ const CellSize = {
   MAX: 25,
 };
 
-const defaultGenerationParams: GenerationParams = {
+export const defaultGenerationParams: GenerationParams = {
   borderWeight: BORDER_WEIGHT_DEFAULT,
   cellSize: CellSize.DEFAULT,
   fps: FPS_DEFAULT,
