@@ -78,6 +78,11 @@ export const appMachine =
             },
           ],
         },
+        on: {
+          [MazeGenerationEventId.UPDATE]: {
+            actions: ['receiveChildUpdate'],
+          },
+        },
         states: {
           initializing: {
             on: {
@@ -118,11 +123,6 @@ export const appMachine =
             target: '#app.generating',
           },
         },
-      },
-    },
-    on: {
-      [MazeGenerationEventId.UPDATE]: {
-        actions: ['receiveChildUpdate'],
       },
     },
   }).withConfig({
