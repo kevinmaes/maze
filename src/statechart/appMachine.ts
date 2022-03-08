@@ -164,7 +164,7 @@ export const appMachine =
     },
     delays: {
       INITIALIZATION_DELAY: () => {
-        return 1000;
+        return 0;
       },
     },
   });
