@@ -126,9 +126,6 @@ export const appMachine =
       },
     },
   }).withConfig({
-    guards: {
-      isFinished: (context: AppMachineContext) => false,
-    },
     actions: {
       storeGridRef: assign<AppMachineContext, any>(
         (_, event: InjectRefsEvent) => {
