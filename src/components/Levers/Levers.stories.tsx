@@ -1,8 +1,8 @@
-import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 
 import { Levers } from './Levers';
-import { AppMachineState } from '../../statechart/appMachineTypes';
+import { defaultGenerationParams } from '../../statechart/appMachine';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -20,9 +20,12 @@ const Template: ComponentStory<typeof Levers> = (args) => <Levers {...args} />;
 export const Enabled = Template.bind({});
 Enabled.args = {
   enabled: true,
+  params: defaultGenerationParams,
+  updateFromLevers: action('changed'),
 };
 
 export const Disabled = Template.bind({});
 Disabled.args = {
   enabled: false,
+  params: defaultGenerationParams,
 };
