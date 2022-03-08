@@ -49,7 +49,8 @@ export const appMachine =
     states: {
       idle: {
         on: {
-          PLAY: {
+          [AppMachineEventId.INJECT_REFS]: {
+            actions: ['storeGridRef'],
             target: '#app.generating',
           },
         },
@@ -79,14 +80,14 @@ export const appMachine =
         },
         states: {
           initializing: {
-            onEntry: 'startGenerationAlgorithmMachine',
-            after: {
-              INITIALIZATION_DELAY: {
+            on: {
+              PLAY: {
                 target: '#app.generating.playing',
               },
             },
           },
           playing: {
+            onEntry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
@@ -94,9 +95,6 @@ export const appMachine =
               },
               STOP: {
                 target: '#app.idle',
-              },
-              START_OVER: {
-                target: '#app.generating.initializing',
               },
             },
           },
@@ -123,9 +121,6 @@ export const appMachine =
       },
     },
     on: {
-      [AppMachineEventId.INJECT_REFS]: {
-        actions: ['storeGridRef'],
-      },
       [MazeGenerationEventId.UPDATE]: {
         actions: ['receiveChildUpdate'],
       },
@@ -164,7 +159,7 @@ export const appMachine =
     },
     delays: {
       INITIALIZATION_DELAY: () => {
-        return 0;
+        return 3000;
       },
     },
   });

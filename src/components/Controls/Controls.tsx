@@ -21,8 +21,11 @@ interface Props {
 }
 
 const iconFillColor = '#2563EB';
-const iconFillInitializingColor = '#72B0FF';
 const iconFillDisabledColor = '#D3D3D3';
+// const iconFillInitializingColor = '#72B0FF';
+
+const getIconFillColor = (enabled = false) =>
+  enabled ? iconFillColor : iconFillDisabledColor;
 
 export const Controls = ({ state, onControlClick }: Props) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,163 +36,56 @@ export const Controls = ({ state, onControlClick }: Props) => {
   };
 
   const renderStateControls = (state: any) => {
-    switch (true) {
-      case state.matches(AppMachineState.IDLE):
-        return (
-          <ControlsGroup>
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-              disabled
-            >
-              <StartOver fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STOP}
-              onClick={handleClick}
-              disabled
-            >
-              <Stop fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton id={AppMachineEventId.PLAY} onClick={handleClick}>
-              <Play fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STEP_FORWARD}
-              onClick={handleClick}
-              disabled
-            >
-              <StepForward fill={iconFillDisabledColor} />
-            </ControlButton>
-          </ControlsGroup>
-        );
-      case state.matches({
-        [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
-      }):
-        return (
-          <ControlsGroup flash>
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-              disabled
-            >
-              <StartOver fill={iconFillInitializingColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STOP}
-              onClick={handleClick}
-              disabled
-            >
-              <Stop fill={iconFillInitializingColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.PAUSE}
-              onClick={handleClick}
-              disabled
-            >
-              <Pause fill={iconFillInitializingColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STEP_FORWARD}
-              onClick={handleClick}
-              disabled
-            >
-              <StepForward fill={iconFillDisabledColor} />
-            </ControlButton>
-          </ControlsGroup>
-        );
-      case state.matches({
-        [AppMachineState.GENERATING]: AppMachineState.PLAYING,
-      }):
-        return (
-          <ControlsGroup>
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-            >
-              <StartOver fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton id={AppMachineEventId.STOP} onClick={handleClick}>
-              <Stop fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton id={AppMachineEventId.PAUSE} onClick={handleClick}>
-              <Pause fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STEP_FORWARD}
-              onClick={handleClick}
-              disabled
-            >
-              <StepForward fill={iconFillDisabledColor} />
-            </ControlButton>
-          </ControlsGroup>
-        );
-      case state.matches({
-        [AppMachineState.GENERATING]: AppMachineState.PAUSED,
-      }):
-        return (
-          <ControlsGroup>
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-              disabled
-            >
-              <StartOver fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STOP}
-              onClick={handleClick}
-              disabled
-            >
-              <Stop fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton id={AppMachineEventId.PLAY} onClick={handleClick}>
-              <Play fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STEP_FORWARD}
-              onClick={handleClick}
-            >
-              <StepForward fill={iconFillColor} />
-            </ControlButton>
-          </ControlsGroup>
-        );
-      case state.matches(AppMachineState.DONE):
-        return (
-          <ControlsGroup>
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-            >
-              <StartOver fill={iconFillColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STOP}
-              onClick={handleClick}
-              disabled
-            >
-              <Stop fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.PLAY}
-              onClick={handleClick}
-              disabled
-            >
-              <Play fill={iconFillDisabledColor} />
-            </ControlButton>
-            <ControlButton
-              id={AppMachineEventId.STEP_FORWARD}
-              onClick={handleClick}
-              disabled
-            >
-              <StepForward fill={iconFillDisabledColor} />
-            </ControlButton>
-          </ControlsGroup>
-        );
+    const startOver = state.can(AppMachineEventId.START_OVER);
+    const play = state.can(AppMachineEventId.PLAY);
+    const pause = state.can(AppMachineEventId.PAUSE);
+    const stop = state.can(AppMachineEventId.STOP);
+    const stepForward = state.can(AppMachineEventId.STEP_FORWARD);
 
-      default:
-        return <>Can not load controls</>;
-    }
+    return (
+      <ControlsGroup>
+        <ControlButton
+          id={AppMachineEventId.START_OVER}
+          onClick={handleClick}
+          disabled={!startOver}
+        >
+          <StartOver fill={getIconFillColor(startOver)} />
+        </ControlButton>
+        <ControlButton
+          id={AppMachineEventId.STOP}
+          onClick={handleClick}
+          disabled={!stop}
+        >
+          <Stop fill={getIconFillColor(stop)} />
+        </ControlButton>
+
+        {play ? (
+          <ControlButton
+            id={AppMachineEventId.PLAY}
+            onClick={handleClick}
+            disabled={!play}
+          >
+            <Play fill={getIconFillColor(play)} />
+          </ControlButton>
+        ) : (
+          <ControlButton
+            id={AppMachineEventId.PAUSE}
+            onClick={handleClick}
+            disabled={!pause}
+          >
+            <Pause fill={getIconFillColor(pause)} />
+          </ControlButton>
+        )}
+
+        <ControlButton
+          id={AppMachineEventId.STEP_FORWARD}
+          onClick={handleClick}
+          disabled={!stepForward}
+        >
+          <StepForward fill={getIconFillColor(stepForward)} />
+        </ControlButton>
+      </ControlsGroup>
+    );
   };
 
   return <ControlsContainer>{renderStateControls(state)}</ControlsContainer>;

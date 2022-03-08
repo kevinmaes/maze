@@ -2,7 +2,10 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Controls } from './Controls';
-import { AppMachineState } from '../../statechart/appMachineTypes';
+import {
+  AppMachineEventId,
+  AppMachineState,
+} from '../../statechart/appMachineTypes';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -30,44 +33,38 @@ type StateValue =
     };
 
 export const Idle = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Idle.args = {
   state: {
-    matches: (arg: StateValue) => arg === 'idle',
+    can: (arg: AppMachineEventId) => false,
   },
 };
 
 export const Initializing = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Initializing.args = {
   state: {
-    matches: (arg: StateValue) => arg === 'initializing',
+    can: (arg: AppMachineEventId) => arg === AppMachineEventId.PLAY,
   },
 };
 
 export const Playing = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Playing.args = {
   state: {
-    // matches: (arg: StateValue) => arg === { generating: 'playing' },
-    matches: (arg: StateValue) =>
-      typeof arg !== 'string' ? arg['generating'] === 'playing' : false,
+    can: (arg: AppMachineEventId) =>
+      arg === AppMachineEventId.PAUSE || arg === AppMachineEventId.STOP,
   },
 };
 
 export const Paused = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Paused.args = {
   state: {
-    matches: (arg: StateValue) =>
-      typeof arg !== 'string' ? arg['generating'] === 'paused' : false,
+    can: (arg: AppMachineEventId) =>
+      arg === AppMachineEventId.PLAY || arg === AppMachineEventId.STEP_FORWARD,
   },
 };
 
 export const Done = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
 Done.args = {
   state: {
-    matches: (arg: StateValue) => arg === 'done',
+    can: (arg: AppMachineEventId) => arg === AppMachineEventId.START_OVER,
   },
 };
