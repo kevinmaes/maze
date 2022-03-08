@@ -1,3 +1,4 @@
+import { values } from 'lodash';
 import { createMachine, assign, send, interpret } from 'xstate';
 import {
   GenerationParams,
@@ -5,6 +6,7 @@ import {
   AppMachineEvent,
   Typestate,
   AppMachineEventId,
+  SetGenerationParamEvent,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 import {
@@ -125,6 +127,11 @@ export const appMachine =
         },
       },
     },
+    on: {
+      [AppMachineEventId.SET_GENERATION_PARAM]: {
+        actions: ['updateGenerationParams'],
+      },
+    },
   }).withConfig({
     actions: {
       storeGridRef: assign<AppMachineContext, any>(
@@ -134,6 +141,15 @@ export const appMachine =
           };
         }
       ),
+      updateGenerationParams: assign<AppMachineContext, AppMachineEvent>({
+        generationParams: ({ generationParams }, event) => {
+          const { name, value } = event as SetGenerationParamEvent;
+          return {
+            ...generationParams,
+            [name]: value,
+          };
+        },
+      }),
       startGenerationAlgorithmMachine: send('START', {
         to: 'generationAlgorithmMachine',
       }),

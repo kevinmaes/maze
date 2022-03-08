@@ -59,6 +59,12 @@ export enum AppMachineEventId {
   INJECT_REFS = 'INJECT_REFS',
 }
 
+export type SetGenerationParamEvent = {
+  type: AppMachineEventId.SET_GENERATION_PARAM;
+  name: string;
+  value: number;
+};
+
 export type AppMachineEvent =
   | { type: AppMachineEventId.PLAY }
   | { type: AppMachineEventId.STOP }
@@ -66,11 +72,7 @@ export type AppMachineEvent =
   | { type: AppMachineEventId.START_OVER }
   | { type: AppMachineEventId.STEP_FORWARD }
   | { type: AppMachineEventId.STEP_BACK }
-  | {
-      type: AppMachineEventId.SET_GENERATION_PARAM;
-      name: string;
-      value: number;
-    }
+  | SetGenerationParamEvent
   | {
       type: AppMachineEventId.INJECT_REFS;
       gridRef: any;
