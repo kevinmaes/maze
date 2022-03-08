@@ -85,9 +85,12 @@ export type Typestate =
       context: AppMachineContext;
     }
   | {
-      value: AppMachineState.INITIALIZING;
+      value: AppMachineState.GENERATING;
       context: AppMachineContext;
     }
+  // | {
+  //     [AppMachineState.GENERATING]: AppMachineState.INITIALIZING;
+  //   }
   | {
       value: AppMachineState.PLAYING;
       context: AppMachineContext;

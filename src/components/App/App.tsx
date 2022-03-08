@@ -38,10 +38,10 @@ const App = () => {
 
   //   return subscription.unsubscribe;
   // }, [appService]); // note: service should never change
-
   const leversEnabled =
     appState.matches(AppMachineState.IDLE) ||
-    appState.matches(AppMachineState.DONE);
+    appState.matches(AppMachineState.DONE) ||
+    appState.matches(AppMachineState.GENERATING);
 
   const sendEventFromControl = (eventId: AppMachineEventId) => {
     appSend(eventId);
