@@ -1,11 +1,7 @@
-import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Controls } from './Controls';
-import {
-  AppMachineEventId,
-  AppMachineState,
-} from '../../statechart/appMachineTypes';
+import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -21,16 +17,6 @@ export default {
 const Template: ComponentStory<typeof Controls> = (args) => (
   <Controls {...args} />
 );
-
-// const mockState = {
-//   matches: () => true,
-// };
-
-type StateValue =
-  | string
-  | {
-      generating: string;
-    };
 
 export const Idle = Template.bind({});
 Idle.args = {
