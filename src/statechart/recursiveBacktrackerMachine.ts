@@ -40,7 +40,7 @@ export const generationAlgorithmMachine =
         },
       },
       start: {
-        entry: ['initGeneration', 'pushToStack'],
+        entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             cond: (ctx) => ctx.canPlay,
@@ -49,17 +49,13 @@ export const generationAlgorithmMachine =
         },
       },
       seek: {
-        entry: ['findNeighbors'],
+        entry: ['findNeighbors', sendParent(MazeGenerationEventId.UPDATE)],
         always: {
           target: '#generationAlgorithmMachine.advance',
         },
       },
       advance: {
-        entry: [
-          'pickNextCell',
-          'pushToStack',
-          sendParent(MazeGenerationEventId.UPDATE),
-        ],
+        entry: ['pickNextCell', 'pushToStack'],
         always: {
           cond: 'isDeadEnd',
           target: '#generationAlgorithmMachine.backtrack',
@@ -113,16 +109,18 @@ export const generationAlgorithmMachine =
       },
     },
     actions: {
-      initGeneration: assign(
-        (ctx: MazeGenerationContext, event: MazeGenerationEvent) => {
+      initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
+        currentCell: (ctx: MazeGenerationContext) => {
           const currentCell = (ctx.grid as ContextGrid).getStartCell();
 
-          return {
-            ...ctx,
-            currentCell,
-          };
-        }
-      ),
+          return currentCell;
+        },
+      }),
+      visitStartCell: (ctx: MazeGenerationContext) => {
+        const currentCell = (ctx.grid as ContextGrid).getStartCell();
+
+        return currentCell.visit(null, ctx.pathId);
+      },
       play: assign((ctx) => {
         console.log('child machine received play (assign now)');
         return {
@@ -137,13 +135,7 @@ export const generationAlgorithmMachine =
           canPlay: false,
         };
       }),
-      // findNeighbors: assign(({ grid, currentCell }) => ({
-      //   eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
-      //     currentCell
-      //   ),
-      // })),
       findNeighbors: assign(({ grid, currentCell }) => {
-        console.log('findNeighbors');
         return {
           eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
             currentCell
