@@ -6,6 +6,7 @@ import {
   Typestate,
   AppMachineEventId,
   SetGenerationParamEvent,
+  AppMachineState,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 import {
@@ -52,12 +53,12 @@ export const appMachine =
         on: {
           [AppMachineEventId.INJECT_REFS]: {
             actions: ['storeGridRef'],
-            target: '#app.generating',
+            target: AppMachineState.GENERATING,
           },
         },
       },
-      generating: {
-        initial: 'initializing',
+      [AppMachineState.GENERATING]: {
+        initial: AppMachineState.INITIALIZING,
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
@@ -85,30 +86,30 @@ export const appMachine =
           },
         },
         states: {
-          initializing: {
+          [AppMachineState.INITIALIZING]: {
             on: {
               PLAY: {
-                target: '#app.generating.playing',
+                target: AppMachineState.PLAYING,
               },
             },
           },
-          playing: {
+          [AppMachineState.PLAYING]: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
-                target: '#app.generating.paused',
+                target: AppMachineState.PAUSED,
               },
               STOP: {
                 target: '#app.idle',
               },
             },
           },
-          paused: {
+          [AppMachineState.PAUSED]: {
             on: {
               PLAY: {
                 actions: ['playGenerationAlgorithmMachine'],
-                target: '#app.generating.playing',
+                target: AppMachineState.PLAYING,
               },
               STEP_FORWARD: {
                 actions: ['stepGenerationAlgorithmMachine'],
@@ -121,7 +122,7 @@ export const appMachine =
         entry: () => console.log('appMachine done'),
         on: {
           START_OVER: {
-            target: '#app.generating',
+            target: AppMachineState.GENERATING,
           },
         },
       },
