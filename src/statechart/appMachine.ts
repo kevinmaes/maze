@@ -1,18 +1,13 @@
-import { values } from 'lodash';
 import { createMachine, assign, send, interpret } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
   AppMachineEvent,
   Typestate,
-  AppMachineEventId,
   SetGenerationParamEvent,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import {
-  InjectRefsEvent,
-  MazeGenerationEventId,
-} from './recursiveBacktrackerTypes';
+import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 1;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -39,52 +34,25 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAtAKwAmAAwYAnAA5RAdiEBmcbIAs4gGyyVAGhABPRH0WixKlePGKBUyZL4BfG1rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3Ag8sg0YQorKBkISfLL6fFq6CALiUhgDwgrSJgCMAgIqdg7oGM5uHqHeqLjI2qvEZACqAMp55fR+1UhcvBMTGCqKUgKKQnKycnwTsgK9iAPiGBNSd0GKiEnUEsjmIEcizALncnjWGy2YX2GQA8kRjpUWOxzrVZBM+DdzC0QXxRHchACvggWooMFIJuTbh8hOJ3rN7JCFks4asMOtNtsUWQCtlUUVCpjTjjQLUeBYhl1RFcPi1ROrRNTprIbtJJEIVAJRJ0pLZOVCeSsvPzEdspVUZRcEPjCbcHo8+GSKVSdIgCSJ5DNRO18QyDBCLTDlvD+cgAK6wSDEchUc4VaU1RAiSn+oGyKQvUzSKRah4YMkg8kCPjiSlSNQR7lR3nW1DxxMQAgovJELIAMVRBQA6iKACL27GZhATITXAmmPgqfSWcR8etaxriCzkhm3UQvcHmpuwq1rdtJidnWWIF1E92kneUxRa6Tlt51w2f8wc+ZOZunggIDYGJQgAN1oABrGJLQdMhcCgWhXCYAALABbABZZAAGNkNCMBL0dPECTvElPUfH0+lUekJAMU0zBJQ9fwwICXC7DIRTFCUCgIqd+GEMRJBkeQlFUdRqR4K4VAwRR-iEbUjUXNdG1QAg0gAKTyABhbICjyPt9h43FeE6EQJGkOQFGUNRNF9BAVHrYYawkdpBE-UQ7E5VhaAgOAOChHB8EM68aTLAxjAEJQjRMURPlsxdrhkcwawmYx7PuZToRPGNQj8AJglWIKnR4ZRCTMoTLNEmy+gsARpP0aYVQZOQBAymC+QFJEoEKuUriGRQ1AGJ57naetZBfQknimFL9xrPgnkUVr-xjNsE0gbq-UUCb8UUfE1DuD5yWpF5apkgQJg9KZhDmhajz-LKCrTE4HV4ubDDKiyROs6kHM6f4zvVGZ7mVDKWPwx6sSvJ1bikp5lSkGRFwNMlqRnOkmTZYEjVDBRlPWupPTRwSPqssTbPlWcMHkQ1tRnBr9A8mwgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0MB2YBOyALgJbZQanEnIA2xAXqVAMQAKAMgIICaioqAe1hViA7HxAAPRAFoAjACYAnBgDsADgXq5SgCxy5ANgCsCgMwAaEAE9EZgAy6M9uWeNLDZ9WYdeAvn5WaJg4+ERMGKg0yNZMbJwAqgDKAKISgsIkYhLSCPLKapraegYm5la2COrGGCbuGvbGBmZGqgFB6FhguAQkZJHRsWTMSQAqAPKs6UIi2UhSiLpmqhhKxvZKSvYbni4KFXbLGD7G+qoK7nK6uurtIMFdPeH9qMgArrCQbFy88xmz4nmuXyKg0Wh0+iMpksNkQEIw3l0GnOchRqjagXunVCvQirw+XzGKVYAH0AGLjABKAHVOJSACLTTKiQGgYHXOS1QyGXQeVSGao3U4HBByDYIrSePluQwKVRmO4PHHPFgQMRgCjYABuAgA1hrlVlsJwaFABHgqAALAC2AFlkABjS2kMBMgE5RZmDBixr2VS6LTqdT89QimQtQwI05mBS6dybU6oxWdNW4EajOmjEnjABqKUpbqNHryNxUJl5Ea0vMMSjDYqcWgUcnW63Me1ud2wAggcAkD2IEBorr+MyLQMQp0j6kaqPRukMqNjIrMvNWZgTBhn3OTIW6YT65Eo1DojDIhZZxfDXmOC7jNZu-phlQjtTk2lLelUSguO8e+7xgxMOecxsosjjeqiM72F4SL7LCCDmAotTTi4b4KOC-q-oaeLvJ8EDAayCx5D4KgXFo6Jflc9iyoYIqxkhXj8hy0HQeoSgdh0u5PAeBGXvONTcjyfICqcgphguGBNPYTbqIY-LsW4GKcRgqbDvwo4XuOeTNl60E1sY7iGI0xjLKoYboZGigeNZGgGY4SlYqgvFaTITReuWSiVuo1a1vB4ZsRKK4eNReh+nIAQBEAA */
   createMachine<AppMachineContext, AppMachineEvent, Typestate>({
     context: initialAppMachineContext,
-    schema: {
-      context: {} as AppMachineContext,
-      events: {} as AppMachineEvent,
-    },
+    schema: { context: {} as AppMachineContext, events: {} as AppMachineEvent },
     id: 'app',
     initial: 'idle',
     states: {
-      idle: {
-        on: {
-          [AppMachineEventId.INJECT_REFS]: {
-            actions: ['storeGridRef'],
-            target: '#app.generating',
-          },
-        },
-      },
+      idle: {},
       generating: {
-        initial: 'initializing',
         invoke: {
-          id: 'generationAlgorithmMachine',
           src: 'childMachine',
-          data: (ctx) => {
-            return {
-              canPlay: true,
-              currentCell: undefined,
-              eligibleNeighbors: [],
-              fps: ctx.generationParams.fps,
-              grid: (ctx.gridRef as any).current,
-              pathId: 'abc',
-              stack: [],
-              startIndex: 0,
-            };
-          },
+          id: 'generationAlgorithmMachine',
           onDone: [
             {
               target: '#app.done',
             },
           ],
         },
-        on: {
-          [MazeGenerationEventId.UPDATE]: {
-            actions: ['receiveChildUpdate'],
-          },
-        },
+        initial: 'initializing',
         states: {
           initializing: {
             on: {
@@ -94,10 +62,10 @@ export const appMachine =
             },
           },
           playing: {
-            onEntry: 'startGenerationAlgorithmMachine',
+            entry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
-                actions: ['pauseGenerationAlgorithmMachine'],
+                actions: 'pauseGenerationAlgorithmMachine',
                 target: '#app.generating.paused',
               },
               STOP: {
@@ -108,28 +76,24 @@ export const appMachine =
           paused: {
             on: {
               PLAY: {
-                actions: ['playGenerationAlgorithmMachine'],
+                actions: 'playGenerationAlgorithmMachine',
                 target: '#app.generating.playing',
               },
               STEP_FORWARD: {
-                actions: ['stepGenerationAlgorithmMachine'],
+                actions: 'stepGenerationAlgorithmMachine',
+                target: '#app.generating.paused',
               },
             },
           },
         },
       },
       done: {
-        entry: () => console.log('appMachine done'),
+        entry: 'rr78k',
         on: {
           START_OVER: {
             target: '#app.generating',
           },
         },
-      },
-    },
-    on: {
-      [AppMachineEventId.SET_GENERATION_PARAM]: {
-        actions: ['updateGenerationParams'],
       },
     },
   }).withConfig({
