@@ -1,4 +1,4 @@
-import type { Cell, Cell as TCell } from '../Cell';
+import type { Cell as TCell } from '../Cell';
 
 export interface Grid {
   rows: number;

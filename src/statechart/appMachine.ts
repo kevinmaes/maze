@@ -1,4 +1,3 @@
-import { values } from 'lodash';
 import { createMachine, assign, send, interpret } from 'xstate';
 import {
   GenerationParams,

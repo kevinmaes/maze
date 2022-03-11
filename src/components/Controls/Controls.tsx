@@ -1,9 +1,6 @@
 import React from 'react';
 
-import {
-  AppMachineEventId,
-  AppMachineState,
-} from '../../statechart/appMachineTypes';
+import { AppMachineEventId } from '../../statechart/appMachineTypes';
 import { ReactComponent as StartOver } from '../../assets/images/controls/start-over.svg';
 import { ReactComponent as Play } from '../../assets/images/controls/play.svg';
 import { ReactComponent as Stop } from '../../assets/images/controls/stop.svg';

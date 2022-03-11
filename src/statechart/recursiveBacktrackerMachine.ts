@@ -2,7 +2,6 @@ import { createMachine, assign, interpret, sendParent } from 'xstate';
 import {
   MazeGenerationContext,
   MazeGenerationEvent,
-  UpdateEvent,
   Typestate,
   ICell,
   ContextGrid,
