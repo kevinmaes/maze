@@ -35,6 +35,7 @@ export interface AppMachineContext {
   mazeId: string;
   generationParams: GenerationParams;
   gridRef: GridRef | undefined;
+  generationSessionId: number;
 }
 
 export enum AppMachineState {

@@ -14,6 +14,7 @@ interface Props {
   height?: number;
   pixelRatio?: number;
   appSend: Function;
+  generationSessionId: number;
 }
 
 export const Stage = ({
@@ -22,6 +23,7 @@ export const Stage = ({
   pixelRatio = window.devicePixelRatio,
   generationParams,
   appSend,
+  generationSessionId,
 }: Props) => {
   const { fps, cellSize, borderWeight, gridColumns, gridRows } =
     generationParams;
@@ -65,6 +67,7 @@ export const Stage = ({
     height,
     width,
     appSend,
+    generationSessionId,
   ]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {

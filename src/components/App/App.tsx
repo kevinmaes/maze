@@ -20,7 +20,7 @@ const App = () => {
   const [appState, appSend, appService] = useMachine(appMachine);
 
   const {
-    context: { generationParams },
+    context: { generationParams, generationSessionId },
   } = appState;
 
   // React.useEffect(() => {
@@ -70,6 +70,7 @@ const App = () => {
         pixelRatio={1}
         generationParams={generationParams}
         appSend={appSend}
+        generationSessionId={generationSessionId}
       />
       <Footer>
         <Link

@@ -135,10 +135,11 @@ export const generationAlgorithmMachine =
         };
       }),
       findNeighbors: assign(({ grid, currentCell }) => {
+        const eligibleNeighbors: Cell[] = (
+          grid as GridMethods
+        ).getEligibleNeighbors(currentCell);
         return {
-          eligibleNeighbors: (grid as GridMethods).getEligibleNeighbors(
-            currentCell
-          ),
+          eligibleNeighbors,
         };
       }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({

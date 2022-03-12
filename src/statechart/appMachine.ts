@@ -36,6 +36,7 @@ const initialAppMachineContext: AppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
   gridRef: undefined,
+  generationSessionId: new Date().getTime(),
 };
 
 export const appMachine =
@@ -122,6 +123,16 @@ export const appMachine =
         entry: () => console.log('appMachine done'),
         on: {
           START_OVER: {
+            actions: [
+              // (ctx) => {
+              //   console.log('reset');
+              //   (ctx.gridRef as any).current.reset();
+              // },
+              // assign<AppMachineContext, AppMachineEvent>({
+              //   generationSessionId: () => new Date().getTime(),
+              // }),
+              'refreshGenerationSessionId',
+            ],
             target: AppMachineState.GENERATING,
           },
         },
@@ -141,6 +152,9 @@ export const appMachine =
           };
         }
       ),
+      refreshGenerationSessionId: assign<AppMachineContext, AppMachineEvent>({
+        generationSessionId: () => new Date().getTime(),
+      }),
       updateGenerationParams: assign<AppMachineContext, AppMachineEvent>({
         generationParams: ({ generationParams }, event) => {
           const { name, value } = event as SetGenerationParamEvent;
