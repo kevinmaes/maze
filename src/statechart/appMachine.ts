@@ -123,16 +123,7 @@ export const appMachine =
         entry: () => console.log('appMachine done'),
         on: {
           START_OVER: {
-            actions: [
-              // (ctx) => {
-              //   console.log('reset');
-              //   (ctx.gridRef as any).current.reset();
-              // },
-              // assign<AppMachineContext, AppMachineEvent>({
-              //   generationSessionId: () => new Date().getTime(),
-              // }),
-              'refreshGenerationSessionId',
-            ],
+            actions: ['refreshGenerationSessionId'],
             target: AppMachineState.GENERATING,
           },
         },
