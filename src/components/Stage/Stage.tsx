@@ -2,7 +2,6 @@ import React from 'react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-// import { recursiveBacktrakerMachine } from '../../statechart/recursiveBacktrackerMachine';
 import {
   AppMachineEventId,
   GenerationParams,
@@ -31,9 +30,6 @@ export const Stage = ({
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
-
-  // eslint-disable-next-line
-  // const [_, send] = useMachine(recursiveBacktrakerMachine);
 
   const cellTotal = gridColumns * gridRows;
 
