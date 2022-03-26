@@ -75,15 +75,18 @@ export const appMachine =
               startIndex: 0,
             };
           },
-          onDone: [
-            {
-              target: '#app.done',
-            },
-          ],
+          // onDone: [
+          //   {
+          //     target: '#app.done',
+          //   },
+          // ],
         },
         on: {
           [MazeGenerationEventId.UPDATE]: {
             actions: ['receiveChildUpdate'],
+          },
+          [MazeGenerationEventId.DONE]: {
+            target: 'done',
           },
         },
         states: {
@@ -124,7 +127,7 @@ export const appMachine =
         on: {
           START_OVER: {
             actions: ['refreshGenerationSessionId'],
-            target: AppMachineState.GENERATING,
+            target: AppMachineState.IDLE,
           },
         },
       },

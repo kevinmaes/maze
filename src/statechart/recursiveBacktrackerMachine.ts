@@ -79,8 +79,13 @@ export const generationAlgorithmMachine =
         ],
       },
       complete: {
-        entry: () => console.log('mazeGenAlgo complete'),
-        type: 'final',
+        entry: [
+          () => {
+            console.log('mazeGenAlgo complete');
+          },
+          sendParent(MazeGenerationEventId.DONE),
+        ],
+        // type: 'final',
       },
     },
     on: {

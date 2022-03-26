@@ -24,6 +24,7 @@ export enum MazeGenerationEventId {
   PAUSE = 'PAUSE',
   STEP_FORWARD = 'STEP_FORWARD',
   UPDATE = 'UPDATE',
+  DONE = 'DONE',
 }
 
 export type InjectRefsEvent = {
@@ -51,13 +52,18 @@ export type UpdateEvent = {
   type: MazeGenerationEventId.UPDATE;
 };
 
+export type DoneEvent = {
+  type: MazeGenerationEventId.DONE;
+};
+
 export type MazeGenerationEvent =
   | InjectRefsEvent
   | StartEvent
   | PlayEvent
   | PauseEvent
   | StepForwardEvent
-  | UpdateEvent;
+  | UpdateEvent
+  | DoneEvent;
 
 export type Typestate =
   | {

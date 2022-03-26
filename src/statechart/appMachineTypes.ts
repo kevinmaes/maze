@@ -78,7 +78,8 @@ export type AppMachineEvent =
       type: AppMachineEventId.INJECT_REFS;
       gridRef: any;
     }
-  | { type: MazeGenerationEventId.UPDATE };
+  | { type: MazeGenerationEventId.UPDATE }
+  | { type: MazeGenerationEventId.DONE };
 
 export type Typestate =
   | {
