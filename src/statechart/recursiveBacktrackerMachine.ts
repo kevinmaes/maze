@@ -79,13 +79,7 @@ export const generationAlgorithmMachine =
         ],
       },
       complete: {
-        entry: [
-          () => {
-            console.log('mazeGenAlgo complete');
-          },
-          sendParent(MazeGenerationEventId.DONE),
-        ],
-        // type: 'final',
+        entry: [sendParent(MazeGenerationEventId.DONE)],
       },
     },
     on: {
@@ -116,13 +110,11 @@ export const generationAlgorithmMachine =
       initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
         currentCell: (ctx: MazeGenerationContext) => {
           const currentCell = (ctx.grid as ContextGrid).getStartCell();
-
           return currentCell;
         },
       }),
       visitStartCell: (ctx: MazeGenerationContext) => {
         const currentCell = (ctx.grid as ContextGrid).getStartCell();
-
         return currentCell.visit(null, ctx.pathId);
       },
       play: assign((ctx) => {

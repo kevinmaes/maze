@@ -75,11 +75,6 @@ export const appMachine =
               startIndex: 0,
             };
           },
-          // onDone: [
-          //   {
-          //     target: '#app.done',
-          //   },
-          // ],
         },
         on: {
           [MazeGenerationEventId.UPDATE]: {
