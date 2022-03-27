@@ -181,7 +181,6 @@ export default class Cell implements ICell {
       case this.visited:
         return this.visitedColor;
       default:
-        // return 'white';
         return 'rgba(0,0,0,0)';
     }
   }
