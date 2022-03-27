@@ -98,45 +98,24 @@ export const generationAlgorithmMachine =
     },
   }).withConfig({
     guards: {
-      isDeadEnd: ({ eligibleNeighbors }: MazeGenerationContext) => {
-        return eligibleNeighbors.length === 0;
-      },
-      isBackAtStart: ({ stack }: MazeGenerationContext) => {
-        return stack.length === 0;
-      },
+      isDeadEnd: ({ eligibleNeighbors }: MazeGenerationContext) =>
+        eligibleNeighbors.length === 0,
+      isBackAtStart: ({ stack }: MazeGenerationContext) => stack.length === 0,
     },
     actions: {
       initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
-        currentCell: (ctx: MazeGenerationContext) => {
-          const currentCell = (ctx.grid as ContextGrid).getStartCell();
-          return currentCell;
-        },
+        currentCell: (ctx: MazeGenerationContext) =>
+          (ctx.grid as ContextGrid).getStartCell(),
       }),
       visitStartCell: (ctx: MazeGenerationContext) => {
         const currentCell = (ctx.grid as ContextGrid).getStartCell();
         return currentCell.visit(null, ctx.pathId);
       },
-      play: assign((ctx) => {
-        console.log('child machine received play (assign now)');
-        return {
-          ...ctx,
-          canPlay: true,
-        };
-      }),
-      pause: assign((ctx) => {
-        console.log('child machine received pause (assign now)', ctx);
-        return {
-          ...ctx,
-          canPlay: false,
-        };
-      }),
-      findNeighbors: assign(({ grid, currentCell }) => {
-        const eligibleNeighbors: ICell[] = (
-          grid as GridMethods
-        ).getEligibleNeighbors(currentCell);
-        return {
-          eligibleNeighbors,
-        };
+      play: assign({ canPlay: (_) => true }),
+      pause: assign({ canPlay: (_) => false }),
+      findNeighbors: assign({
+        eligibleNeighbors: ({ grid, currentCell }) =>
+          (grid as GridMethods).getEligibleNeighbors(currentCell),
       }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({
