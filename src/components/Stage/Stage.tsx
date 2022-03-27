@@ -24,16 +24,12 @@ export const Stage = ({
   appSend,
   generationSessionId,
 }: Props) => {
-  const { fps, cellSize, borderWeight, gridColumns, gridRows } =
-    generationParams;
+  const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
+
   const canvasRef: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
   );
-
-  const cellTotal = gridColumns * gridRows;
-
-  const endIndex = cellTotal - 1;
 
   React.useEffect(() => {
     if (canvasRef && canvasRef.current && gridRef.current) {
@@ -52,19 +48,7 @@ export const Stage = ({
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
       appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
-  }, [
-    fps,
-    cellSize,
-    borderWeight,
-    cellTotal,
-    gridColumns,
-    gridRows,
-    endIndex,
-    height,
-    width,
-    appSend,
-    generationSessionId,
-  ]);
+  }, [generationParams, height, width, appSend, generationSessionId]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {
     gridRef.current.draw();
