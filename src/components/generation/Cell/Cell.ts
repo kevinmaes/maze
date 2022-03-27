@@ -1,4 +1,4 @@
-import type { Cell as TCell, ICell } from './types';
+import type { TCell, ICell } from './types';
 
 const NORTH: number = 0;
 const EAST: number = 1;

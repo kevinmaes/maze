@@ -1,4 +1,4 @@
-export interface Cell {
+export interface TCell {
   canvasCtx: any;
   index: number;
   rowIndex: number;
@@ -16,7 +16,7 @@ export interface Cell {
   isBlocked: boolean;
 }
 
-export interface CellMethods {
+interface CellMethods {
   draw: Function;
   connect?: Function;
   isIneligible: Function;
@@ -27,4 +27,4 @@ export interface CellMethods {
   unsetAsCursor: Function;
 }
 
-export type ICell = Cell & CellMethods;
+export type ICell = TCell & CellMethods;

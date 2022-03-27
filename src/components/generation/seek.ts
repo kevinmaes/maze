@@ -1,4 +1,4 @@
-import { ICell } from './Cell/types';
+import { ICell } from './Cell';
 
 interface SeekOptions {
   grid: any;

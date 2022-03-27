@@ -10,7 +10,7 @@ import {
 import type { GridMethods } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
-import { ICell } from '../components/generation/Cell/types';
+import { ICell } from '../components/generation/Cell';
 
 const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
   canPlay: false,

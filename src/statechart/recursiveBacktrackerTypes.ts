@@ -1,5 +1,4 @@
 import { Ref } from 'react';
-import type { Cell, CellMethods } from '../components/generation/Cell';
 import { ICell } from '../components/generation/Cell/types';
 import type { Grid, GridMethods } from '../components/generation/Grid';
 
@@ -8,7 +7,7 @@ export type ContextGrid = Grid & GridMethods;
 export interface MazeGenerationContext {
   canPlay: boolean;
   currentCell: ICell | undefined;
-  eligibleNeighbors: Cell[];
+  eligibleNeighbors: ICell[];
   fps: number;
   grid: ContextGrid | undefined;
   pathId: string;
