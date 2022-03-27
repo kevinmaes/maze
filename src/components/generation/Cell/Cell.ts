@@ -255,11 +255,6 @@ export default class Cell implements ICell {
 
     canvasCtx.strokeStyle = color;
 
-    // canvasCtx.shadowColor = 'rgba(0,0,0, 0.3)';
-    // canvasCtx.shadowBlur = 2;
-    // canvasCtx.shadowOffsetX = 1;
-    // canvasCtx.shadowOffsetY = 1;
-
     canvasCtx.beginPath();
     canvasCtx.moveTo(x1, y1);
     canvasCtx.lineTo(x2, y2);
