@@ -90,9 +90,10 @@ export type Typestate =
       value: AppMachineState.GENERATING;
       context: AppMachineContext;
     }
-  // | {
-  //     [AppMachineState.GENERATING]: AppMachineState.INITIALIZING;
-  //   }
+  | {
+      value: { [AppMachineState.GENERATING]: AppMachineState.INITIALIZING };
+      context: AppMachineContext;
+    }
   | {
       value: AppMachineState.PLAYING;
       context: AppMachineContext;

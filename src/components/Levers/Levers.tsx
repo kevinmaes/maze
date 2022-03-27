@@ -22,7 +22,6 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) =>
     updateFromLevers({ name, value: parseInt(value, 10) });
-
   return (
     <Form>
       <Fieldset disabled={!enabled}>
