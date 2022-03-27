@@ -41,20 +41,23 @@ export const Controls = ({ state, onControlClick }: Props) => {
 
     return (
       <ControlsGroup>
-        <ControlButton
-          id={AppMachineEventId.START_OVER}
-          onClick={handleClick}
-          disabled={!startOver}
-        >
-          <StartOver fill={getIconFillColor(startOver)} />
-        </ControlButton>
-        <ControlButton
-          id={AppMachineEventId.STOP}
-          onClick={handleClick}
-          disabled={!stop}
-        >
-          <Stop fill={getIconFillColor(stop)} />
-        </ControlButton>
+        {startOver ? (
+          <ControlButton
+            id={AppMachineEventId.START_OVER}
+            onClick={handleClick}
+            disabled={!startOver}
+          >
+            <StartOver fill={getIconFillColor(startOver)} />
+          </ControlButton>
+        ) : (
+          <ControlButton
+            id={AppMachineEventId.STOP}
+            onClick={handleClick}
+            disabled={!stop}
+          >
+            <Stop fill={getIconFillColor(stop)} />
+          </ControlButton>
+        )}
 
         {play ? (
           <ControlButton
