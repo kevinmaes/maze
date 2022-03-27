@@ -48,7 +48,6 @@ const Stage = ({
   React.useEffect(() => {
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
-    currentCellZRef.current = null;
     stackARef.current = [];
   }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
