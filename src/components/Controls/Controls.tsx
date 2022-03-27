@@ -33,56 +33,56 @@ export const Controls = ({ state, onControlClick }: Props) => {
   };
 
   const renderStateControls = (state: any) => {
-    const startOver = state.can(AppMachineEventId.START_OVER);
-    const play = state.can(AppMachineEventId.PLAY);
-    const pause = state.can(AppMachineEventId.PAUSE);
-    const stop = state.can(AppMachineEventId.STOP);
-    const stepForward = state.can(AppMachineEventId.STEP_FORWARD);
+    const canStartOver = state.can(AppMachineEventId.START_OVER);
+    const canPlay = state.can(AppMachineEventId.PLAY);
+    const canPause = state.can(AppMachineEventId.PAUSE);
+    const canStop = state.can(AppMachineEventId.STOP);
+    const canStepForward = state.can(AppMachineEventId.STEP_FORWARD);
 
     return (
       <ControlsGroup>
-        {startOver ? (
+        {canStartOver ? (
           <ControlButton
             id={AppMachineEventId.START_OVER}
             onClick={handleClick}
-            disabled={!startOver}
+            disabled={!canStartOver}
           >
-            <StartOver fill={getIconFillColor(startOver)} />
+            <StartOver fill={getIconFillColor(canStartOver)} />
           </ControlButton>
         ) : (
           <ControlButton
             id={AppMachineEventId.STOP}
             onClick={handleClick}
-            disabled={!stop}
+            disabled={!canStop}
           >
-            <Stop fill={getIconFillColor(stop)} />
+            <Stop fill={getIconFillColor(canStop)} />
           </ControlButton>
         )}
 
-        {play ? (
+        {canPlay ? (
           <ControlButton
             id={AppMachineEventId.PLAY}
             onClick={handleClick}
-            disabled={!play}
+            disabled={!canPlay}
           >
-            <Play fill={getIconFillColor(play)} />
+            <Play fill={getIconFillColor(canPlay)} />
           </ControlButton>
         ) : (
           <ControlButton
             id={AppMachineEventId.PAUSE}
             onClick={handleClick}
-            disabled={!pause}
+            disabled={!canPause}
           >
-            <Pause fill={getIconFillColor(pause)} />
+            <Pause fill={getIconFillColor(canPause)} />
           </ControlButton>
         )}
 
         <ControlButton
           id={AppMachineEventId.STEP_FORWARD}
           onClick={handleClick}
-          disabled={!stepForward}
+          disabled={!canStepForward}
         >
-          <StepForward fill={getIconFillColor(stepForward)} />
+          <StepForward fill={getIconFillColor(canStepForward)} />
         </ControlButton>
       </ControlsGroup>
     );
