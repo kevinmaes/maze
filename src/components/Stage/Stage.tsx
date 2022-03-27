@@ -27,12 +27,10 @@ export const Stage = ({
   const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
   const canvasRef: any = React.useRef(null);
-  const gridRef = React.useRef<Grid>(
-    new Grid({ cols: gridColumns, rows: gridRows })
-  );
+  const gridRef = React.useRef<Grid | null>(null);
 
   React.useEffect(() => {
-    if (canvasRef && canvasRef.current && gridRef.current) {
+    if (canvasRef && canvasRef.current) {
       const canvasCtx = canvasRef.current.getContext('2d');
       canvasCtx.clearRect(0, 0, width, height);
 
