@@ -59,21 +59,21 @@ export const Controls = ({ state, onControlClick }: Props) => {
           </ControlButton>
         )}
 
-        {canPlay ? (
-          <ControlButton
-            id={AppMachineEventId.PLAY}
-            onClick={handleClick}
-            disabled={!canPlay}
-          >
-            <Play fill={getIconFillColor(canPlay)} />
-          </ControlButton>
-        ) : (
+        {canPause ? (
           <ControlButton
             id={AppMachineEventId.PAUSE}
             onClick={handleClick}
             disabled={!canPause}
           >
             <Pause fill={getIconFillColor(canPause)} />
+          </ControlButton>
+        ) : (
+          <ControlButton
+            id={AppMachineEventId.PLAY}
+            onClick={handleClick}
+            disabled={!canPlay}
+          >
+            <Play fill={getIconFillColor(canPlay)} />
           </ControlButton>
         )}
 
