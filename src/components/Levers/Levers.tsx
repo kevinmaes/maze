@@ -1,4 +1,3 @@
-// TODO: Move these files.
 import { Form, Fieldset } from './Levers.css';
 import {
   GenerationParamsId,
@@ -31,9 +30,9 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             type="range"
             name={GenerationParamsId.FPS}
             value={params.fps}
-            min="5"
+            min="1"
             max="60"
-            step={5}
+            step={1}
             onChange={onLeverChange}
           />
         </div>
