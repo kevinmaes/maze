@@ -35,6 +35,11 @@ export const Footer = styled.footer`
   height: 200px;
   lineheight: 30px;
 `;
+export const Version = styled.h5`
+  display: inline;
+  margin-right: 20px;
+  color: #555;
+`;
 
 export const Link = styled.a`
   text-decoration: none;

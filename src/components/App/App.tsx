@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMachine } from '@xstate/react';
 
-import { AppContainer, Footer, Link, Image } from './App.css';
+import { AppContainer, Footer, Version, Link, Image } from './App.css';
 import { Controls } from '../Controls/Controls';
 import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
@@ -75,6 +75,7 @@ const App = () => {
         generationSessionId={generationSessionId}
       />
       <Footer>
+        <Version>v0.2.0</Version>
         <Link
           className="App-link"
           href="https://twitter.com/kvmaes"
