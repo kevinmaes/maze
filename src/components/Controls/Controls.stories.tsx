@@ -44,7 +44,9 @@ export const Paused = Template.bind({});
 Paused.args = {
   state: {
     can: (arg: AppMachineEventId) =>
-      arg === AppMachineEventId.PLAY || arg === AppMachineEventId.STEP_FORWARD,
+      arg === AppMachineEventId.PLAY ||
+      arg === AppMachineEventId.STOP ||
+      arg === AppMachineEventId.STEP_FORWARD,
   },
 };
 

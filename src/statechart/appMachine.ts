@@ -116,6 +116,10 @@ export const appMachine =
                 actions: ['playGenerationAlgorithmMachine'],
                 target: AppMachineState.PLAYING,
               },
+              STOP: {
+                actions: ['refreshGenerationSessionId'],
+                target: '#app.idle',
+              },
               STEP_FORWARD: {
                 actions: ['stepGenerationAlgorithmMachine'],
               },
