@@ -55,7 +55,6 @@ export enum AppMachineEventId {
   STOP = 'STOP',
   PAUSE = 'PAUSE',
   STEP_FORWARD = 'STEP_FORWARD',
-  STEP_BACK = 'STEP_BACK',
   SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
   INJECT_REFS = 'INJECT_REFS',
 }
@@ -72,7 +71,6 @@ export type AppMachineEvent =
   | { type: AppMachineEventId.PAUSE }
   | { type: AppMachineEventId.START_OVER }
   | { type: AppMachineEventId.STEP_FORWARD }
-  | { type: AppMachineEventId.STEP_BACK }
   | SetGenerationParamEvent
   | {
       type: AppMachineEventId.INJECT_REFS;

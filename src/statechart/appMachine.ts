@@ -14,7 +14,7 @@ import {
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 1;
+const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 2;
 
