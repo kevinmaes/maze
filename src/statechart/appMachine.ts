@@ -131,6 +131,7 @@ export const appMachine =
     on: {
       [AppMachineEventId.SET_GENERATION_PARAM]: {
         actions: ['updateGenerationParams'],
+        target: AppMachineState.IDLE,
       },
     },
   }).withConfig({
