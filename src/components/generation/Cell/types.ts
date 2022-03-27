@@ -23,4 +23,8 @@ export interface CellMethods {
   setAsBacktrack: Function;
   setAsVisited: Function;
   getIndex: Function;
+  visit: Function;
+  unsetAsCursor: Function;
 }
+
+export type ICell = Cell & CellMethods;

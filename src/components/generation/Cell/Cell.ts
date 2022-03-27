@@ -1,14 +1,14 @@
-import type { Cell as TCell } from './types';
+import type { Cell as TCell, ICell } from './types';
 
 const NORTH: number = 0;
 const EAST: number = 1;
 const SOUTH: number = 2;
 const WEST: number = 3;
 
-type Connections = TCell[];
+type Connections = ICell[];
 type Walls = boolean[];
 
-export default class Cell implements TCell {
+export default class Cell implements ICell {
   canvasCtx: any;
   index: number;
   rowIndex: number;
@@ -145,9 +145,7 @@ export default class Cell implements TCell {
     this.pathId = pathId;
     this.visited = true;
 
-    // Mark isCursor as true.
-    // This will be set to false at the end of draw().
-    this.isCursor = true;
+    this.setAsCursor();
 
     if (!this.isStart && !this.isEnd) {
       this.walls = [true, true, true, true];
@@ -157,6 +155,14 @@ export default class Cell implements TCell {
       this.connect(prevCell);
     }
     return this;
+  }
+
+  setAsCursor() {
+    this.isCursor = true;
+  }
+
+  unsetAsCursor() {
+    this.isCursor = false;
   }
 
   hasDifferentPathId(cell: Cell) {
@@ -186,7 +192,8 @@ export default class Cell implements TCell {
     this.drawWalls(this.walls);
 
     // Set isCursor to false so it only shows on a single render.
-    this.isCursor = false;
+    // this.isCursor = false;
+    // console.log('end draw', { index: this.index, isCursor: this.isCursor });
   }
 
   clearFill() {

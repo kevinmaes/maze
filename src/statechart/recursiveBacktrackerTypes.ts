@@ -1,8 +1,7 @@
 import { Ref } from 'react';
 import type { Cell, CellMethods } from '../components/generation/Cell';
+import { ICell } from '../components/generation/Cell/types';
 import type { Grid, GridMethods } from '../components/generation/Grid';
-
-export type ICell = Cell & CellMethods;
 
 export type ContextGrid = Grid & GridMethods;
 

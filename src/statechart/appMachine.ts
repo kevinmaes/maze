@@ -1,4 +1,5 @@
 import { createMachine, assign, send, interpret } from 'xstate';
+import { Grid } from '../components/generation/Grid';
 import {
   GenerationParams,
   AppMachineContext,
@@ -10,11 +11,12 @@ import {
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 import {
+  ContextGrid,
   InjectRefsEvent,
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
-const FPS_DEFAULT = 2;
+const FPS_DEFAULT = 1;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 2;
 
@@ -106,6 +108,11 @@ export const appMachine =
             },
           },
           [AppMachineState.PAUSED]: {
+            entry: [
+              (ctx: AppMachineContext) => {
+                // console.log('ctx', ctx);
+              },
+            ],
             on: {
               PLAY: {
                 actions: ['playGenerationAlgorithmMachine'],

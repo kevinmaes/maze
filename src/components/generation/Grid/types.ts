@@ -1,4 +1,4 @@
-import type { Cell as TCell } from '../Cell';
+import { ICell } from '../Cell/types';
 
 export interface Grid {
   rows: number;
@@ -7,7 +7,7 @@ export interface Grid {
   startIndex?: number;
   cellSize?: number;
   canvasCtx?: any;
-  cells?: TCell[];
+  cells?: ICell[];
   blockedCells?: number[];
 }
 

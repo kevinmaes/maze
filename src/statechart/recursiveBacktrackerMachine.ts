@@ -3,7 +3,6 @@ import {
   MazeGenerationContext,
   MazeGenerationEvent,
   Typestate,
-  ICell,
   ContextGrid,
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
@@ -11,7 +10,7 @@ import {
 import type { GridMethods } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
-import { Cell } from '../components/generation/Cell';
+import { ICell } from '../components/generation/Cell/types';
 
 const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
   canPlay: false,
@@ -125,14 +124,14 @@ export const generationAlgorithmMachine =
         };
       }),
       pause: assign((ctx) => {
-        console.log('child machine received pause (assign now)');
+        console.log('child machine received pause (assign now)', ctx);
         return {
           ...ctx,
           canPlay: false,
         };
       }),
       findNeighbors: assign(({ grid, currentCell }) => {
-        const eligibleNeighbors: Cell[] = (
+        const eligibleNeighbors: ICell[] = (
           grid as GridMethods
         ).getEligibleNeighbors(currentCell);
         return {
@@ -143,7 +142,7 @@ export const generationAlgorithmMachine =
         currentCell: seek({
           grid,
           pathId,
-          current: currentCell as Cell,
+          current: currentCell as ICell,
           startIndex,
         }),
       })),
