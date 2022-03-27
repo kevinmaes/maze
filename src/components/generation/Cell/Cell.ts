@@ -29,7 +29,7 @@ export default class Cell implements TCell {
   walls: Walls;
   visited: boolean;
   pathId: string;
-  cursor: boolean;
+  isCursor: boolean;
   backtrack: boolean;
   blockedInternal: boolean;
   blockedExternal: boolean;
@@ -145,9 +145,9 @@ export default class Cell implements TCell {
     this.pathId = pathId;
     this.visited = true;
 
-    // Mark the search cursor as true.
+    // Mark isCursor as true.
     // This will be set to false at the end of draw().
-    this.cursor = true;
+    this.isCursor = true;
 
     if (!this.isStart && !this.isEnd) {
       this.walls = [true, true, true, true];
@@ -168,7 +168,7 @@ export default class Cell implements TCell {
       case this.blockedExternal:
       case this.blockedInternal:
         return this.borderColor;
-      case this.cursor:
+      case this.isCursor:
         return this.cursorColor;
       case this.backtrack:
         return this.backtrackColor;
@@ -185,8 +185,8 @@ export default class Cell implements TCell {
     this.drawFill(this.getFillColor());
     this.drawWalls(this.walls);
 
-    // Set cursor to false so it only shows on a single render.
-    this.cursor = false;
+    // Set isCursor to false so it only shows on a single render.
+    this.isCursor = false;
   }
 
   clearFill() {
