@@ -190,10 +190,6 @@ export default class Cell implements ICell {
     this.clearFill();
     this.drawFill(this.getFillColor());
     this.drawWalls(this.walls);
-
-    // Set isCursor to false so it only shows on a single render.
-    // this.isCursor = false;
-    // console.log('end draw', { index: this.index, isCursor: this.isCursor });
   }
 
   clearFill() {
