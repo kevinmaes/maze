@@ -8,7 +8,7 @@ export const StepBack = styled.button``;
 export const StepForward = styled.button``;
 
 export const ControlsContainer = styled.div`
-  width: 220px;
+  width: 170px;
   height: 50px;
   border: 1px solid white;
   border-radius: 10px;
