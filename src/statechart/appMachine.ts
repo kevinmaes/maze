@@ -100,6 +100,7 @@ export const appMachine =
                 target: AppMachineState.PAUSED,
               },
               STOP: {
+                actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
             },
