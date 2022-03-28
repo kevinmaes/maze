@@ -63,22 +63,21 @@ export const appMachine =
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
-          data: (ctx) => {
-            return {
-              canPlay: true,
-              currentCell: undefined,
-              eligibleNeighbors: [],
-              fps: ctx.generationParams.fps,
-              grid: (ctx.gridRef as any).current,
-              pathId: 'abc',
-              stack: [],
-              startIndex: 0,
-            };
-          },
+          data: (ctx) => ({
+            canPlay: true,
+            currentCell: undefined,
+            eligibleNeighbors: [],
+            fps: ctx.generationParams.fps,
+            grid: (ctx.gridRef as any).current,
+            pathId: 'abc',
+            stack: [],
+            startIndex: 0,
+          }),
         },
         on: {
+          // Empty action but necessary.
           [MazeGenerationEventId.UPDATE]: {
-            actions: ['receiveChildUpdate'],
+            actions: [() => {}],
           },
           [MazeGenerationEventId.DONE]: {
             target: 'done',
@@ -106,11 +105,6 @@ export const appMachine =
             },
           },
           [AppMachineState.PAUSED]: {
-            entry: [
-              (ctx: AppMachineContext) => {
-                // console.log('ctx', ctx);
-              },
-            ],
             on: {
               PLAY: {
                 actions: ['playGenerationAlgorithmMachine'],
@@ -128,7 +122,6 @@ export const appMachine =
         },
       },
       done: {
-        entry: () => console.log('appMachine done'),
         on: {
           START_OVER: {
             actions: ['refreshGenerationSessionId'],
@@ -145,13 +138,9 @@ export const appMachine =
     },
   }).withConfig({
     actions: {
-      storeGridRef: assign<AppMachineContext, any>(
-        (_, event: InjectRefsEvent) => {
-          return {
-            gridRef: event.gridRef,
-          };
-        }
-      ),
+      storeGridRef: assign<AppMachineContext, any>({
+        gridRef: (_, { gridRef }: InjectRefsEvent) => gridRef,
+      }),
       refreshGenerationSessionId: assign<AppMachineContext, AppMachineEvent>({
         generationSessionId: () => new Date().getTime(),
       }),
@@ -176,7 +165,6 @@ export const appMachine =
       stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
         to: 'generationAlgorithmMachine',
       }),
-      receiveChildUpdate: () => {},
     },
     services: {
       childMachine: () => {
