@@ -1,3 +1,1 @@
-import Stage from './Stage';
-
-export default Stage;
+export { Stage } from './Stage';

@@ -32,7 +32,6 @@ const Stage = ({
   gridColumns,
   gridRows,
 }: Props) => {
-  const [pathsAreConnected, setPathsAreConnected] = React.useState(false);
   const canvas: any = React.useRef(null);
   const gridRef = React.useRef<Grid>(
     new Grid({ cols: gridColumns, rows: gridRows })
@@ -41,7 +40,6 @@ const Stage = ({
   const currentCellARef = React.useRef<Cell | null>(null);
   const currentCellZRef = React.useRef<Cell | null>(null);
   const stackARef = React.useRef<Cell[]>([]);
-  // const stackZRef = React.useRef<Cell[]>([]);
 
   const cellTotal = gridColumns * gridRows;
 
@@ -50,12 +48,7 @@ const Stage = ({
   React.useEffect(() => {
     gridRef.current = new Grid({ cols: gridColumns, rows: gridRows });
     currentCellARef.current = null;
-    currentCellZRef.current = null;
     stackARef.current = [];
-    // stackZRef.current = [];
-
-    // Reset the pathsAreConnected when drawing this new maze.
-    setPathsAreConnected(false);
   }, [playRequestTS, fps, cellSize, borderWeight, gridColumns, gridRows]);
 
   React.useEffect(() => {

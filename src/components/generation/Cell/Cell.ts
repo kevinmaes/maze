@@ -1,14 +1,14 @@
-import type { Cell as TCell } from './types';
+import type { TCell, ICell } from './types';
 
 const NORTH: number = 0;
 const EAST: number = 1;
 const SOUTH: number = 2;
 const WEST: number = 3;
 
-type Connections = TCell[];
+type Connections = ICell[];
 type Walls = boolean[];
 
-export default class Cell implements TCell {
+export default class Cell implements ICell {
   canvasCtx: any;
   index: number;
   rowIndex: number;
@@ -29,7 +29,7 @@ export default class Cell implements TCell {
   walls: Walls;
   visited: boolean;
   pathId: string;
-  cursor: boolean;
+  isCursor: boolean;
   backtrack: boolean;
   blockedInternal: boolean;
   blockedExternal: boolean;
@@ -145,9 +145,7 @@ export default class Cell implements TCell {
     this.pathId = pathId;
     this.visited = true;
 
-    // Mark the search cursor as true.
-    // This will be set to false at the end of draw().
-    this.cursor = true;
+    this.setAsCursor();
 
     if (!this.isStart && !this.isEnd) {
       this.walls = [true, true, true, true];
@@ -159,6 +157,14 @@ export default class Cell implements TCell {
     return this;
   }
 
+  setAsCursor() {
+    this.isCursor = true;
+  }
+
+  unsetAsCursor() {
+    this.isCursor = false;
+  }
+
   hasDifferentPathId(cell: Cell) {
     return this.pathId && cell.pathId && this.pathId !== cell.pathId;
   }
@@ -168,14 +174,13 @@ export default class Cell implements TCell {
       case this.blockedExternal:
       case this.blockedInternal:
         return this.borderColor;
-      case this.cursor:
+      case this.isCursor:
         return this.cursorColor;
       case this.backtrack:
         return this.backtrackColor;
       case this.visited:
         return this.visitedColor;
       default:
-        // return 'white';
         return 'rgba(0,0,0,0)';
     }
   }
@@ -184,9 +189,6 @@ export default class Cell implements TCell {
     this.clearFill();
     this.drawFill(this.getFillColor());
     this.drawWalls(this.walls);
-
-    // Set cursor to false so it only shows on a single render.
-    this.cursor = false;
   }
 
   clearFill() {
@@ -252,6 +254,7 @@ export default class Cell implements TCell {
     const { canvasCtx } = this;
 
     canvasCtx.strokeStyle = color;
+
     canvasCtx.beginPath();
     canvasCtx.moveTo(x1, y1);
     canvasCtx.lineTo(x2, y2);

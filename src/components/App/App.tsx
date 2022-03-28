@@ -1,48 +1,53 @@
-import Stage from '../Stage';
-import { useTypesafeActions } from '../../hooks/useTypesafeActions';
-import { AppState } from './types';
-import { Actions, reducer } from './reducer';
-import {
-  AppContainer,
-  Form,
-  P,
-  ReplayButton,
-  Footer,
-  Link,
-  Image,
-} from './App.css.js';
-import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
+import React from 'react';
+import { useMachine } from '@xstate/react';
 
-const FPS_DEFAULT = 30;
-const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 15;
+import { AppContainer, Footer, Version, Link, Image } from './App.css';
+import { Controls } from '../Controls/Controls';
+import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
+import { Stage } from '../Stage';
+import { appMachine } from '../../statechart/appMachine';
+import {
+  AppMachineEventId,
+  AppMachineState,
+} from '../../statechart/appMachineTypes';
+import { Levers } from '../Levers/Levers';
 
 const APP_WIDTH = window.innerWidth;
 const APP_HEIGHT = window.innerHeight;
 
-const CellSize = {
-  DEFAULT: 20,
-  MIN: 10,
-  MAX: 25,
-};
-
-const initialState: AppState = {
-  playRequestTS: 0,
-  fps: FPS_DEFAULT,
-  cellSize: CellSize.DEFAULT,
-  borderWeight: BORDER_WEIGHT_DEFAULT,
-  // gridColumns: GRID_SIZE_DEFAULT * 2,
-  gridColumns: GRID_SIZE_DEFAULT,
-  gridRows: GRID_SIZE_DEFAULT,
-  settingsChanging: false,
-};
-
 const App = () => {
-  const [state, actions] = useTypesafeActions<AppState, typeof Actions>(
-    reducer,
-    initialState,
-    Actions
-  );
+  // eslint-disable-next-line
+  const [appState, appSend, appService] = useMachine(appMachine);
+
+  const {
+    context: { generationParams, generationSessionId },
+  } = appState;
+
+  // React.useEffect(() => {
+  //   const subscription = appService.subscribe((state) => {
+  //     console.log('appState machine value', state.value);
+
+  //     const childMachine = state.children?.generationAlgorithmMachine;
+  //     if (childMachine) {
+  //       console.log(
+  //         'childMachine state value',
+  //         (childMachine as any).state.value
+  //       );
+  //     }
+  //   });
+
+  //   return subscription.unsubscribe;
+  // }, [appService]); // note: service should never change
+
+  const leversEnabled =
+    appState.matches(AppMachineState.IDLE) ||
+    appState.matches({
+      [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
+    });
+
+  const sendEventFromControl = (eventId: AppMachineEventId) => {
+    appSend(eventId);
+  };
 
   return (
     <AppContainer>
@@ -51,106 +56,26 @@ const App = () => {
       <p>
         <i>React, XState, Canvas, TypeScript</i>
       </p>
-      <Form>
-        <P>
-          <label>FPS ({state.fps})</label>
-          <input
-            type="range"
-            name="fps"
-            value={state.fps}
-            min="5"
-            max="60"
-            step={5}
-            onMouseDown={() => actions.setSettingsChanging(true)}
-            onMouseUp={() => actions.setSettingsChanging(false)}
-            onChange={({ target: { value } }) => {
-              actions.setFPS(parseInt(value, 10));
-            }}
-          />
-        </P>
-        <P>
-          <label>Cell Size ({state.cellSize})</label>
-          <input
-            type="range"
-            name="cellSize"
-            value={state.cellSize}
-            min={CellSize.MIN}
-            max={CellSize.MAX}
-            step={5}
-            onMouseDown={() => actions.setSettingsChanging(true)}
-            onMouseUp={() => actions.setSettingsChanging(false)}
-            onChange={({ target: { value } }) =>
-              actions.setCellSize(parseInt(value, 10))
-            }
-          />
-        </P>
-        <P>
-          <label>Border Weight ({state.borderWeight})</label>
-          <input
-            type="range"
-            name="borderWeight"
-            value={state.borderWeight}
-            min="1"
-            max="10"
-            onMouseDown={() => actions.setSettingsChanging(true)}
-            onMouseUp={() => actions.setSettingsChanging(false)}
-            onChange={({ target: { value } }) =>
-              actions.setBorderWeight(parseInt(value, 10))
-            }
-          />
-        </P>
-        <P>
-          <label>Grid Columns ({state.gridColumns})</label>
-          <input
-            type="range"
-            name="gridColumns"
-            value={state.gridColumns}
-            min="2"
-            max="25"
-            onMouseDown={() => actions.setSettingsChanging(true)}
-            onMouseUp={() => actions.setSettingsChanging(false)}
-            onChange={({ target: { value } }) =>
-              actions.setGridColumns(parseInt(value, 10))
-            }
-          />
-        </P>
-        <P>
-          <label>Grid Rows ({state.gridRows})</label>
-          <input
-            type="range"
-            name="gridRows"
-            value={state.gridRows}
-            min="2"
-            max="25"
-            onMouseDown={() => actions.setSettingsChanging(true)}
-            onMouseUp={() => actions.setSettingsChanging(false)}
-            onChange={({ target: { value } }) =>
-              actions.setGridRows(parseInt(value, 10))
-            }
-          />
-        </P>
-        <ReplayButton
-          onClick={(event) => {
-            event.preventDefault();
-            actions.createPlayRequest(new Date().getTime());
-          }}
-        >
-          Replay
-        </ReplayButton>
-      </Form>
+      <Levers
+        enabled={leversEnabled}
+        params={generationParams}
+        updateFromLevers={(data: { name: string; value: number }) => {
+          appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
+          // Do we need to also INJECT_FPS into algo machine via props?
+        }}
+      />
+
+      <Controls state={appState} onControlClick={sendEventFromControl} />
       <Stage
-        playRequestTS={state.playRequestTS}
         width={APP_WIDTH}
         height={APP_HEIGHT}
-        fps={state.fps}
-        cellSize={state.cellSize}
-        borderWeight={state.borderWeight}
-        gridColumns={state.gridColumns}
-        gridRows={state.gridRows}
         pixelRatio={1}
-        settingsChanging={Boolean(state.settingsChanging)}
+        generationParams={generationParams}
+        appSend={appSend}
+        generationSessionId={generationSessionId}
       />
       <Footer>
+        <Version>v0.2.0</Version>
         <Link
           className="App-link"
           href="https://twitter.com/kvmaes"

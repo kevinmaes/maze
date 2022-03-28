@@ -1,12 +1,9 @@
-// import type { GridMethods as Grid, GridMethods } from './Grid';
-// import type { GridMethods } from './Grid';
-import type { Cell } from './Cell';
+import { ICell } from './Cell';
 
 interface SeekOptions {
-  // grid: Grid | GridMethods;
   grid: any;
   pathId: string;
-  current: Cell | null;
+  current: ICell | null;
   startIndex: number;
   endIndex?: number | null;
 }
@@ -21,6 +18,8 @@ export const seek = ({
   let next;
   if (current) {
     next = grid.pickNeighbor(current);
+
+    current.unsetAsCursor();
 
     // If next cell is found, mark it as visited.
     if (next) {

@@ -1,48 +1,36 @@
 import React from 'react';
-import { useMachine } from '@xstate/react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { machine } from '../../statechart/statechart';
+import {
+  AppMachineEventId,
+  GenerationParams,
+} from '../../statechart/appMachineTypes';
 
 interface Props {
-  playRequestTS: number;
+  generationParams: GenerationParams;
   width?: number;
   height?: number;
   pixelRatio?: number;
-  fps: number;
-  cellSize: number;
-  borderWeight: number;
-  gridColumns: number;
-  gridRows: number;
-  settingsChanging: boolean;
+  appSend: Function;
+  generationSessionId: number;
 }
 
-const Stage = ({
-  playRequestTS,
+export const Stage = ({
   width = 100,
   height = 100,
   pixelRatio = window.devicePixelRatio,
-  fps,
-  cellSize,
-  borderWeight,
-  gridColumns,
-  gridRows,
+  generationParams,
+  appSend,
+  generationSessionId,
 }: Props) => {
+  const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
+
   const canvasRef: any = React.useRef(null);
-  const gridRef = React.useRef<Grid>(
-    new Grid({ cols: gridColumns, rows: gridRows })
-  );
-
-  // eslint-disable-next-line
-  const [_, send] = useMachine(machine);
-
-  const cellTotal = gridColumns * gridRows;
-
-  const endIndex = cellTotal - 1;
+  const gridRef = React.useRef<Grid | null>(null);
 
   React.useEffect(() => {
-    if (canvasRef && canvasRef.current && gridRef.current) {
+    if (canvasRef && canvasRef.current) {
       const canvasCtx = canvasRef.current.getContext('2d');
       canvasCtx.clearRect(0, 0, width, height);
 
@@ -55,23 +43,10 @@ const Stage = ({
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
         blockedCells: [],
       });
-
-      send('INJECT_REFS', { gridRef, fps });
+      // TODO: Can omit fps and send that directly from appMachine -> algo machine.
+      appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
-  }, [
-    playRequestTS,
-    fps,
-    cellSize,
-    borderWeight,
-    cellTotal,
-    gridColumns,
-    gridRows,
-    endIndex,
-    height,
-    pixelRatio,
-    width,
-    send,
-  ]);
+  }, [generationParams, height, width, appSend, generationSessionId]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {
     gridRef.current.draw();
@@ -82,5 +57,3 @@ const Stage = ({
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
 };
-
-export default React.memo(Stage, (_, { settingsChanging }) => settingsChanging);
