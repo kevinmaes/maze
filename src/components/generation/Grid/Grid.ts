@@ -107,11 +107,14 @@ export default class Grid implements TGrid {
       ) {
         return null;
       }
-      const index = nRowIndex * this.cols + nColIndex;
-      return index;
+      const neighborIndex = nRowIndex * this.cols + nColIndex;
+      return neighborIndex;
     })
-      .filter((index: number | null): index is number => index !== null)
-      .map((index) => this.cells[index]);
+      .filter(
+        (neighborIndex: number | null): neighborIndex is number =>
+          neighborIndex !== null
+      )
+      .map((neighborIndex) => this.cells[neighborIndex]);
 
     return neighbors;
   }
