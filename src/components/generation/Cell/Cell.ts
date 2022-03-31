@@ -1,12 +1,9 @@
-import type { TCell, ICell } from './types';
+import type { TCell, ICell, Connections, Walls } from './types';
 
 const NORTH: number = 0;
 const EAST: number = 1;
 const SOUTH: number = 2;
 const WEST: number = 3;
-
-type Connections = ICell[];
-type Walls = boolean[];
 
 export default class Cell implements ICell {
   canvasCtx: any;

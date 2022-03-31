@@ -28,3 +28,6 @@ interface CellMethods {
 }
 
 export type ICell = TCell & CellMethods;
+
+export type Connections = ICell[];
+export type Walls = boolean[];
