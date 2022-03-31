@@ -13,7 +13,6 @@ export default class Cell implements ICell {
   cursorColor: string;
   visitedColor: string;
   backtrackColor: string;
-  renderInitial: boolean;
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;
@@ -38,7 +37,6 @@ export default class Cell implements ICell {
     cursorColor = 'white',
     visitedColor = 'rgba(0, 0, 0, 0.1)',
     backtrackColor = 'white',
-    renderInitial = false,
     isStart = false,
     isMiddle = false,
     isEnd = false,
@@ -68,11 +66,7 @@ export default class Cell implements ICell {
 
     this.connections = [];
 
-    if (renderInitial) {
-      this.walls = [true, true, true, true];
-    } else {
-      this.walls = [false, false, false, false];
-    }
+    this.walls = [true, true, true, true];
 
     this.visited = false;
   }

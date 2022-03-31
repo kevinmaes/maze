@@ -9,7 +9,6 @@ export interface TCell {
   cursorColor?: string;
   visitedColor: string;
   backtrackColor: string;
-  renderInitial: boolean;
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;

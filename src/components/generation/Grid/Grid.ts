@@ -63,7 +63,6 @@ export default class Grid implements TGrid {
         isStart: index === this.startIndex,
         isMiddle: index === middleIndex,
         isEnd: index === this.endIndex,
-        renderInitial: true,
         isBlocked,
       });
 
