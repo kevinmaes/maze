@@ -31,3 +31,10 @@ export type ICell = TCell & CellMethods;
 
 export type Connections = ICell[];
 export type Walls = boolean[];
+
+export enum Direction {
+  NORTH = 0,
+  EAST,
+  SOUTH,
+  WEST,
+}

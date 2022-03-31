@@ -1,9 +1,4 @@
-import type { TCell, ICell, Connections, Walls } from './types';
-
-const NORTH: number = 0;
-const EAST: number = 1;
-const SOUTH: number = 2;
-const WEST: number = 3;
+import { TCell, ICell, Connections, Walls, Direction } from './types';
 
 export default class Cell implements ICell {
   canvasCtx: any;
@@ -94,19 +89,19 @@ export default class Cell implements ICell {
     this.connections.push(cell);
 
     if (cell.rowIndex > this.rowIndex) {
-      this.walls[SOUTH] = false;
+      this.walls[Direction.SOUTH] = false;
     }
 
     if (cell.rowIndex < this.rowIndex) {
-      this.walls[NORTH] = false;
+      this.walls[Direction.NORTH] = false;
     }
 
     if (cell.colIndex > this.colIndex) {
-      this.walls[EAST] = false;
+      this.walls[Direction.EAST] = false;
     }
 
     if (cell.colIndex < this.colIndex) {
-      this.walls[WEST] = false;
+      this.walls[Direction.WEST] = false;
     }
 
     if (mutual) {
@@ -214,11 +209,11 @@ export default class Cell implements ICell {
     canvasCtx.strokeStyle = this.borderColor;
     canvasCtx.lineWidth = this.borderWeight;
 
-    if (this.walls[NORTH]) {
+    if (this.walls[Direction.NORTH]) {
       this.line(this.x, this.y, this.x + this.size, this.y, this.borderColor);
     }
 
-    if (this.walls[EAST]) {
+    if (this.walls[Direction.EAST]) {
       if (!this.isEnd) {
         this.line(
           this.x + this.size,
@@ -230,7 +225,7 @@ export default class Cell implements ICell {
       }
     }
 
-    if (this.walls[SOUTH]) {
+    if (this.walls[Direction.SOUTH]) {
       this.line(
         this.x,
         this.y + this.size,
@@ -240,7 +235,7 @@ export default class Cell implements ICell {
       );
     }
 
-    if (this.walls[WEST]) {
+    if (this.walls[Direction.WEST]) {
       if (!this.isStart) {
         this.line(this.x, this.y, this.x, this.y + this.size, this.borderColor);
       }
