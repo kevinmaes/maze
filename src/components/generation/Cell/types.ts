@@ -30,9 +30,9 @@ interface CellMethods {
 export type ICell = TCell & CellMethods;
 
 export type Connections = ICell[];
-export type Walls = boolean[];
+export type Walls = [boolean, boolean, boolean, boolean];
 
-export enum Direction {
+export enum DirectionIndex {
   NORTH = 0,
   EAST,
   SOUTH,
