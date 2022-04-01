@@ -9,7 +9,6 @@ export interface TCell {
   cursorColor?: string;
   visitedColor: string;
   backtrackColor: string;
-  renderInitial: boolean;
   isStart: boolean;
   isMiddle: boolean;
   isEnd: boolean;
@@ -28,3 +27,13 @@ interface CellMethods {
 }
 
 export type ICell = TCell & CellMethods;
+
+export type Connections = ICell[];
+export type Walls = [boolean, boolean, boolean, boolean];
+
+export enum DirectionIndex {
+  NORTH = 0,
+  EAST,
+  SOUTH,
+  WEST,
+}

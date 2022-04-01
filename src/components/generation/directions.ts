@@ -1,34 +1,25 @@
-export const DIRECTIONS = [
+import { DirectionIndex } from './Cell/types';
+
+interface Direction {
+  directionIndex: DirectionIndex;
+  getIndices: (rowIndex: number, colIndex: number) => [number, number];
+}
+
+export const DIRECTIONS: Direction[] = [
   {
-    index: 0,
-    name: 'up',
-    getIndices: (rowIndex: number, colIndex: number) => [
-      rowIndex - 1,
-      colIndex,
-    ],
+    directionIndex: DirectionIndex.NORTH,
+    getIndices: (rowIndex, colIndex) => [rowIndex - 1, colIndex],
   },
   {
-    index: 1,
-    name: 'right',
-    getIndices: (rowIndex: number, colIndex: number) => [
-      rowIndex,
-      colIndex + 1,
-    ],
+    directionIndex: DirectionIndex.EAST,
+    getIndices: (rowIndex, colIndex) => [rowIndex, colIndex + 1],
   },
   {
-    index: 2,
-    name: 'down',
-    getIndices: (rowIndex: number, colIndex: number) => [
-      rowIndex + 1,
-      colIndex,
-    ],
+    directionIndex: DirectionIndex.SOUTH,
+    getIndices: (rowIndex, colIndex) => [rowIndex + 1, colIndex],
   },
   {
-    index: 3,
-    name: 'left',
-    getIndices: (rowIndex: number, colIndex: number) => [
-      rowIndex,
-      colIndex - 1,
-    ],
+    directionIndex: DirectionIndex.WEST,
+    getIndices: (rowIndex, colIndex) => [rowIndex, colIndex - 1],
   },
 ];
