@@ -46,7 +46,17 @@ export const Stage = ({
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
       appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
-  }, [generationParams, height, width, appSend, generationSessionId]);
+  }, [
+    generationParams,
+    height,
+    width,
+    borderWeight,
+    cellSize,
+    gridColumns,
+    gridRows,
+    appSend,
+    generationSessionId,
+  ]);
 
   if (gridRef.current && gridRef.current.canvasCtx) {
     gridRef.current.draw();
