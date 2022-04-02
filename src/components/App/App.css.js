@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.6rem;
 `;
 
 export const Form = styled.form`
@@ -46,7 +46,8 @@ export const Link = styled.a`
   text-decoration: none;
 `;
 
-export const Image = styled.img`
+export const ImageHolder = styled.div`
+  display: inline;
   height: 16px;
   width: 20px;
   margin: 0 2px -3px 0;

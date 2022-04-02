@@ -1,9 +1,10 @@
 import React from 'react';
 import { useMachine } from '@xstate/react';
 
-import { AppContainer, Footer, Version, Link, Image } from './App.css';
+import Image from 'next/image';
+
+import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
-import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
@@ -81,21 +82,23 @@ const App = () => {
 
         <Footer>
           <Version>v0.2.0</Version>
-          {/* <Link
-          className="App-link"
-          href="https://twitter.com/kvmaes"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Image
-            className="App-footer-image"
-            src={'../../assets/images/twitter-logo-transparent.png'}
-            alt="Twitter logo"
-            width="20"
-            height="16"
-          />
-          @kvmaes
-        </Link> */}
+          <Link
+            className="App-link"
+            href="https://twitter.com/kvmaes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ImageHolder>
+              <Image
+                className="App-footer-image"
+                src={'/images/twitter-logo-transparent.png'}
+                alt="Twitter logo"
+                width="20"
+                height="16"
+              />
+            </ImageHolder>
+            @kvmaes
+          </Link>
         </Footer>
       </AppContainer>
     </>
