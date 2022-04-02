@@ -38,7 +38,7 @@ export const Footer = styled.footer`
 `;
 export const Version = styled.h5`
   display: inline;
-  margin-right: 20px;
+  margin-right: 10px;
   color: #555;
 `;
 
