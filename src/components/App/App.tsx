@@ -78,7 +78,7 @@ const App = () => {
 
       <Footer>
         <Version>v0.2.0</Version>
-        <Link
+        {/* <Link
           className="App-link"
           href="https://twitter.com/kvmaes"
           target="_blank"
@@ -86,13 +86,13 @@ const App = () => {
         >
           <Image
             className="App-footer-image"
-            // src={twitterLogo}
+            src={'../../assets/images/twitter-logo-transparent.png'}
             alt="Twitter logo"
             width="20"
             height="16"
           />
           @kvmaes
-        </Link>
+        </Link> */}
       </Footer>
     </AppContainer>
   );
