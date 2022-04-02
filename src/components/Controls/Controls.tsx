@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { AppMachineEventId } from '../../statechart/appMachineTypes';
-import StartOver from '../../assets/images/controls/start-over.svg';
-import Play from '../../assets/images/controls/play.svg';
-import Stop from '../../assets/images/controls/stop.svg';
-import Pause from '../../assets/images/controls/pause.svg';
-import StepForward from '../../assets/images/controls/step-forward.svg';
+import StartOver from '../../assets/svg/controls/start-over.svg';
+import Play from '../../assets/svg/controls/play.svg';
+import Stop from '../../assets/svg/controls/stop.svg';
+import Pause from '../../assets/svg/controls/pause.svg';
+import StepForward from '../../assets/svg/controls/step-forward.svg';
 import {
   ControlsContainer,
   ControlsGroup,
