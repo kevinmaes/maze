@@ -14,9 +14,6 @@ import {
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 
-// const APP_WIDTH = window.innerWidth;
-// const APP_HEIGHT = window.innerHeight;
-
 declare const VERSION: string;
 
 const App = () => {
