@@ -10,6 +10,7 @@ specifiers:
   '@storybook/preset-create-react-app': ^4.0.1
   '@storybook/react': ^6.4.20
   '@svgr/webpack': ^6.2.1
+  '@types/aria-query': ^5.0.0
   '@types/jest': 27.4.1
   '@types/node': 17.0.23
   '@types/react': 17.0.43
@@ -46,6 +47,7 @@ devDependencies:
   '@storybook/preset-create-react-app': 4.1.0_82644552542fa71a0c9a78772efcbadf
   '@storybook/react': 6.4.20_18e674e38d9e70778d00631a782cc141
   '@svgr/webpack': 6.2.1
+  '@types/aria-query': 5.0.0
   '@types/jest': 27.4.1
   '@types/node': 17.0.23
   '@types/react': 17.0.43
@@ -3788,6 +3790,10 @@ packages:
   /@trysound/sax/0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
+    dev: true
+
+  /@types/aria-query/5.0.0:
+    resolution: {integrity: sha512-P+dkdFu0n08PDIvw+9nT9ByQnd+Udc8DaWPb9HKfaPwCvWvQpC5XaMRx2xLWECm9x1VKNps6vEAlirjA6+uNrQ==}
     dev: true
 
   /@types/babel__core/7.1.19:
