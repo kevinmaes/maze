@@ -21,7 +21,6 @@ specifiers:
   eslint-config-next: 12.1.4
   lodash: 4.17.21
   next: 12.1.4
-  next-compose-plugins: ^2.2.1
   react: 18.0.0
   react-dom: 18.0.0
   styled-components: 5.3.3
@@ -32,7 +31,6 @@ dependencies:
   '@xstate/react': 2.0.1_20efcb6402c15d98b25e718ed3a2dc0b
   lodash: 4.17.21
   next: 12.1.4_react-dom@18.0.0+react@18.0.0
-  next-compose-plugins: 2.2.1
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
   styled-components: 5.3.3_react-dom@18.0.0+react@18.0.0
@@ -8920,10 +8918,6 @@ packages:
   /nested-error-stacks/2.1.1:
     resolution: {integrity: sha512-9iN1ka/9zmX1ZvLV9ewJYEk9h7RyRRtqdK0woXcqohu8EWIerfPUjYJPg0ULy0UqP7cslmdGc8xKDJcojlKiaw==}
     dev: true
-
-  /next-compose-plugins/2.2.1:
-    resolution: {integrity: sha512-OjJ+fV15FXO2uQXQagLD4C0abYErBjyjE0I0FHpOEIB8upw0hg1ldFP6cqHTJBH1cZqy96OeR3u1dJ+Ez2D4Bg==}
-    dev: false
 
   /next/12.1.4_react-dom@18.0.0+react@18.0.0:
     resolution: {integrity: sha512-DA4g97BM4Z0nKtDvCTm58RxdvoQyYzeg0AeVbh0N4Y/D8ELrNu47lQeEgRGF8hV4eQ+Sal90zxrJQQG/mPQ8CQ==}
