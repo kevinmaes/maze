@@ -17,7 +17,16 @@ import GlobalStyle from '../../styles/GlobalStyles';
 // const APP_WIDTH = window.innerWidth;
 // const APP_HEIGHT = window.innerHeight;
 
+declare const VERSION: string;
+
 const App = () => {
+  let version = 'unknown';
+  try {
+    version = VERSION;
+  } catch (error) {
+    console.log('Cannot get version of application.');
+  }
+
   // eslint-disable-next-line
   const [appState, appSend, appService] = useMachine(appMachine);
 
@@ -81,7 +90,7 @@ const App = () => {
         />
 
         <Footer>
-          <Version>v0.2.0</Version>
+          <Version>{version}</Version>
           <Link
             className="App-link"
             href="https://twitter.com/kvmaes"
