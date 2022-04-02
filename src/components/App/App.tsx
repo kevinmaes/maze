@@ -58,7 +58,7 @@ const App = () => {
         <h1>Maze Generation</h1>
         <h2>Recursive Backtracker</h2>
         <p>
-          <i>React, XState, Canvas, TypeScript</i>
+          <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
         <Levers
           enabled={leversEnabled}
