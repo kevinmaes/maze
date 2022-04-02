@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   text-align: center;
+  max-width: 500px;
 `;
 
 export const Form = styled.form`
