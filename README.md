@@ -1,5 +1,17 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+# Maze
+
+## Algorithms for maze generation
+
+Welcome! This repo is where I work on my passion for creating mazes with code.
+
+It is a work in progress and I welcome contributors of ideas, comments, or code.
+
+View the latest deployed version of this app [here](https://maze-generation.vercel.app/)!
+
+Thanks for visiting!
+
 ## Getting Started
 
 First, run the development server:
