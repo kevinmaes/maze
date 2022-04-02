@@ -39,18 +39,8 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const canStop = state.can(AppMachineEventId.STOP);
     const canStepForward = state.can(AppMachineEventId.STEP_FORWARD);
 
-    // return <div>Controls here</div>;
     return (
       <ControlsGroup>
-        <ControlButton
-          id={AppMachineEventId.START_OVER}
-          onClick={handleClick}
-          disabled={!canStartOver}
-          title="Restart"
-        >
-          <StartOver fill={getIconFillColor(canStartOver)} />
-        </ControlButton>
-
         {canStartOver ? (
           <ControlButton
             id={AppMachineEventId.START_OVER}
