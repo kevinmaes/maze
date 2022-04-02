@@ -11,6 +11,7 @@ import {
   AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
+import GlobalStyle from '../../styles/GlobalStyles';
 
 // const APP_WIDTH = window.innerWidth;
 // const APP_HEIGHT = window.innerHeight;
@@ -50,35 +51,37 @@ const App = () => {
   };
 
   return (
-    <AppContainer>
-      <h1>Maze Generation</h1>
-      <h2>Recursive Backtracker</h2>
-      <p>
-        <i>React, XState, Canvas, TypeScript</i>
-      </p>
-      <Levers
-        enabled={leversEnabled}
-        params={generationParams}
-        updateFromLevers={(data: { name: string; value: number }) => {
-          appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
-          // Do we need to also INJECT_FPS into algo machine via props?
-        }}
-      />
+    <>
+      <GlobalStyle />
+      <AppContainer>
+        <h1>Maze Generation</h1>
+        <h2>Recursive Backtracker</h2>
+        <p>
+          <i>React, XState, Canvas, TypeScript</i>
+        </p>
+        <Levers
+          enabled={leversEnabled}
+          params={generationParams}
+          updateFromLevers={(data: { name: string; value: number }) => {
+            appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
+            // Do we need to also INJECT_FPS into algo machine via props?
+          }}
+        />
 
-      <Controls state={appState} onControlClick={sendEventFromControl} />
+        <Controls state={appState} onControlClick={sendEventFromControl} />
 
-      <Stage
-        width={1000}
-        height={1000}
-        pixelRatio={1}
-        generationParams={generationParams}
-        appSend={appSend}
-        generationSessionId={generationSessionId}
-      />
+        <Stage
+          width={1000}
+          height={1000}
+          pixelRatio={1}
+          generationParams={generationParams}
+          appSend={appSend}
+          generationSessionId={generationSessionId}
+        />
 
-      <Footer>
-        <Version>v0.2.0</Version>
-        {/* <Link
+        <Footer>
+          <Version>v0.2.0</Version>
+          {/* <Link
           className="App-link"
           href="https://twitter.com/kvmaes"
           target="_blank"
@@ -93,8 +96,9 @@ const App = () => {
           />
           @kvmaes
         </Link> */}
-      </Footer>
-    </AppContainer>
+        </Footer>
+      </AppContainer>
+    </>
   );
 };
 
