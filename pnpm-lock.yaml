@@ -11,7 +11,6 @@ specifiers:
   '@storybook/react': ^6.4.18
   '@svgr/webpack': ^6.2.1
   '@types/jest': 27.4.1
-  '@types/lodash': 4.14.178
   '@types/node': 17.0.23
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
@@ -19,7 +18,6 @@ specifiers:
   '@xstate/react': 2.0.1
   eslint: 8.12.0
   eslint-config-next: 12.1.4
-  lodash: 4.17.21
   next: 12.1.4
   react: 18.0.0
   react-dom: 18.0.0
@@ -29,7 +27,6 @@ specifiers:
 
 dependencies:
   '@xstate/react': 2.0.1_20efcb6402c15d98b25e718ed3a2dc0b
-  lodash: 4.17.21
   next: 12.1.4_react-dom@18.0.0+react@18.0.0
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
@@ -47,7 +44,6 @@ devDependencies:
   '@storybook/react': 6.4.20_18e674e38d9e70778d00631a782cc141
   '@svgr/webpack': 6.2.1
   '@types/jest': 27.4.1
-  '@types/lodash': 4.14.178
   '@types/node': 17.0.23
   '@types/react': 17.0.43
   '@types/react-dom': 17.0.14
@@ -3886,10 +3882,6 @@ packages:
 
   /@types/json5/0.0.29:
     resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
-    dev: true
-
-  /@types/lodash/4.14.178:
-    resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
     dev: true
 
   /@types/mdast/3.0.10:
