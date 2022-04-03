@@ -4,41 +4,32 @@ import { Grid as TGrid } from './types';
 import { ICell } from '../Cell';
 
 export default class Grid implements TGrid {
-  rows: number;
-  cols: number;
-  cellTotal: number;
-  cellSize: number;
-  borderWeight: number;
-  startIndex: number;
-  endIndex: number;
-  cells: ICell[];
-  canvasCtx: any;
-  blockedCells: number[] = [];
+  private cellTotal: number;
+  private endIndex: number;
+  public cells: ICell[];
 
-  constructor({
-    rows,
-    cols,
-    borderWeight = 1,
-    startIndex = 0,
-    cellSize = 10,
-    canvasCtx,
-    blockedCells,
-  }: TGrid) {
-    this.rows = rows;
-    this.cols = cols;
+  constructor(
+    private canvasCtx: any,
+    private cols: number,
+    private rows: number,
+    private startIndex: number = 0,
+    private cellSize: number = 10,
+    private borderWeight: number = 1,
+    private blockedCells: ICell[] = []
+  ) {
     this.cellTotal = rows * cols;
-    this.cellSize = cellSize;
-    this.borderWeight = borderWeight;
-    this.startIndex = startIndex;
     this.endIndex = this.cellTotal - 1;
     this.cells = [];
-    this.canvasCtx = canvasCtx;
 
     if (blockedCells) {
       this.blockedCells = blockedCells;
     }
 
     this.create();
+  }
+
+  getCanvasCtx(): CanvasRenderingContext2D {
+    return this.canvasCtx;
   }
 
   create() {
@@ -48,7 +39,7 @@ export default class Grid implements TGrid {
 
     for (let index = 0; index < this.cellTotal; index++) {
       const isBlocked = Boolean(
-        this.blockedCells.find((cellIndex) => cellIndex === index)
+        this.blockedCells.find((cell) => cell.getIndex() === index)
       );
 
       const cellPosition = {
