@@ -1,15 +1,13 @@
 import { Ref } from 'react';
 import { ICell } from '../components/generation/Cell/types';
-import type { Grid, GridMethods } from '../components/generation/Grid';
-
-export type ContextGrid = Grid & GridMethods;
+import type { IGrid } from '../components/generation/Grid';
 
 export interface MazeGenerationContext {
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
   fps: number;
-  grid: ContextGrid | undefined;
+  grid: IGrid | undefined;
   pathId: string;
   stack: ICell[];
   startIndex: number;
@@ -27,7 +25,7 @@ export enum MazeGenerationEventId {
 
 export type InjectRefsEvent = {
   type: MazeGenerationEventId.INJECT_REFS;
-  gridRef: Ref<Grid>;
+  gridRef: Ref<IGrid>;
 };
 
 export type StartEvent = {

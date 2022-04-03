@@ -1,44 +1,36 @@
 import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
-import { Grid as TGrid } from './types';
+import { IGrid } from './types';
 import { ICell } from '../Cell';
 
-export default class Grid implements TGrid {
-  rows: number;
-  cols: number;
-  cellTotal: number;
-  cellSize: number;
-  borderWeight: number;
-  startIndex: number;
-  endIndex: number;
-  cells: Cell[];
-  canvasCtx: any;
-  blockedCells: number[] = [];
+export default class Grid implements IGrid {
+  public cells: ICell[];
 
-  constructor({
-    rows,
-    cols,
-    borderWeight = 1,
-    startIndex = 0,
-    cellSize = 10,
-    canvasCtx,
-    blockedCells,
-  }: TGrid) {
-    this.rows = rows;
-    this.cols = cols;
+  private cellTotal: number;
+  private endIndex: number;
+
+  constructor(
+    private canvasCtx: any,
+    private cols: number,
+    private rows: number,
+    private startIndex: number = 0,
+    private cellSize: number = 10,
+    private borderWeight: number = 1,
+    private blockedCells: ICell[] = []
+  ) {
     this.cellTotal = rows * cols;
-    this.cellSize = cellSize;
-    this.borderWeight = borderWeight;
-    this.startIndex = startIndex;
     this.endIndex = this.cellTotal - 1;
     this.cells = [];
-    this.canvasCtx = canvasCtx;
 
     if (blockedCells) {
       this.blockedCells = blockedCells;
     }
 
     this.create();
+  }
+
+  getCanvasCtx(): CanvasRenderingContext2D {
+    return this.canvasCtx;
   }
 
   create() {
@@ -48,23 +40,29 @@ export default class Grid implements TGrid {
 
     for (let index = 0; index < this.cellTotal; index++) {
       const isBlocked = Boolean(
-        this.blockedCells.find((cellIndex) => cellIndex === index)
+        this.blockedCells.find((cell) => cell.getIndex() === index)
       );
 
-      const cell = new Cell({
-        canvasCtx: this.canvasCtx,
+      const cellPosition = {
+        column: index % this.cols,
         index,
-        colIndex: index % this.cols,
-        rowIndex: Math.floor(index / this.cols),
-        size: this.cellSize,
-        borderWeight: this.borderWeight,
-        visitedColor: 'rgba(236, 233, 168, 0.4)',
-        backtrackColor: 'rgba(255,0,0, 0)',
-        isStart: index === this.startIndex,
-        isMiddle: index === middleIndex,
-        isEnd: index === this.endIndex,
         isBlocked,
-      });
+        isEnd: index === this.endIndex,
+        isMiddle: index === middleIndex,
+        isStart: index === this.startIndex,
+        row: Math.floor(index / this.cols),
+      };
+
+      const cellStyle = {
+        backtrackColor: 'rgba(255,0,0, 0)',
+        borderColor: 'white',
+        borderWeight: this.borderWeight,
+        cursorColor: 'white',
+        size: this.cellSize,
+        visitedColor: 'rgba(236, 233, 168, 0.4)',
+      };
+
+      const cell = new Cell(this.canvasCtx, cellPosition, cellStyle);
 
       this.cells.push(cell);
     }
@@ -95,8 +93,8 @@ export default class Grid implements TGrid {
   getNeighbors(cell: ICell) {
     const neighbors = DIRECTIONS.map((direction) => {
       const [nRowIndex, nColIndex] = direction.getIndices(
-        cell.rowIndex,
-        cell.colIndex
+        cell.getRowIndex(),
+        cell.getColumnIndex()
       );
       // Ensure it is on the grid.
       if (

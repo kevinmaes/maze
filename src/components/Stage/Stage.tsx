@@ -34,15 +34,15 @@ export const Stage = ({
       const canvasCtx = canvasRef.current.getContext('2d');
       canvasCtx.clearRect(0, 0, width, height);
 
-      gridRef.current = new Grid({
-        cols: gridColumns,
-        rows: gridRows,
+      gridRef.current = new Grid(
         canvasCtx,
+        gridColumns,
+        gridRows,
+        0,
         cellSize,
-        borderWeight,
+        borderWeight
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
-        blockedCells: [],
-      });
+      );
       // TODO: Can omit fps and send that directly from appMachine -> algo machine.
       appSend(AppMachineEventId.INJECT_REFS, { gridRef });
     }
@@ -58,7 +58,7 @@ export const Stage = ({
     generationSessionId,
   ]);
 
-  if (gridRef.current && gridRef.current.canvasCtx) {
+  if (gridRef.current && gridRef.current.getCanvasCtx()) {
     gridRef.current.draw();
   }
 

@@ -1,32 +1,36 @@
-export interface TCell {
-  canvasCtx: any;
+export interface CellPosition {
+  column: number;
   index: number;
-  rowIndex: number;
-  colIndex: number;
-  size: number;
-  borderWeight: number;
-  borderColor?: string;
-  cursorColor?: string;
-  visitedColor: string;
-  backtrackColor: string;
-  isStart: boolean;
-  isMiddle: boolean;
-  isEnd: boolean;
   isBlocked: boolean;
+  isEnd: boolean;
+  isStart: boolean;
+  row: number;
 }
 
-interface CellMethods {
-  draw: Function;
-  connect?: Function;
-  isIneligible: Function;
-  setAsBacktrack: Function;
-  setAsVisited: Function;
-  getIndex: Function;
-  visit: Function;
-  unsetAsCursor: Function;
+export interface CellStyle {
+  backtrackColor: string;
+  borderColor: string;
+  borderWeight: number;
+  size: number;
+  cursorColor: string;
+  visitedColor: string;
 }
 
-export type ICell = TCell & CellMethods;
+export interface ICell {
+  connect: (cell: ICell, opts: { mutual: boolean }) => void;
+  disconnect: (cell: ICell, opts: { mutual: boolean }) => void;
+  draw: () => void;
+  getColumnIndex: () => number;
+  getIndex: () => number;
+  getPathId: () => string;
+  getRowIndex: () => number;
+  isIneligible: () => boolean;
+  setAsBacktrack: () => void;
+  setAsCursor: () => void;
+  setAsVisited: () => void;
+  unsetAsCursor: () => void;
+  visit: (prevCell: ICell | null, pathId: string) => void;
+}
 
 export type Connections = ICell[];
 export type Walls = [boolean, boolean, boolean, boolean];
