@@ -90,8 +90,6 @@ const App = () => {
           paramsAreChanging={leversAreChanging}
         />
 
-        <p>Levers changing? {leversAreChanging.toString()}</p>
-
         <Footer>
           <Version>{version}</Version>
           <Link
