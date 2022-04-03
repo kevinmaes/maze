@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMachine } from '@xstate/react';
 
 import Image from 'next/image';
@@ -26,6 +26,8 @@ const App = () => {
 
   // eslint-disable-next-line
   const [appState, appSend, appService] = useMachine(appMachine);
+
+  const [leversAreChanging, setLeversAreChanging] = useState(false);
 
   const {
     context: { generationParams, generationSessionId },
@@ -73,6 +75,7 @@ const App = () => {
             appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
+          settingsAreChanging={setLeversAreChanging}
         />
 
         <Controls state={appState} onControlClick={sendEventFromControl} />
@@ -84,7 +87,10 @@ const App = () => {
           generationParams={generationParams}
           appSend={appSend}
           generationSessionId={generationSessionId}
+          paramsAreChanging={leversAreChanging}
         />
+
+        <p>Levers changing? {leversAreChanging.toString()}</p>
 
         <Footer>
           <Version>{version}</Version>
