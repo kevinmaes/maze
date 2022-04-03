@@ -23,7 +23,7 @@ export default class Cell2 implements ICell {
   private blockedInternal: boolean;
 
   constructor(
-    private canvasCtx: any,
+    private canvasCtx: CanvasRenderingContext2D,
     private position: CellPosition,
     private cellStyle: CellStyle
   ) {
