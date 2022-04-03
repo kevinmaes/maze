@@ -7,7 +7,7 @@ import {
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
-import type { GridMethods } from '../components/generation/Grid';
+import type { IGrid } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
 import { ICell } from '../components/generation/Cell';
@@ -115,7 +115,7 @@ export const generationAlgorithmMachine =
       pause: assign({ canPlay: (_) => false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ grid, currentCell }) =>
-          (grid as GridMethods).getEligibleNeighbors(currentCell),
+          (grid as IGrid).getEligibleNeighbors(currentCell),
       }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({

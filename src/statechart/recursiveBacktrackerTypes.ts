@@ -1,8 +1,8 @@
 import { Ref } from 'react';
 import { ICell } from '../components/generation/Cell/types';
-import type { Grid, GridMethods } from '../components/generation/Grid';
+import type { Grid, IGrid } from '../components/generation/Grid';
 
-export type ContextGrid = Grid & GridMethods;
+export type ContextGrid = Grid & IGrid;
 
 export interface MazeGenerationContext {
   canPlay: boolean;

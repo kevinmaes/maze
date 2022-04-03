@@ -1,17 +1,6 @@
 import { ICell } from '../Cell';
 
-export interface Grid {
-  // rows: number;
-  // cols: number;
-  // borderWeight?: number;
-  // startIndex?: number;
-  // cellSize?: number;
-  // canvasCtx?: any;
-  // cells?: ICell[];
-  // blockedCells?: number[];
-}
-
-export interface GridMethods {
+export interface IGrid {
   getCanvasCtx: () => CanvasRenderingContext2D;
   getCells: Function;
   getRows: Function;
