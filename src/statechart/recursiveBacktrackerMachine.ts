@@ -3,7 +3,6 @@ import {
   MazeGenerationContext,
   MazeGenerationEvent,
   Typestate,
-  ContextGrid,
   MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
@@ -105,10 +104,10 @@ export const generationAlgorithmMachine =
     actions: {
       initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
         currentCell: (ctx: MazeGenerationContext) =>
-          (ctx.grid as ContextGrid).getStartCell(),
+          (ctx.grid as IGrid).getStartCell(),
       }),
       visitStartCell: (ctx: MazeGenerationContext) => {
-        const currentCell = (ctx.grid as ContextGrid).getStartCell();
+        const currentCell = (ctx.grid as IGrid).getStartCell();
         return currentCell.visit(null, ctx.pathId);
       },
       play: assign({ canPlay: (_) => true }),

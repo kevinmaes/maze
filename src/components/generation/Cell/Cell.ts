@@ -7,7 +7,7 @@ import {
   CellStyle,
 } from './types';
 
-export default class Cell2 implements ICell {
+export default class Cell implements ICell {
   private connections: Connections;
   private walls: Walls;
   private visited: boolean;
@@ -112,7 +112,7 @@ export default class Cell2 implements ICell {
     this.visited = true;
   }
 
-  visit(prevCell: ICell, pathId: string) {
+  visit(prevCell: ICell | null, pathId: string) {
     this.pathId = pathId;
     this.visited = true;
 
