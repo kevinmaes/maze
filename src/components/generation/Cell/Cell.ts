@@ -7,15 +7,6 @@ import {
   CellStyle,
 } from './types';
 
-const getCellStyleDefaults = () => ({
-  backtrackColor: 'red',
-  borderColor: 'black',
-  borderWeight: 1,
-  cursorColor: 'blue',
-  size: 10,
-  visitedColor: 'red',
-});
-
 export default class Cell2 implements ICell {
   private connections: Connections;
   private walls: Walls;
@@ -36,11 +27,6 @@ export default class Cell2 implements ICell {
     private position: CellPosition,
     private cellStyle: CellStyle
   ) {
-    this.cellStyle = {
-      ...getCellStyleDefaults(),
-      ...cellStyle,
-    };
-
     this.pathId = '';
     this.blockedExternal = false;
     this.blockedInternal = this.position.isBlocked;
