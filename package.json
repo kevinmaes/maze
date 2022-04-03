@@ -19,14 +19,6 @@
     "xstate": "4.30.6"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^6.4.20",
-    "@storybook/addon-essentials": "^6.4.20",
-    "@storybook/addon-links": "^6.4.20",
-    "@storybook/builder-webpack5": "^6.4.20",
-    "@storybook/manager-webpack5": "^6.4.20",
-    "@storybook/node-logger": "^6.4.20",
-    "@storybook/preset-create-react-app": "^4.0.1",
-    "@storybook/react": "^6.4.20",
     "@svgr/webpack": "^6.2.1",
     "@types/aria-query": "^5.0.0",
     "@types/jest": "27.4.1",
@@ -36,9 +28,6 @@
     "@types/styled-components": "^5.1.23",
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",
-    "msw": "^0.39.2",
-    "msw-storybook-addon": "^1.6.1",
-    "storybook-addon-next-router": "^3.1.1",
     "typescript": "4.6.3"
   }
 }
