@@ -115,7 +115,7 @@ export const generationAlgorithmMachine =
       pause: assign({ canPlay: (_) => false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ grid, currentCell }) =>
-          (grid as IGrid).getEligibleNeighbors(currentCell),
+          (grid as IGrid).getEligibleNeighbors(currentCell as ICell),
       }),
       pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
         currentCell: seek({
