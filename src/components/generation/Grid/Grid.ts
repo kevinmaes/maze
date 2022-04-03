@@ -2,7 +2,6 @@ import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
 import { Grid as TGrid } from './types';
 import { ICell } from '../Cell';
-import Cell2 from '../Cell/Cell2';
 
 export default class Grid implements TGrid {
   rows: number;
