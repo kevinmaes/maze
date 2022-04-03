@@ -1,22 +1,11 @@
-import { TCell, ICell, Connections, Walls, DirectionIndex } from './types';
-
-interface Position {
-  column: number;
-  index: number;
-  isBlocked: boolean;
-  isEnd: boolean;
-  isStart: boolean;
-  row: number;
-}
-
-interface CellStyle {
-  backtrackColor: string;
-  borderColor: string;
-  borderWeight: number;
-  size: number;
-  cursorColor: string;
-  visitedColor: string;
-}
+import {
+  ICell,
+  Connections,
+  Walls,
+  DirectionIndex,
+  CellPosition,
+  CellStyle,
+} from './types';
 
 const getCellStyleDefaults = () => ({
   backtrackColor: 'red',
@@ -44,8 +33,8 @@ export default class Cell2 implements ICell {
 
   constructor(
     private canvasCtx: any,
-    private position: Position,
-    private cellStyle: CellStyle // isEnd = false, // isMiddle = false, // isStart = false, // rowIndex, // size = 25, // visitedColor = 'rgba(0, 0, 0, 0.1)',
+    private position: CellPosition,
+    private cellStyle: CellStyle
   ) {
     this.cellStyle = {
       ...getCellStyleDefaults(),

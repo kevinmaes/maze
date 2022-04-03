@@ -15,6 +15,24 @@ export interface TCell {
   // isBlocked: boolean;
 }
 
+export interface CellPosition {
+  column: number;
+  index: number;
+  isBlocked: boolean;
+  isEnd: boolean;
+  isStart: boolean;
+  row: number;
+}
+
+export interface CellStyle {
+  backtrackColor: string;
+  borderColor: string;
+  borderWeight: number;
+  size: number;
+  cursorColor: string;
+  visitedColor: string;
+}
+
 interface CellMethods {
   connect: (cell: ICell, opts: { mutual: boolean }) => void;
   disconnect: (cell: ICell, opts: { mutual: boolean }) => void;
