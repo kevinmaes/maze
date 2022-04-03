@@ -1,5 +1,5 @@
 import { Ref } from 'react';
-import { Grid } from '../components/generation/Grid';
+import { IGrid } from '../components/generation/Grid';
 import { MazeGenerationEventId } from './recursiveBacktrackerTypes';
 
 export enum GenerationParamsId {
@@ -10,7 +10,7 @@ export enum GenerationParamsId {
   GRID_ROWS = 'gridRows',
 }
 
-export type GridRef = Ref<Grid>;
+export type GridRef = Ref<IGrid>;
 
 export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
