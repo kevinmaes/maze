@@ -1,64 +1,68 @@
 import { TCell, ICell, Connections, Walls, DirectionIndex } from './types';
 
 export default class Cell implements ICell {
-  canvasCtx: any;
-  index: number;
-  rowIndex: number;
-  colIndex: number;
-  x: number;
-  y: number;
-  size: number;
+  backtrack: boolean;
+  backtrackColor: string;
+  blockedExternal: boolean;
+  blockedInternal: boolean;
   borderColor: string;
   borderWeight: number;
-  cursorColor: string;
-  visitedColor: string;
-  backtrackColor: string;
-  isStart: boolean;
-  isMiddle: boolean;
-  isEnd: boolean;
+  canvasCtx: any;
+  colIndex: number;
   connections: Connections;
-  walls: Walls;
-  visited: boolean;
-  pathId: string;
-  isCursor: boolean;
-  backtrack: boolean;
-  blockedInternal: boolean;
-  blockedExternal: boolean;
+  cursorColor: string;
+  index: number;
   isBlocked: boolean;
+  isCursor: boolean;
+  isEnd: boolean;
+  isMiddle: boolean;
+  isStart: boolean;
+  pathId: string;
+  rowIndex: number;
+  size: number;
+  visited: boolean;
+  visitedColor: string;
+  walls: Walls;
+  x: number;
+  y: number;
 
   constructor({
-    canvasCtx,
-    index,
-    rowIndex,
-    colIndex,
-    size = 25,
-    borderWeight = 2,
-    borderColor = 'white',
-    cursorColor = 'white',
-    visitedColor = 'rgba(0, 0, 0, 0.1)',
     backtrackColor = 'white',
-    isStart = false,
-    isMiddle = false,
-    isEnd = false,
+    borderColor = 'white',
+    borderWeight = 2,
+    canvasCtx,
+    colIndex,
+    cursorColor = 'white',
+    index,
     isBlocked = false,
+    isEnd = false,
+    isMiddle = false,
+    isStart = false,
+    rowIndex,
+    size = 25,
+    visitedColor = 'rgba(0, 0, 0, 0.1)',
   }: TCell) {
-    this.canvasCtx = canvasCtx;
-    this.index = index;
-
-    this.rowIndex = rowIndex;
-    this.colIndex = colIndex;
-    this.x = this.colIndex * size + borderWeight;
-    this.y = this.rowIndex * size + borderWeight;
-    this.size = size;
+    this.backtrack = false;
+    this.backtrackColor = backtrackColor;
+    this.blockedExternal = false;
+    this.blockedInternal = false;
     this.borderColor = borderColor;
     this.borderWeight = borderWeight;
+    this.canvasCtx = canvasCtx;
+    this.colIndex = colIndex;
     this.cursorColor = cursorColor;
-    this.visitedColor = visitedColor;
-    this.backtrackColor = backtrackColor;
-    this.isStart = isStart;
-    this.isMiddle = isMiddle;
-    this.isEnd = isEnd;
+    this.index = index;
     this.isBlocked = isBlocked;
+    this.isCursor = false;
+    this.isEnd = isEnd;
+    this.isMiddle = isMiddle;
+    this.isStart = isStart;
+    this.pathId = '';
+    this.rowIndex = rowIndex;
+    this.size = size;
+    this.visitedColor = visitedColor;
+    this.x = this.colIndex * size + borderWeight;
+    this.y = this.rowIndex * size + borderWeight;
 
     if (isBlocked) {
       this.blockedInternal = true;

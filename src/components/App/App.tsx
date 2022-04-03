@@ -1,9 +1,10 @@
 import React from 'react';
 import { useMachine } from '@xstate/react';
 
-import { AppContainer, Footer, Version, Link, Image } from './App.css';
+import Image from 'next/image';
+
+import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
-import twitterLogo from '../../assets/images/twitter-logo-transparent.png';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import {
@@ -11,11 +12,18 @@ import {
   AppMachineState,
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
+import GlobalStyle from '../../styles/GlobalStyles';
 
-const APP_WIDTH = window.innerWidth;
-const APP_HEIGHT = window.innerHeight;
+declare const VERSION: string;
 
 const App = () => {
+  let version = 'unknown';
+  try {
+    version = VERSION;
+  } catch (error) {
+    console.log('Cannot get version of application.');
+  }
+
   // eslint-disable-next-line
   const [appState, appSend, appService] = useMachine(appMachine);
 
@@ -50,49 +58,56 @@ const App = () => {
   };
 
   return (
-    <AppContainer>
-      <h1>Maze Generation</h1>
-      <h2>Recursive Backtracker</h2>
-      <p>
-        <i>React, XState, Canvas, TypeScript</i>
-      </p>
-      <Levers
-        enabled={leversEnabled}
-        params={generationParams}
-        updateFromLevers={(data: { name: string; value: number }) => {
-          appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
-          // Do we need to also INJECT_FPS into algo machine via props?
-        }}
-      />
+    <>
+      <GlobalStyle />
+      <AppContainer>
+        <h1>Maze Generation</h1>
+        <h2>Recursive Backtracker</h2>
+        <p>
+          <i>Next.js, XState, Canvas, TypeScript</i>
+        </p>
+        <Levers
+          enabled={leversEnabled}
+          params={generationParams}
+          updateFromLevers={(data: { name: string; value: number }) => {
+            appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
+            // Do we need to also INJECT_FPS into algo machine via props?
+          }}
+        />
 
-      <Controls state={appState} onControlClick={sendEventFromControl} />
-      <Stage
-        width={APP_WIDTH}
-        height={APP_HEIGHT}
-        pixelRatio={1}
-        generationParams={generationParams}
-        appSend={appSend}
-        generationSessionId={generationSessionId}
-      />
-      <Footer>
-        <Version>v0.2.0</Version>
-        <Link
-          className="App-link"
-          href="https://twitter.com/kvmaes"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <Image
-            className="App-footer-image"
-            src={twitterLogo}
-            alt="Twitter logo"
-            width="20"
-            height="16"
-          />
-          @kvmaes
-        </Link>
-      </Footer>
-    </AppContainer>
+        <Controls state={appState} onControlClick={sendEventFromControl} />
+
+        <Stage
+          width={1000}
+          height={1000}
+          pixelRatio={1}
+          generationParams={generationParams}
+          appSend={appSend}
+          generationSessionId={generationSessionId}
+        />
+
+        <Footer>
+          <Version>{version}</Version>
+          <Link
+            className="App-link"
+            href="https://twitter.com/kvmaes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <ImageHolder>
+              <Image
+                className="App-footer-image"
+                src={'/images/twitter-logo-transparent.png'}
+                alt="Twitter logo"
+                width="20"
+                height="16"
+              />
+            </ImageHolder>
+            @kvmaes
+          </Link>
+        </Footer>
+      </AppContainer>
+    </>
   );
 };
 

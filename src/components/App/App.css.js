@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const AppContainer = styled.div`
   text-align: center;
+  font-size: 1.6rem;
 `;
 
 export const Form = styled.form`
@@ -18,7 +19,7 @@ export const P = styled.p`
 `;
 
 export const ReplayButton = styled.button`
-  width 200px;
+  width: 200px;
   height: 35px;
   margin: 20px auto 0 auto;
   border-radius: 5px;
@@ -26,18 +27,18 @@ export const ReplayButton = styled.button`
   cursor: pointer;
   color: white;
   font-weight: bold;
-  background-color: #2563EB;
+  background-color: #2563eb;
   text-transform: uppercase;
-  box-shadow: 2px 2px 15px 1px rgba(0,0,0,0.4);
+  box-shadow: 2px 2px 15px 1px rgba(0, 0, 0, 0.4);
 `;
 
 export const Footer = styled.footer`
   height: 200px;
-  lineheight: 30px;
+  line-height: 30px;
 `;
 export const Version = styled.h5`
   display: inline;
-  margin-right: 20px;
+  margin-right: 10px;
   color: #555;
 `;
 
@@ -45,7 +46,8 @@ export const Link = styled.a`
   text-decoration: none;
 `;
 
-export const Image = styled.img`
+export const ImageHolder = styled.div`
+  display: inline;
   height: 16px;
   width: 20px;
   margin: 0 2px -3px 0;
