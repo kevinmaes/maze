@@ -14,13 +14,26 @@ interface Props {
   enabled: boolean;
   params: GenerationParams;
   updateFromLevers: Function;
+  settingsAreChanging: Function;
 }
 
-export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
+export const Levers = ({
+  enabled,
+  params,
+  updateFromLevers,
+  settingsAreChanging,
+}: Props) => {
   const onLeverChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) =>
     updateFromLevers({ name, value: parseInt(value, 10) });
+
+  const inputHandlers = {
+    onMouseDown: () => settingsAreChanging(true),
+    onMouseUp: () => settingsAreChanging(false),
+    onChange: onLeverChange,
+  };
+
   return (
     <Form>
       <Fieldset disabled={!enabled}>
@@ -33,7 +46,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             min="1"
             max="60"
             step={1}
-            onChange={onLeverChange}
+            {...inputHandlers}
           />
         </div>
         <div>
@@ -45,7 +58,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             min={CellSize.MIN}
             max={CellSize.MAX}
             step={5}
-            onChange={onLeverChange}
+            {...inputHandlers}
           />
         </div>
         <div>
@@ -56,7 +69,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             value={params.borderWeight}
             min="1"
             max="10"
-            onChange={onLeverChange}
+            {...inputHandlers}
           />
         </div>
         <div>
@@ -67,7 +80,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             value={params.gridColumns}
             min="2"
             max="25"
-            onChange={onLeverChange}
+            {...inputHandlers}
           />
         </div>
         <div>
@@ -78,7 +91,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
             value={params.gridRows}
             min="2"
             max="25"
-            onChange={onLeverChange}
+            {...inputHandlers}
           />
         </div>
       </Fieldset>
