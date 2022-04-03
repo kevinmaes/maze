@@ -2,6 +2,7 @@ import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
 import { Grid as TGrid } from './types';
 import { ICell } from '../Cell';
+import Cell2 from '../Cell/Cell2';
 
 export default class Grid implements TGrid {
   rows: number;
@@ -11,7 +12,7 @@ export default class Grid implements TGrid {
   borderWeight: number;
   startIndex: number;
   endIndex: number;
-  cells: Cell[];
+  cells: ICell[];
   canvasCtx: any;
   blockedCells: number[] = [];
 
@@ -51,20 +52,26 @@ export default class Grid implements TGrid {
         this.blockedCells.find((cellIndex) => cellIndex === index)
       );
 
-      const cell = new Cell({
-        canvasCtx: this.canvasCtx,
+      const cellPosition = {
+        column: index % this.cols,
         index,
-        colIndex: index % this.cols,
-        rowIndex: Math.floor(index / this.cols),
-        size: this.cellSize,
-        borderWeight: this.borderWeight,
-        visitedColor: 'rgba(236, 233, 168, 0.4)',
-        backtrackColor: 'rgba(255,0,0, 0)',
-        isStart: index === this.startIndex,
-        isMiddle: index === middleIndex,
-        isEnd: index === this.endIndex,
         isBlocked,
-      });
+        isEnd: index === this.endIndex,
+        isMiddle: index === middleIndex,
+        isStart: index === this.startIndex,
+        row: Math.floor(index / this.cols),
+      };
+
+      const cellStyle = {
+        backtrackColor: 'rgba(255,0,0, 0)',
+        borderColor: 'white',
+        borderWeight: this.borderWeight,
+        cursorColor: 'white',
+        size: this.cellSize,
+        visitedColor: 'rgba(236, 233, 168, 0.4)',
+      };
+
+      const cell = new Cell(this.canvasCtx, cellPosition, cellStyle);
 
       this.cells.push(cell);
     }
@@ -95,8 +102,8 @@ export default class Grid implements TGrid {
   getNeighbors(cell: ICell) {
     const neighbors = DIRECTIONS.map((direction) => {
       const [nRowIndex, nColIndex] = direction.getIndices(
-        cell.rowIndex,
-        cell.colIndex
+        cell.getRowIndex(),
+        cell.getColumnIndex()
       );
       // Ensure it is on the grid.
       if (

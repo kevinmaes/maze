@@ -1,104 +1,108 @@
 import { TCell, ICell, Connections, Walls, DirectionIndex } from './types';
 
-export default class Cell implements ICell {
-  backtrack: boolean;
-  backtrackColor: string;
-  blockedExternal: boolean;
-  blockedInternal: boolean;
-  borderColor: string;
-  borderWeight: number;
-  canvasCtx: any;
-  colIndex: number;
-  connections: Connections;
-  cursorColor: string;
+interface Position {
+  column: number;
   index: number;
   isBlocked: boolean;
-  isCursor: boolean;
   isEnd: boolean;
-  isMiddle: boolean;
   isStart: boolean;
-  pathId: string;
-  rowIndex: number;
+  row: number;
+}
+
+interface CellStyle {
+  backtrackColor: string;
+  borderColor: string;
+  borderWeight: number;
   size: number;
-  visited: boolean;
+  cursorColor: string;
   visitedColor: string;
-  walls: Walls;
-  x: number;
-  y: number;
+}
 
-  constructor({
-    backtrackColor = 'white',
-    borderColor = 'white',
-    borderWeight = 2,
-    canvasCtx,
-    colIndex,
-    cursorColor = 'white',
-    index,
-    isBlocked = false,
-    isEnd = false,
-    isMiddle = false,
-    isStart = false,
-    rowIndex,
-    size = 25,
-    visitedColor = 'rgba(0, 0, 0, 0.1)',
-  }: TCell) {
-    this.backtrack = false;
-    this.backtrackColor = backtrackColor;
-    this.blockedExternal = false;
-    this.blockedInternal = false;
-    this.borderColor = borderColor;
-    this.borderWeight = borderWeight;
-    this.canvasCtx = canvasCtx;
-    this.colIndex = colIndex;
-    this.cursorColor = cursorColor;
-    this.index = index;
-    this.isBlocked = isBlocked;
-    this.isCursor = false;
-    this.isEnd = isEnd;
-    this.isMiddle = isMiddle;
-    this.isStart = isStart;
+const getCellStyleDefaults = () => ({
+  backtrackColor: 'red',
+  borderColor: 'black',
+  borderWeight: 1,
+  cursorColor: 'blue',
+  size: 10,
+  visitedColor: 'red',
+});
+
+export default class Cell2 implements ICell {
+  private connections: Connections;
+  private walls: Walls;
+  private visited: boolean;
+  private backtrack: boolean;
+  private isCursor: boolean = false;
+
+  private pathId: string;
+
+  private x: number;
+  private y: number;
+
+  private blockedExternal: boolean;
+  private blockedInternal: boolean;
+
+  constructor(
+    private canvasCtx: any,
+    private position: Position,
+    private cellStyle: CellStyle // isEnd = false, // isMiddle = false, // isStart = false, // rowIndex, // size = 25, // visitedColor = 'rgba(0, 0, 0, 0.1)',
+  ) {
+    this.cellStyle = {
+      ...getCellStyleDefaults(),
+      ...cellStyle,
+    };
+
     this.pathId = '';
-    this.rowIndex = rowIndex;
-    this.size = size;
-    this.visitedColor = visitedColor;
-    this.x = this.colIndex * size + borderWeight;
-    this.y = this.rowIndex * size + borderWeight;
-
-    if (isBlocked) {
-      this.blockedInternal = true;
-    }
+    this.blockedExternal = false;
+    this.blockedInternal = this.position.isBlocked;
+    this.pathId = '';
+    this.x =
+      this.position.column * this.cellStyle.size + this.cellStyle.borderWeight;
+    this.y =
+      this.position.row * this.cellStyle.size + this.cellStyle.borderWeight;
 
     this.connections = [];
-
     this.walls = [true, true, true, true];
-
     this.visited = false;
+    this.backtrack = false;
   }
 
   getIndex() {
-    return this.index;
+    return this.position.index;
+  }
+
+  getPathId() {
+    return this.pathId;
   }
 
   getConnections() {
     return this.connections;
   }
 
-  connect(cell: Cell, { mutual } = { mutual: true }) {
+  getRowIndex() {
+    return this.position.row;
+  }
+
+  getColumnIndex() {
+    return this.position.column;
+  }
+
+  connect(cell: ICell, { mutual } = { mutual: true }) {
     this.connections.push(cell);
 
-    if (cell.rowIndex > this.rowIndex) {
+    if (cell.getRowIndex() > this.position.row) {
       this.walls[DirectionIndex.SOUTH] = false;
     }
 
-    if (cell.rowIndex < this.rowIndex) {
+    if (cell.getRowIndex() < this.position.row) {
       this.walls[DirectionIndex.NORTH] = false;
     }
 
-    if (cell.colIndex > this.colIndex) {
+    if (cell.getColumnIndex() > this.position.column) {
       this.walls[DirectionIndex.EAST] = false;
     }
 
-    if (cell.colIndex < this.colIndex) {
+    if (cell.getColumnIndex() < this.position.column) {
       this.walls[DirectionIndex.WEST] = false;
     }
 
@@ -109,8 +113,10 @@ export default class Cell implements ICell {
     return this;
   }
 
-  disconnect(cell: Cell, { mutual } = { mutual: true }) {
-    this.connections = this.connections.filter((c) => c.index === cell.index);
+  disconnect(cell: ICell, { mutual } = { mutual: true }) {
+    this.connections = this.connections.filter(
+      (c) => c.getIndex() === cell.getIndex()
+    );
 
     if (mutual) {
       cell.disconnect(this, { mutual: false });
@@ -131,13 +137,13 @@ export default class Cell implements ICell {
     this.visited = true;
   }
 
-  visit(prevCell: Cell, pathId: string) {
+  visit(prevCell: ICell, pathId: string) {
     this.pathId = pathId;
     this.visited = true;
 
     this.setAsCursor();
 
-    if (!this.isStart && !this.isEnd) {
+    if (!this.position.isStart && !this.position.isEnd) {
       this.walls = [true, true, true, true];
     }
 
@@ -155,21 +161,25 @@ export default class Cell implements ICell {
     this.isCursor = false;
   }
 
-  hasDifferentPathId(cell: Cell) {
-    return this.pathId && cell.pathId && this.pathId !== cell.pathId;
+  hasDifferentPathId(cell: ICell) {
+    return this.pathId && cell.getPathId() && this.pathId !== cell.getPathId();
   }
 
   getFillColor() {
+    const {
+      cellStyle: { borderColor, backtrackColor, cursorColor, visitedColor },
+    } = this;
+
     switch (true) {
       case this.blockedExternal:
       case this.blockedInternal:
-        return this.borderColor;
+        return borderColor;
       case this.isCursor:
-        return this.cursorColor;
+        return cursorColor;
       case this.backtrack:
-        return this.backtrackColor;
+        return backtrackColor;
       case this.visited:
-        return this.visitedColor;
+        return visitedColor;
       default:
         return 'rgba(0,0,0,0)';
     }
@@ -182,43 +192,55 @@ export default class Cell implements ICell {
   }
 
   clearFill() {
-    const fillX = this.x + 0.5 * this.borderWeight;
-    const fillY = this.y + 0.5 * this.borderWeight;
+    const {
+      cellStyle: { borderWeight, size },
+    } = this;
 
-    this.canvasCtx.clearRect(fillX, fillY, this.size, this.size);
+    const fillX = this.x + 0.5 * borderWeight;
+    const fillY = this.y + 0.5 * borderWeight;
+
+    this.canvasCtx.clearRect(fillX, fillY, size, size);
   }
 
   drawFill(color: string) {
-    const fillX = this.x + 0.5 * this.borderWeight;
-    const fillY = this.y + 0.5 * this.borderWeight;
+    const {
+      cellStyle: { borderWeight, size },
+    } = this;
+
+    const fillX = this.x + 0.5 * borderWeight;
+    const fillY = this.y + 0.5 * borderWeight;
 
     this.canvasCtx.fillStyle = color;
-    this.canvasCtx.fillRect(fillX, fillY, this.size, this.size);
+    this.canvasCtx.fillRect(fillX, fillY, size, size);
   }
 
   drawWalls(walls: Walls) {
-    const { canvasCtx } = this;
+    const {
+      canvasCtx,
+      cellStyle: { borderColor, borderWeight, size },
+      position: { isStart, isEnd },
+    } = this;
 
     // Skip drawing walls if this is an internally blocked cell.
     if (this.blockedInternal) {
       return;
     }
 
-    canvasCtx.strokeStyle = this.borderColor;
-    canvasCtx.lineWidth = this.borderWeight;
+    canvasCtx.strokeStyle = borderColor;
+    canvasCtx.lineWidth = borderWeight;
 
     if (this.walls[DirectionIndex.NORTH]) {
-      this.line(this.x, this.y, this.x + this.size, this.y, this.borderColor);
+      this.line(this.x, this.y, this.x + size, this.y, borderColor);
     }
 
     if (this.walls[DirectionIndex.EAST]) {
-      if (!this.isEnd) {
+      if (!isEnd) {
         this.line(
-          this.x + this.size,
+          this.x + size,
           this.y,
-          this.x + this.size,
-          this.y + this.size,
-          this.borderColor
+          this.x + size,
+          this.y + size,
+          borderColor
         );
       }
     }
@@ -226,16 +248,16 @@ export default class Cell implements ICell {
     if (this.walls[DirectionIndex.SOUTH]) {
       this.line(
         this.x,
-        this.y + this.size,
-        this.x + this.size,
-        this.y + this.size,
-        this.borderColor
+        this.y + size,
+        this.x + size,
+        this.y + size,
+        borderColor
       );
     }
 
     if (this.walls[DirectionIndex.WEST]) {
-      if (!this.isStart) {
-        this.line(this.x, this.y, this.x, this.y + this.size, this.borderColor);
+      if (!isStart) {
+        this.line(this.x, this.y, this.x, this.y + size, borderColor);
       }
     }
   }

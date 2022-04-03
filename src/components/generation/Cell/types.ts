@@ -1,29 +1,34 @@
 export interface TCell {
-  canvasCtx: any;
-  index: number;
-  rowIndex: number;
-  colIndex: number;
-  size: number;
-  borderWeight: number;
-  borderColor?: string;
-  cursorColor?: string;
-  visitedColor: string;
-  backtrackColor: string;
-  isStart: boolean;
-  isMiddle: boolean;
-  isEnd: boolean;
-  isBlocked: boolean;
+  // canvasCtx: any;
+  // index: number;
+  // rowIndex: number;
+  // colIndex: number;
+  // size: number;
+  // borderWeight: number;
+  // borderColor?: string;
+  // cursorColor?: string;
+  // visitedColor: string;
+  // backtrackColor: string;
+  // isStart: boolean;
+  // isMiddle: boolean;
+  // isEnd: boolean;
+  // isBlocked: boolean;
 }
 
 interface CellMethods {
-  draw: Function;
-  connect?: Function;
-  isIneligible: Function;
-  setAsBacktrack: Function;
-  setAsVisited: Function;
-  getIndex: Function;
-  visit: Function;
-  unsetAsCursor: Function;
+  connect: (cell: ICell, opts: { mutual: boolean }) => void;
+  disconnect: (cell: ICell, opts: { mutual: boolean }) => void;
+  draw: () => void;
+  getColumnIndex: () => number;
+  getIndex: () => number;
+  getPathId: () => string;
+  getRowIndex: () => number;
+  isIneligible: () => boolean;
+  setAsBacktrack: () => void;
+  setAsCursor: () => void;
+  setAsVisited: () => void;
+  unsetAsCursor: () => void;
+  visit: (prevCell: ICell, pathId: string) => void;
 }
 
 export type ICell = TCell & CellMethods;
