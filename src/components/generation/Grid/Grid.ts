@@ -4,9 +4,10 @@ import { IGrid } from './types';
 import { ICell } from '../Cell';
 
 export default class Grid implements IGrid {
+  public cells: ICell[];
+
   private cellTotal: number;
   private endIndex: number;
-  public cells: ICell[];
 
   constructor(
     private canvasCtx: any,
