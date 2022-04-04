@@ -29,10 +29,8 @@ export const seek = ({
   } else {
     if (endIndex !== null) {
       next = grid.getCells()[endIndex];
-      next.isEnd = true;
     } else {
       next = grid.getCells()[startIndex];
-      next.isStart = true;
     }
 
     next.visit(null, pathId);
