@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Ref } from 'react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
@@ -12,6 +12,7 @@ interface Props {
   width?: number;
   height?: number;
   pixelRatio?: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   appSend: (type: string, event: any) => void;
   generationSessionId: number;
   paramsAreChanging: boolean;
@@ -28,7 +29,7 @@ export const Stage = React.memo(
   }: Props) => {
     const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
-    const canvasRef: any = React.useRef(null);
+    const canvasRef: Ref<CanvasRenderingContext2D> = React.useRef(null);
     const gridRef = React.useRef<Grid | null>(null);
 
     React.useEffect(() => {

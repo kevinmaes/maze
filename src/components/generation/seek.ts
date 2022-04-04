@@ -1,7 +1,8 @@
 import { ICell } from './Cell';
+import { IGrid } from './Grid';
 
 interface SeekOptions {
-  grid: any;
+  grid: IGrid;
   pathId: string;
   current: ICell | null;
   startIndex: number;

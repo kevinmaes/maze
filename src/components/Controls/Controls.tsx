@@ -33,6 +33,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     onControlClick(id);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderStateControls = (state: any) => {
     const canStartOver = state.can(AppMachineEventId.START_OVER);
     const canPlay = state.can(AppMachineEventId.PLAY);
