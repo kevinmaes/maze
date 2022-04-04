@@ -112,7 +112,7 @@ export default class Cell implements ICell {
     this.visited = true;
   }
 
-  visit(prevCell: ICell | null, pathId: string) {
+  visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;
 

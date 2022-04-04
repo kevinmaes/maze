@@ -15,7 +15,7 @@ export const seek = ({
   current,
   startIndex = 0,
   endIndex = null,
-}: SeekOptions) => {
+}: SeekOptions): ICell => {
   let next;
   if (current) {
     next = grid.pickNeighbor(current);
