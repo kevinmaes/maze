@@ -163,7 +163,7 @@ export default class Cell implements ICell {
   draw() {
     this.clearFill();
     this.drawFill(this.getFillColor());
-    this.drawWalls(this.walls);
+    this.drawWalls();
   }
 
   clearFill() {
