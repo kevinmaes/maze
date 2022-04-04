@@ -31,6 +31,8 @@ export const Levers = ({
   const inputHandlers = {
     onMouseDown: () => settingsAreChanging(true),
     onMouseUp: () => settingsAreChanging(false),
+    onPointerDown: () => settingsAreChanging(true),
+    onPointerUp: () => settingsAreChanging(true),
     onChange: onLeverChange,
   };
 
