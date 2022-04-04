@@ -10,7 +10,7 @@ export default class Grid implements IGrid {
   private endIndex: number;
 
   constructor(
-    private canvasCtx: any,
+    private canvasCtx: CanvasRenderingContext2D,
     private cols: number,
     private rows: number,
     private startIndex: number = 0,
