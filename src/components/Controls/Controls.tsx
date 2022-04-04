@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { AppMachineEventId } from '../../statechart/appMachineTypes';
+import {
+  AppMachineContext,
+  AppMachineEventId,
+} from '../../statechart/appMachineTypes';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
@@ -11,10 +14,10 @@ import {
   ControlsGroup,
   ControlButton,
 } from './Controls.css';
-import { StateNode } from 'xstate';
+import { State } from 'xstate';
 
 interface Props {
-  state: StateNode;
+  state: State<AppMachineContext>;
   onControlClick: (id: string) => void;
 }
 
@@ -33,8 +36,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     onControlClick(id);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const renderStateControls = (state: any) => {
+  const renderStateControls = (state: State<AppMachineContext>) => {
     const canStartOver = state.can(AppMachineEventId.START_OVER);
     const canPlay = state.can(AppMachineEventId.PLAY);
     const canPause = state.can(AppMachineEventId.PAUSE);
