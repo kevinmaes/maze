@@ -32,7 +32,7 @@ export const Levers = ({
     onMouseDown: () => settingsAreChanging(true),
     onMouseUp: () => settingsAreChanging(false),
     onPointerDown: () => settingsAreChanging(true),
-    onPointerUp: () => settingsAreChanging(true),
+    onPointerUp: () => settingsAreChanging(false),
     onChange: onLeverChange,
   };
 
