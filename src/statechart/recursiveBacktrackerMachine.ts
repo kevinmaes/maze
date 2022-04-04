@@ -116,14 +116,17 @@ export const generationAlgorithmMachine =
         eligibleNeighbors: ({ grid, currentCell }) =>
           (grid as IGrid).getEligibleNeighbors(currentCell as ICell),
       }),
-      pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => ({
-        currentCell: seek({
-          grid,
-          pathId,
-          current: currentCell as ICell,
-          startIndex,
-        }),
-      })),
+      pickNextCell: assign(({ grid, pathId, startIndex, currentCell }) => {
+        const verifiedGrid = grid as IGrid;
+        return {
+          currentCell: seek({
+            grid: verifiedGrid,
+            pathId,
+            current: currentCell as ICell,
+            startIndex,
+          }),
+        };
+      }),
       pushToStack: assign(({ stack, currentCell }) => {
         if (currentCell) {
           stack.push(currentCell);

@@ -12,7 +12,7 @@ export default class Cell implements ICell {
   private walls: Walls;
   private visited: boolean;
   private backtrack: boolean;
-  private isCursor: boolean = false;
+  private isCursor = false;
 
   private pathId: string;
 
@@ -112,7 +112,7 @@ export default class Cell implements ICell {
     this.visited = true;
   }
 
-  visit(prevCell: ICell | null, pathId: string) {
+  visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;
 
@@ -163,7 +163,7 @@ export default class Cell implements ICell {
   draw() {
     this.clearFill();
     this.drawFill(this.getFillColor());
-    this.drawWalls(this.walls);
+    this.drawWalls();
   }
 
   clearFill() {
@@ -189,7 +189,7 @@ export default class Cell implements ICell {
     this.canvasCtx.fillRect(fillX, fillY, size, size);
   }
 
-  drawWalls(walls: Walls) {
+  drawWalls() {
     const {
       canvasCtx,
       cellStyle: { borderColor, borderWeight, size },
@@ -237,7 +237,7 @@ export default class Cell implements ICell {
     }
   }
 
-  line(x1: number, y1: number, x2: number, y2: number, color: string = '#000') {
+  line(x1: number, y1: number, x2: number, y2: number, color = '#000') {
     const { canvasCtx } = this;
 
     canvasCtx.strokeStyle = color;

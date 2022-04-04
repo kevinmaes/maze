@@ -10,7 +10,7 @@ export default class Grid implements IGrid {
   private endIndex: number;
 
   constructor(
-    private canvasCtx: any,
+    private canvasCtx: CanvasRenderingContext2D,
     private cols: number,
     private rows: number,
     private startIndex: number = 0,
@@ -132,7 +132,7 @@ export default class Grid implements IGrid {
   // Draw all cells.
   draw() {
     const cells = this.getCells();
-    for (let cell of cells) {
+    for (const cell of cells) {
       cell.draw();
     }
   }

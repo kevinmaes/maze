@@ -1,7 +1,8 @@
 import { ICell } from './Cell';
+import { IGrid } from './Grid';
 
 interface SeekOptions {
-  grid: any;
+  grid: IGrid;
   pathId: string;
   current: ICell | null;
   startIndex: number;
@@ -14,7 +15,7 @@ export const seek = ({
   current,
   startIndex = 0,
   endIndex = null,
-}: SeekOptions) => {
+}: SeekOptions): ICell => {
   let next;
   if (current) {
     next = grid.pickNeighbor(current);
@@ -28,10 +29,8 @@ export const seek = ({
   } else {
     if (endIndex !== null) {
       next = grid.getCells()[endIndex];
-      next.isEnd = true;
     } else {
       next = grid.getCells()[startIndex];
-      next.isStart = true;
     }
 
     next.visit(null, pathId);
