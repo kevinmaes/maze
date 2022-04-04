@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   AppMachineContext,
+  AppMachineEvent,
   AppMachineEventId,
 } from '../../statechart/appMachineTypes';
 import StartOver from '../../assets/svg/controls/start-over.svg';
@@ -17,8 +18,9 @@ import {
 import { State } from 'xstate';
 
 interface Props {
-  state: State<AppMachineContext>;
-  onControlClick: (id: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state: any;
+  onControlClick: (eventId: AppMachineEventId) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -33,10 +35,12 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const {
       currentTarget: { id },
     } = event;
-    onControlClick(id);
+    onControlClick(id as AppMachineEventId);
   };
 
-  const renderStateControls = (state: State<AppMachineContext>) => {
+  const renderStateControls = (
+    state: State<AppMachineContext, AppMachineEvent>
+  ) => {
     const canStartOver = state.can(AppMachineEventId.START_OVER);
     const canPlay = state.can(AppMachineEventId.PLAY);
     const canPause = state.can(AppMachineEventId.PAUSE);

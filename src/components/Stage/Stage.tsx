@@ -13,7 +13,7 @@ interface Props {
   height?: number;
   pixelRatio?: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appSend: (type: string, event: any) => void;
+  appSend: (type: AppMachineEventId, event: any) => void;
   generationSessionId: number;
   paramsAreChanging: boolean;
 }
@@ -29,12 +29,14 @@ export const Stage = React.memo(
   }: Props) => {
     const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
-    const canvasRef: Ref<CanvasRenderingContext2D> = React.useRef(null);
+    const canvasRef: Ref<HTMLCanvasElement> = React.useRef(null);
     const gridRef = React.useRef<Grid | null>(null);
 
     React.useEffect(() => {
       if (canvasRef && canvasRef.current) {
-        const canvasCtx = canvasRef.current.getContext('2d');
+        const canvasCtx = canvasRef.current.getContext(
+          '2d'
+        ) as CanvasRenderingContext2D;
         canvasCtx.clearRect(0, 0, width, height);
 
         gridRef.current = new Grid(

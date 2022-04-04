@@ -55,7 +55,9 @@ const App = () => {
       [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
     });
 
-  const sendEventFromControl = (eventId: AppMachineEventId) => {
+  const sendEventFromControl: (eventId: AppMachineEventId) => void = (
+    eventId: AppMachineEventId
+  ) => {
     appSend(eventId);
   };
 
