@@ -62,6 +62,9 @@ export const Stage = React.memo(
 
     if (gridRef.current && gridRef.current.getCanvasCtx()) {
       gridRef.current.draw();
+
+      // const snapshot = gridRef.current.getSnapshot();
+      // console.log(JSON.stringify(snapshot));
     }
 
     const dw =

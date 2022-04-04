@@ -136,4 +136,11 @@ export default class Grid implements IGrid {
       cell.draw();
     }
   }
+
+  getSnapshot(): any {
+    return {
+      type: 'grid',
+      cells: this.cells.map((cell) => cell.getSnapshot()),
+    };
+  }
 }

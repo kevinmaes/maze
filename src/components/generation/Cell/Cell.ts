@@ -247,4 +247,19 @@ export default class Cell implements ICell {
     canvasCtx.lineTo(x2, y2);
     canvasCtx.stroke();
   }
+
+  getSnapshot(): any {
+    const obj = {
+      index: this.getIndex(),
+      x: this.x,
+      y: this.y,
+      position: this.position,
+      cellStyle: this.cellStyle,
+      walls: this.walls,
+      visited: this.visited,
+      backtrack: this.backtrack,
+      isCursor: this.isCursor,
+    };
+    return obj;
+  }
 }

@@ -8,4 +8,5 @@ export interface IGrid {
   getRows: () => number;
   getStartCell: () => ICell;
   pickNeighbor: (cell: ICell) => ICell;
+  getSnapshot: () => any;
 }

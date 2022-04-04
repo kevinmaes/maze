@@ -16,7 +16,7 @@ import {
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
-const GRID_SIZE_DEFAULT = 15;
+const GRID_SIZE_DEFAULT = 2;
 
 const CellSize = {
   DEFAULT: 20,

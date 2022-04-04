@@ -37,7 +37,12 @@ export const generationAlgorithmMachine =
         },
       },
       start: {
-        entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
+        entry: [
+          'initGeneration',
+          'visitStartCell',
+          'pushToStack',
+          'printSnapshot',
+        ],
         after: {
           SEEK_INTERVAL: {
             cond: (ctx) => ctx.canPlay,
@@ -46,7 +51,11 @@ export const generationAlgorithmMachine =
         },
       },
       seek: {
-        entry: ['findNeighbors', sendParent(MazeGenerationEventId.UPDATE)],
+        entry: [
+          'findNeighbors',
+          'printSnapshot',
+          sendParent(MazeGenerationEventId.UPDATE),
+        ],
         always: {
           target: '#generationAlgorithmMachine.advance',
         },
@@ -135,6 +144,13 @@ export const generationAlgorithmMachine =
         prevCell?.setAsBacktrack();
         return { stack, currentCell: prevCell };
       }),
+      printSnapshot: ({ grid, currentCell }) => {
+        const snapshot = {
+          ...(grid as IGrid).getSnapshot(),
+          currentCell: currentCell?.getIndex(),
+        };
+        console.log(JSON.stringify(snapshot));
+      },
     },
     delays: {
       SEEK_INTERVAL: ({ fps }: MazeGenerationContext) => {

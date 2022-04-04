@@ -30,6 +30,7 @@ export interface ICell {
   setAsVisited: () => void;
   unsetAsCursor: () => void;
   visit: (prevCell: ICell | null, pathId: string) => void;
+  getSnapshot: () => any;
 }
 
 export type Connections = ICell[];
