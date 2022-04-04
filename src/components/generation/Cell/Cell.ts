@@ -12,7 +12,7 @@ export default class Cell implements ICell {
   private walls: Walls;
   private visited: boolean;
   private backtrack: boolean;
-  private isCursor: boolean = false;
+  private isCursor = false;
 
   private pathId: string;
 
@@ -237,7 +237,7 @@ export default class Cell implements ICell {
     }
   }
 
-  line(x1: number, y1: number, x2: number, y2: number, color: string = '#000') {
+  line(x1: number, y1: number, x2: number, y2: number, color = '#000') {
     const { canvasCtx } = this;
 
     canvasCtx.strokeStyle = color;

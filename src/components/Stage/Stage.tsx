@@ -12,7 +12,7 @@ interface Props {
   width?: number;
   height?: number;
   pixelRatio?: number;
-  appSend: Function;
+  appSend: (type: string, event: any) => void;
   generationSessionId: number;
   paramsAreChanging: boolean;
 }
@@ -72,3 +72,5 @@ export const Stage = React.memo(
   },
   (_, { paramsAreChanging }) => paramsAreChanging
 );
+
+Stage.displayName = 'Stage (memo)';

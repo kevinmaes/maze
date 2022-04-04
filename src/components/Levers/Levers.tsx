@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Form, Fieldset } from './Levers.css';
 import {
   GenerationParamsId,
@@ -13,8 +15,8 @@ const CellSize = {
 interface Props {
   enabled: boolean;
   params: GenerationParams;
-  updateFromLevers: Function;
-  settingsAreChanging: Function;
+  updateFromLevers: (data: { name: string; value: number }) => void;
+  settingsAreChanging: (value: boolean) => void;
 }
 
 export const Levers = ({

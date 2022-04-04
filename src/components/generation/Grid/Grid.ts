@@ -132,7 +132,7 @@ export default class Grid implements IGrid {
   // Draw all cells.
   draw() {
     const cells = this.getCells();
-    for (let cell of cells) {
+    for (const cell of cells) {
       cell.draw();
     }
   }

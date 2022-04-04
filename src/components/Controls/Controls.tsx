@@ -11,10 +11,11 @@ import {
   ControlsGroup,
   ControlButton,
 } from './Controls.css';
+import { StateNode } from 'xstate';
 
 interface Props {
-  state: any;
-  onControlClick: Function;
+  state: StateNode;
+  onControlClick: (id: string) => void;
 }
 
 const iconFillColor = '#2563EB';
