@@ -189,7 +189,7 @@ export default class Cell implements ICell {
     this.canvasCtx.fillRect(fillX, fillY, size, size);
   }
 
-  drawWalls(walls: Walls) {
+  drawWalls() {
     const {
       canvasCtx,
       cellStyle: { borderColor, borderWeight, size },
