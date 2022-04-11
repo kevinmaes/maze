@@ -54,7 +54,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.START_OVER}
             onClick={handleClick}
             disabled={!canStartOver}
-            title="Restart"
+            title="Restart (LEFT ARROW)"
           >
             <StartOver fill={getIconFillColor(canStartOver)} />
           </ControlButton>
@@ -63,7 +63,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.STOP}
             onClick={handleClick}
             disabled={!canStop}
-            title="Stop"
+            title="Stop (ESC)"
           >
             <Stop fill={getIconFillColor(canStop)} />
           </ControlButton>
@@ -74,7 +74,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.PAUSE}
             onClick={handleClick}
             disabled={!canPause}
-            title="Pause"
+            title="Pause (SPACE)"
           >
             <Pause fill={getIconFillColor(canPause)} />
           </ControlButton>
@@ -83,7 +83,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.PLAY}
             onClick={handleClick}
             disabled={!canPlay}
-            title="Play"
+            title="Play (SPACE)"
           >
             <Play fill={getIconFillColor(canPlay)} />
           </ControlButton>
@@ -93,7 +93,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           id={AppMachineEventId.STEP_FORWARD}
           onClick={handleClick}
           disabled={!canStepForward}
-          title="Step Next"
+          title="Step Next (RIGHT ARROW)"
         >
           <StepForward fill={getIconFillColor(canStepForward)} />
         </ControlButton>
