@@ -71,7 +71,7 @@ const App = () => {
   };
 
   const keyHandlers = {
-    keydown: (event: KeyboardEvent) => {
+    keyup: (event: KeyboardEvent) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {
@@ -129,13 +129,13 @@ const App = () => {
         />
 
         <Controls state={appState} onControlClick={sendEventFromControl} />
-        {/* {typeof window !== 'undefined' && (
+        {typeof window !== 'undefined' && (
           <Keyboard
             eventEmitter={window.document}
             handlers={keyHandlers}
             state={JSON.stringify(appState.value)}
           />
-        )} */}
+        )}
         <Stage
           width={1000}
           height={1000}
