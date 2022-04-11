@@ -50,61 +50,54 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const canStepForward = state.can(AppMachineEventId.STEP_FORWARD);
 
     return (
-      <div>
-        <ControlsGroup>
-          {canStartOver ? (
-            <ControlButton
-              id={AppMachineEventId.START_OVER}
-              onClick={handleClick}
-              disabled={!canStartOver}
-              title="Restart (ENTER)"
-            >
-              <StartOver fill={getIconFillColor(canStartOver)} />
-            </ControlButton>
-          ) : (
-            <ControlButton
-              id={AppMachineEventId.STOP}
-              onClick={handleClick}
-              disabled={!canStop}
-              title="Stop (ESC)"
-            >
-              <Stop fill={getIconFillColor(canStop)} />
-            </ControlButton>
-          )}
-          {canPause ? (
-            <ControlButton
-              id={AppMachineEventId.PAUSE}
-              onClick={handleClick}
-              disabled={!canPause}
-              title="Pause (SPACE)"
-            >
-              <Pause fill={getIconFillColor(canPause)} />
-            </ControlButton>
-          ) : (
-            <ControlButton
-              id={AppMachineEventId.PLAY}
-              onClick={handleClick}
-              disabled={!canPlay}
-              title="Play (ENTER)"
-            >
-              <Play fill={getIconFillColor(canPlay)} />
-            </ControlButton>
-          )}
+      <ControlsGroup>
+        {canStartOver ? (
           <ControlButton
-            id={AppMachineEventId.STEP_FORWARD}
+            id={AppMachineEventId.START_OVER}
             onClick={handleClick}
-            disabled={!canStepForward}
-            title="Step Next (RIGHT ARROW)"
+            disabled={!canStartOver}
+            title="Restart (ENTER)"
           >
-            <StepForward fill={getIconFillColor(canStepForward)} />
+            <StartOver fill={getIconFillColor(canStartOver)} />
           </ControlButton>
-        </ControlsGroup>
-        {state.matches({
-          [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
-        }) ? (
-          <Prompt>Press ENTER</Prompt>
-        ) : null}
-      </div>
+        ) : (
+          <ControlButton
+            id={AppMachineEventId.STOP}
+            onClick={handleClick}
+            disabled={!canStop}
+            title="Stop (ESC)"
+          >
+            <Stop fill={getIconFillColor(canStop)} />
+          </ControlButton>
+        )}
+        {canPause ? (
+          <ControlButton
+            id={AppMachineEventId.PAUSE}
+            onClick={handleClick}
+            disabled={!canPause}
+            title="Pause (SPACE)"
+          >
+            <Pause fill={getIconFillColor(canPause)} />
+          </ControlButton>
+        ) : (
+          <ControlButton
+            id={AppMachineEventId.PLAY}
+            onClick={handleClick}
+            disabled={!canPlay}
+            title="Play (ENTER)"
+          >
+            <Play fill={getIconFillColor(canPlay)} />
+          </ControlButton>
+        )}
+        <ControlButton
+          id={AppMachineEventId.STEP_FORWARD}
+          onClick={handleClick}
+          disabled={!canStepForward}
+          title="Step Next (RIGHT ARROW)"
+        >
+          <StepForward fill={getIconFillColor(canStepForward)} />
+        </ControlButton>
+      </ControlsGroup>
     );
   };
 
