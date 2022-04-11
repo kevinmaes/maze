@@ -71,7 +71,7 @@ const App = () => {
   };
 
   const keyHandlers = {
-    keydown: (event: KeyboardEvent) => {
+    keyup: (event: KeyboardEvent) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {

@@ -8,6 +8,7 @@ interface Props {
 
 export const Keyboard = ({ eventEmitter, handlers, state }: Props) => {
   useEffect(() => {
+    console.log('keyboard useEffect', state);
     const eventNames = Object.keys(handlers);
 
     eventNames.forEach((eventName) =>

@@ -37,6 +37,11 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const {
       currentTarget: { id },
     } = event;
+    // Prevent state change if button not actually clicked
+    // It means it was from a keyboard event while focused (Space or Enter).
+    if (event.detail === 0) {
+      return;
+    }
     onControlClick(id as AppMachineEventId);
   };
 
