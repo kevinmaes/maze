@@ -54,7 +54,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.START_OVER}
             onClick={handleClick}
             disabled={!canStartOver}
-            title="Restart (LEFT ARROW)"
+            title="Restart (ENTER)"
           >
             <StartOver fill={getIconFillColor(canStartOver)} />
           </ControlButton>
