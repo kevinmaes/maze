@@ -83,7 +83,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             id={AppMachineEventId.PLAY}
             onClick={handleClick}
             disabled={!canPlay}
-            title="Play (SPACE)"
+            title="Play (ENTER)"
           >
             <Play fill={getIconFillColor(canPlay)} />
           </ControlButton>
