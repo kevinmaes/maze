@@ -13,8 +13,17 @@ import {
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
+import { Keyboard } from '../Keyboard/Keyboard';
 
 declare const VERSION: string;
+
+enum Key {
+  ARROW_LEFT = 'ArrowLeft',
+  ARROW_RIGHT = 'ArrowRight',
+  ENTER = 'Enter',
+  ESCAPE = 'Escape',
+  SPACE = ' ',
+}
 
 const App = () => {
   let version = 'unknown';
@@ -61,6 +70,45 @@ const App = () => {
     appSend(eventId);
   };
 
+  const keyHandlers = {
+    keydown: (event: KeyboardEvent) => {
+      switch (event.key) {
+        case Key.SPACE:
+        case Key.ENTER: {
+          if (appState.can(AppMachineEventId.PLAY)) {
+            sendEventFromControl(AppMachineEventId.PLAY);
+          }
+          if (appState.can(AppMachineEventId.PAUSE)) {
+            sendEventFromControl(AppMachineEventId.PAUSE);
+          }
+          if (appState.can(AppMachineEventId.START_OVER)) {
+            sendEventFromControl(AppMachineEventId.START_OVER);
+          }
+          break;
+        }
+        case Key.ARROW_RIGHT: {
+          if (appState.can(AppMachineEventId.STEP_FORWARD)) {
+            sendEventFromControl(AppMachineEventId.STEP_FORWARD);
+          }
+          break;
+        }
+        case Key.ARROW_LEFT: {
+          if (appState.can(AppMachineEventId.START_OVER)) {
+            sendEventFromControl(AppMachineEventId.START_OVER);
+          }
+          break;
+        }
+        case Key.ESCAPE: {
+          if (appState.can(AppMachineEventId.STOP)) {
+            sendEventFromControl(AppMachineEventId.STOP);
+          }
+          break;
+        }
+        default:
+      }
+    },
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -81,7 +129,13 @@ const App = () => {
         />
 
         <Controls state={appState} onControlClick={sendEventFromControl} />
-
+        {typeof window !== 'undefined' && (
+          <Keyboard
+            eventEmitter={window.document}
+            handlers={keyHandlers}
+            state={JSON.stringify(appState.value)}
+          />
+        )}
         <Stage
           width={1000}
           height={1000}
