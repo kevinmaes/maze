@@ -104,7 +104,11 @@ export const Controls = ({ state, onControlClick }: Props) => {
             <StepForward fill={getIconFillColor(canStepForward)} />
           </ControlButton>
         </ControlsGroup>
-        <Prompt>Press ENTER to start</Prompt>
+        {state.matches({
+          [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
+        }) ? (
+          <Prompt>Press ENTER to start</Prompt>
+        ) : null}
       </div>
     );
   };
