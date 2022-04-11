@@ -81,6 +81,9 @@ const App = () => {
           if (appState.can(AppMachineEventId.PAUSE)) {
             sendEventFromControl(AppMachineEventId.PAUSE);
           }
+          if (appState.can(AppMachineEventId.START_OVER)) {
+            sendEventFromControl(AppMachineEventId.START_OVER);
+          }
           break;
         }
         case Key.ARROW_RIGHT: {
