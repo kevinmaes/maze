@@ -13,7 +13,7 @@ export const ControlsContainer = styled.div`
   border: 1px solid white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
-  margin: auto;
+  margin: 10px auto;
 `;
 
 export const ControlsGroup = styled.div<{ flash?: boolean }>`
@@ -21,7 +21,7 @@ export const ControlsGroup = styled.div<{ flash?: boolean }>`
   width: 170px;
   height: 50px;
   justify-content: space-evenly;
-  margin: auto;
+  margin: auto auto 5px auto;
 
   // TODO: Need to tweak this later
   // & button {
@@ -39,7 +39,13 @@ export const ControlsGroup = styled.div<{ flash?: boolean }>`
   //       opacity: 0;
   //     }
   //   }
-  }
+  /* } */
+`;
+
+export const Prompt = styled.span`
+  margin-top: 10px;
+  font-size: 0.8em;
+  color: gray;
 `;
 
 export const ControlButton = styled.button`

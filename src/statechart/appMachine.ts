@@ -179,8 +179,8 @@ export const appMachine =
     },
   });
 
-const service = interpret(appMachine).onTransition((state) => {
-  console.log('appMachine:', state.value);
-});
+// const service = interpret(appMachine).onTransition((state) => {
+//   console.log('appMachine:', state.value);
+// });
 
-service.start();
+// service.start();

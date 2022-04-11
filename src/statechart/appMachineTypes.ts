@@ -47,8 +47,6 @@ export enum AppMachineState {
   DONE = 'done',
 }
 
-export type AppMachineStateType = `${AppMachineState}`;
-
 export enum AppMachineEventId {
   START_OVER = 'START_OVER',
   PLAY = 'PLAY',

@@ -146,8 +146,8 @@ export const generationAlgorithmMachine =
     },
   });
 
-const service = interpret(generationAlgorithmMachine).onTransition((state) => {
-  console.log('recursiveBacktrackerMachine:', state.value);
-});
+// const service = interpret(generationAlgorithmMachine).onTransition((state) => {
+//   console.log('recursiveBacktrackerMachine:', state.value);
+// });
 
-service.start();
+// service.start();
