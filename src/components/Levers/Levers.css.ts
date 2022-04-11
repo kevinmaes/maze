@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Form = styled.form`
   max-width: 400px;
   height: 180px;
-  margin: 20px auto;
+  margin: 12px auto 8px auto;
 `;
 
 export const Fieldset = styled.fieldset`
