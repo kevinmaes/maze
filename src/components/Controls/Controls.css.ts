@@ -77,9 +77,9 @@ export const ControlButton = styled.button`
 
 const flash = keyframes`
   from {
-    opacity: .5;
-    filter: saturate(10);
-    filter: blur(2px);
+    opacity: .8;
+    filter: saturate(5);
+    filter: blur(1px);
   }
   
   to {
