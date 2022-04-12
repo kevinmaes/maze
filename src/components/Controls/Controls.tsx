@@ -39,6 +39,15 @@ export const Controls = ({ state, onControlClick }: Props) => {
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
+    keydown: (event: KeyboardEvent) => {
+      if (event.key === Key.ARROW_RIGHT) {
+        if (state.can(AppMachineEventId.STEP_FORWARD)) {
+          setFlashStepForward(true);
+          setTimeout(() => setFlashStepForward(false), 200);
+          onControlClick(AppMachineEventId.STEP_FORWARD);
+        }
+      }
+    },
     keyup: (event: KeyboardEvent) => {
       switch (event.key) {
         case Key.SPACE:
@@ -54,14 +63,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           }
           break;
         }
-        case Key.ARROW_RIGHT: {
-          if (state.can(AppMachineEventId.STEP_FORWARD)) {
-            setFlashStepForward(true);
-            setTimeout(() => setFlashStepForward(false), 200);
-            onControlClick(AppMachineEventId.STEP_FORWARD);
-          }
-          break;
-        }
+
         case Key.ARROW_LEFT: {
           if (state.can(AppMachineEventId.START_OVER)) {
             onControlClick(AppMachineEventId.START_OVER);
