@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   AppMachineContext,
@@ -16,8 +16,11 @@ import {
   ControlsGroup,
   ControlButton,
   Prompt,
+  FlashingControlButton,
 } from './Controls.css';
 import { State } from 'xstate';
+import { Keyboard } from '../Keyboard/Keyboard';
+import { Key } from '../Keyboard/Key';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -33,10 +36,54 @@ const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
 export const Controls = ({ state, onControlClick }: Props) => {
+  const [flashStepForward, setFlashStepForward] = useState(false);
+
+  const keyHandlers = {
+    keyup: (event: KeyboardEvent) => {
+      switch (event.key) {
+        case Key.SPACE:
+        case Key.ENTER: {
+          if (state.can(AppMachineEventId.PLAY)) {
+            onControlClick(AppMachineEventId.PLAY);
+          }
+          if (state.can(AppMachineEventId.PAUSE)) {
+            onControlClick(AppMachineEventId.PAUSE);
+          }
+          if (state.can(AppMachineEventId.START_OVER)) {
+            onControlClick(AppMachineEventId.START_OVER);
+          }
+          break;
+        }
+        case Key.ARROW_RIGHT: {
+          if (state.can(AppMachineEventId.STEP_FORWARD)) {
+            setFlashStepForward(true);
+            setTimeout(() => setFlashStepForward(false), 200);
+            onControlClick(AppMachineEventId.STEP_FORWARD);
+          }
+          break;
+        }
+        case Key.ARROW_LEFT: {
+          if (state.can(AppMachineEventId.START_OVER)) {
+            onControlClick(AppMachineEventId.START_OVER);
+          }
+          break;
+        }
+        case Key.ESCAPE: {
+          if (state.can(AppMachineEventId.STOP)) {
+            onControlClick(AppMachineEventId.STOP);
+          }
+          break;
+        }
+        default:
+      }
+    },
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { id },
     } = event;
+
     // Prevent state change if button not actually clicked
     // It means it was from a keyboard event while focused (Space or Enter).
     if (event.detail === 0) {
@@ -56,6 +103,13 @@ export const Controls = ({ state, onControlClick }: Props) => {
 
     return (
       <div>
+        {typeof window !== 'undefined' && (
+          <Keyboard
+            eventEmitter={window.document}
+            handlers={keyHandlers}
+            state={JSON.stringify(state.value)}
+          />
+        )}
         <ControlsGroup>
           {canStartOver ? (
             <ControlButton
@@ -95,14 +149,15 @@ export const Controls = ({ state, onControlClick }: Props) => {
               <Play fill={getIconFillColor(canPlay)} />
             </ControlButton>
           )}
-          <ControlButton
+          <FlashingControlButton
             id={AppMachineEventId.STEP_FORWARD}
             onClick={handleClick}
             disabled={!canStepForward}
-            title="Step Next (RIGHT ARROW)"
+            title="Step Forward (RIGHT ARROW)"
+            animate={flashStepForward}
           >
             <StepForward fill={getIconFillColor(canStepForward)} />
-          </ControlButton>
+          </FlashingControlButton>
         </ControlsGroup>
         {state.matches({
           [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,

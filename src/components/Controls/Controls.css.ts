@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
 export const StartOver = styled.button``;
 export const Play = styled.button``;
@@ -73,4 +73,28 @@ export const ControlButton = styled.button`
     filter: drop-shadow(1px 1px 1px rgb(0 0 0 / 0.4));
     transform: translate(1px, 1px);
   }
+`;
+
+const flash = keyframes`
+  from {
+    opacity: .5;
+    filter: saturate(10);
+    filter: blur(2px);
+  }
+  
+  to {
+      opacity: 1;
+      filter: saturate(0);
+      filter: blur(0);
+      }
+`;
+
+export const FlashingControlButton = styled(ControlButton)<{
+  animate: boolean;
+}>`
+  animation: ${(props) =>
+    props.animate &&
+    css`
+      ${flash} 0.3s ease-out
+    `};
 `;
