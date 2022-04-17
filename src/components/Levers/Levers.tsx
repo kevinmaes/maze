@@ -40,7 +40,7 @@ export const Levers = ({
 
   return (
     <Form>
-      <Fieldset disabled={!enabled}>
+      <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
         <div>
           <label>FPS ({params.fps})</label>
           <input
