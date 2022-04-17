@@ -6,7 +6,7 @@ const MIN_GENERATION_WAIT = 8 * ONE_SECOND;
 
 context('Levers', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('');
   });
   it('should be enabled by default', () => {
     cy.get('[data-test-id="levers-fieldset"]').should('be.enabled');

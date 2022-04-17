@@ -6,7 +6,7 @@ const MIN_GENERATION_WAIT = 8 * ONE_SECOND;
 
 context('Controls', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:3000');
+    cy.visit('');
   });
   it('should play to start', () => {
     cy.get('#PLAY').click();
