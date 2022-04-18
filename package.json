@@ -9,12 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xstate/react": "2.0.1",
+    "@xstate/react": "3.0.0",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "styled-components": "5.3.5",
-    "xstate": "4.30.6"
+    "xstate": "4.31.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^6.2.1",
