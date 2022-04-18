@@ -72,7 +72,7 @@ export type AppMachineEvent =
   | SetGenerationParamEvent
   | {
       type: AppMachineEventId.INJECT_REFS;
-      gridRef: any;
+      gridRef: GridRef;
     }
   | { type: MazeGenerationEventId.UPDATE }
   | { type: MazeGenerationEventId.DONE };
