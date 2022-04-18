@@ -1,7 +1,18 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+
+interface EventEmitter {
+  addEventListener: (
+    eventName: string,
+    handler: (event: KeyboardEvent) => void
+  ) => void;
+  removeEventListener: (
+    eventName: string,
+    handler: (event: KeyboardEvent) => void
+  ) => void;
+}
 
 interface Props {
-  eventEmitter: any;
+  eventEmitter: EventEmitter;
   handlers: Record<string, (event: KeyboardEvent) => void>;
   state: string;
 }
@@ -18,6 +29,6 @@ export const Keyboard = ({ eventEmitter, handlers, state }: Props) => {
       eventNames.forEach((eventName) =>
         eventEmitter.removeEventListener(eventName, handlers[eventName])
       );
-  }, [state]);
+  }, [state, eventEmitter, handlers]);
   return null;
 };

@@ -1,4 +1,4 @@
-import { createMachine, assign, interpret, sendParent } from 'xstate';
+import { createMachine, assign, sendParent } from 'xstate';
 import {
   MazeGenerationContext,
   MazeGenerationEvent,
@@ -110,7 +110,9 @@ export const generationAlgorithmMachine =
         const currentCell = (ctx.grid as IGrid).getStartCell();
         return currentCell.visit(null, ctx.pathId);
       },
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       play: assign({ canPlay: (_) => true }),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       pause: assign({ canPlay: (_) => false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ grid, currentCell }) =>
