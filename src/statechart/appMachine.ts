@@ -1,4 +1,4 @@
-import { createMachine, assign, send, interpret } from 'xstate';
+import { createMachine, assign, send } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -68,6 +68,7 @@ export const appMachine =
             currentCell: undefined,
             eligibleNeighbors: [],
             fps: ctx.generationParams.fps,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             grid: (ctx.gridRef as any).current,
             pathId: 'abc',
             stack: [],
@@ -77,6 +78,7 @@ export const appMachine =
         on: {
           // Empty action but necessary.
           [MazeGenerationEventId.UPDATE]: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
           },
           [MazeGenerationEventId.DONE]: {
@@ -138,6 +140,7 @@ export const appMachine =
     },
   }).withConfig({
     actions: {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       storeGridRef: assign<AppMachineContext, any>({
         gridRef: (_, { gridRef }: InjectRefsEvent) => gridRef,
       }),
