@@ -13,6 +13,7 @@ import {
 } from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
+import { Audio } from '../Audio/Audio';
 
 declare const VERSION: string;
 
@@ -61,6 +62,15 @@ const App = () => {
     appSend(eventId);
   };
 
+  // const { currentCell } = appState.context;
+
+  const audioProps = {
+    columnIndex: 0,
+    maxColumnIndex: 11,
+    maxRowIndex: 1,
+    rowIndex: 0,
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -70,6 +80,7 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
+        <Audio {...audioProps} />
         <Levers
           enabled={leversEnabled}
           params={generationParams}

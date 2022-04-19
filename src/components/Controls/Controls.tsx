@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-import useSound from 'use-sound';
-
 import {
   AppMachineContext,
   AppMachineEvent,
@@ -39,8 +37,6 @@ const getIconFillColor = (enabled = false) =>
 
 export const Controls = ({ state, onControlClick }: Props) => {
   const [flashStepForward, setFlashStepForward] = useState(false);
-
-  const [play] = useSound('/sounds/marimba-c5.wav');
 
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
@@ -117,7 +113,6 @@ export const Controls = ({ state, onControlClick }: Props) => {
           />
         )}
         <ControlsGroup>
-          <button onClick={() => play()}>Play sound</button>
           {canStartOver ? (
             <ControlButton
               id={AppMachineEventId.START_OVER}

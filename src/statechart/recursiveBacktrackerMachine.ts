@@ -10,6 +10,8 @@ import type { IGrid } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
 import { ICell } from '../components/generation/Cell';
+import { GridRef } from './appMachineTypes';
+import Grid from '../components/generation/Grid';
 
 const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
   canPlay: false,
@@ -46,7 +48,20 @@ export const generationAlgorithmMachine =
         },
       },
       seek: {
-        entry: ['findNeighbors', sendParent(MazeGenerationEventId.UPDATE)],
+        entry: [
+          'findNeighbors',
+          sendParent((ctx) => ({
+            type: MazeGenerationEventId.UPDATE,
+            data: {
+              cursorPosition: {
+                columnIndex: ctx.currentCell?.getColumnIndex(),
+                rowIndex: ctx.currentCell?.getRowIndex(),
+                maxColumnIndex: (ctx.grid as Grid)?.getColumns() - 1,
+                maxRowIndex: (ctx.grid as Grid).getRows() - 1,
+              },
+            },
+          })),
+        ],
         always: {
           target: '#generationAlgorithmMachine.advance',
         },
