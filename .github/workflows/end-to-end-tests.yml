@@ -1,29 +1,19 @@
 name: End-to-end tests
-on: [push, pull_request]
-  branches: [main]
+
+on: pull_request
+
 jobs:
   cypress-run:
-    runs-on: ubuntu-20.04
+    name: Run Cypress E2E tests
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # Install NPM dependencies, cache them correctly
-      build:
-        - uses: actions/checkout@v2
 
-        - name: Cache pnpm modules
-          uses: actions/cache@v2
-          with:
-            path: ~/.pnpm-store
-            key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-            restore-keys: |
-              ${{ runner.os }}-
-
-        - uses: pnpm/action-setup@v2.1.0
-          with:
-            version: 6.0.2
-            run_install: true
-
-      # and run all Cypress tests
+      # Run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v2
+        with:
+          build: yarn build
+          start: yarn start
