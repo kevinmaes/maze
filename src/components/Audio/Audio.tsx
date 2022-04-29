@@ -13,12 +13,23 @@ export const Audio = ({
   maxRowIndex,
   rowIndex,
 }: Props) => {
-  const columnRange = maxColumnIndex;
-  const stepIncrement = 1 / columnRange;
+  const prevColumnIndex = 0;
+  const prevRowIndex = 0;
+  const newColumnIndex = 1;
+  const newRowIndex = 0;
 
-  console.log({ columnRange });
+  // Whichever index has changed, column or row, positive or negative.
+  const increment: number =
+    newColumnIndex - prevColumnIndex || newRowIndex - prevRowIndex;
 
-  const playbackRate = 1 + columnIndex * stepIncrement;
+  const c5Hz: number = 523.3;
+  const multiplier = 1.059463094359;
+
+  const frequency = c5Hz * Math.pow(multiplier, increment);
+
+  console.log({ frequency });
+
+  const playbackRate = frequency / c5Hz;
   console.log({ playbackRate });
 
   const [play] = useSound('/sounds/marimba-c5.wav', {
@@ -26,10 +37,6 @@ export const Audio = ({
   });
   console.log('Audio render');
 
-  play();
-  return (
-    <>
-      <button onClick={() => play()}>Play sound</button>
-    </>
-  );
+  // play();
+  return <button onClick={play}>Play sound</button>;
 };
