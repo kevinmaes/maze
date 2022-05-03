@@ -1217,13 +1217,13 @@
   dependencies:
     "@types/node" "*"
 
-"@typescript-eslint/eslint-plugin@^5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.20.0.tgz#022531a639640ff3faafaf251d1ce00a2ef000a1"
+"@typescript-eslint/eslint-plugin@^5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.22.0.tgz#7b52a0de2e664044f28b36419210aea4ab619e2a"
   dependencies:
-    "@typescript-eslint/scope-manager" "5.20.0"
-    "@typescript-eslint/type-utils" "5.20.0"
-    "@typescript-eslint/utils" "5.20.0"
+    "@typescript-eslint/scope-manager" "5.22.0"
+    "@typescript-eslint/type-utils" "5.22.0"
+    "@typescript-eslint/utils" "5.22.0"
     debug "^4.3.2"
     functional-red-black-tree "^1.0.1"
     ignore "^5.1.8"
@@ -1263,11 +1263,18 @@
     "@typescript-eslint/types" "5.20.0"
     "@typescript-eslint/visitor-keys" "5.20.0"
 
-"@typescript-eslint/type-utils@5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.20.0.tgz#151c21cbe9a378a34685735036e5ddfc00223be3"
+"@typescript-eslint/scope-manager@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.22.0.tgz#590865f244ebe6e46dc3e9cab7976fc2afa8af24"
   dependencies:
-    "@typescript-eslint/utils" "5.20.0"
+    "@typescript-eslint/types" "5.22.0"
+    "@typescript-eslint/visitor-keys" "5.22.0"
+
+"@typescript-eslint/type-utils@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/type-utils/-/type-utils-5.22.0.tgz#0c0e93b34210e334fbe1bcb7250c470f4a537c19"
+  dependencies:
+    "@typescript-eslint/utils" "5.22.0"
     debug "^4.3.2"
     tsutils "^3.21.0"
 
@@ -1278,6 +1285,10 @@
 "@typescript-eslint/types@5.20.0":
   version "5.20.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.20.0.tgz#fa39c3c2aa786568302318f1cb51fcf64258c20c"
+
+"@typescript-eslint/types@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.22.0.tgz#50a4266e457a5d4c4b87ac31903b28b06b2c3ed0"
 
 "@typescript-eslint/typescript-estree@5.10.1":
   version "5.10.1"
@@ -1303,14 +1314,26 @@
     semver "^7.3.5"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.20.0":
-  version "5.20.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.20.0.tgz#b8e959ed11eca1b2d5414e12417fd94cae3517a5"
+"@typescript-eslint/typescript-estree@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.22.0.tgz#e2116fd644c3e2fda7f4395158cddd38c0c6df97"
+  dependencies:
+    "@typescript-eslint/types" "5.22.0"
+    "@typescript-eslint/visitor-keys" "5.22.0"
+    debug "^4.3.2"
+    globby "^11.0.4"
+    is-glob "^4.0.3"
+    semver "^7.3.5"
+    tsutils "^3.21.0"
+
+"@typescript-eslint/utils@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.22.0.tgz#1f2c4897e2cf7e44443c848a13c60407861babd8"
   dependencies:
     "@types/json-schema" "^7.0.9"
-    "@typescript-eslint/scope-manager" "5.20.0"
-    "@typescript-eslint/types" "5.20.0"
-    "@typescript-eslint/typescript-estree" "5.20.0"
+    "@typescript-eslint/scope-manager" "5.22.0"
+    "@typescript-eslint/types" "5.22.0"
+    "@typescript-eslint/typescript-estree" "5.22.0"
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
@@ -1326,6 +1349,13 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.20.0.tgz#70236b5c6b67fbaf8b2f58bf3414b76c1e826c2a"
   dependencies:
     "@typescript-eslint/types" "5.20.0"
+    eslint-visitor-keys "^3.0.0"
+
+"@typescript-eslint/visitor-keys@5.22.0":
+  version "5.22.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.22.0.tgz#f49c0ce406944ffa331a1cfabeed451ea4d0909c"
+  dependencies:
+    "@typescript-eslint/types" "5.22.0"
     eslint-visitor-keys "^3.0.0"
 
 "@xstate/react@3.0.0":
