@@ -2,16 +2,11 @@ import { createMachine, assign, send } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
-  AppMachineEvent,
-  AppMachineEventId,
   SetGenerationParamEvent,
-  AppMachineState,
+  AppMachineEvent,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import {
-  InjectRefsEvent,
-  MazeGenerationEventId,
-} from './recursiveBacktrackerTypes';
+import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -40,7 +35,6 @@ const initialAppMachineContext: AppMachineContext = {
 
 export const appMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAtAKwAmAAwYAnAA5RAdiEBmcbIAs4gGyyVAGhABPRH0WixKlePGKBUyZL4BfG1rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3Ag8sg0YQorKBkISfLL6fFq6CALiUhgDwgrSJgCMAgIqdg7oGM5uHqHeqLjI2qvEZACqAMp55fR+1UhcvBMTGCqKUgKKQnKycnwTsgK9iAPiGBNSd0GKiEnUEsjmIEcizALncnjWGy2YX2GQA8kRjpUWOxzrVZBM+DdzC0QXxRHchACvggWooMFIJuTbh8hOJ3rN7JCFks4asMOtNtsUWQCtlUUVCpjTjjQLUeBYhl1RFcPi1ROrRNTprIbtJJEIVAJRJ0pLZOVCeSsvPzEdspVUZRcEPjCbcHo8+GSKVSdIgCSJ5DNRO18QyDBCLTDlvD+cgAK6wSDEchUc4VaU1RAiSn+oGyKQvUzSKRah4YMkg8kCPjiSlSNQR7lR3nW1DxxMQAgovJELIAMVRBQA6iKACL27GZhATITXAmmPgqfSWcR8etaxriCzkhm3UQvcHmpuwq1rdtJidnWWIF1E92kneUxRa6Tlt51w2f8wc+ZOZunggIDYGJQgAN1oABrGJLQdMhcCgWhXCYAALABbABZZAAGNkNCMBL0dPECTvElPUfH0+lUekJAMU0zBJQ9fwwICXC7DIRTFCUCgIqd+GEMRJBkeQlFUdRqR4K4VAwRR-iEbUjUXNdG1QAg0gAKTyABhbICjyPt9h43FeE6EQJGkOQFGUNRNF9BAVHrYYawkdpBE-UQ7E5VhaAgOAOChHB8EM68aTLAxjAEJQjRMURPlsxdrhkcwawmYx7PuZToRPGNQj8AJglWIKnR4ZRCTMoTLNEmy+gsARpP0aYVQZOQBAymC+QFJEoEKuUriGRQ1AGJ57naetZBfQknimFL9xrPgnkUVr-xjNsE0gbq-UUCb8UUfE1DuD5yWpF5apkgQJg9KZhDmhajz-LKCrTE4HV4ubDDKiyROs6kHM6f4zvVGZ7mVDKWPwx6sSvJ1bikp5lSkGRFwNMlqRnOkmTZYEjVDBRlPWupPTRwSPqssTbPlWcMHkQ1tRnBr9A8mwgA */
-  // createMachine<AppMachineContext, AppMachineEvent, Typestate>({
   createMachine({
     schema: {
       context: {} as AppMachineContext,
@@ -53,14 +47,14 @@ export const appMachine =
     states: {
       idle: {
         on: {
-          [AppMachineEventId.INJECT_REFS]: {
+          INJECT_REFS: {
             actions: ['storeGridRef'],
-            target: AppMachineState.GENERATING,
+            target: 'generating',
           },
         },
       },
-      [AppMachineState.GENERATING]: {
-        initial: AppMachineState.INITIALIZING,
+      generating: {
+        initial: 'initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
@@ -78,43 +72,43 @@ export const appMachine =
         },
         on: {
           // Empty action but necessary.
-          [MazeGenerationEventId.UPDATE]: {
+          UPDATE: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
           },
-          [MazeGenerationEventId.DONE]: {
+          DONE: {
             target: 'done',
           },
         },
         states: {
-          [AppMachineState.INITIALIZING]: {
+          initializing: {
             on: {
               PLAY: {
-                target: AppMachineState.PLAYING,
+                target: 'playing',
               },
             },
           },
-          [AppMachineState.PLAYING]: {
+          playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
-                target: AppMachineState.PAUSED,
+                target: 'paused',
               },
               STOP: {
-                actions: ['refreshGenerationSessionId'],
+                // actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
             },
           },
-          [AppMachineState.PAUSED]: {
+          paused: {
             on: {
               PLAY: {
                 actions: ['playGenerationAlgorithmMachine'],
-                target: AppMachineState.PLAYING,
+                target: 'playing',
               },
               STOP: {
-                actions: ['refreshGenerationSessionId'],
+                // actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
               STEP_FORWARD: {
@@ -127,16 +121,16 @@ export const appMachine =
       done: {
         on: {
           START_OVER: {
-            actions: ['refreshGenerationSessionId'],
-            target: AppMachineState.IDLE,
+            // actions: ['refreshGenerationSessionId'],
+            target: 'idle',
           },
         },
       },
     },
     on: {
-      [AppMachineEventId.SET_GENERATION_PARAM]: {
+      SET_GENERATION_PARAM: {
         actions: ['updateGenerationParams'],
-        target: AppMachineState.IDLE,
+        target: 'idle',
       },
     },
   }).withConfig({
@@ -145,10 +139,10 @@ export const appMachine =
       storeGridRef: assign<AppMachineContext, any>({
         gridRef: (_, { gridRef }: InjectRefsEvent) => gridRef,
       }),
-      refreshGenerationSessionId: assign<AppMachineContext, AppMachineEvent>({
-        generationSessionId: () => new Date().getTime(),
-      }),
-      updateGenerationParams: assign<AppMachineContext, AppMachineEvent>({
+      // refreshGenerationSessionId: assign({
+      //   generationSessionId: () => new Date().getTime(),
+      // }),
+      updateGenerationParams: assign({
         generationParams: ({ generationParams }, event) => {
           const { name, value } = event as SetGenerationParamEvent;
           return {

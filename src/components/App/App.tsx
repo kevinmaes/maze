@@ -7,12 +7,11 @@ import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
-import {
-  AppMachineEventId,
-  AppMachineState,
-} from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
+import { EventFrom } from 'xstate';
+
+export type AppMachineEvent = EventFrom<typeof appMachine>;
 
 declare const VERSION: string;
 
@@ -50,13 +49,13 @@ const App = () => {
   // }, [appService]); // note: service should never change
 
   const leversEnabled =
-    appState.matches(AppMachineState.IDLE) ||
+    appState.matches('idle') ||
     appState.matches({
-      [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
+      generating: 'initializing',
     });
 
-  const sendEventFromControl: (eventId: AppMachineEventId) => void = (
-    eventId: AppMachineEventId
+  const sendEventFromControl: (eventId: AppMachineEvent) => void = (
+    eventId: AppMachineEvent
   ) => {
     appSend(eventId);
   };
@@ -74,7 +73,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
+            appSend('SET_GENERATION_PARAM', data);
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
