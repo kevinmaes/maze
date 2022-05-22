@@ -2,9 +2,10 @@ import React, { Ref } from 'react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { GenerationParams } from '../../statechart/appMachineTypes';
-import { EventFrom } from 'xstate';
-import { appMachine } from '../../statechart/appMachine';
+import {
+  AppMachineEvent,
+  GenerationParams,
+} from '../../statechart/appMachineTypes';
 
 interface Props {
   generationParams: GenerationParams;
@@ -12,7 +13,7 @@ interface Props {
   height?: number;
   pixelRatio?: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appSend: (type: EventFrom<typeof appMachine>, event: any) => void;
+  appSend: (event: AppMachineEvent) => void;
   generationSessionId: number;
   paramsAreChanging: boolean;
 }
@@ -32,6 +33,7 @@ export const Stage = React.memo(
     const gridRef = React.useRef<Grid | null>(null);
 
     React.useEffect(() => {
+      console.log('Stage useEffect');
       if (canvasRef && canvasRef.current) {
         const canvasCtx = canvasRef.current.getContext(
           '2d'
@@ -48,7 +50,7 @@ export const Stage = React.memo(
           // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
         );
         // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-        appSend('INJECT_REFS', { gridRef });
+        appSend({ type: 'INJECT_REFS', gridRef });
       }
     }, [
       generationParams,

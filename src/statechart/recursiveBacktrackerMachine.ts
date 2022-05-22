@@ -2,8 +2,6 @@ import { createMachine, assign, sendParent } from 'xstate';
 import {
   MazeGenerationContext,
   MazeGenerationEvent,
-  Typestate,
-  MazeGenerationEventId,
 } from './recursiveBacktrackerTypes';
 
 import type { IGrid } from '../components/generation/Grid';
@@ -24,7 +22,12 @@ const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
 
 export const generationAlgorithmMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAvMBaGA7MATqgC4CWA9rgHSzGoHEDEAHrSWFagGbGFUDKAUUEBpAPoBJAHIAVQQCUAagEEAMolAAHcrFJlKGkM0QA2ACwmqARgAMADgDMdgEwBWG1bNWrJgDQgAT0QsBwBOOyo7M2dQr2dzBw8TAF9k-zRMHDB8In1qWDAwAGtGQ21dPMNjBDMHVyobJytXUNCfVwB2GI7-IIQsGIcqZ2c7Oy6TZzMbMzsbV1T0jGw8QhIKalQIADdUXABjMFKkEHK9DargjtmqaJGO1zNrq0TQ3sRQqlcTNucbUIc3lirUWIAyK2yazynB2e0OLDYvE4PD4QlEklkChU6hOZ0qJ2qVgBVBMdlCzm811GoVco3e-ReHSoHVCpP+JhMVgpzQ6oPBWRy60oVAARqh9kViEQJcctDpzgYCcFvMMHqEOg4zG0oh0OiZXPTmvUHLqXPYHM4wqEZnzlgKoRsqPtyMhNAAbMC8RjyQT8GTKeQyMry-GgarW251TyjGZWcb6+m0hrki0xGymhyTBZpMF21a5DaMaQAKUEAGEZGIfQAxfjBioXJX9PX1OMdZoWRwPWn0qY2EkWTkcqzPTopUG4cgQOCGfn5oXUUgQD31hW4S7NqbMmwmdk2EYzaL0gb6qjhIHXTkW6YOW2ZefQtgMVehozBMJmBquOMteYsurOMe0TGnYP6PLS8RhHeEKCo+hRFC+jZhogLSfNcryZiYmodHYBqBMqjS3L80zuFSP7QfaBbClsuwHGAiGKshDKnpaWrOO2Pzfl0djHrqVBOLM9xmFqszZks96QlR1BihKUrighuIhkhb79GE9SzI0nItC0tQPL2tTDOadgcrUXjmLyOZzpJC5Oi67qevRikNoxKnTJ+jz7hybjst+vb-JE9jRi0cZeWYFEPspeLKdUWA4Z8bYdqSJquD2+H9N+-ZRo0mrdG4qSpEAA */
-  createMachine<MazeGenerationContext, MazeGenerationEvent, Typestate>({
+  createMachine({
+    schema: {
+      context: {} as MazeGenerationContext,
+      events: {} as MazeGenerationEvent,
+    },
+    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
     context: initialRecursiveBacktrackerMachineContext,
     id: 'generationAlgorithmMachine',
     initial: 'maze-idle',
@@ -46,7 +49,7 @@ export const generationAlgorithmMachine =
         },
       },
       seek: {
-        entry: ['findNeighbors', sendParent(MazeGenerationEventId.UPDATE)],
+        entry: ['findNeighbors', sendParent('UPDATE')],
         always: {
           target: '#generationAlgorithmMachine.advance',
         },
@@ -77,7 +80,7 @@ export const generationAlgorithmMachine =
         ],
       },
       complete: {
-        entry: [sendParent(MazeGenerationEventId.DONE)],
+        entry: [sendParent('DONE')],
       },
     },
     on: {
@@ -97,16 +100,14 @@ export const generationAlgorithmMachine =
     },
   }).withConfig({
     guards: {
-      isDeadEnd: ({ eligibleNeighbors }: MazeGenerationContext) =>
-        eligibleNeighbors.length === 0,
-      isBackAtStart: ({ stack }: MazeGenerationContext) => stack.length === 0,
+      isDeadEnd: ({ eligibleNeighbors }) => eligibleNeighbors.length === 0,
+      isBackAtStart: ({ stack }) => stack.length === 0,
     },
     actions: {
-      initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
-        currentCell: (ctx: MazeGenerationContext) =>
-          (ctx.grid as IGrid).getStartCell(),
+      initGeneration: assign({
+        currentCell: (ctx) => (ctx.grid as IGrid).getStartCell(),
       }),
-      visitStartCell: (ctx: MazeGenerationContext) => {
+      visitStartCell: (ctx) => {
         const currentCell = (ctx.grid as IGrid).getStartCell();
         return currentCell.visit(null, ctx.pathId);
       },

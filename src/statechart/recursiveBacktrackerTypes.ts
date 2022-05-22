@@ -13,82 +13,26 @@ export interface MazeGenerationContext {
   startIndex: number;
 }
 
-export enum MazeGenerationEventId {
-  INJECT_REFS = 'INJECT_REFS',
-  START = 'START',
-  PLAY = 'PLAY',
-  PAUSE = 'PAUSE',
-  STEP_FORWARD = 'STEP_FORWARD',
-  UPDATE = 'UPDATE',
-  DONE = 'DONE',
-}
-
-export type InjectRefsEvent = {
-  type: MazeGenerationEventId.INJECT_REFS;
-  gridRef: Ref<IGrid>;
-};
-
-export type StartEvent = {
-  type: MazeGenerationEventId.START;
-};
-
-export type PlayEvent = {
-  type: MazeGenerationEventId.PLAY;
-};
-
-export type PauseEvent = {
-  type: MazeGenerationEventId.PAUSE;
-};
-
-export type StepForwardEvent = {
-  type: MazeGenerationEventId.STEP_FORWARD;
-};
-
-export type UpdateEvent = {
-  type: MazeGenerationEventId.UPDATE;
-};
-
-export type DoneEvent = {
-  type: MazeGenerationEventId.DONE;
-};
-
 export type MazeGenerationEvent =
-  | InjectRefsEvent
-  | StartEvent
-  | PlayEvent
-  | PauseEvent
-  | StepForwardEvent
-  | UpdateEvent
-  | DoneEvent;
-
-export type Typestate =
   | {
-      value: 'maze-idle';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'INJECT_REFS';
+      gridRef: Ref<IGrid>;
     }
   | {
-      value: 'start';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'START';
     }
   | {
-      value: 'seek';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'PLAY';
     }
   | {
-      value: 'advance';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'PAUSE';
     }
   | {
-      value: 'backtrack';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'STEP_FORWARD';
     }
   | {
-      value: 'complete';
-      type: string;
-      context: MazeGenerationContext;
+      type: 'UPDATE';
+    }
+  | {
+      type: 'DONE';
     };

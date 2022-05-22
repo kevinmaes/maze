@@ -9,11 +9,11 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
-import { EventFrom } from 'xstate';
-
-export type AppMachineEvent = EventFrom<typeof appMachine>;
+import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
+
+type SendEventFromControl = (eventId: AppMachineEventId) => void;
 
 const App = () => {
   let version = 'unknown';
@@ -54,9 +54,10 @@ const App = () => {
       generating: 'initializing',
     });
 
-  const sendEventFromControl: (eventId: AppMachineEvent) => void = (
-    eventId: AppMachineEvent
+  const sendEventFromControl: SendEventFromControl = (
+    eventId: AppMachineEventId
   ) => {
+    console.log('eventId', eventId);
     appSend(eventId);
   };
 
@@ -73,7 +74,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend('SET_GENERATION_PARAM', data);
+            appSend({ type: 'SET_GENERATION_PARAM', ...data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}

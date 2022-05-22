@@ -2,11 +2,9 @@ import { createMachine, assign, send } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
-  SetGenerationParamEvent,
   AppMachineEvent,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import { InjectRefsEvent } from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -96,7 +94,7 @@ export const appMachine =
                 target: 'paused',
               },
               STOP: {
-                // actions: ['refreshGenerationSessionId'],
+                actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
             },
@@ -108,7 +106,7 @@ export const appMachine =
                 target: 'playing',
               },
               STOP: {
-                // actions: ['refreshGenerationSessionId'],
+                actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
               STEP_FORWARD: {
@@ -121,7 +119,7 @@ export const appMachine =
       done: {
         on: {
           START_OVER: {
-            // actions: ['refreshGenerationSessionId'],
+            actions: ['refreshGenerationSessionId'],
             target: 'idle',
           },
         },
@@ -135,16 +133,15 @@ export const appMachine =
     },
   }).withConfig({
     actions: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      storeGridRef: assign<AppMachineContext, any>({
-        gridRef: (_, { gridRef }: InjectRefsEvent) => gridRef,
+      storeGridRef: assign({
+        gridRef: (_, { gridRef }) => gridRef,
       }),
-      // refreshGenerationSessionId: assign({
-      //   generationSessionId: () => new Date().getTime(),
-      // }),
+      refreshGenerationSessionId: assign({
+        generationSessionId: () => new Date().getTime(),
+      }),
       updateGenerationParams: assign({
         generationParams: ({ generationParams }, event) => {
-          const { name, value } = event as SetGenerationParamEvent;
+          const { name, value } = event;
           return {
             ...generationParams,
             [name]: value,

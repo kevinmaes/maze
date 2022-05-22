@@ -1,6 +1,5 @@
 import { Ref } from 'react';
 import { IGrid } from '../components/generation/Grid';
-import { MazeGenerationEventId } from './recursiveBacktrackerTypes';
 
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
@@ -38,22 +37,22 @@ export interface AppMachineContext {
   generationSessionId: number;
 }
 
-export type SetGenerationParamEvent = {
-  type: 'SET_GENERATION_PARAM';
-  name: string;
-  value: number;
-};
-
 export type AppMachineEvent =
   | { type: 'PLAY' }
   | { type: 'STOP' }
   | { type: 'PAUSE' }
   | { type: 'START_OVER' }
   | { type: 'STEP_FORWARD' }
-  | SetGenerationParamEvent
+  | {
+      type: 'SET_GENERATION_PARAM';
+      name: string;
+      value: number;
+    }
   | {
       type: 'INJECT_REFS';
       gridRef: GridRef;
     }
-  | { type: MazeGenerationEventId.UPDATE }
-  | { type: MazeGenerationEventId.DONE };
+  | { type: 'UPDATE' }
+  | { type: 'DONE' };
+
+export type AppMachineEventId = AppMachineEvent['type'];
