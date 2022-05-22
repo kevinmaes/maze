@@ -8,6 +8,9 @@
 # next.js
 /.next/
 
+# xstate
+src/statechart/appMachine.typegen.ts
+
 # testing
 /coverage
 
