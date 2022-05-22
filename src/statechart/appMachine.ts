@@ -3,7 +3,6 @@ import {
   GenerationParams,
   AppMachineContext,
   AppMachineEvent,
-  Typestate,
   AppMachineEventId,
   SetGenerationParamEvent,
   AppMachineState,
