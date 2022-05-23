@@ -9,11 +9,8 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
-import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
-
-type SendEventFromControl = (eventId: AppMachineEventId) => void;
 
 const App = () => {
   let version = 'unknown';
@@ -53,13 +50,6 @@ const App = () => {
       generating: 'initializing',
     });
 
-  const sendEventFromControl: SendEventFromControl = (
-    eventId: AppMachineEventId
-  ) => {
-    console.log('eventId', eventId);
-    appSend(eventId);
-  };
-
   return (
     <>
       <GlobalStyle />
@@ -79,7 +69,7 @@ const App = () => {
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={sendEventFromControl} />
+        <Controls state={appState} onControlClick={appSend} />
         <Stage
           width={1000}
           height={1000}
