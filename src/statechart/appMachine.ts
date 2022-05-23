@@ -1,4 +1,6 @@
+import { Ref } from 'react';
 import { createMachine, assign, send } from 'xstate';
+import { IGrid } from '../components/generation/Grid';
 import {
   GenerationParams,
   AppMachineContext,
@@ -56,17 +58,24 @@ export const appMachine =
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
-          data: (ctx) => ({
-            canPlay: true,
-            currentCell: undefined,
-            eligibleNeighbors: [],
-            fps: ctx.generationParams.fps,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            grid: (ctx.gridRef as any).current,
-            pathId: 'abc',
-            stack: [],
-            startIndex: 0,
-          }),
+          data: (ctx) => {
+            const defaultChildMachineContext = {
+              canPlay: true,
+              currentCell: undefined,
+              eligibleNeighbors: [],
+              stack: [],
+              startIndex: 0,
+            };
+
+            return {
+              ...defaultChildMachineContext,
+              fps: ctx.generationParams.fps,
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              grid: (ctx.gridRef as any).current,
+              // grid: (ctx.gridRef as Ref<IGrid>).current,
+              pathId: ctx.generationSessionId,
+            };
+          },
         },
         on: {
           // Empty action but necessary.
