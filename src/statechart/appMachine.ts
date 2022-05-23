@@ -148,7 +148,7 @@ export const appMachine =
 
       refreshGenerationSessionId: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        generationSessionId: (ctx) => new Date().getTime(),
+        generationSessionId: (_) => new Date().getTime(),
       }),
       updateGenerationParams: assign({
         generationParams: ({ generationParams }, event) => {
