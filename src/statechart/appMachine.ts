@@ -70,7 +70,6 @@ export const appMachine =
               fps: ctx.generationParams.fps,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               grid: (ctx.gridRef as any).current,
-              // grid: (ctx.gridRef as Ref<IGrid>).current,
               pathId: ctx.generationSessionId,
             };
           },
