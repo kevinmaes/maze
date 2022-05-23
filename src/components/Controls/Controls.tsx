@@ -102,8 +102,6 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const canStop = state.can('STOP');
     const canStepForward = state.can('STEP_FORWARD');
 
-    console.log({ state });
-
     return (
       <div>
         {typeof window !== 'undefined' && (

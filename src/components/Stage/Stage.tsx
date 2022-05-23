@@ -33,7 +33,6 @@ export const Stage = React.memo(
     const gridRef = React.useRef<Grid | null>(null);
 
     React.useEffect(() => {
-      console.log('Stage useEffect');
       if (canvasRef && canvasRef.current) {
         const canvasCtx = canvasRef.current.getContext(
           '2d'
