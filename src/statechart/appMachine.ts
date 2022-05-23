@@ -176,11 +176,6 @@ export const appMachine =
       // Can switch between algorithm machines by making this a function
       childMachine: generationAlgorithmMachine,
     },
-    delays: {
-      INITIALIZATION_DELAY: () => {
-        return 3000;
-      },
-    },
   });
 
 // const service = interpret(appMachine).onTransition((state) => {
