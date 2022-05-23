@@ -1,6 +1,4 @@
-import { Ref } from 'react';
 import { createMachine, assign, send } from 'xstate';
-import { IGrid } from '../components/generation/Grid';
 import {
   GenerationParams,
   AppMachineContext,
