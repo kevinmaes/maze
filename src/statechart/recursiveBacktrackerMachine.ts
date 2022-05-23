@@ -31,7 +31,7 @@ export const generationAlgorithmMachine =
         entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: (ctx) => ctx.canPlay,
+            cond: 'canIPlay',
             target: '#generationAlgorithmMachine.seek',
           },
         },
@@ -50,7 +50,7 @@ export const generationAlgorithmMachine =
         },
         after: {
           SEEK_INTERVAL: {
-            cond: (ctx) => ctx.canPlay,
+            cond: 'canIPlay',
             target: '#generationAlgorithmMachine.seek',
           },
         },
@@ -88,6 +88,7 @@ export const generationAlgorithmMachine =
     },
   }).withConfig({
     guards: {
+      canIPlay: (ctx) => ctx.canPlay,
       isDeadEnd: ({ eligibleNeighbors }) => eligibleNeighbors.length === 0,
       isBackAtStart: ({ stack }) => stack.length === 0,
     },
