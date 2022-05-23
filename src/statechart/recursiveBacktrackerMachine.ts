@@ -16,7 +16,7 @@ export const generationAlgorithmMachine =
       context: {} as MazeGenerationContext,
       events: {} as MazeGenerationEvent,
     },
-    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
+    tsTypes: {} as import("./recursiveBacktrackerMachine.typegen").Typegen0,
     id: 'generationAlgorithmMachine',
     initial: 'maze-idle',
     states: {
