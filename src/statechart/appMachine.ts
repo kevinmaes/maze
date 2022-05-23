@@ -136,9 +136,12 @@ export const appMachine =
       storeGridRef: assign({
         gridRef: (_, { gridRef }) => gridRef,
       }),
-      refreshGenerationSessionId: assign({
-        generationSessionId: () => new Date().getTime(),
-      }),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      refreshGenerationSessionId: assign(() => ({
+        generationSessionId: new Date().getTime(),
+      })),
+
       updateGenerationParams: assign({
         generationParams: ({ generationParams }, event) => {
           const { name, value } = event;
@@ -162,10 +165,8 @@ export const appMachine =
       }),
     },
     services: {
-      childMachine: () => {
-        // Can switch between algorithm machines by checking context here.
-        return generationAlgorithmMachine;
-      },
+      // Can switch between algorithm machines by making this a function
+      childMachine: generationAlgorithmMachine,
     },
     delays: {
       INITIALIZATION_DELAY: () => {
