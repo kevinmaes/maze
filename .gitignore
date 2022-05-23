@@ -9,7 +9,7 @@
 /.next/
 
 # xstate
-src/statechart/appMachine.typegen.ts
+src/statechart/**.typegen.ts
 
 # testing
 /coverage
