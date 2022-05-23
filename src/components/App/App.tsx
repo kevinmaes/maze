@@ -23,8 +23,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  // eslint-disable-next-line
-  const [appState, appSend, appService] = useMachine(appMachine);
+  const [appState, appSend /* appService */] = useMachine(appMachine);
 
   const [leversAreChanging, setLeversAreChanging] = useState(false);
 
