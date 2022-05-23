@@ -5,6 +5,7 @@ import {
   AppMachineEvent,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
+import { MazeGenerationContext } from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -65,13 +66,15 @@ export const appMachine =
               startIndex: 0,
             };
 
-            return {
+            const childContext: MazeGenerationContext = {
               ...defaultChildMachineContext,
               fps: ctx.generationParams.fps,
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               grid: (ctx.gridRef as any).current,
-              pathId: ctx.generationSessionId,
+              pathId: ctx.generationSessionId.toString(),
             };
+
+            return childContext;
           },
         },
         on: {
