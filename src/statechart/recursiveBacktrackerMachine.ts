@@ -7,8 +7,9 @@ import { ICell } from '../components/generation/Cell';
 import { Ref } from 'react';
 
 export const generationAlgorithmMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAvMBaGA7MATqgC4CWA9rgHSzGoHEDEAHrSWFagGbGFUDKAUUEBpAPoBJAHIAVQQCUAagEEAMolAAHcrFJlKGkM0QA2ACwmqARgAMADgDMdgEwBWG1bNWrJgDQgAT0QsBwBOOyo7M2dQr2dzBw8TAF9k-zRMHDB8In1qWDAwAGtGQ21dPMNjBDMHVyobJytXUNCfVwB2GI7-IIQsGIcqZ2c7Oy6TZzMbMzsbV1T0jGw8QhIKalQIADdUXABjMFKkEHK9DargjtmqaJGO1zNrq0TQ3sRQqlcTNucbUIc3lirUWIAyK2yazynB2e0OLDYvE4PD4QlEklkChU6hOZ0qJ2qVgBVBMdlCzm811GoVco3e-ReHSoHVCpP+JhMVgpzQ6oPBWRy60oVAARqh9kViEQJcctDpzgYCcFvMMHqEOg4zG0oh0OiZXPTmvUHLqXPYHM4wqEZnzlgKoRsqPtyMhNAAbMC8RjyQT8GTKeQyMry-GgarW251TyjGZWcb6+m0hrki0xGymhyTBZpMF21a5DaMaQAKUEAGEZGIfQAxfjBioXJX9PX1OMdZoWRwPWn0qY2EkWTkcqzPTopUG4cgQOCGfn5oXUUgQD31hW4S7NqbMmwmdk2EYzaL0gb6qjhIHXTkW6YOW2ZefQtgMVehozBMJmBquOMteYsurOMe0TGnYP6PLS8RhHeEKCo+hRFC+jZhogLSfNcryZiYmodHYBqBMqjS3L80zuFSP7QfaBbClsuwHGAiGKshDKnpaWrOO2Pzfl0djHrqVBOLM9xmFqszZks96QlR1BihKUrighuIhkhb79GE9SzI0nItC0tQPL2tTDOadgcrUXjmLyOZzpJC5Oi67qevRikNoxKnTJ+jz7hybjst+vb-JE9jRi0cZeWYFEPspeLKdUWA4Z8bYdqSJquD2+H9N+-ZRo0mrdG4qSpEAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgHS2YBeYAtLggkwAYgDKAFSIAlCYlAAHfLCoEU8kAA9EfAMwAGAJzsATGYCsARgBshgCyHLu6yesAaEAE9EJ8wA52SwB2YN0-KxN9PycAXxiPVAwcNVJyShoGZlYOWGxMdGwRTVycMHZMADNsDAAKMQBReoBpAH0ASQA5CXrpADUiABkAShFErDxCVIoqOkYWNjKSgo0lFQn1JC0dSzsA-XMg6327IL8TS30TXQ9vBHPrdmidy0MQoP1LqLiEsDRxlLI0wyc2yizAYAA1iIVspVIQNNoEHxXOwggd3n5rNZzLo7C5MTcdOdjGEjH5HK5gpZ-N8QGNkpNAelZlkFuUIAA3TAoJiiGFrNQIolBEzsax2XS6U7vfR2A7mQlIiUBC5hc76XT2ZzmWn09ZTZmZeYcTCc7m8oolarlKq1BrNdpdHr9YajX5JfVMmZG0Hsrk8sD8uEbUCIwyi8zmMyWEyGfTU2UmPyKviOMVmfTYvxBELZyO693-Rlpb0gtkAI2YEOwWCYUKD6yFd2sQXYumeLb8mOzjhTSbsbYl5ylUSCJ10Bb+DOIXuBrLQIk6ACl6gBhCQtaT1ABiYgbgs2iL4QTC7AlhlsJ8xscVvhVbzCESiTgn8TphenBtL89EAAUBkQACa+7woeOi7Po7D6CeOaYnY1J+BqioXKKJhonG5h2PGObvDqb56gCJZzsaf5EAAqg0IEhlsSKRBGRyHNYuiRuYmbXF4iBSq2Bz7JYNjvJYfiSnhPxTp6REsiR4jdL+LTbgA8tIADqMgACJUU2x5Juw4ZYRcfHOOSyF7P21hCQ4LiRoYfhxG+KD4BAcAaARxZApJvpcLwAhCIGmyrMGmnmEcZ64hKlyGFYOZ2LeVhiiKNhhNSQWOJOHqEW5Ppsks2AaWBSLZgEhxGI4jjYriQQphKDyvJKsrQS2TiGK+olpa5hpljk4IQrloaICK5imJcMZmExSZYoqEWBIYcaCbGiHWDYJipUWM4SZlJpmgGPU0Xw4qQTiaHWUEEWnPGKbtroqLBGhx07CcaLWMtn6zu5FZVjWVbbYimLsJhRhOA4VwnH40UcUiujnI8soHCDmEg3xT3iRlHVlEw+C0AowjVF9Pjhm2HanN2t3nZDiFyqccq7PBliI+l7U-jjSJxqKRXTS8Ng4icKZRpd0GxtNEMfCYcq2TEQA */
   createMachine({
+    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
     schema: {
       context: {} as {
         canPlay: boolean;
@@ -44,14 +45,13 @@ export const generationAlgorithmMachine =
             type: 'DONE';
           },
     },
-    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
     id: 'generationAlgorithmMachine',
     initial: 'maze-idle',
     states: {
       'maze-idle': {
         on: {
           START: {
-            target: '#generationAlgorithmMachine.start',
+            target: 'start',
           },
         },
       },
@@ -60,58 +60,58 @@ export const generationAlgorithmMachine =
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: '#generationAlgorithmMachine.seek',
+            target: 'seek',
           },
         },
       },
       seek: {
         entry: ['findNeighbors', sendParent('UPDATE')],
         always: {
-          target: '#generationAlgorithmMachine.advance',
+          target: 'advance',
         },
       },
       advance: {
         entry: ['pickNextCell', 'pushToStack'],
-        always: {
-          cond: 'isDeadEnd',
-          target: '#generationAlgorithmMachine.backtrack',
-        },
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: '#generationAlgorithmMachine.seek',
+            target: 'seek',
           },
+        },
+        always: {
+          cond: 'isDeadEnd',
+          target: 'backtrack',
         },
       },
       backtrack: {
-        entry: ['popFromStack'],
+        entry: 'popFromStack',
         always: [
           {
             cond: 'isBackAtStart',
-            target: '#generationAlgorithmMachine.complete',
+            target: 'complete',
           },
           {
-            target: '#generationAlgorithmMachine.seek',
+            target: 'seek',
           },
         ],
       },
       complete: {
-        entry: [sendParent('DONE')],
+        entry: sendParent('DONE'),
       },
     },
     on: {
       INJECT_REFS: {
-        target: '#generationAlgorithmMachine.maze-idle',
+        target: '.maze-idle',
       },
       PLAY: {
-        actions: ['play'],
-        target: '#generationAlgorithmMachine.seek',
+        actions: 'play',
+        target: '.seek',
       },
       PAUSE: {
-        actions: ['pause'],
+        actions: 'pause',
       },
       STEP_FORWARD: {
-        target: '#generationAlgorithmMachine.seek',
+        target: '.seek',
       },
     },
   }).withConfig({
