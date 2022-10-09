@@ -51,51 +51,51 @@ export const generationAlgorithmMachine =
       'maze-idle': {
         on: {
           START: {
-            target: 'start',
+            target: 'starting',
           },
         },
       },
-      start: {
+      starting: {
         entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: 'seek',
+            target: 'seeking',
           },
         },
       },
-      seek: {
+      seeking: {
         entry: ['findNeighbors', sendParent('UPDATE')],
         always: {
-          target: 'advance',
+          target: 'advancing',
         },
       },
-      advance: {
+      advancing: {
         entry: ['pickNextCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: 'seek',
+            target: 'seeking',
           },
         },
         always: {
           cond: 'isDeadEnd',
-          target: 'backtrack',
+          target: 'backtracking',
         },
       },
-      backtrack: {
+      backtracking: {
         entry: 'popFromStack',
         always: [
           {
             cond: 'isBackAtStart',
-            target: 'complete',
+            target: 'finished',
           },
           {
-            target: 'seek',
+            target: 'seeking',
           },
         ],
       },
-      complete: {
+      finished: {
         entry: sendParent('DONE'),
       },
     },
@@ -105,13 +105,13 @@ export const generationAlgorithmMachine =
       },
       PLAY: {
         actions: 'play',
-        target: '.seek',
+        target: '.seeking',
       },
       PAUSE: {
         actions: 'pause',
       },
       STEP_FORWARD: {
-        target: '.seek',
+        target: '.seeking',
       },
     },
   }).withConfig({
