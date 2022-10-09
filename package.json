@@ -14,20 +14,25 @@
     "@xstate/react": "3.0.1",
     "next": "12.3.1",
     "prettier": "^2.7.1",
+<<<<<<< HEAD
     "react": "18.2.0",
     "react-dom": "18.2.0",
+=======
+    "react-dom": "18.0.0",
+>>>>>>> main
     "react-is": "18.2.0",
-    "styled-components": "5.3.5",
+    "react": "18.2.0",
+    "styled-components": "5.3.6",
     "xstate": "4.33.6"
   },
   "devDependencies": {
     "@svgr/webpack": "6.2.1",
     "@types/aria-query": "5.0.0",
     "@types/jest": "29.1.2",
-    "@types/node": "^17.0.35",
-    "@types/react": "18.0.21",
+    "@types/node": "^18.8.3",
     "@types/react-dom": "18.0.6",
-    "@types/styled-components": "5.1.25",
+    "@types/react": "18.0.21",
+    "@types/styled-components": "5.1.26",
     "@typescript-eslint/eslint-plugin": "5.39.0",
     "@typescript-eslint/parser": "5.25.0",
     "@typescript-eslint/typescript-estree": "5.25.0",
