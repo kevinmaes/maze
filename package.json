@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xstate/react": "3.0.0",
+    "@xstate/react": "3.0.1",
     "next": "12.1.6",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-is": "18.0.0",
     "styled-components": "5.3.5",
-    "xstate": "4.32.1"
+    "xstate": "4.33.6"
   },
   "devDependencies": {
     "@svgr/webpack": "6.2.1",
