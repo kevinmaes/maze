@@ -13,6 +13,7 @@
     "@xstate/cli": "^0.3.3",
     "@xstate/react": "3.0.1",
     "next": "12.1.6",
+    "prettier": "^2.7.1",
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-is": "18.0.0",
