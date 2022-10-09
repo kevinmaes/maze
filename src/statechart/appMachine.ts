@@ -1,4 +1,4 @@
-import { createMachine, assign, send, ContextFrom } from 'xstate';
+import { createMachine, ContextFrom } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -139,42 +139,6 @@ export const appMachine =
         actions: ['updateGenerationParams'],
         target: 'idle',
       },
-    },
-  }).withConfig({
-    actions: {
-      storeGridRef: assign({
-        gridRef: (_, { gridRef }) => gridRef,
-      }),
-
-      refreshGenerationSessionId: assign({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        generationSessionId: (_) => new Date().getTime(),
-      }),
-      updateGenerationParams: assign({
-        generationParams: ({ generationParams }, event) => {
-          const { name, value } = event;
-          return {
-            ...generationParams,
-            [name]: value,
-          };
-        },
-      }),
-      startGenerationAlgorithmMachine: send('START', {
-        to: 'generationAlgorithmMachine',
-      }),
-      playGenerationAlgorithmMachine: send('PLAY', {
-        to: 'generationAlgorithmMachine',
-      }),
-      pauseGenerationAlgorithmMachine: send('PAUSE', {
-        to: 'generationAlgorithmMachine',
-      }),
-      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
-        to: 'generationAlgorithmMachine',
-      }),
-    },
-    services: {
-      // Can switch between algorithm machines by making this a function
-      childMachine: generationAlgorithmMachine,
     },
   });
 

@@ -9,6 +9,8 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
+import { assign, send } from 'xstate';
+import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
 
 declare const VERSION: string;
 
@@ -20,7 +22,43 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, appSend /* appService */] = useMachine(appMachine);
+  const [appState, appSend /* appService */] = useMachine(appMachine, {
+    actions: {
+      storeGridRef: assign({
+        gridRef: (_, { gridRef }) => gridRef,
+      }),
+
+      refreshGenerationSessionId: assign({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        generationSessionId: (_) => new Date().getTime(),
+      }),
+      updateGenerationParams: assign({
+        generationParams: ({ generationParams }, event) => {
+          const { name, value } = event;
+          return {
+            ...generationParams,
+            [name]: value,
+          };
+        },
+      }),
+      startGenerationAlgorithmMachine: send('START', {
+        to: 'generationAlgorithmMachine',
+      }),
+      playGenerationAlgorithmMachine: send('PLAY', {
+        to: 'generationAlgorithmMachine',
+      }),
+      pauseGenerationAlgorithmMachine: send('PAUSE', {
+        to: 'generationAlgorithmMachine',
+      }),
+      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
+        to: 'generationAlgorithmMachine',
+      }),
+    },
+    services: {
+      // Can switch between algorithm machines by making this a function
+      childMachine: generationAlgorithmMachine,
+    },
+  });
 
   const [leversAreChanging, setLeversAreChanging] = useState(false);
 
