@@ -58,6 +58,7 @@ const App = () => {
       // Can switch between algorithm machines by making this a function
       childMachine: generationAlgorithmMachine,
     },
+    delays: {},
   });
 
   const [leversAreChanging, setLeversAreChanging] = useState(false);
