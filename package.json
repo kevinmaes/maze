@@ -5,7 +5,7 @@
   "scripts": {
     "postinstall": "xstate typegen \"./src/**/*.ts?(x)\"",
     "dev": "next dev",
-    "prebuild": "cypress open --config-file=cypress.config.ts",
+    "prebuild": "cypress run --config-file=cypress.config.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
