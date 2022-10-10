@@ -10,5 +10,6 @@
     "browser": true,
     "jest": true,
     "es2022": true
-  }
+  },
+  "ignorePatterns": ["**/*.typegen.ts"]
 }

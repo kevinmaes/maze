@@ -19,7 +19,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "cypress/integration/maze/cypress/integration/controls.spec.js"
+    "cypress/e2e/maze/cypress/integration/controls.spec.js"
   ],
   "exclude": ["node_modules"]
 }
