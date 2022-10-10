@@ -1,18 +1,10 @@
-import { createMachine, assign, send } from 'xstate';
+import { createMachine, ContextFrom } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
   AppMachineEvent,
-  Typestate,
-  AppMachineEventId,
-  SetGenerationParamEvent,
-  AppMachineState,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
-import {
-  InjectRefsEvent,
-  MazeGenerationEventId,
-} from './recursiveBacktrackerTypes';
 
 const FPS_DEFAULT = 2;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -40,65 +32,75 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAAoAyAggJqKioD2sWALlrQHbUgAeiAtAKwAmAAwYAnAA5RAdiEBmcbIAs4gGyyVAGhABPRH0WixKlePGKBUyZL4BfG1rSYYrMACdkzVlGysmWZLhYAF5YXgScsIweYBjIAGaMbhgAkgByyQAqAPppGQCiAEoAamQkHHQMzGwc3Ag8sg0YQorKBkISfLL6fFq6CALiUhgDwgrSJgCMAgIqdg7oGM5uHqHeqLjI2qvEZACqAMp55fR+1UhcvBMTGCqKUgKKQnKycnwTsgK9iAPiGBNSd0GKiEnUEsjmIEcizALncnjWGy2YX2GQA8kRjpUWOxzrVZBM+DdzC0QXxRHchACvggWooMFIJuTbh8hOJ3rN7JCFks4asMOtNtsUWQCtlUUVCpjTjjQLUeBYhl1RFcPi1ROrRNTprIbtJJEIVAJRJ0pLZOVCeSsvPzEdspVUZRcEPjCbcHo8+GSKVSdIgCSJ5DNRO18QyDBCLTDlvD+cgAK6wSDEchUc4VaU1RAiSn+oGyKQvUzSKRah4YMkg8kCPjiSlSNQR7lR3nW1DxxMQAgovJELIAMVRBQA6iKACL27GZhATITXAmmPgqfSWcR8etaxriCzkhm3UQvcHmpuwq1rdtJidnWWIF1E92kneUxRa6Tlt51w2f8wc+ZOZunggIDYGJQgAN1oABrGJLQdMhcCgWhXCYAALABbABZZAAGNkNCMBL0dPECTvElPUfH0+lUekJAMU0zBJQ9fwwICXC7DIRTFCUCgIqd+GEMRJBkeQlFUdRqR4K4VAwRR-iEbUjUXNdG1QAg0gAKTyABhbICjyPt9h43FeE6EQJGkOQFGUNRNF9BAVHrYYawkdpBE-UQ7E5VhaAgOAOChHB8EM68aTLAxjAEJQjRMURPlsxdrhkcwawmYx7PuZToRPGNQj8AJglWIKnR4ZRCTMoTLNEmy+gsARpP0aYVQZOQBAymC+QFJEoEKuUriGRQ1AGJ57naetZBfQknimFL9xrPgnkUVr-xjNsE0gbq-UUCb8UUfE1DuD5yWpF5apkgQJg9KZhDmhajz-LKCrTE4HV4ubDDKiyROs6kHM6f4zvVGZ7mVDKWPwx6sSvJ1bikp5lSkGRFwNMlqRnOkmTZYEjVDBRlPWupPTRwSPqssTbPlWcMHkQ1tRnBr9A8mwgA */
-  createMachine<AppMachineContext, AppMachineEvent, Typestate>({
-    context: initialAppMachineContext,
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAJIByAUgKIDCAKgPoBKFAYgMqKioD2sWALli4A7DiAAeiALQAWAAwAODAEYAnLICsSgMwA2VevlL5AGhABPKVq0AmDAHYHdpbLlPZVuwF9PptJhhCYABOyAJCUNhC-FjIuFgAXljhBAAKADIAggCaoty8AsKiEgiS1qoY8vIqVbIOWi7uJuZS0joY1rLVtXY6VVoqWtLevugYAcGhSRGouMhmU6kZAKqsFLk80YVI4ojSStIYBirW6v3Hg0o6phYlOur27rK9x6p2KtLWwyB+Y2CBIWFprN5slWDQAPIpdb5QQibbFSQ2NoOHQqBxKdQaeR6K7NBDSFTtaz1eTWaQ2IwqAzqL4-cYAqYYVDIACusEgqUyOW2eU2cNAxQ+skOWnUHy0pPU7xUuJuZWUcmsOl6di0dmx8lqtNG9Mm4SZrPZEAIYMh0L5RUQNkUYrUGL2VTsStlliqyh6qIlaP6Wp83x1fwmgINbI5YIoKTozHBDAA6hkGAARc0Ffk7BDyVoYCVnY4fTWyJTXKT7NplfN2IV7ax2Gl+umBhnJJYpRMZGhrHkbVOWhDqHQHd5inTWTVaZy9YsIfYHWvqU4j7F2TqV7X+Rt6qAERPgkidzjd2G9tXCmvLyqk7HKlRTy4HMnyWvWNTVU7yNcYCDCQhghP0cEAGoUAwKZHvCUg6PUDyyLU0jyPOeyqre0izghAzKgoKhGFoa4mhQ9AAOIUHuDDtkQu50CkCYZAAsqBWwChBzgVPBxxvJKzhaFOMgfBU1gdAYTr9COtbeH6QhcBAcCiD8OD4PRaYIqc9yqHsshkuoNZGNY3HjoSo5wZiThoi4YofrqwZJNEsQJFMCm9oi8haBgchSqSxLjpB6jcZp7TOMSD6Ys6771gG-ybkywJ2V2MIMemkiYkSC4DPxjw1t5eKSA4GCegoZL2p087mRuwbMqGED2eBGYwRg7x3AOegykoRg+bYZTqTYhnqcqdzFeFgKVYxJSuC5GjVPxViXKK3HPs5+xGE8lxSmUKgfl+gSDfFGK2EoZJYb0uinJ0N54hiigPlYMFopm0heKFqCbQidyzjBsHwWKShIZlmnIscaJovx-GrmJQA */
+  createMachine({
     schema: {
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
     },
+    tsTypes: {} as import('./appMachine.typegen').Typegen0,
+    context: initialAppMachineContext,
     id: 'app',
     initial: 'idle',
     states: {
       idle: {
         on: {
-          [AppMachineEventId.INJECT_REFS]: {
+          INJECT_REFS: {
             actions: ['storeGridRef'],
-            target: AppMachineState.GENERATING,
+            target: 'generating',
           },
         },
       },
-      [AppMachineState.GENERATING]: {
-        initial: AppMachineState.INITIALIZING,
+      generating: {
+        initial: 'initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
-          data: (ctx) => ({
-            canPlay: true,
-            currentCell: undefined,
-            eligibleNeighbors: [],
-            fps: ctx.generationParams.fps,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            grid: (ctx.gridRef as any).current,
-            pathId: 'abc',
-            stack: [],
-            startIndex: 0,
-          }),
+          data: (ctx) => {
+            const defaultChildMachineContext = {
+              canPlay: true,
+              currentCell: undefined,
+              eligibleNeighbors: [],
+              stack: [],
+              startIndex: 0,
+            };
+
+            const childContext: ContextFrom<typeof generationAlgorithmMachine> =
+              {
+                ...defaultChildMachineContext,
+                fps: ctx.generationParams.fps,
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                grid: (ctx.gridRef as any).current,
+                pathId: ctx.generationSessionId.toString(),
+              };
+
+            return childContext;
+          },
         },
         on: {
           // Empty action but necessary.
-          [MazeGenerationEventId.UPDATE]: {
+          UPDATE: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
           },
-          [MazeGenerationEventId.DONE]: {
+          DONE: {
             target: 'done',
           },
         },
         states: {
-          [AppMachineState.INITIALIZING]: {
+          initializing: {
             on: {
               PLAY: {
-                target: AppMachineState.PLAYING,
+                target: 'playing',
               },
             },
           },
-          [AppMachineState.PLAYING]: {
+          playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
-                target: AppMachineState.PAUSED,
+                target: 'paused',
               },
               STOP: {
                 actions: ['refreshGenerationSessionId'],
@@ -106,11 +108,11 @@ export const appMachine =
               },
             },
           },
-          [AppMachineState.PAUSED]: {
+          paused: {
             on: {
               PLAY: {
                 actions: ['playGenerationAlgorithmMachine'],
-                target: AppMachineState.PLAYING,
+                target: 'playing',
               },
               STOP: {
                 actions: ['refreshGenerationSessionId'],
@@ -127,57 +129,15 @@ export const appMachine =
         on: {
           START_OVER: {
             actions: ['refreshGenerationSessionId'],
-            target: AppMachineState.IDLE,
+            target: 'idle',
           },
         },
       },
     },
     on: {
-      [AppMachineEventId.SET_GENERATION_PARAM]: {
+      SET_GENERATION_PARAM: {
         actions: ['updateGenerationParams'],
-        target: AppMachineState.IDLE,
-      },
-    },
-  }).withConfig({
-    actions: {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      storeGridRef: assign<AppMachineContext, any>({
-        gridRef: (_, { gridRef }: InjectRefsEvent) => gridRef,
-      }),
-      refreshGenerationSessionId: assign<AppMachineContext, AppMachineEvent>({
-        generationSessionId: () => new Date().getTime(),
-      }),
-      updateGenerationParams: assign<AppMachineContext, AppMachineEvent>({
-        generationParams: ({ generationParams }, event) => {
-          const { name, value } = event as SetGenerationParamEvent;
-          return {
-            ...generationParams,
-            [name]: value,
-          };
-        },
-      }),
-      startGenerationAlgorithmMachine: send('START', {
-        to: 'generationAlgorithmMachine',
-      }),
-      playGenerationAlgorithmMachine: send('PLAY', {
-        to: 'generationAlgorithmMachine',
-      }),
-      pauseGenerationAlgorithmMachine: send('PAUSE', {
-        to: 'generationAlgorithmMachine',
-      }),
-      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
-        to: 'generationAlgorithmMachine',
-      }),
-    },
-    services: {
-      childMachine: () => {
-        // Can switch between algorithm machines by checking context here.
-        return generationAlgorithmMachine;
-      },
-    },
-    delays: {
-      INITIALIZATION_DELAY: () => {
-        return 3000;
+        target: 'idle',
       },
     },
   });

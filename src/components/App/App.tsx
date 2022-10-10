@@ -7,13 +7,11 @@ import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
-import {
-  AppMachineEventId,
-  AppMachineState,
-} from '../../statechart/appMachineTypes';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { Audio } from '../Audio/Audio';
+import { assign, send } from 'xstate';
+import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
 
 declare const VERSION: string;
 
@@ -25,8 +23,43 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  // eslint-disable-next-line
-  const [appState, appSend, appService] = useMachine(appMachine);
+  const [appState, appSend /* appService */] = useMachine(appMachine, {
+    actions: {
+      storeGridRef: assign({
+        gridRef: (_, { gridRef }) => gridRef,
+      }),
+
+      refreshGenerationSessionId: assign({
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        generationSessionId: (_) => new Date().getTime(),
+      }),
+      updateGenerationParams: assign({
+        generationParams: ({ generationParams }, event) => {
+          const { name, value } = event;
+          return {
+            ...generationParams,
+            [name]: value,
+          };
+        },
+      }),
+      startGenerationAlgorithmMachine: send('START', {
+        to: 'generationAlgorithmMachine',
+      }),
+      playGenerationAlgorithmMachine: send('PLAY', {
+        to: 'generationAlgorithmMachine',
+      }),
+      pauseGenerationAlgorithmMachine: send('PAUSE', {
+        to: 'generationAlgorithmMachine',
+      }),
+      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
+        to: 'generationAlgorithmMachine',
+      }),
+    },
+    services: {
+      // Can switch between algorithm machines by making this a function
+      childMachine: generationAlgorithmMachine,
+    },
+  });
 
   const [leversAreChanging, setLeversAreChanging] = useState(false);
 
@@ -51,16 +84,16 @@ const App = () => {
   // }, [appService]); // note: service should never change
 
   const leversEnabled =
-    appState.matches(AppMachineState.IDLE) ||
+    appState.matches('idle') ||
     appState.matches({
-      [AppMachineState.GENERATING]: AppMachineState.INITIALIZING,
+      generating: 'initializing',
     });
 
-  const sendEventFromControl: (eventId: AppMachineEventId) => void = (
-    eventId: AppMachineEventId
-  ) => {
-    appSend(eventId);
-  };
+  // const sendEventFromControl: (eventId: AppMachineEventId) => void = (
+  //   eventId: AppMachineEventId
+  // ) => {
+  //   appSend(eventId);
+  // };
 
   // const { currentCell } = appState.context;
 
@@ -85,13 +118,13 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend(AppMachineEventId.SET_GENERATION_PARAM, data);
+            appSend({ type: 'SET_GENERATION_PARAM', ...data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={sendEventFromControl} />
+        <Controls state={appState} onControlClick={appSend} />
         <Stage
           width={1000}
           height={1000}

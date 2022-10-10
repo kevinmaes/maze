@@ -1,57 +1,77 @@
 import { createMachine, assign, sendParent } from 'xstate';
-import {
-  MazeGenerationContext,
-  MazeGenerationEvent,
-  Typestate,
-  MazeGenerationEventId,
-} from './recursiveBacktrackerTypes';
 
 import type { IGrid } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
 import { ICell } from '../components/generation/Cell';
-import { GridRef } from './appMachineTypes';
+import { Ref } from 'react';
 import Grid from '../components/generation/Grid';
 
-const initialRecursiveBacktrackerMachineContext: MazeGenerationContext = {
-  canPlay: false,
-  currentCell: undefined,
-  eligibleNeighbors: [],
-  fps: 3,
-  grid: undefined,
-  pathId: 'abc',
-  stack: [],
-  startIndex: 0,
-};
+interface Context {
+  canPlay: boolean;
+  currentCell: ICell | undefined;
+  eligibleNeighbors: ICell[];
+  fps: number;
+  grid: IGrid | undefined;
+  pathId: string;
+  stack: ICell[];
+  startIndex: number;
+}
 
 export const generationAlgorithmMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QFsCGAvMBaGA7MATqgC4CWA9rgHSzGoHEDEAHrSWFagGbGFUDKAUUEBpAPoBJAHIAVQQCUAagEEAMolAAHcrFJlKGkM0QA2ACwmqARgAMADgDMdgEwBWG1bNWrJgDQgAT0QsBwBOOyo7M2dQr2dzBw8TAF9k-zRMHDB8In1qWDAwAGtGQ21dPMNjBDMHVyobJytXUNCfVwB2GI7-IIQsGIcqZ2c7Oy6TZzMbMzsbV1T0jGw8QhIKalQIADdUXABjMFKkEHK9DargjtmqaJGO1zNrq0TQ3sRQqlcTNucbUIc3lirUWIAyK2yazynB2e0OLDYvE4PD4QlEklkChU6hOZ0qJ2qVgBVBMdlCzm811GoVco3e-ReHSoHVCpP+JhMVgpzQ6oPBWRy60oVAARqh9kViEQJcctDpzgYCcFvMMHqEOg4zG0oh0OiZXPTmvUHLqXPYHM4wqEZnzlgKoRsqPtyMhNAAbMC8RjyQT8GTKeQyMry-GgarW251TyjGZWcb6+m0hrki0xGymhyTBZpMF21a5DaMaQAKUEAGEZGIfQAxfjBioXJX9PX1OMdZoWRwPWn0qY2EkWTkcqzPTopUG4cgQOCGfn5oXUUgQD31hW4S7NqbMmwmdk2EYzaL0gb6qjhIHXTkW6YOW2ZefQtgMVehozBMJmBquOMteYsurOMe0TGnYP6PLS8RhHeEKCo+hRFC+jZhogLSfNcryZiYmodHYBqBMqjS3L80zuFSP7QfaBbClsuwHGAiGKshDKnpaWrOO2Pzfl0djHrqVBOLM9xmFqszZks96QlR1BihKUrighuIhkhb79GE9SzI0nItC0tQPL2tTDOadgcrUXjmLyOZzpJC5Oi67qevRikNoxKnTJ+jz7hybjst+vb-JE9jRi0cZeWYFEPspeLKdUWA4Z8bYdqSJquD2+H9N+-ZRo0mrdG4qSpEAA */
-  createMachine<MazeGenerationContext, MazeGenerationEvent, Typestate>({
-    context: initialRecursiveBacktrackerMachineContext,
+  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgHS2YBeYAtLggkwAYgDKAFSIAlCYlAAHfLCoEU8kAA9EfABwBOACzsAjAGZDANgCsABjsAmQ7cNmANCACeOy2ZOmzfQsTa2tDAHYghwBfaI9UDBw1UnJKGgZmVg5YbEx0bBFNHJwwdkwAM2wMAAoxAFE6gGkAfQBJADkJOukANSIAGQBKEQSsPEIUiio6RhY2UuL8jSUVcfUkLR1DXV12azNIh3NrIxNDBw9vBD5LX3ZdBwencMMQ80NY+LA0MeSyKfSsyyCzAYAA1iJlspVIQNNoEPp9OwHA5rA5wuELK5DK5Lj5znsHJYTPoMQ4zLYKTE4iBRkkJv80jNMvMyhAAG6YFBMURQ1ZqOGIV4OdiWXQRckPMyBIKGPHXawmfy2cKWcIqsyhHHhayfWnfRJrSZMjJzDiYDlcnmFYpVMqVGr1JptTrdPpDEYG34M1LTU3Atmc7lgPkw9ageGudi2W5o6wYkyWFWGfTyvTbZE7VFinVnHF6ulGxl+oGsgBGzDB2CwTAhobWguuZyR8Z1KYsllcZhRaZxxh1isxYrMOf2Ba99OIxcBLLQIg6ACk6gBhCTNaR1ABiYnrAo28L4JhjIsM+xx1ks+nJVl0aZe1mRJjJIRRz3045+k+NJdnogACv0RAAJq7rC+46CiZj3OYtxPmiZi6Lct5eDouhhNGSokjq4RocSugfoafy+jOZr-kQACq9SgeGmzXKiuxhA4iK2PoiGBFY4RpuSIqauirwkrogSJh8NKFkRALMqR4hdH+zSbgA8tIADqMgACLUY2h5EqYdj6JSOG2LYT4hGmgnGIOOyXn4T6vLENIoPgEBwBoYk+hJ-qslwvACEIIYbCsYaaUeOKiicfgvGcoT2Gmvgnji6JPoZETEgR3pTsRkkBos2AaeB1yqg+thOGhRJXk4RUxaxoqUvs+w2PolhMalX7TplrKwKCYK5RGEEOLYyLSmiTgdpiCF3oZ7BREm+whJqzVFhlHnmpawbdbR5L9dsrbxoZjUHBcKHXJe-iIoiI47GhViWPN4kmqWHAVrW1aVmt8LmP44RHvo1g7DV5zSmmio8bY4qIUZpw-Tdbl3b+7BMPgtAKMIVSvYgOx7NsRgYuKFgg5xh18IEUHMectzbImRVQ+l7n3X5ijQg2eWHiDljsKeWIXleHbIVcfBBOEk0PGcgTokYdnREAA */
+  createMachine({
+    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
+    schema: {
+      context: {} as Context,
+      events: {} as
+        | {
+            type: 'INJECT_REFS';
+            gridRef: Ref<IGrid>;
+          }
+        | {
+            type: 'START';
+          }
+        | {
+            type: 'PLAY';
+          }
+        | {
+            type: 'PAUSE';
+          }
+        | {
+            type: 'STEP_FORWARD';
+          }
+        | {
+            type: 'UPDATE';
+          }
+        | {
+            type: 'DONE';
+          },
+    },
     id: 'generationAlgorithmMachine',
     initial: 'maze-idle',
     states: {
       'maze-idle': {
         on: {
           START: {
-            target: '#generationAlgorithmMachine.start',
+            target: 'starting',
           },
         },
       },
-      start: {
+      starting: {
         entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: (ctx) => ctx.canPlay,
-            target: '#generationAlgorithmMachine.seek',
+            cond: 'canIPlay',
+            target: 'seeking',
           },
         },
       },
-      seek: {
+      seeking: {
         entry: [
           'findNeighbors',
-          sendParent((ctx) => ({
-            type: MazeGenerationEventId.UPDATE,
+          sendParent((ctx: Context) => ({
+            type: 'UPDATE',
             data: {
               cursorPosition: {
                 columnIndex: ctx.currentCell?.getColumnIndex(),
@@ -63,65 +83,64 @@ export const generationAlgorithmMachine =
           })),
         ],
         always: {
-          target: '#generationAlgorithmMachine.advance',
+          target: 'advancing',
         },
       },
-      advance: {
+      advancing: {
         entry: ['pickNextCell', 'pushToStack'],
-        always: {
-          cond: 'isDeadEnd',
-          target: '#generationAlgorithmMachine.backtrack',
-        },
         after: {
           SEEK_INTERVAL: {
-            cond: (ctx) => ctx.canPlay,
-            target: '#generationAlgorithmMachine.seek',
+            cond: 'canIPlay',
+            target: 'seeking',
           },
         },
+        always: {
+          cond: 'isDeadEnd',
+          target: 'backtracking',
+        },
       },
-      backtrack: {
-        entry: ['popFromStack'],
+      backtracking: {
+        entry: 'popFromStack',
         always: [
           {
             cond: 'isBackAtStart',
-            target: '#generationAlgorithmMachine.complete',
+            target: 'finished',
           },
           {
-            target: '#generationAlgorithmMachine.seek',
+            target: 'seeking',
           },
         ],
       },
-      complete: {
-        entry: [sendParent(MazeGenerationEventId.DONE)],
+      finished: {
+        entry: sendParent('DONE'),
       },
     },
     on: {
       INJECT_REFS: {
-        target: '#generationAlgorithmMachine.maze-idle',
+        target: '.maze-idle',
       },
       PLAY: {
-        actions: ['play'],
-        target: '#generationAlgorithmMachine.seek',
+        actions: 'play',
+        target: '.seeking',
       },
       PAUSE: {
-        actions: ['pause'],
+        actions: 'pause',
       },
       STEP_FORWARD: {
-        target: '#generationAlgorithmMachine.seek',
+        target: '.seeking',
       },
     },
   }).withConfig({
     guards: {
-      isDeadEnd: ({ eligibleNeighbors }: MazeGenerationContext) =>
-        eligibleNeighbors.length === 0,
-      isBackAtStart: ({ stack }: MazeGenerationContext) => stack.length === 0,
+      canIPlay: (ctx) => ctx.canPlay,
+      isDeadEnd: ({ eligibleNeighbors }) => eligibleNeighbors.length === 0,
+      isBackAtStart: ({ stack }) => stack.length === 0,
     },
     actions: {
-      initGeneration: assign<MazeGenerationContext, MazeGenerationEvent>({
-        currentCell: (ctx: MazeGenerationContext) =>
-          (ctx.grid as IGrid).getStartCell(),
+      initGeneration: assign({
+        currentCell: (ctx) => (ctx.grid as IGrid).getStartCell(),
       }),
-      visitStartCell: (ctx: MazeGenerationContext) => {
+      visitStartCell: (ctx) => {
         const currentCell = (ctx.grid as IGrid).getStartCell();
         return currentCell.visit(null, ctx.pathId);
       },
@@ -157,9 +176,7 @@ export const generationAlgorithmMachine =
       }),
     },
     delays: {
-      SEEK_INTERVAL: ({ fps }: MazeGenerationContext) => {
-        return 1000 / fps;
-      },
+      SEEK_INTERVAL: ({ fps }) => 1000 / fps,
     },
   });
 

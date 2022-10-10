@@ -1,6 +1,5 @@
 import { Ref } from 'react';
 import { IGrid } from '../components/generation/Grid';
-import { MazeGenerationEventId } from './recursiveBacktrackerTypes';
 
 export enum GenerationParamsId {
   BORDER_WEIGHT = 'borderWeight',
@@ -38,67 +37,22 @@ export interface AppMachineContext {
   generationSessionId: number;
 }
 
-export enum AppMachineState {
-  IDLE = 'idle',
-  INITIALIZING = 'initializing',
-  GENERATING = 'generating',
-  PLAYING = 'playing',
-  PAUSED = 'paused',
-  DONE = 'done',
-}
-
-export enum AppMachineEventId {
-  START_OVER = 'START_OVER',
-  PLAY = 'PLAY',
-  STOP = 'STOP',
-  PAUSE = 'PAUSE',
-  STEP_FORWARD = 'STEP_FORWARD',
-  SET_GENERATION_PARAM = 'SET_GENERATION_PARAM',
-  INJECT_REFS = 'INJECT_REFS',
-}
-
-export type SetGenerationParamEvent = {
-  type: AppMachineEventId.SET_GENERATION_PARAM;
-  name: string;
-  value: number;
-};
-
 export type AppMachineEvent =
-  | { type: AppMachineEventId.PLAY }
-  | { type: AppMachineEventId.STOP }
-  | { type: AppMachineEventId.PAUSE }
-  | { type: AppMachineEventId.START_OVER }
-  | { type: AppMachineEventId.STEP_FORWARD }
-  | SetGenerationParamEvent
+  | { type: 'PLAY' }
+  | { type: 'STOP' }
+  | { type: 'PAUSE' }
+  | { type: 'START_OVER' }
+  | { type: 'STEP_FORWARD' }
   | {
-      type: AppMachineEventId.INJECT_REFS;
+      type: 'SET_GENERATION_PARAM';
+      name: string;
+      value: number;
+    }
+  | {
+      type: 'INJECT_REFS';
       gridRef: GridRef;
     }
-  | { type: MazeGenerationEventId.UPDATE }
-  | { type: MazeGenerationEventId.DONE };
+  | { type: 'UPDATE' }
+  | { type: 'DONE' };
 
-export type Typestate =
-  | {
-      value: AppMachineState.IDLE;
-      context: AppMachineContext;
-    }
-  | {
-      value: AppMachineState.GENERATING;
-      context: AppMachineContext;
-    }
-  | {
-      value: { [AppMachineState.GENERATING]: AppMachineState.INITIALIZING };
-      context: AppMachineContext;
-    }
-  | {
-      value: AppMachineState.PLAYING;
-      context: AppMachineContext;
-    }
-  | {
-      value: AppMachineState.PAUSED;
-      context: AppMachineContext;
-    }
-  | {
-      value: AppMachineState.DONE;
-      context: AppMachineContext;
-    };
+export type AppMachineEventId = AppMachineEvent['type'];
