@@ -1,4 +1,4 @@
-import { createMachine, assign, sendParent } from 'xstate';
+import { createMachine, assign, sendParent, interpret } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
@@ -180,8 +180,7 @@ export const generationAlgorithmMachine =
     },
   });
 
-// const service = interpret(generationAlgorithmMachine).onTransition((state) => {
-//   console.log('recursiveBacktrackerMachine:', state.value);
+// const service = interpret(generationAlgorithmMachine);
+// service.subscribe((state) => {
+//   console.log('service sub', state.value);
 // });
-
-// service.start();

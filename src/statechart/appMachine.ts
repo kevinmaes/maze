@@ -1,4 +1,4 @@
-import { createMachine, ContextFrom } from 'xstate';
+import { createMachine, ContextFrom, interpret } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -6,7 +6,7 @@ import {
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
 
-const FPS_DEFAULT = 2;
+const FPS_DEFAULT = 20;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 15;
 
@@ -141,9 +141,3 @@ export const appMachine =
       },
     },
   });
-
-// const service = interpret(appMachine).onTransition((state) => {
-//   console.log('appMachine:', state.value);
-// });
-
-// service.start();

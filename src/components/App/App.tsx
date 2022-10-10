@@ -23,7 +23,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, appSend /* appService */] = useMachine(appMachine, {
+  const [appState, appSend, appService] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
         gridRef: (_, { gridRef }) => gridRef,
@@ -67,21 +67,34 @@ const App = () => {
     context: { generationParams, generationSessionId },
   } = appState;
 
-  // React.useEffect(() => {
-  //   const subscription = appService.subscribe((state) => {
-  //     console.log('appState machine value', state.value);
+  const [position, setPosition] = useState({ columnIndex: 0, rowIndex: 0 });
 
-  //     const childMachine = state.children?.generationAlgorithmMachine;
-  //     if (childMachine) {
-  //       console.log(
-  //         'childMachine state value',
-  //         (childMachine as any).state.value
-  //       );
-  //     }
-  //   });
+  React.useEffect(() => {
+    const subscription = appService.subscribe((state) => {
+      const childMachine = state.children?.generationAlgorithmMachine;
+      if (childMachine) {
+        // console.log(
+        //   'childMachine state value',
+        //   (childMachine as any).state.value
+        // );
+        // console.log(
+        //   'childMachine col/row indices',
+        //   (childMachine as any).state.context.currentCell?.getColumnIndex(),
+        //   (childMachine as any).state.context.currentCell?.getRowIndex()
+        // );
+        setPosition({
+          columnIndex: (
+            childMachine as any
+          ).state.context.currentCell?.getColumnIndex(),
+          rowIndex: (
+            childMachine as any
+          ).state.context.currentCell?.getRowIndex(),
+        });
+      }
+    });
 
-  //   return subscription.unsubscribe;
-  // }, [appService]); // note: service should never change
+    return subscription.unsubscribe;
+  }, [appService]); // note: service should never change
 
   const leversEnabled =
     appState.matches('idle') ||
@@ -89,19 +102,8 @@ const App = () => {
       generating: 'initializing',
     });
 
-  // const sendEventFromControl: (eventId: AppMachineEventId) => void = (
-  //   eventId: AppMachineEventId
-  // ) => {
-  //   appSend(eventId);
-  // };
-
-  // const { currentCell } = appState.context;
-
   const audioProps = {
-    columnIndex: 0,
-    maxColumnIndex: 11,
-    maxRowIndex: 1,
-    rowIndex: 0,
+    columnIndex: position.columnIndex,
   };
 
   return (
