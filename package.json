@@ -21,7 +21,7 @@
     "xstate": "4.33.6"
   },
   "devDependencies": {
-    "@svgr/webpack": "6.4.0",
+    "@svgr/webpack": "6.5.1",
     "@types/aria-query": "5.0.0",
     "@types/jest": "29.1.2",
     "@types/node": "^18.8.3",
