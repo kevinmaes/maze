@@ -11,6 +11,7 @@ import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign, sendTo } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
+import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
 
@@ -22,7 +23,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, appSend /* appService */] = useMachine(appMachine, {
+  const [appState, appRaise /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
         gridRef: ({ event }) => event.gridRef,
@@ -101,19 +102,19 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'SET_GENERATION_PARAM', ...data });
+            appRaise({ type: 'SET_GENERATION_PARAM', ...data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={appSend} />
+        <Controls state={appState} onControlClick={appRaise} />
         <Stage
           width={1000}
           height={1000}
           pixelRatio={1}
           generationParams={generationParams}
-          appSend={appSend}
+          appRaise={appRaise}
           generationSessionId={generationSessionId}
           paramsAreChanging={leversAreChanging}
         />

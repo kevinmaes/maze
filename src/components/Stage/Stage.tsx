@@ -13,7 +13,7 @@ interface Props {
   height?: number;
   pixelRatio?: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  appSend: (event: AppMachineEvent) => void;
+  appRaise: (event: AppMachineEvent) => void;
   generationSessionId: number;
   paramsAreChanging: boolean;
 }
@@ -24,7 +24,7 @@ export const Stage = React.memo(
     height = 100,
     pixelRatio = window.devicePixelRatio,
     generationParams,
-    appSend,
+    appRaise,
     generationSessionId,
   }: Props) => {
     const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
@@ -49,7 +49,7 @@ export const Stage = React.memo(
           // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
         );
         // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-        appSend({ type: 'INJECT_REFS', gridRef });
+        appRaise({ type: 'INJECT_REFS', gridRef });
       }
     }, [
       generationParams,
@@ -59,7 +59,7 @@ export const Stage = React.memo(
       cellSize,
       gridColumns,
       gridRows,
-      appSend,
+      appRaise,
       generationSessionId,
     ]);
 

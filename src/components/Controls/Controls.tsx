@@ -24,7 +24,7 @@ import { State } from 'xstate';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  onControlClick: (eventId: AppMachineEventId) => void;
+  onControlClick: (event: AppMachineEvent) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -43,7 +43,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         if (state.can({ type: 'STEP_FORWARD' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          onControlClick('STEP_FORWARD');
+          onControlClick({ type: 'STEP_FORWARD' });
         }
       }
     },
@@ -52,26 +52,26 @@ export const Controls = ({ state, onControlClick }: Props) => {
         case Key.SPACE:
         case Key.ENTER: {
           if (state.can({ type: 'PLAY' })) {
-            onControlClick('PLAY');
+            onControlClick({ type: 'PLAY' });
           }
           if (state.can({ type: 'PAUSE' })) {
-            onControlClick('PAUSE');
+            onControlClick({ type: 'PAUSE' });
           }
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick('START_OVER');
+            onControlClick({ type: 'START_OVER' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick('START_OVER');
+            onControlClick({ type: 'START_OVER' });
           }
           break;
         }
         case Key.ESCAPE: {
           if (state.can({ type: 'STOP' })) {
-            onControlClick('STOP');
+            onControlClick({ type: 'STOP' });
           }
           break;
         }
