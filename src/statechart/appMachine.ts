@@ -147,7 +147,7 @@ export const appMachine =
     },
   });
 
-// const service = interpret(appMachine).onTransition((state) => {
+// const service = interpret(appMachine).subscribe((state) => {
 //   console.log('appMachine:', state.value);
 // });
 

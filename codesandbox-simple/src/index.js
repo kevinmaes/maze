@@ -123,7 +123,7 @@ export const machine = createMachine(
   }
 );
 
-const service = interpret(machine, { devTools: true }).onTransition((state) => {
+const service = interpret(machine, { devTools: true }).subscribe((state) => {
   console.log(
     `state: ${state.value}, cell index: ${state.context.currentCell.index}`
   );
