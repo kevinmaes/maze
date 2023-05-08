@@ -4,7 +4,6 @@ import type { IGrid } from '../components/generation/Grid';
 
 import { seek } from '../components/generation/seek';
 import { ICell } from '../components/generation/Cell';
-import { Ref } from 'react';
 import { GridRef } from './appMachineTypes';
 
 export const generationAlgorithmMachine =
