@@ -22,7 +22,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, appRaise /* appService */] = useMachine(appMachine, {
+  const [appState, send /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
         gridRef: ({ event }) => event.gridRef,
@@ -101,19 +101,19 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appRaise({ type: 'SET_GENERATION_PARAM', ...data });
+            send({ type: 'SET_GENERATION_PARAM', ...data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={appRaise} />
+        <Controls state={appState} onControlClick={send} />
         <Stage
           width={1000}
           height={1000}
           pixelRatio={1}
           generationParams={generationParams}
-          appRaise={appRaise}
+          send={send}
           generationSessionId={generationSessionId}
           paramsAreChanging={leversAreChanging}
         />
