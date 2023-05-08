@@ -25,7 +25,7 @@ const App = () => {
   const [appState, send /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
-        gridRef: ({ event }) => event.gridRef,
+        gridRef: ({ event }) => event.params.gridRef,
       }),
 
       refreshGenerationSessionId: assign({
@@ -33,10 +33,12 @@ const App = () => {
         generationSessionId: (_) => new Date().getTime(),
       }),
       updateGenerationParams: assign({
-        generationParams: ({ generationParams }, event) => {
-          const { name, value } = event;
+        generationParams: ({ context, event }) => {
+          const {
+            params: { name, value },
+          } = event;
           return {
-            ...generationParams,
+            ...context.generationParams,
             [name]: value,
           };
         },
@@ -101,7 +103,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            send({ type: 'SET_GENERATION_PARAM', ...data });
+            send({ type: 'SET_GENERATION_PARAM', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}

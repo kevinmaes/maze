@@ -45,12 +45,11 @@ export type AppMachineEvent =
   | { type: 'STEP_FORWARD' }
   | {
       type: 'SET_GENERATION_PARAM';
-      name: string;
-      value: number;
+      params: { name: string; value: number };
     }
   | {
       type: 'INJECT_REFS';
-      gridRef: GridRef;
+      params: { gridRef: GridRef };
     }
   | { type: 'UPDATE' }
   | { type: 'DONE' };

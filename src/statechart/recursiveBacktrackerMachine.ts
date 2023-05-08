@@ -24,7 +24,7 @@ export const generationAlgorithmMachine =
       events: {} as
         | {
             type: 'INJECT_REFS';
-            gridRef: Ref<IGrid>;
+            params: { gridRef: Ref<IGrid> };
           }
         | {
             type: 'START';

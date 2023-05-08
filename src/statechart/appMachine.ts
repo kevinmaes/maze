@@ -38,6 +38,10 @@ export const appMachine =
       typegen: {} as import('./appMachine.typegen').Typegen0,
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
+      actors: {} as {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        childMachine: any;
+      },
     },
     context: initialAppMachineContext,
     id: 'app',
