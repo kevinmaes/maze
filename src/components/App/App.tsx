@@ -25,7 +25,7 @@ const App = () => {
   const [appState, appSend /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
-        gridRef: (_, { gridRef }) => gridRef,
+        gridRef: ({ event }) => event.gridRef,
       }),
 
       refreshGenerationSessionId: assign({
@@ -54,7 +54,7 @@ const App = () => {
         to: 'generationAlgorithmMachine',
       }),
     },
-    services: {
+    actors: {
       // Can switch between algorithm machines by making this a function
       childMachine: generationAlgorithmMachine,
     },

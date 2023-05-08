@@ -34,11 +34,10 @@ const initialAppMachineContext: AppMachineContext = {
 export const appMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqB0BLCAbMAxAJIByAUgKIDCAKgPoBKFAYgMqKioD2sWALli4A7DiAAeiALQAWAAwAODAEYAnLICsSgMwA2VevlL5AGhABPKVq0AmDAHYHdpbLlPZVuwF9PptJhhCYABOyAJCUNhC-FjIuFgAXljhBAAKADIAggCaoty8AsKiEgiS1qoY8vIqVbIOWi7uJuZS0joY1rLVtXY6VVoqWtLevugYAcGhSRGouMhmU6kZAKqsFLk80YVI4ojSStIYBirW6v3Hg0o6phYlOur27rK9x6p2KtLWwyB+Y2CBIWFprN5slWDQAPIpdb5QQibbFSQ2NoOHQqBxKdQaeR6K7NBDSFTtaz1eTWaQ2IwqAzqL4-cYAqYYVDIACusEgqUyOW2eU2cNAxQ+skOWnUHy0pPU7xUuJuZWUcmsOl6di0dmx8lqtNG9Mm4SZrPZEAIYMh0L5RUQNkUYrUGL2VTsStlliqyh6qIlaP6Wp83x1fwmgINbI5YIoKTozHBDAA6hkGAARc0Ffk7BDyVoYCVnY4fTWyJTXKT7NplfN2IV7ax2Gl+umBhnJJYpRMZGhrHkbVOWhDqHQHd5inTWTVaZy9YsIfYHWvqU4j7F2TqV7X+Rt6qAERPgkidzjd2G9tXCmvLyqk7HKlRTy4HMnyWvWNTVU7yNcYCDCQhghP0cEAGoUAwKZHvCUg6PUDyyLU0jyPOeyqre0izghAzKgoKhGFoa4mhQ9AAOIUHuDDtkQu50CkCYZAAsqBWwChBzgVPBxxvJKzhaFOMgfBU1gdAYTr9COtbeH6QhcBAcCiD8OD4PRaYIqc9yqHsshkuoNZGNY3HjoSo5wZiThoi4YofrqwZJNEsQJFMCm9oi8haBgchSqSxLjpB6jcZp7TOMSD6Ys6771gG-ybkywJ2V2MIMemkiYkSC4DPxjw1t5eKSA4GCegoZL2p087mRuwbMqGED2eBGYwRg7x3AOegykoRg+bYZTqTYhnqcqdzFeFgKVYxJSuC5GjVPxViXKK3HPs5+xGE8lxSmUKgfl+gSDfFGK2EoZJYb0uinJ0N54hiigPlYMFopm0heKFqCbQidyzjBsHwWKShIZlmnIscaJovx-GrmJQA */
   createMachine({
-    schema: {
+    types: {
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
     },
-    tsTypes: {} as import('./appMachine.typegen').Typegen0,
     context: initialAppMachineContext,
     id: 'app',
     initial: 'idle',
@@ -56,7 +55,8 @@ export const appMachine =
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
-          data: (ctx) => {
+          // @ts-expect-error This is not yet types in xstate beta.
+          input: ({ context }) => {
             const defaultChildMachineContext = {
               canPlay: true,
               currentCell: undefined,
@@ -68,10 +68,10 @@ export const appMachine =
             const childContext: ContextFrom<typeof generationAlgorithmMachine> =
               {
                 ...defaultChildMachineContext,
-                fps: ctx.generationParams.fps,
+                fps: context.generationParams.fps,
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                grid: (ctx.gridRef as any).current,
-                pathId: ctx.generationSessionId.toString(),
+                grid: (context.gridRef as any).current,
+                pathId: context.generationSessionId.toString(),
               };
 
             return childContext;
@@ -96,7 +96,7 @@ export const appMachine =
             },
           },
           playing: {
-            onEntry: 'startGenerationAlgorithmMachine',
+            entry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
