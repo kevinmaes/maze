@@ -40,7 +40,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
       if (event.key === Key.ARROW_RIGHT) {
-        if (state.can('STEP_FORWARD')) {
+        if (state.can({ type: 'STEP_FORWARD' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
           onControlClick('STEP_FORWARD');
@@ -51,26 +51,26 @@ export const Controls = ({ state, onControlClick }: Props) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {
-          if (state.can('PLAY')) {
+          if (state.can({ type: 'PLAY' })) {
             onControlClick('PLAY');
           }
-          if (state.can('PAUSE')) {
+          if (state.can({ type: 'PAUSE' })) {
             onControlClick('PAUSE');
           }
-          if (state.can('START_OVER')) {
+          if (state.can({ type: 'START_OVER' })) {
             onControlClick('START_OVER');
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
-          if (state.can('START_OVER')) {
+          if (state.can({ type: 'START_OVER' })) {
             onControlClick('START_OVER');
           }
           break;
         }
         case Key.ESCAPE: {
-          if (state.can('STOP')) {
+          if (state.can({ type: 'STOP' })) {
             onControlClick('STOP');
           }
           break;
@@ -90,17 +90,17 @@ export const Controls = ({ state, onControlClick }: Props) => {
     if (event.detail === 0) {
       return;
     }
-    onControlClick(id as AppMachineEventId);
+    onControlClick({ type: id } as any);
   };
 
   const renderStateControls = (
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
-    const canStartOver = state.can('START_OVER');
-    const canPlay = state.can('PLAY');
-    const canPause = state.can('PAUSE');
-    const canStop = state.can('STOP');
-    const canStepForward = state.can('STEP_FORWARD');
+    const canStartOver = state.can({ type: 'START_OVER' });
+    const canPlay = state.can({ type: 'PLAY' });
+    const canPause = state.can({ type: 'PAUSE' });
+    const canStop = state.can({ type: 'STOP' });
+    const canStepForward = state.can({ type: 'STEP_FORWARD' });
 
     return (
       <div>
