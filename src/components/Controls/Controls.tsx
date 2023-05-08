@@ -89,7 +89,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     if (event.detail === 0) {
       return;
     }
-    onControlClick({ type: id } as any);
+    onControlClick({ type: id } as AppMachineEvent);
   };
 
   const renderStateControls = (
