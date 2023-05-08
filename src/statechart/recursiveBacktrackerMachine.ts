@@ -97,7 +97,7 @@ export const generationAlgorithmMachine =
         ],
       },
       finished: {
-        entry: sendParent('DONE'),
+        entry: sendParent({ type: 'DONE' }),
       },
     },
     on: {
