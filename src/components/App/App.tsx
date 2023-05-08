@@ -11,7 +11,6 @@ import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign, sendTo } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
-import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
 

@@ -54,5 +54,3 @@ export type AppMachineEvent =
     }
   | { type: 'UPDATE' }
   | { type: 'DONE' };
-
-export type AppMachineEventId = AppMachineEvent['type'];

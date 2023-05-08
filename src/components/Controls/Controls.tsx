@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import {
   AppMachineContext,
   AppMachineEvent,
-  AppMachineEventId,
 } from '../../statechart/appMachineTypes';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import Play from '../../assets/svg/controls/play.svg';
