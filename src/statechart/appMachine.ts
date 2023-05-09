@@ -102,7 +102,7 @@ export const appMachine =
             },
           },
           playing: {
-            entry: [log('playing state'), 'startGenerationAlgorithmMachine'],
+            entry: 'startGenerationAlgorithmMachine',
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
