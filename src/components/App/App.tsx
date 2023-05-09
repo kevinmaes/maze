@@ -24,7 +24,8 @@ const App = () => {
   const [appState, send /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
-        gridRef: ({ event }) => event.params.gridRef,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        gridRef: ({ event }: any) => event.params.gridRef,
       }),
 
       refreshGenerationSessionId: assign({
