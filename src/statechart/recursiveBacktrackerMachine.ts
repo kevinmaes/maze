@@ -45,9 +45,9 @@ export const generationAlgorithmMachine =
             type: 'DONE';
           },
     },
-    // tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
     id: 'generationAlgorithmMachine',
     initial: 'maze-idle',
+    context: ({ input }) => input,
     states: {
       'maze-idle': {
         on: {
@@ -166,9 +166,3 @@ export const generationAlgorithmMachine =
       SEEK_INTERVAL: ({ context: { fps } }) => 1000 / fps,
     },
   });
-
-// const service = interpret(generationAlgorithmMachine).subscribe((state) => {
-//   console.log('recursiveBacktrackerMachine:', state.value);
-// });
-
-// service.start();

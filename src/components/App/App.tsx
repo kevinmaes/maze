@@ -10,7 +10,6 @@ import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign, sendTo } from 'xstate';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
 
 declare const VERSION: string;
 
@@ -56,10 +55,10 @@ const App = () => {
         type: 'STEP_FORWARD',
       }),
     },
-    actors: {
-      // Can switch between algorithm machines by making this a function
-      childMachine: generationAlgorithmMachine,
-    },
+    // actors: {
+    //   // Can switch between algorithm machines by making this a function
+    //   childMachine: generationAlgorithmMachine,
+    // },
   });
 
   const [leversAreChanging, setLeversAreChanging] = useState(false);
@@ -109,7 +108,13 @@ const App = () => {
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={send} />
+        <Controls
+          state={appState}
+          onControlClick={(e) => {
+            console.log('onControlClick', e);
+            return send(e);
+          }}
+        />
         <Stage
           width={1000}
           height={1000}

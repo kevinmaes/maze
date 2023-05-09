@@ -1,4 +1,4 @@
-import { createMachine, ContextFrom } from 'xstate';
+import { createMachine, ContextFrom, log } from 'xstate';
 import {
   GenerationParams,
   AppMachineContext,
@@ -59,7 +59,8 @@ export const appMachine =
         initial: 'initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
-          src: 'childMachine',
+          // src: 'childMachine',
+          src: generationAlgorithmMachine,
           // @ts-expect-error This is not yet types in xstate beta.
           input: ({ context }) => {
             const defaultChildMachineContext = {
@@ -101,7 +102,7 @@ export const appMachine =
             },
           },
           playing: {
-            entry: 'startGenerationAlgorithmMachine',
+            entry: [log('playing state'), 'startGenerationAlgorithmMachine'],
             on: {
               PAUSE: {
                 actions: ['pauseGenerationAlgorithmMachine'],
