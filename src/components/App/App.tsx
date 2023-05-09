@@ -30,7 +30,7 @@ const App = () => {
 
       refreshGenerationSessionId: assign({
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        generationSessionId: (_) => new Date().getTime(),
+        generationSessionId: () => new Date().getTime(),
       }),
       updateGenerationParams: assign({
         generationParams: ({ context, event }) => {
