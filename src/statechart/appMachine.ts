@@ -61,7 +61,7 @@ export const appMachine =
           id: 'generationAlgorithmMachine',
           // src: 'childMachine',
           src: generationAlgorithmMachine,
-          // @ts-expect-error This is not yet types in xstate beta.
+          // @ts-expect-error This is not yet typed in XState beta.
           input: ({ context }) => {
             const defaultChildMachineContext = {
               canPlay: true,
