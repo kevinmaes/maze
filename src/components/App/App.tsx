@@ -116,7 +116,7 @@ const App = () => {
               // appSend(event as AppMachineEventId);
               appSend({ type: event as any });
             } else {
-              appSend({ type: event });
+              appSend(event);
             }
           }}
         />

@@ -24,7 +24,7 @@ import { State } from 'xstate';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  onControlClick: (eventId: AppMachineEventId) => void;
+  onControlClick: (event: AppMachineEvent | AppMachineEventId) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -58,14 +58,14 @@ export const Controls = ({ state, onControlClick }: Props) => {
             onControlClick('PAUSE');
           }
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick('START_OVER');
+            onControlClick({ type: 'START_OVER' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick('START_OVER');
+            onControlClick({ type: 'START_OVER' });
           }
           break;
         }
