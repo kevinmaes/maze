@@ -24,7 +24,7 @@ import { State } from 'xstate';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  onControlClick: (event: AppMachineEvent | AppMachineEventId) => void;
+  sendControlEvent: (event: AppMachineEvent | AppMachineEventId) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -34,7 +34,7 @@ const iconFillDisabledColor = '#D3D3D3';
 const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
-export const Controls = ({ state, onControlClick }: Props) => {
+export const Controls = ({ state, sendControlEvent }: Props) => {
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
@@ -43,7 +43,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         if (state.can({ type: 'STEP_FORWARD' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          onControlClick({ type: 'STEP_FORWARD' });
+          sendControlEvent({ type: 'STEP_FORWARD' });
         }
       }
     },
@@ -52,26 +52,26 @@ export const Controls = ({ state, onControlClick }: Props) => {
         case Key.SPACE:
         case Key.ENTER: {
           if (state.can({ type: 'PLAY' })) {
-            onControlClick({ type: 'PLAY' });
+            sendControlEvent({ type: 'PLAY' });
           }
           if (state.can({ type: 'PAUSE' })) {
-            onControlClick({ type: 'PAUSE' });
+            sendControlEvent({ type: 'PAUSE' });
           }
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick({ type: 'START_OVER' });
+            sendControlEvent({ type: 'START_OVER' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
           if (state.can({ type: 'START_OVER' })) {
-            onControlClick({ type: 'START_OVER' });
+            sendControlEvent({ type: 'START_OVER' });
           }
           break;
         }
         case Key.ESCAPE: {
           if (state.can({ type: 'STOP' })) {
-            onControlClick({ type: 'STOP' });
+            sendControlEvent({ type: 'STOP' });
           }
           break;
         }
@@ -92,7 +92,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     }
     const type = id as AppMachineEventId;
     const eventObj = { type } as AppMachineEvent;
-    onControlClick(eventObj);
+    sendControlEvent(eventObj);
   };
 
   const renderStateControls = (

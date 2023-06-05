@@ -105,7 +105,7 @@ const App = () => {
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={appSend} />
+        <Controls state={appState} sendControlEvent={appSend} />
         <Stage
           width={1000}
           height={1000}
