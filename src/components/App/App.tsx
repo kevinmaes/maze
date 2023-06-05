@@ -105,18 +105,7 @@ const App = () => {
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls
-          state={appState}
-          onControlClick={(event: any) => {
-            console.log('App event', event);
-            if (typeof event === 'string') {
-              // appSend(event as AppMachineEventId);
-              appSend({ type: event as any });
-            } else {
-              appSend(event);
-            }
-          }}
-        />
+        <Controls state={appState} onControlClick={appSend} />
         <Stage
           width={1000}
           height={1000}
