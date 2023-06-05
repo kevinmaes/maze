@@ -34,13 +34,10 @@ const App = () => {
         generationSessionId: (_) => new Date().getTime(),
       }),
       updateGenerationParams: assign({
-        generationParams: ({ generationParams }, event) => {
-          const { name, value } = event;
-          return {
-            ...generationParams,
-            [name]: value,
-          };
-        },
+        generationParams: ({ generationParams }, { params }) => ({
+          ...generationParams,
+          [params.name]: params.value,
+        }),
       }),
       startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
         type: 'START',
@@ -102,7 +99,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'SET_GENERATION_PARAM', ...data });
+            appSend({ type: 'SET_GENERATION_PARAM', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
