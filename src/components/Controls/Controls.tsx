@@ -40,7 +40,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
       if (event.key === Key.ARROW_RIGHT) {
-        if (state.can('STEP_FORWARD')) {
+        if (state.can({ type: 'STEP_FORWARD' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
           onControlClick('STEP_FORWARD');
@@ -100,7 +100,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     const canPlay = state.can('PLAY');
     const canPause = state.can('PAUSE');
     const canStop = state.can('STOP');
-    const canStepForward = state.can('STEP_FORWARD');
+    const canStepForward = state.can({ type: 'STEP_FORWARD' });
 
     return (
       <div>
