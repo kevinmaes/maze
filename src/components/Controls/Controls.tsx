@@ -71,7 +71,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         }
         case Key.ESCAPE: {
           if (state.can({ type: 'STOP' })) {
-            onControlClick('STOP');
+            onControlClick({ type: 'STOP' });
           }
           break;
         }
