@@ -43,7 +43,7 @@ const App = () => {
         type: 'START',
       }),
       playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'PLAY',
+        type: 'Play',
       }),
       pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
         type: 'PAUSE',

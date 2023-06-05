@@ -51,8 +51,8 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {
-          if (state.can({ type: 'PLAY' })) {
-            sendControlEvent({ type: 'PLAY' });
+          if (state.can({ type: 'Play' })) {
+            sendControlEvent({ type: 'Play' });
           }
           if (state.can({ type: 'PAUSE' })) {
             sendControlEvent({ type: 'PAUSE' });
@@ -99,7 +99,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
     const canStartOver = state.can({ type: 'START_OVER' });
-    const canPlay = state.can({ type: 'PLAY' });
+    const canPlay = state.can({ type: 'Play' });
     const canPause = state.can({ type: 'PAUSE' });
     const canStop = state.can({ type: 'STOP' });
     const canStepForward = state.can({ type: 'STEP_FORWARD' });
@@ -144,7 +144,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'PLAY'}
+              id={'Play'}
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"

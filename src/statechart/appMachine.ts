@@ -90,7 +90,7 @@ export const appMachine =
         states: {
           initializing: {
             on: {
-              PLAY: {
+              Play: {
                 target: 'playing',
               },
             },
@@ -110,7 +110,7 @@ export const appMachine =
           },
           paused: {
             on: {
-              PLAY: {
+              Play: {
                 actions: ['playGenerationAlgorithmMachine'],
                 target: 'playing',
               },

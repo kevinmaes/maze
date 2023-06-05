@@ -38,7 +38,7 @@ export interface AppMachineContext {
 }
 
 export type AppMachineEvent =
-  | { type: 'PLAY' }
+  | { type: 'Play' }
   | { type: 'STOP' }
   | { type: 'PAUSE' }
   | { type: 'START_OVER' }
