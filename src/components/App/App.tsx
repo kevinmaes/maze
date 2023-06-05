@@ -9,9 +9,8 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
-import { assign, send } from 'xstate';
+import { assign } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
-import { AppMachineEventId } from '../../statechart/appMachineTypes';
 import { sendTo } from 'xstate/lib/actions';
 
 declare const VERSION: string;
