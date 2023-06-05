@@ -9,8 +9,9 @@ import { Stage } from '../Stage';
 import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
-import { assign, send } from 'xstate';
+import { assign } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
+import { sendTo } from 'xstate/lib/actions';
 
 declare const VERSION: string;
 
@@ -25,7 +26,7 @@ const App = () => {
   const [appState, appSend /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
-        gridRef: (_, { gridRef }) => gridRef,
+        gridRef: (_, { params }) => params.gridRef,
       }),
 
       refreshGenerationSessionId: assign({
@@ -33,25 +34,22 @@ const App = () => {
         generationSessionId: (_) => new Date().getTime(),
       }),
       updateGenerationParams: assign({
-        generationParams: ({ generationParams }, event) => {
-          const { name, value } = event;
-          return {
-            ...generationParams,
-            [name]: value,
-          };
-        },
+        generationParams: ({ generationParams }, { params }) => ({
+          ...generationParams,
+          [params.name]: params.value,
+        }),
       }),
-      startGenerationAlgorithmMachine: send('START', {
-        to: 'generationAlgorithmMachine',
+      startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'START',
       }),
-      playGenerationAlgorithmMachine: send('PLAY', {
-        to: 'generationAlgorithmMachine',
+      playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'PLAY',
       }),
-      pauseGenerationAlgorithmMachine: send('PAUSE', {
-        to: 'generationAlgorithmMachine',
+      pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'PAUSE',
       }),
-      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
-        to: 'generationAlgorithmMachine',
+      stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'STEP_FORWARD',
       }),
     },
     services: {
@@ -101,13 +99,13 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'SET_GENERATION_PARAM', ...data });
+            appSend({ type: 'SET_GENERATION_PARAM', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={appSend} />
+        <Controls state={appState} sendControlEvent={appSend} />
         <Stage
           width={1000}
           height={1000}

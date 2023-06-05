@@ -1,6 +1,6 @@
 {
   "name": "maze",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "private": true,
   "scripts": {
     "postinstall": "xstate typegen \"./src/**/*.ts?(x)\"",
@@ -11,14 +11,14 @@
   },
   "dependencies": {
     "@xstate/cli": "^0.3.3",
-    "@xstate/react": "3.2.1",
+    "@xstate/react": "3.2.2",
     "next": "12.3.1",
     "prettier": "^2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
     "styled-components": "5.3.6",
-    "xstate": "^4.37.0"
+    "xstate": "^4.37.2"
   },
   "devDependencies": {
     "@svgr/webpack": "6.5.1",
