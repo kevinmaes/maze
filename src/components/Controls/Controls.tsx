@@ -54,7 +54,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           if (state.can('PLAY')) {
             onControlClick('PLAY');
           }
-          if (state.can('PAUSE')) {
+          if (state.can({ type: 'PAUSE' })) {
             onControlClick('PAUSE');
           }
           if (state.can({ type: 'START_OVER' })) {
@@ -98,7 +98,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
   ) => {
     const canStartOver = state.can({ type: 'START_OVER' });
     const canPlay = state.can('PLAY');
-    const canPause = state.can('PAUSE');
+    const canPause = state.can({ type: 'PAUSE' });
     const canStop = state.can({ type: 'STOP' });
     const canStepForward = state.can({ type: 'STEP_FORWARD' });
 
