@@ -11,6 +11,7 @@ import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign, send } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
+import { AppMachineEventId } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
 
@@ -107,7 +108,18 @@ const App = () => {
           settingsAreChanging={setLeversAreChanging}
         />
 
-        <Controls state={appState} onControlClick={appSend} />
+        <Controls
+          state={appState}
+          onControlClick={(event: any) => {
+            console.log('App event', event);
+            if (typeof event === 'string') {
+              // appSend(event as AppMachineEventId);
+              appSend({ type: event as any });
+            } else {
+              appSend({ type: event });
+            }
+          }}
+        />
         <Stage
           width={1000}
           height={1000}
