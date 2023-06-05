@@ -43,7 +43,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         if (state.can({ type: 'STEP_FORWARD' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          onControlClick('STEP_FORWARD');
+          onControlClick({ type: 'STEP_FORWARD' });
         }
       }
     },
