@@ -102,7 +102,7 @@ export const appMachine =
                 actions: ['pauseGenerationAlgorithmMachine'],
                 target: 'paused',
               },
-              STOP: {
+              Stop: {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
@@ -114,7 +114,7 @@ export const appMachine =
                 actions: ['playGenerationAlgorithmMachine'],
                 target: 'playing',
               },
-              STOP: {
+              Stop: {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },

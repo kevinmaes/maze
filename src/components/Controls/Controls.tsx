@@ -70,8 +70,8 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           break;
         }
         case Key.ESCAPE: {
-          if (state.can({ type: 'STOP' })) {
-            sendControlEvent({ type: 'STOP' });
+          if (state.can({ type: 'Stop' })) {
+            sendControlEvent({ type: 'Stop' });
           }
           break;
         }
@@ -101,7 +101,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     const canStartOver = state.can({ type: 'START_OVER' });
     const canPlay = state.can({ type: 'Play' });
     const canPause = state.can({ type: 'PAUSE' });
-    const canStop = state.can({ type: 'STOP' });
+    const canStop = state.can({ type: 'Stop' });
     const canStepForward = state.can({ type: 'STEP_FORWARD' });
 
     return (
@@ -125,7 +125,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'STOP'}
+              id={'Stop'}
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
