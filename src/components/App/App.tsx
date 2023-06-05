@@ -99,7 +99,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'SET_GENERATION_PARAM', params: data });
+            appSend({ type: 'Set generation param', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}

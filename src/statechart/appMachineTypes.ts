@@ -44,7 +44,7 @@ export type AppMachineEvent =
   | { type: 'START_OVER' }
   | { type: 'STEP_FORWARD' }
   | {
-      type: 'SET_GENERATION_PARAM';
+      type: 'Set generation param';
       params: { name: string; value: number };
     }
   | {

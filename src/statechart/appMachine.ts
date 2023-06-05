@@ -135,7 +135,7 @@ export const appMachine =
       },
     },
     on: {
-      SET_GENERATION_PARAM: {
+      'Set generation param': {
         actions: ['updateGenerationParams'],
         target: 'idle',
       },
