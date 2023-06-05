@@ -45,7 +45,7 @@ export const appMachine =
     states: {
       idle: {
         on: {
-          INJECT_REFS: {
+          'Inject refs': {
             actions: ['storeGridRef'],
             target: 'generating',
           },

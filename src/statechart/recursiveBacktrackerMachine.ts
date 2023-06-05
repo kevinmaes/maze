@@ -23,7 +23,7 @@ export const generationAlgorithmMachine =
       },
       events: {} as
         | {
-            type: 'INJECT_REFS';
+            type: 'Inject refs';
             params: { gridRef: Ref<IGrid> };
           }
         | {
@@ -100,7 +100,7 @@ export const generationAlgorithmMachine =
       },
     },
     on: {
-      INJECT_REFS: {
+      'Inject refs': {
         target: '.maze-idle',
       },
       PLAY: {

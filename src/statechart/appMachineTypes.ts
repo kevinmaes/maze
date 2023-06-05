@@ -48,7 +48,7 @@ export type AppMachineEvent =
       params: { name: string; value: number };
     }
   | {
-      type: 'INJECT_REFS';
+      type: 'Inject refs';
       params: { gridRef: GridRef };
     }
   | { type: 'UPDATE' }
