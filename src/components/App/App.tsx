@@ -12,6 +12,7 @@ import GlobalStyle from '../../styles/GlobalStyles';
 import { assign, send } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
 import { AppMachineEventId } from '../../statechart/appMachineTypes';
+import { sendTo } from 'xstate/lib/actions';
 
 declare const VERSION: string;
 
@@ -42,17 +43,17 @@ const App = () => {
           };
         },
       }),
-      startGenerationAlgorithmMachine: send('START', {
-        to: 'generationAlgorithmMachine',
+      startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'START',
       }),
-      playGenerationAlgorithmMachine: send('PLAY', {
-        to: 'generationAlgorithmMachine',
+      playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'PLAY',
       }),
-      pauseGenerationAlgorithmMachine: send('PAUSE', {
-        to: 'generationAlgorithmMachine',
+      pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'PAUSE',
       }),
-      stepGenerationAlgorithmMachine: send('STEP_FORWARD', {
-        to: 'generationAlgorithmMachine',
+      stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+        type: 'STEP_FORWARD',
       }),
     },
     services: {
