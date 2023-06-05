@@ -57,14 +57,14 @@ export const Controls = ({ state, onControlClick }: Props) => {
           if (state.can('PAUSE')) {
             onControlClick('PAUSE');
           }
-          if (state.can('START_OVER')) {
+          if (state.can({ type: 'START_OVER' })) {
             onControlClick('START_OVER');
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
-          if (state.can('START_OVER')) {
+          if (state.can({ type: 'START_OVER' })) {
             onControlClick('START_OVER');
           }
           break;
@@ -96,7 +96,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
   const renderStateControls = (
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
-    const canStartOver = state.can('START_OVER');
+    const canStartOver = state.can({ type: 'START_OVER' });
     const canPlay = state.can('PLAY');
     const canPause = state.can('PAUSE');
     const canStop = state.can('STOP');
