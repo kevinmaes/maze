@@ -26,7 +26,7 @@ const App = () => {
   const [appState, appSend /* appService */] = useMachine(appMachine, {
     actions: {
       storeGridRef: assign({
-        gridRef: (_, { gridRef }) => gridRef,
+        gridRef: (_, { params }) => params.gridRef,
       }),
 
       refreshGenerationSessionId: assign({
