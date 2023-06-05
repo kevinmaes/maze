@@ -52,10 +52,10 @@ export const Controls = ({ state, onControlClick }: Props) => {
         case Key.SPACE:
         case Key.ENTER: {
           if (state.can({ type: 'PLAY' })) {
-            onControlClick('PLAY');
+            onControlClick({ type: 'PLAY' });
           }
           if (state.can({ type: 'PAUSE' })) {
-            onControlClick('PAUSE');
+            onControlClick({ type: 'PAUSE' });
           }
           if (state.can({ type: 'START_OVER' })) {
             onControlClick({ type: 'START_OVER' });
