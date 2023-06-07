@@ -118,7 +118,7 @@ export const appMachine =
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.idle',
               },
-              STEP_FORWARD: {
+              'Step forward': {
                 actions: ['stepGenerationAlgorithmMachine'],
               },
             },

@@ -7,7 +7,7 @@ import { ICell } from '../components/generation/Cell';
 import { Ref } from 'react';
 
 export const generationAlgorithmMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMQCSAcgFICiAYQAqAfQBK-AGIBlANoAGALqJQAB3ywqBFKpAAPRAGYAjAoB0ANgDsJgJwBWBQA471y0YfWANCACeiAAsztbmzoEO4XYmDpbOlnaeAL5JvqgYODqk5JQ0DMysHAAKADJEAJqKKkggGlp4hHqGCCYm4WEATA5OliaBpg4dlr4BCIGWDuYKRnbO3f1u1kZGKWlgaFgNxGQUVHSMLGxg7EVEAKoy-FV6ddqNNc2tluYmRoEK4+8hNgodI4ghIzmUzWIaBOwdRYOEyrEDpTZZHa5fYFI7sGTCfhFURSADy4gA6kRxAARa41W5bJqIExDUIRLpeOyBax2BStf5jEJhCJRGJxBIdQKw+GZQjZXZ5A6FMDmWiYABeYAAtLgICRjhjicJyepNHddA8gs5nOZInM3EZnF0JsN-Igfi9mc4jB1Ie9rOMResMlsJcj8oc0OZYNhMOg8CgoOx9KGcLLMAAzbAYAAUl34AGlRDxMeIAGpEEoASnYor9SL2gZlIbDEbYUF1tX1VKNCBNkzaRksETevVZgU5NhMVkcwVp7x74O9GzF2xyVelRxDYDAAGsG+wm5SdNSWiygQlmeyjAozyZ3EOXaPIeyvFPXDPfYiF1LUcHMBAAG6YFBMTfbi2u5tiYEyTKCnoKPM1i-F4nLONM5jjC6thuoEHQITCqRwj6CLipWb5Bgm36-v+UYxnGKbmEmKboOm-BZjm3B5oWJZlrhc7+ou77ET+f4NoB9TAaAjxWoE5i2NatgeKhzKct0pouL8LKMm4DgrNh5YvpKKJEeYABGzBrtgWBMBu5GCQae60h0QKOG4t6ejE0Kcmy4n9FB0LdnYR4dE+eHzjp1bLoZZkmUZAEmNUepCfcIk0rZ4lCr8My0heZ52qMzitEhbpngh3YfG0KTYSg+AQHAehafhr66TKNxAXFBiIEMHRWLYjguG4HhwfaCBGNYoSxH0UERG0sz+ZxBF1cu8pKqq6pgA1sWGvF-VdE6lhxN2CQ9pEg59Y69jBK67oKJ6liTRWtXBcGcb1lGy1WW2PampCiUuvtHS0kOfRIa8vReCyNgRFd2kBkud2ruZUBPa2a20gozwzJ8o0OIk31DlaYQzJClgdOdLqPppHHXUFkO8aRDZw8JzUtPjQIxGysS2QhwTOEOESjgh7hmOCbwaWss5kxDPEGUZ4VmdTFKNatdOgRe5g+R88S-J6oImPBbhTC41iRGryzWM4YM1eTYuJmwuCwNQkA001jy2YeMHTK84wfBhrncgTF4QltdiOKBJVJEAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMQCSKAVmE9gAE6MADNYAbQAMAXUSgADvlhUCKeSAAeiALQAOAJwA6AIx6pJgOwAWS5YCsU+wDYpAZgA0IAJ6ITUowMrKSlnA0MDA0sAJjc3AF94r1QMHDVSckoaBmZWDgAFEkxvaTkkECUVPEINbQQHPSNrN3t7a2s9PTtIgy9fBB0TaKN3ZxiDZ2drWNDoxOSwNCxq4jIKKjpGFjYwdnyiAFUAZQBRUo1K1Rryup1ovRMjSxMp6ylmvWapA2s+xDdopYjPYJmFms57C0DHMkiAUst0mssptcjt2EdsGAFIJRBQAO6YdAQc7lS4rWqIPQg0zRaJSLrWMzvaK-Hx+AJBSwhMIRKKxBKw+FpQgZdbZLZ5MBGWiYABeYB0uAgJF2RwAKkQAEpqkmKZRXdQ3RCOJqMyImew2aauTxshBmaxGSYGSGWMb0qTREwGeZwxapFai5E5bZoIywbCEvAoKDsTQRnBSzCiTHoAAUpxOAGkAPqcAByapOmoAakQADIASnYQsDSI2Icl4cj6GjUF1FX15KNCGaQK9eimbS59hMbksf3tg9Mk3eY1a4Wizj0vtriMyDYlO3DYDAAGs2LGO2S1BT7Z7HSC3EFLQ5LOF7JOzM4Z64l58pkEAav-QiRfXxVRMNMAgAA3TAUCYQ92GPLtTx7IYQkCAEpHvB5PTMSc3GsewRmdZx-BdJwugFBYlmFVYN0A0MkzAiCoJjOME0xIxk1TDMTmzPNC2LMsqxrX8KKDTcgNo8DIMPWCqng0A6h+XCIXaaxnBaB44hMSdogMNxTGaKwJlHMcWR-ci6yolEaKMAAjZg92wLAmAPRipINM8TDMYZuRUpxmjcPRsMnW9AiXNxULecd3hMEyA3XMULKbGzHPs2zoIkEwyj1aTrlkxB72GLk3DMOI2jaExWX6VoAjMTplOXew6U9RJYRQfAIDgDQ13-czGx2C44OyrRdDHIEmSsWwHCcG1Jx0SJgQtKw9BZAwQnCaxor-Si4p6sMZXlRVlTAPqssNHKBi6IxaWierCstCw9CfT4nTCV13XML0fUFQSzK2rcwwTVtDyO1yEKCIw4gI5cJkZMqNLtMdcO9dw3UW1pCssdahIA+Lt1gXcnKgIHu1OuxhmtKwARsMZaSfDpTE+elR2Uhwrwx77g1+sT6MB0l+pOwb7ReRo3EmPyx0iCFPRpxoHQZsr5xZz7TNi9nROs2zksc7nMuB073JU0xnhBMIxwBQrJxwl97HMRdrAfM10cVmKup+1XRDYXBYGoSBCZk-n3NB55sLaPyXWXe67VnIxPiu0KrEsCm1qaoA */
   createMachine({
     tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
     schema: {
@@ -36,7 +36,7 @@ export const generationAlgorithmMachine =
             type: 'PAUSE';
           }
         | {
-            type: 'STEP_FORWARD';
+            type: 'Step forward';
           }
         | {
             type: 'UPDATE';
@@ -65,7 +65,7 @@ export const generationAlgorithmMachine =
         },
       },
       seeking: {
-        entry: ['findNeighbors', sendParent('UPDATE')],
+        entry: ['findNeighbors', sendParent({ type: 'UPDATE' })],
         always: {
           target: 'advancing',
         },
@@ -96,7 +96,7 @@ export const generationAlgorithmMachine =
         ],
       },
       finished: {
-        entry: sendParent('DONE'),
+        entry: sendParent({ type: 'DONE' }),
       },
     },
     on: {
@@ -110,7 +110,7 @@ export const generationAlgorithmMachine =
       PAUSE: {
         actions: 'pause',
       },
-      STEP_FORWARD: {
+      'Step forward': {
         target: '.seeking',
       },
     },

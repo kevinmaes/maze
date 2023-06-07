@@ -42,7 +42,7 @@ export type AppMachineEvent =
   | { type: 'Stop' }
   | { type: 'PAUSE' }
   | { type: 'START_OVER' }
-  | { type: 'STEP_FORWARD' }
+  | { type: 'Step forward' }
   | {
       type: 'Set generation param';
       params: { name: string; value: number };
