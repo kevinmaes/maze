@@ -98,7 +98,7 @@ export const appMachine =
           playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
-              PAUSE: {
+              Pause: {
                 actions: ['pauseGenerationAlgorithmMachine'],
                 target: 'paused',
               },
