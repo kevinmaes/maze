@@ -40,10 +40,10 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
       if (event.key === Key.ARROW_RIGHT) {
-        if (state.can({ type: 'step.forward' })) {
+        if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          sendControlEvent({ type: 'step.forward' });
+          sendControlEvent({ type: 'controls.step.forward' });
         }
       }
     },
@@ -102,7 +102,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     const canPlay = state.can({ type: 'controls.play' });
     const canPause = state.can({ type: 'controls.pause' });
     const canStop = state.can({ type: 'controls.stop' });
-    const canStepForward = state.can({ type: 'step.forward' });
+    const canStepForward = state.can({ type: 'controls.step.forward' });
 
     return (
       <div>
@@ -153,7 +153,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           )}
           <FlashingControlButton
-            id="step.forward"
+            id="controls.step.forward"
             onClick={handleClick}
             disabled={!canStepForward}
             title="Step Forward (RIGHT ARROW)"

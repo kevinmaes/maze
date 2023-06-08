@@ -49,7 +49,7 @@ const App = () => {
         type: 'Pause',
       }),
       stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'step.forward',
+        type: 'controls.step.forward',
       }),
     },
     services: {

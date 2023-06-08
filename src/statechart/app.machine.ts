@@ -118,7 +118,7 @@ export const appMachine =
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.Idle',
               },
-              'step.forward': {
+              'controls.step.forward': {
                 actions: ['stepGenerationAlgorithmMachine'],
               },
             },

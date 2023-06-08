@@ -36,7 +36,7 @@ export const generationAlgorithmMachine =
             type: 'controls.pause';
           }
         | {
-            type: 'step.forward';
+            type: 'controls.step.forward';
           }
         | {
             type: 'Update';
@@ -110,7 +110,7 @@ export const generationAlgorithmMachine =
       'controls.pause': {
         actions: 'pause',
       },
-      'step.forward': {
+      'controls.step.forward': {
         target: '.Seeking',
       },
     },
