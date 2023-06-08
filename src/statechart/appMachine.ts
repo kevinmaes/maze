@@ -4,7 +4,7 @@ import {
   AppMachineContext,
   AppMachineEvent,
 } from './appMachineTypes';
-import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
+import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;

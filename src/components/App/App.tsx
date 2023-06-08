@@ -10,7 +10,7 @@ import { appMachine } from '../../statechart/appMachine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign } from 'xstate';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
+import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { sendTo } from 'xstate/lib/actions';
 
 declare const VERSION: string;
