@@ -52,6 +52,6 @@ export type AppMachineEvent =
       params: { gridRef: GridRef };
     }
   | { type: 'Update' }
-  | { type: 'DONE' };
+  | { type: 'Done' };
 
 export type AppMachineEventId = AppMachineEvent['type'];

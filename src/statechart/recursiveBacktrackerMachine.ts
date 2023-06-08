@@ -39,10 +39,10 @@ export const generationAlgorithmMachine =
             type: 'Step forward';
           }
         | {
-            type: 'UPDATE';
+            type: 'Update';
           }
         | {
-            type: 'DONE';
+            type: 'Done';
           },
     },
     id: 'generationAlgorithmMachine',
@@ -65,7 +65,7 @@ export const generationAlgorithmMachine =
         },
       },
       seeking: {
-        entry: ['findNeighbors', sendParent({ type: 'UPDATE' })],
+        entry: ['findNeighbors', sendParent({ type: 'Update' })],
         always: {
           target: 'advancing',
         },
@@ -96,7 +96,7 @@ export const generationAlgorithmMachine =
         ],
       },
       finished: {
-        entry: sendParent({ type: 'DONE' }),
+        entry: sendParent({ type: 'Done' }),
       },
     },
     on: {

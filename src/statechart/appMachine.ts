@@ -79,11 +79,11 @@ export const appMachine =
         },
         on: {
           // Empty action but necessary.
-          UPDATE: {
+          Update: {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
           },
-          DONE: {
+          Done: {
             target: 'done',
           },
         },
