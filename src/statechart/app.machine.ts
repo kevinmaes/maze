@@ -100,7 +100,7 @@ export const appMachine =
             on: {
               Pause: {
                 actions: ['pauseGenerationAlgorithmMachine'],
-                target: 'paused',
+                target: 'Paused',
               },
               Stop: {
                 actions: ['refreshGenerationSessionId'],
@@ -108,7 +108,7 @@ export const appMachine =
               },
             },
           },
-          paused: {
+          Paused: {
             on: {
               Play: {
                 actions: ['playGenerationAlgorithmMachine'],
