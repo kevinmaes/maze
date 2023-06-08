@@ -39,7 +39,7 @@ export const generationAlgorithmMachine =
             type: 'controls.step.forward';
           }
         | {
-            type: 'Update';
+            type: 'display.update';
           }
         | {
             type: 'Done';
@@ -65,7 +65,7 @@ export const generationAlgorithmMachine =
         },
       },
       Seeking: {
-        entry: ['findNeighbors', sendParent({ type: 'Update' })],
+        entry: ['findNeighbors', sendParent({ type: 'display.update' })],
         always: {
           target: 'advancing',
         },
@@ -96,7 +96,7 @@ export const generationAlgorithmMachine =
         ],
       },
       finished: {
-        entry: sendParent({ type: 'Done' }),
+        entry: sendParent({ type: 'generation.finish' }),
       },
     },
     on: {

@@ -32,7 +32,7 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATBIoSAHAGZWU+QDYA7Gplr5AGhABPcQBYJrCgEZ50xRICsa1pZP2HAX3cG0qCgEkIABswDDwwADNYCmJsACswAGMWDiEePgFsIVEEMQ0TCykTeVZFJzc1ZSkDYxzFe0sKVXtFE1VLR3qNe09vdAoAcTBcAhJsKAwIYlhUQORDCgBXVAgiMDZOJBA0-jJMzez5KQ1G+w1WIqk61i7q8Qk1CkUtdQlS+XlLKXsTHpAfAaG+CIMXGABFyGsUptthksog1EUrK8TMprlJ2op9EZxPZ7BQlPZ1BoZOVzhpfv9BsNgWN-NgdshAsQAF4gjAJciEPCkQJRGZzdapXg7QT7cSKQqNIkVRyWVgVEy3HKXCzKLquSylLTNCl9KlA0ZQCgABVmhjZHOwXJ5fOQC0YguhwthYoQl3k+Ik7WKT0sTlYhKVYi+snaCg+AeJigxut8+pGIJNZotnO5vIYhFIqEd3GduzhOQ0ik9GiU5hDpaLQZcJgoRScHy0r2uh1jAOphpNdsYEHZqZtVDNOa2edFoGyhVrrW+dm0rkqGiDdQaTRabQ6li6bfjNKNxu7kD7VrTUVgmezUNz6XzrtyxZspbsKjclcUQZMD3afr9pU37wkPxeH8eqAgmtL7vah6Wta6ZnmAvjhKQeAAO40BAw4wje47wh+jwAfK2iXBKGiWEudiNE80jytIjgSt0QH-OCuAYP8YRnjQyQbFeIp7NhOSvA8RbKGouiXFIagOEq7R1ro8hnGohLFJ0iieEB2CkBAcBCD4QrXmOIh3PItZCQRhwShJ9hBm4UiNCY7TquJ3yAb0vgBMEuk8QWYjqBYL51DYujnGYS6qI80ZOKUZh2FI26gbuHkunxYjNB6cqnF00ZGUoi7Yjk9jnBQWjRplPoSBoeSxR2iZ+PSJCMiyIIJVhBk5GYFhpeVzTWEUpRBiqjzXN89RagpKkMSBVXgcmYxNfp2RiJ8xaWC45USqixRHH1zSFRI0hlVonzlSolUGomEE9rNvEtY4sgVJYDjOKo4l9aUjTyi41jmGVm5qG2TFgJdBYKe1hzElI6ISTIVS5Zidbg04ChfPKZiAZ4QA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATBIoSAHAGZWU+QDYA7Gplr5AGhABPcQBYJrCgEZ50xRICsa1pZP2HAX3cG0qCgEkIABswDDwwADNYCmJsACswAGMWDiEePgFsIVEEMQ0TCykTeVZFJzc1ZSkDYxzFe0sKVXtFE1VLR3qNe09vdAoAcTBcAhJsKAwIYlhUQORDCgBXVAgiMDZOJBA0-jJMzez5KQ1G+w1WIqk61i7q8Qk1CkUtdQlS+XlLKXsTHpAfAaG+CIMXGOCBGQo4RiUwAFutUrwdoJ9og1EUrK8TMprlJ2op9EZxPZ7BQlPZ1BoZOVzhpfv9BsNgWN-NgdshAsQAF4gjAJciEPCkQJRGZzeGbbYZLLiRSFRoUiqOSysComW45S4WZRdVyWUpaZp0voM8EgigABVmhh5fOwAqFIuQC0Y4u4iKlKIQl3kpIk7WKT0sTlY5PVYi+snaCg+IcpijxRt8JpGZstcxt-MFwoYhFIqFdW3du2lOQ0il9GiU5gjlbLYZcJgoRScHy0r2uh0TAMZoygFqdjAgvMzDqoVoLkuLnsKjda3zs2lclQ0YbqDSaLTaHUsXS7yaZffNA8gw7tWaisFz+ZSEqLyNA2Vy5ZslbsKjctcUYZMD3aQaDpQ7u8Eg-F4fzGoCKbMkezonra9rZpeYC+OEpB4AA7jQEATneewPqiP6PCBKraJcsoaJYq52I0TzSCq0iOLK3Rgf8AAi5AhP8YSXjQyQbG66RTvhOSvA8ZbKGouiXFIagOOq7RNro8hnGo5LFJ0iieGB2CkBAcBCD4CKCfeIh3PIjbiSRhyyrJ9hhm4UiNCY7Q6jJ3ygb0vgBMERlInhpk5OoFgfnUNi6OcZirqojzxk4pRmHYUh7pBB6+R6wliM0PrKqcXTxuZSgroSOT2OcFBaPG+UBhIGh5MlPZmn4rIkOyXIgmlQkBWIZgWDltXNNYRSlGGmqPNc3z1PqqmaSxEENdBVrtbexn+Y+nzlpYLi1bK2LFEcI3NOVEjSDVWifLVKj1aa0HHhAHUmdkjiyBUlgOM4qgySNpSNCqLjWOYNU7moXbsbg92raipVWIclJSLiskyFUxX4k2cNOAoXwqmYoGeEAA */
   createMachine({
     schema: {
       context: {} as AppMachineContext,
@@ -78,12 +78,12 @@ export const appMachine =
           },
         },
         on: {
-          Done: {
-            target: 'Done',
-          },
           'display.update': {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
+          },
+          'generation.finish': {
+            target: 'Done',
           },
         },
         states: {
