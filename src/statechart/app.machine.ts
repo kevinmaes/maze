@@ -32,18 +32,18 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEBlMAXABDAHZgBOyuAlgPZH6rLkC2A2gAwC6ioq1slVWtxAAPRAFoArNIB0ARjaS5cgJySA7ABYAbAA45ugDQgAnhM27NMyboBMu3dpUrbm2yq0BfT8bSoZlBAANmAYAJJEAFZgAMYEpGAAZrDsXEggvPyCRMJiCOIAzJoFMupsBprlBba2kjWaxmb5RbYytgW6kioFKnLa6iq6Bd6+6DLEZBSURFAYAKqoEBRgqcKZAjQ56Xni7SWSPboqmupdznKako3mltZ2Dk4ubh6aIyB+42Ak5FQzGAAitBWnDWfA2Qm2iGUkm0MgK6jkSl0WiURWu+VsbBKxVcvV6ihU-V0bw+Ex+0ygASIG2QQUoAC8KRgAApBZAmVbpdbZXJQtjqGRE9qaVTaAoHBqmcwKGQ6SxsdzaSRsCwqEljMlTGYyVBskxM5nIACusGBaR4YJ5kIQ2ixMksBUUSjkjtscnR4mK2JqF3FiI8jmGPneGq+k1+lN17KZWFw1FQnItWU2vIQ7la2jk6k6WizGickqauwGcPh6m0rlOzlc2nV-k1EZ1xtNEBZesTGUtKettpUcPLRyKCPFhI9B326iKBT0Yt0WNewdJYfJ2oYJsg2DjCZBXK7ENAeWRJSx2k0xWHFmRHpqsI6FeqOkRtiVQdG9eXWsjzY3sbAqHwiTUKQADujAQB23LdgefL8oKFZDBcjgnAYY7KKUk5KvebgqpIdYyBAQKbowBDUAAbmQEF7ls0EIEeMgnme8IupeRhSvkygChoKjlFoZRnjoQbBkQ1AQHAwh+KCyb7qIEi2iUCjOmoWh6ChbHiOoWjWIqljFOUFa2HhgQhJJ4LUTJ+QWJIpSqJck5sPZjqFhIBSqG0lidPyqh8bhi6ht8n4mVaNHiAoVhKAibAuJ0BgSh6egCoocjtGUyJsEcC5vp8-mNtMNJ0oyMyBVB5lSLC4UKFFSKxWpIpsLKeiVDCyhui5eENhSOp6hSRXSXkrjYvZeKHO0qgel6MiEuUMIudOjVtR+jZri2PVmXk3QCu0YrOPBLntGNMpyo1mZJS6WJ4QRJAram0J9mw2jHU1tTcbYHrHIKtT2GlDjlsocjeN4QA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEBlMAXABDAHZgBOyuAlgPZH6rLkC2A2gAwC6ioq1slVWtxAAPRAFoArNIB0ARjaS5cgJySA7ABYAbAA45ugDQgAnhM27NMyboBMu3dpUrbm2yq0BfT8bSoZAJIQADZgGAFEAFZgAMYEpGAAZrDsXEggvPyCRMJiCOIAzJoFMupsBprlBba2kjWaxmb5RbYytgW6kioFKnLa6iq6Bd6+6DLEZBSURFAYAKqoEBRgqcKZAjQ56Xni7SWSPboqmupdznKako3mltZ2Dk4ubh6aIyB+42Ak5FQzGAAitBWnDWfA2Qm2iGUkm0MgK6jkSl0WiURWu+VsbBKxVcvV6ihU-V0bw+Ex+0ygMmmG2QwUoAC8KRgAArBZAmVbpdbZXJQtjqGRE9qaVTaAoHBqmcwKGQ6SxsdzaSRsCwqEljMlTGYyVnspnM5AAV1gwLSPDBPMhCDY6LY6v8mt+lN1JiZWFw1FQnPNWU2vOttvtn2+WspDGNkBZbI5IK5Fr9Vu0bBUcPUem6Jzk4sJ6KkBX26iKBT0Yt0WNePneGq+kydMnDJog2A9XtjPvBW1AeWRJSx2k0xQRRQc6lzNVhHW07Vc2kRtiVw0rpJr5O1Dcj7rAqHwiWopAA7owIN6MvGIV2+fzBVOhhdHJmjFL8ko5KVC0qpy0VZIgxAgc3GAIagADcyBPbkEwvBAexkPsB3hLMLAcXNlAFDQVHKLQygHHRF0rIhqAgOBhD8UFfXPUQJCTEoFBfNQtD0Axc3ULRrEVRxanhWxVCDIJQjIjt-XECxJFKVRLkLNgpIKFVcwKVQ2ksTp+VUbCfyXasQydATLSg8QFCsJQEWTewkQlXM9AFRQ5HaI4FH7Xog0dCkqSIGk6UZGYdMgyjn1hIyFBcToDHMp9hJlOVKhhZRuPkpyV1DHVowpbyKJ2GFrDkYygrMtEn0JeKtJc9cIFSztfO6AV2jFZwb3k9pcxFNhZT0KLZxsrMsV-IEyv9aEUzYbR2ui2oMNsXNjkFWp7DYBxkXauRvG8IA */
   createMachine({
     schema: {
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
     },
-    tsTypes: {} as import("./app.machine.typegen").Typegen0,
+    tsTypes: {} as import('./app.machine.typegen').Typegen0,
     context: initialAppMachineContext,
     id: 'app',
-    initial: 'idle',
+    initial: 'Idle',
     states: {
-      idle: {
+      Idle: {
         on: {
           'Inject refs': {
             actions: ['storeGridRef'],
@@ -104,7 +104,7 @@ export const appMachine =
               },
               Stop: {
                 actions: ['refreshGenerationSessionId'],
-                target: '#app.idle',
+                target: '#app.Idle',
               },
             },
           },
@@ -116,7 +116,7 @@ export const appMachine =
               },
               Stop: {
                 actions: ['refreshGenerationSessionId'],
-                target: '#app.idle',
+                target: '#app.Idle',
               },
               'Step forward': {
                 actions: ['stepGenerationAlgorithmMachine'],
@@ -129,7 +129,7 @@ export const appMachine =
         on: {
           'Start over': {
             actions: ['refreshGenerationSessionId'],
-            target: 'idle',
+            target: 'Idle',
           },
         },
       },
@@ -137,7 +137,7 @@ export const appMachine =
     on: {
       'Set generation param': {
         actions: ['updateGenerationParams'],
-        target: 'idle',
+        target: 'Idle',
       },
     },
   });

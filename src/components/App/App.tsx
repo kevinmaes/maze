@@ -81,7 +81,7 @@ const App = () => {
   // }, [appService]); // note: service should never change
 
   const leversEnabled =
-    appState.matches('idle') ||
+    appState.matches('Idle') ||
     appState.matches({
       generating: 'initializing',
     });
