@@ -47,11 +47,11 @@ export const appMachine =
         on: {
           'Inject refs': {
             actions: ['storeGridRef'],
-            target: 'generating',
+            target: 'Generating',
           },
         },
       },
-      generating: {
+      Generating: {
         initial: 'Initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
