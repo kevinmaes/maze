@@ -30,13 +30,13 @@ export const generationAlgorithmMachine =
             type: 'Start';
           }
         | {
-            type: 'Play';
+            type: 'playhead.play';
           }
         | {
-            type: 'Pause';
+            type: 'playhead.pause';
           }
         | {
-            type: 'Step forward';
+            type: 'step.forward';
           }
         | {
             type: 'Update';
@@ -103,14 +103,14 @@ export const generationAlgorithmMachine =
       'Inject refs': {
         target: '.maze-idle',
       },
-      Play: {
+      'playhead.play': {
         actions: 'play',
         target: '.Seeking',
       },
-      Pause: {
+      'playhead.pause': {
         actions: 'pause',
       },
-      'Step forward': {
+      'step.forward': {
         target: '.Seeking',
       },
     },

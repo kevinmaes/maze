@@ -32,7 +32,7 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEBlMAXABDAHZgBOyuAlgPZH6rLkC2A2gAwC6ioq1slVWtxAAPRAFoArNIB0ARjaS5cgJySA7ABYAbAA45ugDQgAnhM27NMyboBMu3dpUrbm2yq0BfT8bSoZAJIQADZgGAFEAFZgAMYEpGAAZrDsXEggvPyCRMJiCOIAzJoFMupsBprlBba2kjWaxmb5RbYytgW6kioFKnLa6iq6Bd6+6DLEZBSURFAYAKqoEBRgqcKZAjQ56Xni7SWSPboqmupdznKako3mltZ2Dk4ubh6aIyB+42Ak5FQzGAAitBWnDWfA2Qm2iGUkm0MgK6jkSl0WiURWu+VsbBKxVcvV6ihU-V0bw+Ex+0ygMmmG2QwUoAC8KRgAArBZAmVbpdbZXJQtjqGRE9qaVTaAoHBqmcwKGQ6SxsdzaSRsCwqEljMlTGYyVnspnM5AAV1gwLSPDBPMhCDY6LY6v8mt+lN1JiZWFw1FQnPNWU2vOttvtn2+WspDGNkBZbI5IK5Fr9Vu0bBUcPUem6Jzk4sJ6KkBX26iKBT0Yt0WNePneGq+kydMnDJog2A9XtjPvBW1AeWRJSx2k0xQRRQc6lzNVhHW07Vc2kRtiVw0rpJr5O1Dcj7rAqHwiWopAA7owIN6MvGIV2+fzBVOhhdHJmjFL8ko5KVC0qpy0VZIgxAgc3GAIagADcyBPbkEwvBAexkPsB3hLMLAcXNlAFDQVHKLQygHHRF0rIhqAgOBhD8UFfXPUQJCTEoFBfNQtD0Axc3ULRrEVRxanhWxVCDIJQjIjt-XECxJFKVRLkLNgpIKFVcwKVQ2ksTp+VUbCfyXasQydATLSg8QFCsJQEWTewkQlXM9AFRQ5HaI4FH7Xog0dCkqSIGk6UZGYdMgyjn1hIyFBcToDHMp9hJlOVKhhZRuPkpyV1DHVowpbyKJ2GFrDkYygrMtEn0JeKtJc9cIFSztfO6AV2jFZwb3k9pcxFNhZT0KLZxsrMsV-IEyv9aEUzYbR2ui2oMNsXNjkFWp7DYBxkXauRvG8IA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6JWAGhABPMQF9ZktKgoBJCABswGFdgBWYAMaEABHjAAzWG05IQPPgOxDRCALQBmACzuKAdlYAjAAcnoHuAEzhAKyRnpIybl7hFOHuQVEAnO4ZAQBsvhlB7vKK6BQA4mC4BCTYUBgAqqgQRGDWQvb8ZE62LhLScgogShVV+ETEdRgAIuRtHB28XYK9YvGDpcqV1RN1qthdyOrEAF6T9QAK6shS7badjs5rAwisJcNl2+O1UBRXN+cMBdkABXRh3bhLR6rV7rV7vEZfGrnP7XKSAgDKhFIqAhdih3SesJebyGiLGyL2wLBkCBaLxD0JMP6CVJm1GOx+f1BjAgGCxOIZBJWoBcrmCAQorCivncstYnlyQV8UThAQCUQoQXyctYuWliuVUQRnwpu1+1N5GFghDAynMpDwAHcaBAhQ4maLEK5fLlJblchlWO4lbkYl44i9XKEKAEvKxWOElVEooaVSblLNcBgRmYbTQWAt7sKel63Nrcn4ou4ZQF-H7POEgmrfJL1angwnPBlMuF5ENsKQIHAhEpFh6RSJvTlPFWa636wFG82o42Mn468H69EosGM6oNGBx8tS1O3J50huMp4Ze4E53IwkPAF102L7vWxl-Df90jzcfoTLVwglYdcAyDENtXDTxH29F8fD9OssiiYI9VyTxfzNLkdEOY4zjqADPTPVwP1jaV1R7XxDWCOEMlyTDORRf50QI4sJ1PMVSICciXxlaiVwSVJWAoC85QyDJohVbVwl8BjviYnlIEIydONYXwyJQ3iqKVGiXk8dUKB7dVWCNa9uwyfcsyPNiTyJEiUw0ii+J0gTEEyWdvG7EzAn8EN+1kIA */
   createMachine({
     schema: {
       context: {} as AppMachineContext,
@@ -90,7 +90,7 @@ export const appMachine =
         states: {
           Initializing: {
             on: {
-              Play: {
+              'playhead.play': {
                 target: 'Playing',
               },
             },
@@ -98,11 +98,11 @@ export const appMachine =
           Playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
-              Pause: {
+              'playhead.pause': {
                 actions: ['pauseGenerationAlgorithmMachine'],
                 target: 'Paused',
               },
-              Stop: {
+              'playhead.stop': {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.Idle',
               },
@@ -110,15 +110,15 @@ export const appMachine =
           },
           Paused: {
             on: {
-              Play: {
+              'playhead.play': {
                 actions: ['playGenerationAlgorithmMachine'],
                 target: 'Playing',
               },
-              Stop: {
+              'playhead.stop': {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.Idle',
               },
-              'Step forward': {
+              'step.forward': {
                 actions: ['stepGenerationAlgorithmMachine'],
               },
             },
@@ -127,7 +127,7 @@ export const appMachine =
       },
       Done: {
         on: {
-          'Start over': {
+          'app.restart': {
             actions: ['refreshGenerationSessionId'],
             target: 'Idle',
           },
@@ -135,7 +135,7 @@ export const appMachine =
       },
     },
     on: {
-      'Set generation param': {
+      'generation.param.set': {
         actions: ['updateGenerationParams'],
         target: 'Idle',
       },

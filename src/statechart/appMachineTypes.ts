@@ -38,13 +38,13 @@ export interface AppMachineContext {
 }
 
 export type AppMachineEvent =
-  | { type: 'Play' }
-  | { type: 'Stop' }
-  | { type: 'Pause' }
-  | { type: 'Start over' }
-  | { type: 'Step forward' }
+  | { type: 'playhead.play' }
+  | { type: 'playhead.stop' }
+  | { type: 'playhead.pause' }
+  | { type: 'app.restart' }
+  | { type: 'step.forward' }
   | {
-      type: 'Set generation param';
+      type: 'generation.param.set';
       params: { name: string; value: number };
     }
   | {

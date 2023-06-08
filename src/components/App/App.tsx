@@ -49,7 +49,7 @@ const App = () => {
         type: 'Pause',
       }),
       stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'Step forward',
+        type: 'step.forward',
       }),
     },
     services: {
@@ -99,7 +99,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'Set generation param', params: data });
+            appSend({ type: 'generation.param.set', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
