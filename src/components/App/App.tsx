@@ -40,13 +40,13 @@ const App = () => {
         }),
       }),
       startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'Start',
+        type: 'generation.start',
       }),
       playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'Play',
+        type: 'controls.play',
       }),
       pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'Pause',
+        type: 'controls.pause',
       }),
       stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
         type: 'controls.step.forward',

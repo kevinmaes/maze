@@ -27,7 +27,7 @@ export const generationAlgorithmMachine =
             params: { gridRef: Ref<IGrid> };
           }
         | {
-            type: 'Start';
+            type: 'generation.start';
           }
         | {
             type: 'controls.play';
@@ -50,7 +50,7 @@ export const generationAlgorithmMachine =
     states: {
       'maze-idle': {
         on: {
-          Start: {
+          'generation.start': {
             target: 'starting',
           },
         },
