@@ -41,7 +41,7 @@ export type AppMachineEvent =
   | { type: 'Play' }
   | { type: 'Stop' }
   | { type: 'Pause' }
-  | { type: 'START_OVER' }
+  | { type: 'Start over' }
   | { type: 'Step forward' }
   | {
       type: 'Set generation param';

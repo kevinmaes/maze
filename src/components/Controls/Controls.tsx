@@ -57,15 +57,15 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           if (state.can({ type: 'Pause' })) {
             sendControlEvent({ type: 'Pause' });
           }
-          if (state.can({ type: 'START_OVER' })) {
-            sendControlEvent({ type: 'START_OVER' });
+          if (state.can({ type: 'Start over' })) {
+            sendControlEvent({ type: 'Start over' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
-          if (state.can({ type: 'START_OVER' })) {
-            sendControlEvent({ type: 'START_OVER' });
+          if (state.can({ type: 'Start over' })) {
+            sendControlEvent({ type: 'Start over' });
           }
           break;
         }
@@ -98,7 +98,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
   const renderStateControls = (
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
-    const canStartOver = state.can({ type: 'START_OVER' });
+    const canStartOver = state.can({ type: 'Start over' });
     const canPlay = state.can({ type: 'Play' });
     const canPause = state.can({ type: 'Pause' });
     const canStop = state.can({ type: 'Stop' });
@@ -116,7 +116,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
         <ControlsGroup>
           {canStartOver ? (
             <ControlButton
-              id={'START_OVER'}
+              id={'Start over'}
               onClick={handleClick}
               disabled={!canStartOver}
               title="Restart (ENTER)"

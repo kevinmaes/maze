@@ -127,7 +127,7 @@ export const appMachine =
       },
       done: {
         on: {
-          START_OVER: {
+          'Start over': {
             actions: ['refreshGenerationSessionId'],
             target: 'idle',
           },
