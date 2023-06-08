@@ -84,7 +84,7 @@ export const appMachine =
             actions: [() => {}],
           },
           Done: {
-            target: 'done',
+            target: 'Done',
           },
         },
         states: {
@@ -125,7 +125,7 @@ export const appMachine =
           },
         },
       },
-      done: {
+      Done: {
         on: {
           'Start over': {
             actions: ['refreshGenerationSessionId'],
