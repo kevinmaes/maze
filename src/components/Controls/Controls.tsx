@@ -116,7 +116,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
         <ControlsGroup>
           {canStartOver ? (
             <ControlButton
-              id={'Start over'}
+              id="Start over"
               onClick={handleClick}
               disabled={!canStartOver}
               title="Restart (ENTER)"
@@ -125,7 +125,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'Stop'}
+              id="Stop"
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
@@ -135,7 +135,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           )}
           {canPause ? (
             <ControlButton
-              id={'Pause'}
+              id="Pause"
               onClick={handleClick}
               disabled={!canPause}
               title="Pause (SPACE)"
@@ -144,7 +144,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'Play'}
+              id="Play"
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"
@@ -153,7 +153,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           )}
           <FlashingControlButton
-            id={'Step forward'}
+            id="Step forward"
             onClick={handleClick}
             disabled={!canStepForward}
             title="Step Forward (RIGHT ARROW)"
