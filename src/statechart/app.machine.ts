@@ -38,7 +38,7 @@ export const appMachine =
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
     },
-    tsTypes: {} as import('./appMachine.typegen').Typegen0,
+    tsTypes: {} as import("./app.machine.typegen").Typegen0,
     context: initialAppMachineContext,
     id: 'app',
     initial: 'idle',
@@ -91,11 +91,11 @@ export const appMachine =
           initializing: {
             on: {
               Play: {
-                target: 'playing',
+                target: 'Playing',
               },
             },
           },
-          playing: {
+          Playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
               Pause: {
@@ -112,7 +112,7 @@ export const appMachine =
             on: {
               Play: {
                 actions: ['playGenerationAlgorithmMachine'],
-                target: 'playing',
+                target: 'Playing',
               },
               Stop: {
                 actions: ['refreshGenerationSessionId'],
