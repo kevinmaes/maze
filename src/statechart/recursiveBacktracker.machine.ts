@@ -60,11 +60,11 @@ export const generationAlgorithmMachine =
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: 'seeking',
+            target: 'Seeking',
           },
         },
       },
-      seeking: {
+      Seeking: {
         entry: ['findNeighbors', sendParent({ type: 'Update' })],
         always: {
           target: 'advancing',
@@ -75,7 +75,7 @@ export const generationAlgorithmMachine =
         after: {
           SEEK_INTERVAL: {
             cond: 'canIPlay',
-            target: 'seeking',
+            target: 'Seeking',
           },
         },
         always: {
@@ -91,7 +91,7 @@ export const generationAlgorithmMachine =
             target: 'finished',
           },
           {
-            target: 'seeking',
+            target: 'Seeking',
           },
         ],
       },
@@ -105,13 +105,13 @@ export const generationAlgorithmMachine =
       },
       Play: {
         actions: 'play',
-        target: '.seeking',
+        target: '.Seeking',
       },
       Pause: {
         actions: 'pause',
       },
       'Step forward': {
-        target: '.seeking',
+        target: '.Seeking',
       },
     },
   }).withConfig({
