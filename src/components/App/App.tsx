@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
-import { appMachine } from '../../statechart/appMachine';
+import { appMachine } from '../../statechart/app.machine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign } from 'xstate';
