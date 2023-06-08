@@ -52,7 +52,7 @@ export const appMachine =
         },
       },
       generating: {
-        initial: 'initializing',
+        initial: 'Initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
           src: 'childMachine',
@@ -88,7 +88,7 @@ export const appMachine =
           },
         },
         states: {
-          initializing: {
+          Initializing: {
             on: {
               Play: {
                 target: 'Playing',

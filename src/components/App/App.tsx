@@ -83,7 +83,7 @@ const App = () => {
   const leversEnabled =
     appState.matches('Idle') ||
     appState.matches({
-      generating: 'initializing',
+      generating: 'Initializing',
     });
 
   return (

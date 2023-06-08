@@ -163,7 +163,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           </FlashingControlButton>
         </ControlsGroup>
         {state.matches({
-          generating: 'initializing',
+          generating: 'Initializing',
         }) ? (
           <Prompt>Press ENTER to start</Prompt>
         ) : null}
