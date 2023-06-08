@@ -38,9 +38,9 @@ export interface AppMachineContext {
 }
 
 export type AppMachineEvent =
-  | { type: 'playhead.play' }
-  | { type: 'playhead.stop' }
-  | { type: 'playhead.pause' }
+  | { type: 'controls.play' }
+  | { type: 'controls.stop' }
+  | { type: 'controls.pause' }
   | { type: 'app.restart' }
   | { type: 'step.forward' }
   | {

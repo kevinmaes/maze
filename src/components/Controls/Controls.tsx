@@ -51,11 +51,11 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {
-          if (state.can({ type: 'playhead.play' })) {
-            sendControlEvent({ type: 'playhead.play' });
+          if (state.can({ type: 'controls.play' })) {
+            sendControlEvent({ type: 'controls.play' });
           }
-          if (state.can({ type: 'playhead.pause' })) {
-            sendControlEvent({ type: 'playhead.pause' });
+          if (state.can({ type: 'controls.pause' })) {
+            sendControlEvent({ type: 'controls.pause' });
           }
           if (state.can({ type: 'app.restart' })) {
             sendControlEvent({ type: 'app.restart' });
@@ -70,8 +70,8 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           break;
         }
         case Key.ESCAPE: {
-          if (state.can({ type: 'playhead.stop' })) {
-            sendControlEvent({ type: 'playhead.stop' });
+          if (state.can({ type: 'controls.stop' })) {
+            sendControlEvent({ type: 'controls.stop' });
           }
           break;
         }
@@ -99,9 +99,9 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
     const canStartOver = state.can({ type: 'app.restart' });
-    const canPlay = state.can({ type: 'playhead.play' });
-    const canPause = state.can({ type: 'playhead.pause' });
-    const canStop = state.can({ type: 'playhead.stop' });
+    const canPlay = state.can({ type: 'controls.play' });
+    const canPause = state.can({ type: 'controls.pause' });
+    const canStop = state.can({ type: 'controls.stop' });
     const canStepForward = state.can({ type: 'step.forward' });
 
     return (
@@ -125,7 +125,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id="playhead.stop"
+              id="controls.stop"
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
@@ -135,7 +135,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           )}
           {canPause ? (
             <ControlButton
-              id="playhead.pause"
+              id="controls.pause"
               onClick={handleClick}
               disabled={!canPause}
               title="Pause (SPACE)"
@@ -144,7 +144,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id="playhead.play"
+              id="controls.play"
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"

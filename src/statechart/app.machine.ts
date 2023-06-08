@@ -90,7 +90,7 @@ export const appMachine =
         states: {
           Initializing: {
             on: {
-              'playhead.play': {
+              'controls.play': {
                 target: 'Playing',
               },
             },
@@ -98,11 +98,11 @@ export const appMachine =
           Playing: {
             onEntry: 'startGenerationAlgorithmMachine',
             on: {
-              'playhead.pause': {
+              'controls.pause': {
                 actions: ['pauseGenerationAlgorithmMachine'],
                 target: 'Paused',
               },
-              'playhead.stop': {
+              'controls.stop': {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.Idle',
               },
@@ -110,11 +110,11 @@ export const appMachine =
           },
           Paused: {
             on: {
-              'playhead.play': {
+              'controls.play': {
                 actions: ['playGenerationAlgorithmMachine'],
                 target: 'Playing',
               },
-              'playhead.stop': {
+              'controls.stop': {
                 actions: ['refreshGenerationSessionId'],
                 target: '#app.Idle',
               },
