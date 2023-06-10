@@ -6,11 +6,11 @@ import Image from 'next/image';
 import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
 import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
-import { appMachine } from '../../statechart/appMachine';
+import { appMachine } from '../../statechart/app.machine';
 import { Levers } from '../Levers/Levers';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { assign } from 'xstate';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktrackerMachine';
+import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { sendTo } from 'xstate/lib/actions';
 
 declare const VERSION: string;
@@ -40,16 +40,16 @@ const App = () => {
         }),
       }),
       startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'START',
+        type: 'generation.start',
       }),
       playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'PLAY',
+        type: 'controls.play',
       }),
       pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'PAUSE',
+        type: 'controls.pause',
       }),
       stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'STEP_FORWARD',
+        type: 'controls.step.forward',
       }),
     },
     services: {
@@ -81,9 +81,9 @@ const App = () => {
   // }, [appService]); // note: service should never change
 
   const leversEnabled =
-    appState.matches('idle') ||
+    appState.matches('Idle') ||
     appState.matches({
-      generating: 'initializing',
+      Generating: 'Initializing',
     });
 
   return (
@@ -99,7 +99,7 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'SET_GENERATION_PARAM', params: data });
+            appSend({ type: 'generation.param.set', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
           settingsAreChanging={setLeversAreChanging}
