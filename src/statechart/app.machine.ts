@@ -4,7 +4,7 @@ import {
   AppMachineContext,
   AppMachineEvent,
 } from './appMachineTypes';
-import { generationAlgorithmMachine } from './recursiveBacktrackerMachine';
+import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -32,10 +32,10 @@ const initialAppMachineContext: AppMachineContext = {
 };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEBlAogFQH0BxHAORwCUBBPASQHlSCAFK6gWQG0AGAXUVCoA9rACWAF1FCAdgJAAPRABYATABoQAT0QAOAOwBOAHQA2AMwXzZgIxm9JvQF9HGtKiOiIAGzAZapACkcAGFCChwAMSwefiQQYTFJGTlFBABWdS1dayMlHTSTA24dQu407gMzZ1d0IxhpMAAnZElpKAwAVWYAERocGLkEiSlZONSMvVyTEzTZ7m5DErSNbQQVFTMjfSVF6wMZhb006pA3OrAG5tb27sZ+vkGRYeSxxGsy7iMzHTMVWwMimZuEozCtEEcdEYisCDGkdJU0kpESczvUmi1RG0PNJhsgvKIAF6Y9rMAAyVAAmgM4kMkqNQKlviZTECDD89Nw-n9QVkECDmdZBSolDNrEolNYTNYnC5TrU0VdiUZUF5kJpiRhWB1cNTBE86SlEEyWRV2ZzrNywXySkY0vZKkp5mZKmyZTV3AqMViVWqNVg8PRmLr4vqRoaEO9yl8ftyAdwgSCrXlmXbCmZHfGXfoUfKLujrsrkABXWCQTXkqkPGmhl4Mo028ymuzmy28uEqL6zMVLHT5MzHWWovOK73F0sQbABoNVvWJMOvCMfaO-f6A4E81ZpAwd-JpbszXtpfs5j3Dr1QQslsv+nDMAgRegUADqbG6wdp87ri70VvMkw2sJsiYKgAg4J5GBAMi+P6bCEPQABqlDvjW9IKG8wrMiYEqVL2Up6PCVp6GYzLCqosxATYnLOLK0hCBAcByG4jxzrWaEIAAtCYVqceBng+MxzyoakYoGJM+F6HoIFYWKHJcbyUqQuUZS-CB1hbiobpyqelzngJBoLluVpAjkMxSWyZS2MUA7uucOkFpiuL4kSbR6Z+bGSpMOgWtMth-Ec0zLLy-KmE6RQAdu8ZVIOuZ2UqPrqi51YsUJiAOJ8MbOkcIIFGpSZEUYwobOm3CRvkwrgZ6BaoGOkCuaxwn6FCOgSv28JlCYFRKIR3xGCV+G+c1vZlOBkENHVKURmpzLcCY8I-N5WGwoRW7Rvs5ggUiFRRc4QA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATBIoSAHAGZWU+QDYA7Gplr5AGhABPcQBYJrCgEZ50xRICsa1pZP2HAX3cG0qCgEkIABswDDwwADNYCmJsACswAGMWDiEePgFsIVEEMQ0TCykTeVZFJzc1ZSkDYxzFe0sKVXtFE1VLR3qNe09vdAoAcTBcAhJsKAwIYlhUQORDCgBXVAgiMDZOJBA0-jJMzez5KQ1G+w1WIqk61i7q8Qk1CkUtdQlS+XlLKXsTHpAfAaG+CIMXGOCBGQo4RiUwAFutUrwdoJ9ognIoKHlFJ9LPd6vl7LccporEoZE8ZBJ2q1fv9BsNgWN-NgdshAsQAF4gjAJciEPCkQJRGZzeGbbYZLLiRSFRrqLR1NSWVgVEyEsSXCzKLquSylLTNGl9OngkEUAAKs0MXJ52D5AqFyAWjFF3EREpRCEu8goNnaxSelicrHs+iM4i+snaCg+wY0l3aikNvmNI1NFrm1t5-MFDEIpFQLq2bt2kpyGnRNg0SnMEar5bVLhMFCKTg+Wle10OSYB9NGUHNjsYEG5WftVEthfFJY9hSbrW+dm0rkqGjVdQaTRabQ6li63ZTDP7ZsHkBHtuzUVgeYLKTFxeRoGyuQrEirdhUbjrijVJge7UDgalLu7wSD8Xh-EagKpoyx5OqeNp2jmV5gL44SkHgADuNAQJO957I+qK-o8oHKtolzSholhrnYjRPNIyrSI40rdOB-wACLkCE-xhFeNDJBsrrpNOBE5K8Dzlsoai6JcUhqA4hLtM2ujyGcaghsUnSJr82CkBAcBCD4CJCQ+Ih3PITYSaRhzSnJBJhjkbhSI0JjtLojgVLo3YBMERlIvhpk5OoFifnUNi6OcZhrqojxYmiahmHYUj7lBh6+e6IliM03pKqcXRYuZSirvZmXnBiFSfBUXTmGYajJb2pp+MyJCshyIJpcJAViGYFg5RoeXWEUpRqhqjzXN89R6mpWm9MmKV9ualptXexn+U+nzopYLh9dKyisMURzDc0GISNIr5aJ8fUqHVJowSeEDtSZ2SOLI5UOM4qiycNpSNMqLjWOYr67rVrF9BxuAPatqL2D1hxxlIUiBqdVT2Yo3qtLJrAKF8ypmGBnhAA */
   createMachine({
     types: {
-      typegen: {} as import('./appMachine.typegen').Typegen0,
+      typegen: {} as import('./app.machine.typegen').Typegen0,
       context: {} as AppMachineContext,
       events: {} as AppMachineEvent,
       actors: {} as {
@@ -45,18 +45,18 @@ export const appMachine =
     },
     context: initialAppMachineContext,
     id: 'app',
-    initial: 'idle',
+    initial: 'Idle',
     states: {
-      idle: {
+      Idle: {
         on: {
-          INJECT_REFS: {
+          'refs.inject': {
             actions: ['storeGridRef'],
-            target: 'generating',
+            target: 'Generating',
           },
         },
       },
-      generating: {
-        initial: 'initializing',
+      Generating: {
+        initial: 'Initializing',
         invoke: {
           id: 'generationAlgorithmMachine',
           // src: 'childMachine',
@@ -84,66 +84,65 @@ export const appMachine =
           },
         },
         on: {
-          // Empty action but necessary.
-          UPDATE: {
+          'display.update': {
             // eslint-disable-next-line @typescript-eslint/no-empty-function
             actions: [() => {}],
           },
-          DONE: {
-            target: 'done',
+          'generation.finish': {
+            target: 'Done',
           },
         },
         states: {
-          initializing: {
+          Initializing: {
             on: {
-              PLAY: {
-                target: 'playing',
+              'controls.play': {
+                target: 'Playing',
               },
             },
           },
-          playing: {
+          Playing: {
             entry: 'startGenerationAlgorithmMachine',
             on: {
-              PAUSE: {
+              'controls.pause': {
                 actions: ['pauseGenerationAlgorithmMachine'],
-                target: 'paused',
+                target: 'Paused',
               },
-              STOP: {
+              'controls.stop': {
                 actions: ['refreshGenerationSessionId'],
-                target: '#app.idle',
+                target: '#app.Idle',
               },
             },
           },
-          paused: {
+          Paused: {
             on: {
-              PLAY: {
+              'controls.play': {
                 actions: ['playGenerationAlgorithmMachine'],
-                target: 'playing',
+                target: 'Playing',
               },
-              STOP: {
+              'controls.stop': {
                 actions: ['refreshGenerationSessionId'],
-                target: '#app.idle',
+                target: '#app.Idle',
               },
-              STEP_FORWARD: {
+              'controls.step.forward': {
                 actions: ['stepGenerationAlgorithmMachine'],
               },
             },
           },
         },
       },
-      done: {
+      Done: {
         on: {
-          START_OVER: {
+          'app.restart': {
             actions: ['refreshGenerationSessionId'],
-            target: 'idle',
+            target: 'Idle',
           },
         },
       },
     },
     on: {
-      SET_GENERATION_PARAM: {
+      'generation.param.set': {
         actions: ['updateGenerationParams'],
-        target: '#app.idle',
+        target: 'Idle',
       },
     },
   });
