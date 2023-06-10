@@ -24,7 +24,7 @@ import { State } from 'xstate';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  onControlClick: (eventId: AppMachineEventId) => void;
+  sendControlEvent: (event: AppMachineEvent | AppMachineEventId) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -34,16 +34,16 @@ const iconFillDisabledColor = '#D3D3D3';
 const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
-export const Controls = ({ state, onControlClick }: Props) => {
+export const Controls = ({ state, sendControlEvent }: Props) => {
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
       if (event.key === Key.ARROW_RIGHT) {
-        if (state.can('STEP_FORWARD')) {
+        if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          onControlClick('STEP_FORWARD');
+          sendControlEvent({ type: 'controls.step.forward' });
         }
       }
     },
@@ -51,27 +51,27 @@ export const Controls = ({ state, onControlClick }: Props) => {
       switch (event.key) {
         case Key.SPACE:
         case Key.ENTER: {
-          if (state.can('PLAY')) {
-            onControlClick('PLAY');
+          if (state.can({ type: 'controls.play' })) {
+            sendControlEvent({ type: 'controls.play' });
           }
-          if (state.can('PAUSE')) {
-            onControlClick('PAUSE');
+          if (state.can({ type: 'controls.pause' })) {
+            sendControlEvent({ type: 'controls.pause' });
           }
-          if (state.can('START_OVER')) {
-            onControlClick('START_OVER');
+          if (state.can({ type: 'app.restart' })) {
+            sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
-          if (state.can('START_OVER')) {
-            onControlClick('START_OVER');
+          if (state.can({ type: 'app.restart' })) {
+            sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
         case Key.ESCAPE: {
-          if (state.can('STOP')) {
-            onControlClick('STOP');
+          if (state.can({ type: 'controls.stop' })) {
+            sendControlEvent({ type: 'controls.stop' });
           }
           break;
         }
@@ -90,17 +90,19 @@ export const Controls = ({ state, onControlClick }: Props) => {
     if (event.detail === 0) {
       return;
     }
-    onControlClick(id as AppMachineEventId);
+    const type = id as AppMachineEventId;
+    const eventObj = { type } as AppMachineEvent;
+    sendControlEvent(eventObj);
   };
 
   const renderStateControls = (
     state: State<AppMachineContext, AppMachineEvent>
   ) => {
-    const canStartOver = state.can('START_OVER');
-    const canPlay = state.can('PLAY');
-    const canPause = state.can('PAUSE');
-    const canStop = state.can('STOP');
-    const canStepForward = state.can('STEP_FORWARD');
+    const canStartOver = state.can({ type: 'app.restart' });
+    const canPlay = state.can({ type: 'controls.play' });
+    const canPause = state.can({ type: 'controls.pause' });
+    const canStop = state.can({ type: 'controls.stop' });
+    const canStepForward = state.can({ type: 'controls.step.forward' });
 
     return (
       <div>
@@ -114,7 +116,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         <ControlsGroup>
           {canStartOver ? (
             <ControlButton
-              id={'START_OVER'}
+              id="app.restart"
               onClick={handleClick}
               disabled={!canStartOver}
               title="Restart (ENTER)"
@@ -123,7 +125,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'STOP'}
+              id="controls.stop"
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
@@ -133,7 +135,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           )}
           {canPause ? (
             <ControlButton
-              id={'PAUSE'}
+              id="controls.pause"
               onClick={handleClick}
               disabled={!canPause}
               title="Pause (SPACE)"
@@ -142,7 +144,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           ) : (
             <ControlButton
-              id={'PLAY'}
+              id="controls.play"
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"
@@ -151,7 +153,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
             </ControlButton>
           )}
           <FlashingControlButton
-            id={'STEP_FORWARD'}
+            id="controls.step.forward"
             onClick={handleClick}
             disabled={!canStepForward}
             title="Step Forward (RIGHT ARROW)"
@@ -161,7 +163,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
           </FlashingControlButton>
         </ControlsGroup>
         {state.matches({
-          generating: 'initializing',
+          Generating: 'Initializing',
         }) ? (
           <Prompt>Press ENTER to start</Prompt>
         ) : null}
