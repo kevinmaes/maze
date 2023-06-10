@@ -7,7 +7,7 @@ import { ICell } from '../components/generation/Cell';
 import { Ref } from 'react';
 
 export const generationAlgorithmMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMTpgBmsAdGwBWYJtgDaABgC6iUAAd8sKgRSyQAD0QBGAEwAWPnokBWAMwB2AJwTLe8xIAc5gGwAaEAE9EAWl3G+TloSzmamdsaW5gC+Ue6oGDgqpOSUNAzMrBxMhNjo+CT8ciSYHpIySCAKSniEapoIxsZafDo65qYR5sYOls56Wu5eCN46lgG2Tg4OjXo6pjrdMXFgaFg1xGQUVHSMLGxg7NkoufmFmACusGBlalXKtRX1Vg58xnqWWl3m77PO5oOIN46PjzCwOIwOZwSPTOUxLEDxNZJTapHYZfaHHJ5Ap8WDYMByPjcCgAd0w6AgNwqd3WdUQUP8xm+plMwWcvSBAOGQWaxmcC30ej5CxhznhiMShGSWzSu0yYD4tEwAC8wN5cBASAcJetcdhyeJpLdFPdVI9tBJmpZTJYPrbglN5m5PIhTM0jNDzDooQ5dLC9HDYgiVgl1tLUek9mg9Qa2FB2Oo8TgFZhuPj0AAKADKAFEcwBpAD6AEkAHIAFRzACUAGpEAAyAEp2DrkSltpH5TH0HgUFAqfITbTzQhWWNfRIwjDWcZ9JYuZ9mqMvl0JF6tO8dOKQ0ipSiO3L9nws2AwABrOPsAeVIcqOkIBymZyvTdaLQdJ1WBfmJeRJmr9d3m3VZJQ2dtZXRaNMAgAA3TAUCYS9rxpO8RzfH8+GcT4bFaRpwW9b9gRMb1iPMBwdDfExgNDNsZTRKMU1g+DEL7BMk3xPhU3TbM8yLMtK1rBtm1bPdwPortoLghC42Q28HlAJ4zACaZ3wDDoHDXHQuSwvhsI-exJ0iQNlhAsN9wghi+AAI2YM9clspCjWpOSzQU7QOgkEEsNGEItFsS1TC5b1TFeCRHCM31BWM4NTNoiND2jGymDsrBkqQrRykHapULchA-BCppvh0RxGmCPQuSdQxH10eZ3x6S1onhFB8AgOA1BEsC6M7fZjWy+SNFdfwpzMdc+jMJlypdYYKJCsJLGMTTwqFKZqN3Tr4sghUlVVdVNTAXrTXvP1Xh-MLfVhH9LC0qbvCFFofy9KxdHsdkQlW0DwwPTbu17KADuHXLHxBPQhQsCixo6f4pt0Tzaquyd+Unb1GpMmjRK6hKFRPc843+nKBoQKFn1MKYN1GBYmg6BcWRBLRhUhN4-m6aKOs+iyJKY6S+zx-r6nm8wWhB60vV6Ew32p2a6f5BmYS6R93rMsTusS2z7LS7nnL61yCffN1Xm9UZbTI4IFxhEEbBZLRISCPkJC3INWfM8Sj24NhcFgahIB57X6nfKE+AdDdRRtUEKumAJnH9VoSfZaE9BiGIgA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMTpgBmsAdGwBWYJtgDaABgC6iUAAd8sKgRSyQAD0QBaACwBWAIx8DEgwHY9OgJwAOCRJtmJOgDQgAntoBMXq8as6OubWTs42egC+EW6oGDgqpOSUNAzMrBxMhNjo+CT8ciSY7pIySCAKSniEapoIBnp8el4AbFZWZjY6Zs06zQDM4W6eCFoGXjp8jl42A3rtc4aR0SCxWFXEZBRUdIwsbGDsmSjZufmYAK6wYCVqFcrVZbUtXpM6NjYGAwMmVkOIgWY+H19DZxsCBmZAlEYmA0GsEptkjs0vtDlkcnk+LBsGA5HxuBQAO6YdAQG5lO7rGqIVqTMx9KzNRx6GZ9Hp6P4jAyMxo6MJBWw6Fp6JYwuHxQiJLYpXbpMB8ADisLi6wABABJCAkA6rCUoLHYEniaS3RT3VSPbRdPqNZpmLz1Lr6B0cjzafqNcbTfrNcYmPps6ErZXwyWI7apPZoPjqlDKTAkXAALzYUHY6mxOHlmG4OPQAAoAMoAUWLAGkAPrqgByABViwAlABqRAAMgBKdi69ZSpGRuUxuN4BPJ1Pk+RmqmWkZee18FoOPoSDpeCFszndIHc5oGfRNTpNIPdhFJCOy-Z8QtgMAAa1T7HH5UnKmpCCXEle72sgW5elMzQ3Zot0Zcxuj-HQ+iPEM9V7M8UWjIgIAAN0wFAmHvR9KRfad+gaKwDDtJdgWdawN0BZdej3NkJAZAioPFHtwxleD5UQlC0PvDNDRxPgczzItS0rGt62bNtO2PMNT2YqNWOQ1D0JQKBMOfB5QCeAwbGMTozHtIVAhsAJXDdEYA0mZdmgkCygh0-QrHolUT2lZEZL4AAhZgb2yDyMJNCkVItNTEHCG0HB08ZWhMSwzE5AjNIsmwLLGP8+jMEwdHs0MNik5yB3cphPKwfKMIMUoJ0qbDAoQboXisCQ9A6RkPlBADjJdPh7VShLrASiwhSiZYUHwCA4DUCSsqc-t9lNcrVI0bRLA-AiFyCOZ6TaTktD6Ai+Dtb0XU6T47OWMbYOkgclQYlQNS1MBpvNV9dCZPgJEZZp+isaYGSCDbdxtN6LHaKxDAIiwbAymCmJyi9Y3jRMU0Uu6p0q3QPuMX0rPqdoGV+VqGnBRkPu6fprOacHGOyyboyvW9U0Riq5qqj8mR0j5TAFFkvE5AYgRSt6DKSmiAjJxy+3PBC5I4hG-JmgKGaFIxLH0CwBmtcEuc0gMif5rxkqF47oPJiaxflPKCu8qWyvu6cDr4Nppg+SEujtzlDB5z56T0AN9D6cZRWDS7JKNli+AAMTYXBYGoSA6dm2pHA-T2uicAZ+hmGxOWmPH6WcdpZz6EVSf6oA */
   createMachine({
     tsTypes: {} as import('./recursiveBacktracker.machine.typegen').Typegen0,
     schema: {
@@ -43,20 +43,20 @@ export const generationAlgorithmMachine =
           },
     },
     id: 'generationAlgorithmMachine',
-    initial: 'maze-idle',
+    initial: 'Generation Idle',
     states: {
-      'maze-idle': {
+      'Generation Idle': {
         on: {
           'generation.start': {
-            target: 'starting',
+            target: 'Initializing',
           },
         },
       },
-      starting: {
+      Initializing: {
         entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: 'canIPlay',
+            cond: 'playing is allowed',
             target: 'Seeking',
           },
         },
@@ -64,41 +64,41 @@ export const generationAlgorithmMachine =
       Seeking: {
         entry: ['findNeighbors', sendParent({ type: 'display.update' })],
         always: {
-          target: 'advancing',
+          target: 'Advancing',
         },
       },
-      advancing: {
+      Advancing: {
         entry: ['pickNextCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: 'canIPlay',
+            cond: 'playing is allowed',
             target: 'Seeking',
           },
         },
         always: {
-          cond: 'isDeadEnd',
-          target: 'backtracking',
+          cond: 'reached a dead end',
+          target: 'Backtracking',
         },
       },
-      backtracking: {
+      Backtracking: {
         entry: 'popFromStack',
         always: [
           {
-            cond: 'isBackAtStart',
-            target: 'finished',
+            cond: 'back at the start',
+            target: 'Finished',
           },
           {
             target: 'Seeking',
           },
         ],
       },
-      finished: {
+      Finished: {
         entry: sendParent({ type: 'generation.finish' }),
       },
     },
     on: {
       'refs.inject': {
-        target: '.maze-idle',
+        target: '.Generation Idle',
       },
       'controls.play': {
         actions: 'play',
@@ -113,9 +113,10 @@ export const generationAlgorithmMachine =
     },
   }).withConfig({
     guards: {
-      canIPlay: (ctx) => ctx.canPlay,
-      isDeadEnd: ({ eligibleNeighbors }) => eligibleNeighbors.length === 0,
-      isBackAtStart: ({ stack }) => stack.length === 0,
+      'playing is allowed': (ctx) => ctx.canPlay,
+      'reached a dead end': ({ eligibleNeighbors }) =>
+        eligibleNeighbors.length === 0,
+      'back at the start': ({ stack }) => stack.length === 0,
     },
     actions: {
       initGeneration: assign({
