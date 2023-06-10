@@ -24,7 +24,7 @@ import { State } from 'xstate';
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  onControlClick: (event: AppMachineEvent | AppMachineEventId) => void;
+  sendControlEvent: (event: AppMachineEvent | AppMachineEventId) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -34,7 +34,7 @@ const iconFillDisabledColor = '#D3D3D3';
 const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
-export const Controls = ({ state, onControlClick }: Props) => {
+export const Controls = ({ state, sendControlEvent }: Props) => {
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
@@ -43,7 +43,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
         if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          onControlClick({ type: 'controls.step.forward' });
+          sendControlEvent({ type: 'controls.step.forward' });
         }
       }
     },
@@ -52,26 +52,26 @@ export const Controls = ({ state, onControlClick }: Props) => {
         case Key.SPACE:
         case Key.ENTER: {
           if (state.can({ type: 'controls.play' })) {
-            onControlClick({ type: 'controls.play' });
+            sendControlEvent({ type: 'controls.play' });
           }
           if (state.can({ type: 'controls.pause' })) {
-            onControlClick({ type: 'controls.pause' });
+            sendControlEvent({ type: 'controls.pause' });
           }
           if (state.can({ type: 'app.restart' })) {
-            onControlClick({ type: 'app.restart' });
+            sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
 
         case Key.ARROW_LEFT: {
           if (state.can({ type: 'app.restart' })) {
-            onControlClick({ type: 'app.restart' });
+            sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
         case Key.ESCAPE: {
           if (state.can({ type: 'controls.stop' })) {
-            onControlClick({ type: 'controls.stop' });
+            sendControlEvent({ type: 'controls.stop' });
           }
           break;
         }
@@ -92,7 +92,7 @@ export const Controls = ({ state, onControlClick }: Props) => {
     }
     const type = id as AppMachineEventId;
     const eventObj = { type } as AppMachineEvent;
-    onControlClick(eventObj);
+    sendControlEvent(eventObj);
   };
 
   const renderStateControls = (
