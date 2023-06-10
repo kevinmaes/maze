@@ -7,9 +7,9 @@ import { ICell } from '../components/generation/Cell';
 import { Ref } from 'react';
 
 export const generationAlgorithmMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMQCSAcgFICiAYQAqAfQBK-AGIBlANoAGALqJQAB3ywqBFKpAAPRAGYAjAoB0ANgDsJgJwBWBQA471y0YfWANCACeiAAsztbmzoEO4XYmDpbOlnaeAL5JvqgYODqk5JQ0DMysHAAKADJEAJqKKkggGlp4hHqGCCYm4WEATA5OliaBpg4dlr4BCIGWDuYKRnbO3f1u1kZGKWlgaFgNxGQUVHSMLGxg7EVEAKoy-FV6ddqNNc2tluYmRoEK4+8hNgodI4ghIzmUzWIaBOwdRYOEyrEDpTZZHa5fYFI7sGTCfhFURSADy4gA6kRxAARa41W5bJqIExDUIRLpeOyBax2BStf5jEJhCJRGJxBIdQKw+GZQjZXZ5A6FMDmWiYABeYAAtLgICRjhjicJyepNHddA8gs5nOZInM3EZnF0JsN-Igfi9mc4jB1Ie9rOMResMlsJcj8oc0OZYNhMOg8CgoOx9KGcLLMAAzbAYAAUl34AGlRDxMeIAGpEEoASnYor9SL2gZlIbDEbYUF1tX1VKNCBNkzaRksETevVZgU5NhMVkcwVp7x74O9GzF2xyVelRxDYDAAGsG+wm5SdNSWiygQlmeyjAozyZ3EOXaPIeyvFPXDPfYiF1LUcHMBAAG6YFBMTfbi2u5tiYEyTKCnoKPM1i-F4nLONM5jjC6thuoEHQITCqRwj6CLipWb5Bgm36-v+UYxnGKbmEmKboOm-BZjm3B5oWJZlrhc7+ou77ET+f4NoB9TAaAjxWoE5i2NatgeKhzKct0pouL8LKMm4DgrNh5YvpKKJEeYABGzBrtgWBMBu5GCQae60h0QKOG4t6ejE0Kcmy4n9FB0LdnYR4dE+eHzjp1bLoZZkmUZAEmNUepCfcIk0rZ4lCr8My0heZ52qMzitEhbpngh3YfG0KTYSg+AQHAehafhr66TKNxAXFBiIEMHRWLYjguG4HhwfaCBGNYoSxH0UERG0sz+ZxBF1cu8pKqq6pgA1sWGvF-VdE6lhxN2CQ9pEg59Y69jBK67oKJ6liTRWtXBcGcb1lGy1WW2PampCiUuvtHS0kOfRIa8vReCyNgRFd2kBkud2ruZUBPa2a20gozwzJ8o0OIk31DlaYQzJClgdOdLqPppHHXUFkO8aRDZw8JzUtPjQIxGysS2QhwTOEOESjgh7hmOCbwaWss5kxDPEGUZ4VmdTFKNatdOgRe5g+R88S-J6oImPBbhTC41iRGryzWM4YM1eTYuJmwuCwNQkA001jy2YeMHTK84wfBhrncgTF4QltdiOKBJVJEAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QwHZgE4EMAuBLA9igIIA2U+6u2AFgLYCymAxtbmgMTpgBmsAdGwBWYJtgDaABgC6iUAAd8sKgRSyQAD0QBaACwBWAIx8DEgwHY9OgJwAOCRJtmJOgDQgAntoBMXq8as6OubWTs42egC+EW6oGDgqpOSUNAzMrBxMhNjo+CT8ciSY7pIySCAKSniEapoIBnp8el4AbFZWZjY6Zs06zQDM4W6eCFoGXjp8jl42A3rtc4aR0SCxWFXEZBRUdIwsbGDsmSjZufmYAK6wYCVqFcrVZbUtXpM6NjYGAwMmVkOIgWY+H19DZxsCBmZAlEYmA0GsEptkjs0vtDlkcnk+LBsGA5HxuBQAO6YdAQG5lO7rGqIVqTMx9KzNRx6GZ9Hp6P4jAyMxo6MJBWw6Fp6JYwuHxQiJLYpXbpMB8ADisLi6wABABJCAkA6rCUoLHYEniaS3RT3VSPbRdPqNZpmLz1Lr6B0cjzafqNcbTfrNcYmPps6ErZXwyWI7apPZoPjqlDKTAkXAALzYUHY6mxOHlmG4OPQAAoAMoAUWLAGkAPrqgByABViwAlABqRAAMgBKdi69ZSpGRuUxuN4BPJ1Pk+RmqmWkZee18FoOPoSDpeCFszndIHc5oGfRNTpNIPdhFJCOy-Z8QtgMAAa1T7HH5UnKmpCCXEle72sgW5elMzQ3Zot0Zcxuj-HQ+iPEM9V7M8UWjIgIAAN0wFAmHvR9KRfad+gaKwDDtJdgWdawN0BZdej3NkJAZAioPFHtwxleD5UQlC0PvDNDRxPgczzItS0rGt62bNtO2PMNT2YqNWOQ1D0JQKBMOfB5QCeAwbGMTozHtIVAhsAJXDdEYA0mZdmgkCygh0-QrHolUT2lZEZL4AAhZgb2yDyMJNCkVItNTEHCG0HB08ZWhMSwzE5AjNIsmwLLGP8+jMEwdHs0MNik5yB3cphPKwfKMIMUoJ0qbDAoQboXisCQ9A6RkPlBADjJdPh7VShLrASiwhSiZYUHwCA4DUCSsqc-t9lNcrVI0bRLA-AiFyCOZ6TaTktD6Ai+Dtb0XU6T47OWMbYOkgclQYlQNS1MBpvNV9dCZPgJEZZp+isaYGSCDbdxtN6LHaKxDAIiwbAymCmJyi9Y3jRMU0Uu6p0q3QPuMX0rPqdoGV+VqGnBRkPu6fprOacHGOyyboyvW9U0Riq5qqj8mR0j5TAFFkvE5AYgRSt6DKSmiAjJxy+3PBC5I4hG-JmgKGaFIxLH0CwBmtcEuc0gMif5rxkqF47oPJiaxflPKCu8qWyvu6cDr4Nppg+SEujtzlDB5z56T0AN9D6cZRWDS7JKNli+AAMTYXBYGoSA6dm2pHA-T2uicAZ+hmGxOWmPH6WcdpZz6EVSf6oA */
   createMachine({
-    tsTypes: {} as import('./recursiveBacktrackerMachine.typegen').Typegen0,
+    tsTypes: {} as import('./recursiveBacktracker.machine.typegen').Typegen0,
     schema: {
       context: {} as {
         canPlay: boolean;
@@ -23,102 +23,100 @@ export const generationAlgorithmMachine =
       },
       events: {} as
         | {
-            type: 'INJECT_REFS';
+            type: 'refs.inject';
             params: { gridRef: Ref<IGrid> };
           }
         | {
-            type: 'START';
+            type: 'generation.start';
           }
         | {
-            type: 'PLAY';
+            type: 'controls.play';
           }
         | {
-            type: 'PAUSE';
+            type: 'controls.pause';
           }
         | {
-            type: 'STEP_FORWARD';
+            type: 'controls.step.forward';
           }
         | {
-            type: 'UPDATE';
-          }
-        | {
-            type: 'DONE';
+            type: 'display.update';
           },
     },
     id: 'generationAlgorithmMachine',
-    initial: 'maze-idle',
+    initial: 'Generation Idle',
     states: {
-      'maze-idle': {
+      'Generation Idle': {
         on: {
-          START: {
-            target: 'starting',
+          'generation.start': {
+            target: 'Initializing',
           },
         },
       },
-      starting: {
+      Initializing: {
         entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: 'canIPlay',
-            target: 'seeking',
+            cond: 'playing is allowed',
+            target: 'Seeking',
           },
         },
       },
-      seeking: {
-        entry: ['findNeighbors', sendParent('UPDATE')],
+      Seeking: {
+        entry: ['findNeighbors', sendParent({ type: 'display.update' })],
         always: {
-          target: 'advancing',
+          target: 'Advancing',
         },
       },
-      advancing: {
+      Advancing: {
         entry: ['pickNextCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            cond: 'canIPlay',
-            target: 'seeking',
+            cond: 'playing is allowed',
+            target: 'Seeking',
           },
         },
         always: {
-          cond: 'isDeadEnd',
-          target: 'backtracking',
+          cond: 'reached a dead end',
+          target: 'Backtracking',
         },
       },
-      backtracking: {
+      Backtracking: {
         entry: 'popFromStack',
         always: [
           {
-            cond: 'isBackAtStart',
-            target: 'finished',
+            cond: 'back at the start',
+            target: 'Finished',
           },
           {
-            target: 'seeking',
+            target: 'Seeking',
           },
         ],
       },
-      finished: {
-        entry: sendParent('DONE'),
+      Finished: {
+        entry: sendParent({ type: 'generation.finish' }),
       },
     },
     on: {
-      INJECT_REFS: {
-        target: '.maze-idle',
+      'refs.inject': {
+        target: '.Generation Idle',
       },
-      PLAY: {
+      'controls.play': {
         actions: 'play',
-        target: '.seeking',
+        target: '.Seeking',
       },
-      PAUSE: {
+      'controls.pause': {
         actions: 'pause',
       },
-      STEP_FORWARD: {
-        target: '.seeking',
+      'controls.step.forward': {
+        target: '.Seeking',
       },
     },
   }).withConfig({
     guards: {
-      canIPlay: (ctx) => ctx.canPlay,
-      isDeadEnd: ({ eligibleNeighbors }) => eligibleNeighbors.length === 0,
-      isBackAtStart: ({ stack }) => stack.length === 0,
+      'playing is allowed': (ctx) => ctx.canPlay,
+      'reached a dead end': ({ eligibleNeighbors }) =>
+        eligibleNeighbors.length === 0,
+      'back at the start': ({ stack }) => stack.length === 0,
     },
     actions: {
       initGeneration: assign({
