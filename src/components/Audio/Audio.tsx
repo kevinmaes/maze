@@ -2,9 +2,9 @@ import useSound from 'use-sound';
 
 interface Props {
   columnIndex: number;
-  maxColumnIndex: number;
-  maxRowIndex: number;
-  rowIndex: number;
+  maxColumnIndex?: number;
+  maxRowIndex?: number;
+  rowIndex?: number;
 }
 
 export const Audio = ({ columnIndex }: Props) => {
