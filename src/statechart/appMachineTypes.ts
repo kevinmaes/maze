@@ -38,21 +38,20 @@ export interface AppMachineContext {
 }
 
 export type AppMachineEvent =
-  | { type: 'PLAY' }
-  | { type: 'STOP' }
-  | { type: 'PAUSE' }
-  | { type: 'START_OVER' }
-  | { type: 'STEP_FORWARD' }
+  | { type: 'controls.play' }
+  | { type: 'controls.stop' }
+  | { type: 'controls.pause' }
+  | { type: 'app.restart' }
+  | { type: 'controls.step.forward' }
   | {
-      type: 'SET_GENERATION_PARAM';
-      name: string;
-      value: number;
+      type: 'generation.param.set';
+      params: { name: string; value: number };
     }
   | {
-      type: 'INJECT_REFS';
-      gridRef: GridRef;
+      type: 'refs.inject';
+      params: { gridRef: GridRef };
     }
-  | { type: 'UPDATE' }
-  | { type: 'DONE' };
+  | { type: 'display.update' }
+  | { type: 'generation.finish' };
 
 export type AppMachineEventId = AppMachineEvent['type'];
