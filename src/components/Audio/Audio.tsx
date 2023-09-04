@@ -1,4 +1,6 @@
+import { useRef } from 'react';
 import useSound from 'use-sound';
+import { frequencies, diatonicScales } from './notes';
 
 interface Props {
   columnIndex: number;
@@ -8,23 +10,26 @@ interface Props {
 }
 
 export const Audio = ({ columnIndex }: Props) => {
-  let prevColumnIndex = 0;
+  const startFrequency = frequencies['C0'];
+  const prevFrequencyIndexRef = useRef<number>(
+    diatonicScales.c.major.indexOf('C0')
+  );
+  const prevColumnIndexRef = useRef<number>(0);
 
-  const increment: number = columnIndex - prevColumnIndex;
-
-  prevColumnIndex = columnIndex;
-
-  const c5Hz = 523.3;
-  const multiplier = 1.059463094359;
-
-  const frequency = c5Hz * Math.pow(multiplier, increment);
-
-  const playbackRate = frequency / c5Hz;
+  const increment: number = columnIndex - prevColumnIndexRef.current;
+  const frequencyIndex = prevFrequencyIndexRef.current + increment;
+  const note = diatonicScales.c.major[frequencyIndex];
+  const frequency = frequencies[note];
+  const playbackRate = frequency / startFrequency;
 
   const [play] = useSound('/sounds/marimba-c5.wav', {
     playbackRate,
   });
 
   play();
+
+  prevFrequencyIndexRef.current = frequencyIndex;
+  prevColumnIndexRef.current = columnIndex;
+
   return null;
 };
