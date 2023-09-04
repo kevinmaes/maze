@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xstate/cli": "^0.5.1",
+    "@xstate/cli": "^0.5.2",
     "@xstate/react": "3.2.2",
     "next": "13.4.19",
     "prettier": "^3.0.3",
