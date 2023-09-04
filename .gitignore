@@ -14,10 +14,6 @@ src/statechart/**.typegen.ts
 # testing
 /coverage
 
-# cypress testing
-/cypress/screenshots
-/cypress/videos
-
 # production
 /build
 
