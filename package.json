@@ -18,7 +18,7 @@
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
     "styled-components": "6.0.7",
-    "xstate": "^4.37.2"
+    "xstate": "^4.38.2"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
