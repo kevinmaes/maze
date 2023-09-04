@@ -1,8 +1,8 @@
-import { createMachine, ContextFrom } from 'xstate';
+import { ContextFrom, createMachine } from 'xstate';
 import {
-  GenerationParams,
   AppMachineContext,
   AppMachineEvent,
+  GenerationParams,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
@@ -39,6 +39,8 @@ export const appMachine =
       events: {} as AppMachineEvent,
     },
     tsTypes: {} as import('./app.machine.typegen').Typegen0,
+    predictableActionArguments: true,
+    preserveActionOrder: true,
     context: initialAppMachineContext,
     id: 'app',
     initial: 'Idle',
