@@ -1,11 +1,11 @@
-import { createMachine, assign, sendParent } from 'xstate';
+import { assign, createMachine, sendParent } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
-import { seek } from '../components/generation/seek';
-import { ICell } from '../components/generation/Cell';
 import { Ref } from 'react';
 import Grid from '../components/generation/Grid';
+import { ICell } from '../components/generation/Cell';
+import { seek } from '../components/generation/seek';
 
 interface Context {
   canPlay: boolean;
@@ -23,6 +23,8 @@ export const generationAlgorithmMachine =
   createMachine(
     {
       tsTypes: {} as import('./recursiveBacktracker.machine.typegen').Typegen0,
+      predictableActionArguments: true,
+      preserveActionOrder: true,
       schema: {
         context: {} as Context,
         events: {} as

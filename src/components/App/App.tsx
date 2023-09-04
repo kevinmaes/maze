@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
 import { useMachine } from '@xstate/react';
 
 import Image from 'next/image';
 
-import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
-import { Controls } from '../Controls/Controls';
-import { Stage } from '../Stage';
-import { appMachine } from '../../statechart/app.machine';
-import { Levers } from '../Levers/Levers';
-import GlobalStyle from '../../styles/GlobalStyles';
 import { assign } from 'xstate';
+import { appMachine } from '../../statechart/app.machine';
 import { Audio } from '../Audio/Audio';
+import { Controls } from '../Controls/Controls';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
+import { Levers } from '../Levers/Levers';
 import { sendTo } from 'xstate/lib/actions';
+import { Stage } from '../Stage';
+import GlobalStyle from '../../styles/GlobalStyles';
+import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
+import { useEffect, useState } from 'react';
 
 declare const VERSION: string;
 
@@ -59,15 +59,13 @@ const App = () => {
     },
   });
 
-  const [leversAreChanging, setLeversAreChanging] = useState(false);
-
   const {
     context: { generationParams, generationSessionId },
   } = appState;
 
   const [position, setPosition] = useState({ columnIndex: 0, rowIndex: 0 });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const subscription = appService.subscribe((state) => {
       const childMachine = state.children?.generationAlgorithmMachine;
       if (childMachine) {
@@ -110,7 +108,6 @@ const App = () => {
           updateFromLevers={(data: { name: string; value: number }) => {
             appSend({ type: 'generation.param.set', params: data });
           }}
-          settingsAreChanging={setLeversAreChanging}
         />
 
         <Controls state={appState} sendControlEvent={appSend} />
@@ -121,7 +118,6 @@ const App = () => {
           generationParams={generationParams}
           appSend={appSend}
           generationSessionId={generationSessionId}
-          paramsAreChanging={leversAreChanging}
         />
 
         <Footer>
