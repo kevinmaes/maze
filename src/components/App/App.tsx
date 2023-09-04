@@ -78,8 +78,6 @@ const App = () => {
           rowIndex:
             (childMachine as any).state.context.currentCell?.getRowIndex() ?? 0,
         });
-      } else {
-        // console.log('childMachine is undefined');
       }
     });
 
