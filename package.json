@@ -24,7 +24,7 @@
     "@svgr/webpack": "8.1.0",
     "@types/aria-query": "5.0.1",
     "@types/jest": "29.5.2",
-    "@types/node": "^20.5.7",
+    "@types/node": "^20.5.9",
     "@types/react-dom": "18.2.7",
     "@types/react": "18.2.21",
     "@types/styled-components": "5.1.26",
