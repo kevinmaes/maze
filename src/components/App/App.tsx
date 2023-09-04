@@ -71,23 +71,15 @@ const App = () => {
     const subscription = appService.subscribe((state) => {
       const childMachine = state.children?.generationAlgorithmMachine;
       if (childMachine) {
-        // console.log(
-        //   'childMachine state value',
-        //   (childMachine as any).state.value
-        // );
-        // console.log(
-        //   'childMachine col/row indices',
-        //   (childMachine as any).state.context.currentCell?.getColumnIndex(),
-        //   (childMachine as any).state.context.currentCell?.getRowIndex()
-        // );
         setPosition({
-          columnIndex: (
-            childMachine as any
-          ).state.context.currentCell?.getColumnIndex(),
-          rowIndex: (
-            childMachine as any
-          ).state.context.currentCell?.getRowIndex(),
+          columnIndex:
+            (childMachine as any).state.context.currentCell?.getColumnIndex() ??
+            0,
+          rowIndex:
+            (childMachine as any).state.context.currentCell?.getRowIndex() ?? 0,
         });
+      } else {
+        // console.log('childMachine is undefined');
       }
     });
 
