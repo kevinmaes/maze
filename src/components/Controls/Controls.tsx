@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 
+import { State } from 'xstate';
+import Pause from '../../assets/svg/controls/pause.svg';
+import Play from '../../assets/svg/controls/play.svg';
+import StartOver from '../../assets/svg/controls/start-over.svg';
+import StepForward from '../../assets/svg/controls/step-forward.svg';
+import Stop from '../../assets/svg/controls/stop.svg';
 import {
   AppMachineContext,
   AppMachineEvent,
   AppMachineEventId,
 } from '../../statechart/appMachineTypes';
-import StartOver from '../../assets/svg/controls/start-over.svg';
-import Play from '../../assets/svg/controls/play.svg';
-import Stop from '../../assets/svg/controls/stop.svg';
-import Pause from '../../assets/svg/controls/pause.svg';
-import StepForward from '../../assets/svg/controls/step-forward.svg';
+import { Key } from '../Keyboard/Key';
+import { Keyboard } from '../Keyboard/Keyboard';
 import {
+  ControlButton,
   ControlsContainer,
   ControlsGroup,
-  ControlButton,
-  Prompt,
   FlashingControlButton,
+  Prompt,
 } from './Controls.css';
-import { Keyboard } from '../Keyboard/Keyboard';
-import { Key } from '../Keyboard/Key';
-import { State } from 'xstate';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -157,7 +157,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             onClick={handleClick}
             disabled={!canStepForward}
             title="Step Forward (RIGHT ARROW)"
-            animate={flashStepForward}
+            $animate={flashStepForward}
           >
             <StepForward fill={getIconFillColor(canStepForward)} />
           </FlashingControlButton>

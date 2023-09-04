@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
 import { useMachine } from '@xstate/react';
 
 import Image from 'next/image';
 
-import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
-import { Controls } from '../Controls/Controls';
-import { Stage } from '../Stage';
-import { appMachine } from '../../statechart/app.machine';
-import { Levers } from '../Levers/Levers';
-import GlobalStyle from '../../styles/GlobalStyles';
 import { assign } from 'xstate';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { sendTo } from 'xstate/lib/actions';
+import { appMachine } from '../../statechart/app.machine';
+import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
+import GlobalStyle from '../../styles/GlobalStyles';
+import { Controls } from '../Controls/Controls';
+import { Levers } from '../Levers/Levers';
+import { Stage } from '../Stage';
+import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 
 declare const VERSION: string;
 
@@ -58,8 +57,6 @@ const App = () => {
     },
   });
 
-  const [leversAreChanging, setLeversAreChanging] = useState(false);
-
   const {
     context: { generationParams, generationSessionId },
   } = appState;
@@ -101,7 +98,6 @@ const App = () => {
           updateFromLevers={(data: { name: string; value: number }) => {
             appSend({ type: 'generation.param.set', params: data });
           }}
-          settingsAreChanging={setLeversAreChanging}
         />
 
         <Controls state={appState} sendControlEvent={appSend} />
@@ -112,7 +108,6 @@ const App = () => {
           generationParams={generationParams}
           appSend={appSend}
           generationSessionId={generationSessionId}
-          paramsAreChanging={leversAreChanging}
         />
 
         <Footer>
