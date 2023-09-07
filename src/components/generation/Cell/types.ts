@@ -32,12 +32,6 @@ export interface ICell {
   visit: (prevCell: ICell | null, pathId: string) => ICell;
 }
 
+export type DirectionName = 'North' | 'East' | 'South' | 'West';
 export type Connections = ICell[];
-export type Walls = [boolean, boolean, boolean, boolean];
-
-export enum DirectionIndex {
-  NORTH = 0,
-  EAST,
-  SOUTH,
-  WEST,
-}
+export type Walls = Set<DirectionName>;
