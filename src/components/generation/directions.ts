@@ -1,25 +1,25 @@
-import { DirectionIndex } from './Cell/types';
+import { DirectionName } from './Cell/types';
 
 interface Direction {
-  directionIndex: DirectionIndex;
+  name: DirectionName;
   getIndices: (rowIndex: number, colIndex: number) => [number, number];
 }
 
 export const DIRECTIONS: Direction[] = [
   {
-    directionIndex: DirectionIndex.NORTH,
+    name: 'North',
     getIndices: (rowIndex, colIndex) => [rowIndex - 1, colIndex],
   },
   {
-    directionIndex: DirectionIndex.EAST,
+    name: 'East',
     getIndices: (rowIndex, colIndex) => [rowIndex, colIndex + 1],
   },
   {
-    directionIndex: DirectionIndex.SOUTH,
+    name: 'South',
     getIndices: (rowIndex, colIndex) => [rowIndex + 1, colIndex],
   },
   {
-    directionIndex: DirectionIndex.WEST,
+    name: 'West',
     getIndices: (rowIndex, colIndex) => [rowIndex, colIndex - 1],
   },
 ];
