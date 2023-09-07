@@ -68,15 +68,15 @@ export default class Cell implements ICell {
     if (cell.getRowIndex() > this.position.row) {
       this.walls.delete('South');
     }
-    
+
     if (cell.getRowIndex() < this.position.row) {
       this.walls.delete('North');
     }
-    
+
     if (cell.getColumnIndex() > this.position.column) {
       this.walls.delete('East');
     }
-    
+
     if (cell.getColumnIndex() < this.position.column) {
       this.walls.delete('West');
     }
@@ -119,7 +119,12 @@ export default class Cell implements ICell {
     this.setAsCursor();
 
     if (!this.position.isStart && !this.position.isEnd) {
-      this.walls = new Set(['North', 'East', 'South', 'West'] as DirectionName[]);
+      this.walls = new Set([
+        'North',
+        'East',
+        'South',
+        'West',
+      ] as DirectionName[]);
     }
 
     if (prevCell) {
