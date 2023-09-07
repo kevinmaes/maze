@@ -11,7 +11,6 @@ import {
   AppMachineEvent,
   AppMachineEventId,
 } from '../../statechart/appMachineTypes';
-import { Key } from '../Keyboard/Key';
 import { Keyboard } from '../Keyboard/Keyboard';
 import {
   ControlButton,
@@ -39,7 +38,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
 
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
-      if (event.key === Key.ARROW_RIGHT) {
+      if (event.key === 'ArrowRight') {
         if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
@@ -49,8 +48,8 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     },
     keyup: (event: KeyboardEvent) => {
       switch (event.key) {
-        case Key.SPACE:
-        case Key.ENTER: {
+        case ' ':
+        case 'Enter': {
           if (state.can({ type: 'controls.play' })) {
             sendControlEvent({ type: 'controls.play' });
           }
@@ -63,13 +62,13 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           break;
         }
 
-        case Key.ARROW_LEFT: {
+        case 'ArrowLeft': {
           if (state.can({ type: 'app.restart' })) {
             sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
-        case Key.ESCAPE: {
+        case 'Escape': {
           if (state.can({ type: 'controls.stop' })) {
             sendControlEvent({ type: 'controls.stop' });
           }
