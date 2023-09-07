@@ -90,10 +90,10 @@ const flash = keyframes`
 `;
 
 export const FlashingControlButton = styled(ControlButton)<{
-  animate: boolean;
+  $animate: boolean;
 }>`
   animation: ${(props) =>
-    props.animate &&
+    props.$animate &&
     css`
       ${flash} 0.3s ease-out
     `};

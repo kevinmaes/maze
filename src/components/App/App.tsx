@@ -1,15 +1,12 @@
-import React, { useState } from 'react';
-import { useMachine } from '@xstate/react';
-
 import Image from 'next/image';
-
-import { AppContainer, Footer, Version, Link, ImageHolder } from './App.css';
+import { assign, sendTo } from 'xstate';
+import GlobalStyle from '../../styles/GlobalStyles';
+import { Levers } from '../Levers/Levers';
 import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
+import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
-import { Levers } from '../Levers/Levers';
-import GlobalStyle from '../../styles/GlobalStyles';
-import { assign, sendTo } from 'xstate';
+import { AppContainer, ImageHolder, Link, Version } from './App.css';
 
 declare const VERSION: string;
 
@@ -21,7 +18,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send /* appService */] = useMachine(appMachine, {
+  const [appState, send /* appService */] = useActor(appMachine, {
     actions: {
       storeGridRef: assign({
         gridRef: ({ context }) => context.params.gridRef,
@@ -55,8 +52,6 @@ const App = () => {
     //   childMachine: generationAlgorithmMachine,
     // },
   });
-
-  const [leversAreChanging, setLeversAreChanging] = useState(false);
 
   const {
     context: { generationParams, generationSessionId },
@@ -100,7 +95,6 @@ const App = () => {
             send({ type: 'generation.param.set', params: data });
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
-          settingsAreChanging={setLeversAreChanging}
         />
 
         <Controls state={appState} sendControlEvent={send} />
@@ -111,10 +105,9 @@ const App = () => {
           generationParams={generationParams}
           send={send}
           generationSessionId={generationSessionId}
-          paramsAreChanging={leversAreChanging}
         />
 
-        <Footer>
+        <footer>
           <Version>{version}</Version>
           <Link
             className="App-link"
@@ -133,7 +126,7 @@ const App = () => {
             </ImageHolder>
             @kvmaes
           </Link>
-        </Footer>
+        </footer>
       </AppContainer>
     </>
   );

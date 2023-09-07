@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Form, Fieldset } from './Levers.css';
 import {
-  GenerationParamsId,
   GenerationParams,
+  GenerationParamsId,
 } from '../../statechart/appMachineTypes';
+import { Fieldset, Form } from './Levers.css';
 
 const CellSize = {
   DEFAULT: 20,
@@ -16,27 +16,15 @@ interface Props {
   enabled: boolean;
   params: GenerationParams;
   updateFromLevers: (data: { name: string; value: number }) => void;
-  settingsAreChanging: (value: boolean) => void;
 }
 
-export const Levers = ({
-  enabled,
-  params,
-  updateFromLevers,
-  settingsAreChanging,
-}: Props) => {
+export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
   const onLeverChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) =>
     updateFromLevers({ name, value: parseInt(value, 10) });
 
-  const inputHandlers = {
-    onMouseDown: () => settingsAreChanging(true),
-    onMouseUp: () => settingsAreChanging(false),
-    onPointerDown: () => settingsAreChanging(true),
-    onPointerUp: () => settingsAreChanging(false),
-    onChange: onLeverChange,
-  };
+  const inputHandlers = { onChange: onLeverChange };
 
   return (
     <Form>

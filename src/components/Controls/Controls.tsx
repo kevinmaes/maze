@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 
+import { State } from 'xstate';
+import Pause from '../../assets/svg/controls/pause.svg';
+import Play from '../../assets/svg/controls/play.svg';
+import StartOver from '../../assets/svg/controls/start-over.svg';
+import StepForward from '../../assets/svg/controls/step-forward.svg';
+import Stop from '../../assets/svg/controls/stop.svg';
 import {
   AppMachineContext,
   AppMachineEvent,
   AppMachineEventId,
 } from '../../statechart/appMachineTypes';
-import StartOver from '../../assets/svg/controls/start-over.svg';
-import Play from '../../assets/svg/controls/play.svg';
-import Stop from '../../assets/svg/controls/stop.svg';
-import Pause from '../../assets/svg/controls/pause.svg';
-import StepForward from '../../assets/svg/controls/step-forward.svg';
+import { Keyboard } from '../Keyboard/Keyboard';
 import {
+  ControlButton,
   ControlsContainer,
   ControlsGroup,
-  ControlButton,
-  Prompt,
   FlashingControlButton,
+  Prompt,
 } from './Controls.css';
-import { Keyboard } from '../Keyboard/Keyboard';
-import { Key } from '../Keyboard/Key';
-import { State } from 'xstate';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,7 +38,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
 
   const keyHandlers = {
     keydown: (event: KeyboardEvent) => {
-      if (event.key === Key.ARROW_RIGHT) {
+      if (event.key === 'ArrowRight') {
         if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
@@ -49,8 +48,8 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     },
     keyup: (event: KeyboardEvent) => {
       switch (event.key) {
-        case Key.SPACE:
-        case Key.ENTER: {
+        case ' ':
+        case 'Enter': {
           if (state.can({ type: 'controls.play' })) {
             sendControlEvent({ type: 'controls.play' });
           }
@@ -63,13 +62,13 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
           break;
         }
 
-        case Key.ARROW_LEFT: {
+        case 'ArrowLeft': {
           if (state.can({ type: 'app.restart' })) {
             sendControlEvent({ type: 'app.restart' });
           }
           break;
         }
-        case Key.ESCAPE: {
+        case 'Escape': {
           if (state.can({ type: 'controls.stop' })) {
             sendControlEvent({ type: 'controls.stop' });
           }
@@ -157,7 +156,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             onClick={handleClick}
             disabled={!canStepForward}
             title="Step Forward (RIGHT ARROW)"
-            animate={flashStepForward}
+            $animate={flashStepForward}
           >
             <StepForward fill={getIconFillColor(canStepForward)} />
           </FlashingControlButton>

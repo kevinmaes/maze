@@ -1,8 +1,8 @@
-import { createMachine, ContextFrom } from 'xstate';
+import { ContextFrom, createMachine } from 'xstate';
 import {
-  GenerationParams,
   AppMachineContext,
   AppMachineEvent,
+  GenerationParams,
 } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 

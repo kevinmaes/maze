@@ -2,7 +2,7 @@ import {
   ICell,
   Connections,
   Walls,
-  DirectionIndex,
+  DirectionName,
   CellPosition,
   CellStyle,
 } from './types';
@@ -37,7 +37,7 @@ export default class Cell implements ICell {
       this.position.row * this.cellStyle.size + this.cellStyle.borderWeight;
 
     this.connections = [];
-    this.walls = [true, true, true, true];
+    this.walls = new Set(['North', 'East', 'South', 'West'] as DirectionName[]);
     this.visited = false;
     this.backtrack = false;
   }
@@ -66,19 +66,19 @@ export default class Cell implements ICell {
     this.connections.push(cell);
 
     if (cell.getRowIndex() > this.position.row) {
-      this.walls[DirectionIndex.SOUTH] = false;
+      this.walls.delete('South');
     }
 
     if (cell.getRowIndex() < this.position.row) {
-      this.walls[DirectionIndex.NORTH] = false;
+      this.walls.delete('North');
     }
 
     if (cell.getColumnIndex() > this.position.column) {
-      this.walls[DirectionIndex.EAST] = false;
+      this.walls.delete('East');
     }
 
     if (cell.getColumnIndex() < this.position.column) {
-      this.walls[DirectionIndex.WEST] = false;
+      this.walls.delete('West');
     }
 
     if (mutual) {
@@ -119,7 +119,12 @@ export default class Cell implements ICell {
     this.setAsCursor();
 
     if (!this.position.isStart && !this.position.isEnd) {
-      this.walls = [true, true, true, true];
+      this.walls = new Set([
+        'North',
+        'East',
+        'South',
+        'West',
+      ] as DirectionName[]);
     }
 
     if (prevCell) {
@@ -204,11 +209,11 @@ export default class Cell implements ICell {
     canvasCtx.strokeStyle = borderColor;
     canvasCtx.lineWidth = borderWeight;
 
-    if (this.walls[DirectionIndex.NORTH]) {
+    if (this.walls.has('North')) {
       this.line(this.x, this.y, this.x + size, this.y, borderColor);
     }
 
-    if (this.walls[DirectionIndex.EAST]) {
+    if (this.walls.has('East')) {
       if (!isEnd) {
         this.line(
           this.x + size,
@@ -220,7 +225,7 @@ export default class Cell implements ICell {
       }
     }
 
-    if (this.walls[DirectionIndex.SOUTH]) {
+    if (this.walls.has('South')) {
       this.line(
         this.x,
         this.y + size,
@@ -230,7 +235,7 @@ export default class Cell implements ICell {
       );
     }
 
-    if (this.walls[DirectionIndex.WEST]) {
+    if (this.walls.has('West')) {
       if (!isStart) {
         this.line(this.x, this.y, this.x, this.y + size, borderColor);
       }
