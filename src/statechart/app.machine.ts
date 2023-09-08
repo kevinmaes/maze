@@ -75,10 +75,9 @@ export const appMachine =
             },
           },
           on: {
-            'display.update': {
-              // eslint-disable-next-line @typescript-eslint/no-empty-function
-              actions: [() => {}],
-            },
+            // TODO: Find out why this bug exists where the absence of listening to this 'display.update' event
+            // Causes the UI to not update during the generation state.
+            'display.update': {},
             'generation.finish': {
               target: 'Done',
             },
