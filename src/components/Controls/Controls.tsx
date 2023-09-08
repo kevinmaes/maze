@@ -6,10 +6,7 @@ import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
-import {
-  AppMachineEvent,
-  AppMachineEventId,
-} from '../../statechart/appMachineTypes';
+import { AppMachineEvent } from '../../statechart/appMachineTypes';
 import { Keyboard } from '../Keyboard/Keyboard';
 import {
   ControlButton,
