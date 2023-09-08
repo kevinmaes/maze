@@ -125,7 +125,7 @@ export const appMachine =
           on: {
             'app.restart': {
               actions: ['refreshGenerationSessionId'],
-              target: 'Idle',
+              target: '#app.Idle',
             },
           },
         },
@@ -133,7 +133,7 @@ export const appMachine =
       on: {
         'generation.param.set': {
           actions: ['updateGenerationParams'],
-          target: 'Idle',
+          target: '#app.Idle',
         },
       },
     },
