@@ -43,7 +43,7 @@ export const generationAlgorithmMachine =
       //       },
       // },
       id: 'generationAlgorithmMachine',
-      // context: ({ input }) => input,
+      context: ({ input }) => input,
       initial: 'Generation Idle',
       states: {
         'Generation Idle': {

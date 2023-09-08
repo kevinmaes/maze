@@ -57,25 +57,21 @@ export const appMachine =
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
             input: ({ context }) => {
-              const defaultChildMachineContext = {
-                canPlay: true,
-                currentCell: undefined,
-                eligibleNeighbors: [],
-                stack: [],
-                startIndex: 0,
-              };
+              if (context.gridRef && 'current' in context.gridRef) {
+                return {
+                  canPlay: true,
+                  currentCell: undefined,
+                  eligibleNeighbors: [],
+                  stack: [],
+                  startIndex: 0,
+                  // Daynamic context properties
+                  fps: context.generationParams.fps,
+                  grid: context.gridRef.current,
+                  pathId: context.generationSessionId.toString(),
+                };
+              }
 
-              const childContext: ContextFrom<
-                typeof generationAlgorithmMachine
-              > = {
-                ...defaultChildMachineContext,
-                fps: context.generationParams.fps,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                grid: (context.gridRef as any).current,
-                pathId: context.generationSessionId.toString(),
-              };
-
-              return childContext;
+              return undefined;
             },
           },
           on: {
