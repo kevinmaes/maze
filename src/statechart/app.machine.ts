@@ -140,7 +140,8 @@ export const appMachine =
     {
       actions: {
         storeGridRef: assign({
-          gridRef: ({ event }) => event.params.gridRef,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          gridRef: ({ event }: any) => event.params.gridRef,
         }),
         refreshGenerationSessionId: assign({
           generationSessionId: () => new Date().getTime(),
