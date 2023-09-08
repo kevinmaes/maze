@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { State, StateFrom } from 'xstate';
+import { StateFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
