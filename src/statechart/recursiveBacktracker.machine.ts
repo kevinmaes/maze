@@ -112,9 +112,9 @@ export const generationAlgorithmMachine =
         return currentCell.visit(null, context.pathId);
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // play: assign({ canPlay: true }),
+      play: assign({ canPlay: true }),
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      // pause: assign({ canPlay: false }),
+      pause: assign({ canPlay: false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ context }) => {
           const { grid, currentCell } = context;
