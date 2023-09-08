@@ -7,7 +7,6 @@ import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
 import {
-  AppMachineContext,
   AppMachineEvent,
   AppMachineEventId,
 } from '../../statechart/appMachineTypes';
@@ -90,8 +89,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     if (event.detail === 0) {
       return;
     }
-    const type = id as AppMachineEventId;
-    const eventObj = { type } as AppMachineEvent;
+    const eventObj = { type: id } as AppMachineEvent;
     sendControlEvent(eventObj);
   };
 

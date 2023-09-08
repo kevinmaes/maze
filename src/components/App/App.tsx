@@ -29,7 +29,7 @@ const App = () => {
         generationSessionId: () => new Date().getTime(),
       }),
       updateGenerationParams: assign({
-        generationParams: ({ context, event }) => ({
+        generationParams: ({ context, event }: any) => ({
           ...context.generationParams,
           [event.params.name]: event.params.value,
         }),
