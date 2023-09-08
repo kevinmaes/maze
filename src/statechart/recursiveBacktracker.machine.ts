@@ -22,10 +22,6 @@ export const generationAlgorithmMachine =
       },
       events: {} as
         | {
-            type: 'refs.inject';
-            params: { gridRef: Ref<IGrid> };
-          }
-        | {
             type: 'generation.start';
           }
         | {
@@ -45,9 +41,6 @@ export const generationAlgorithmMachine =
     context: ({ input }) => input,
     initial: 'Generation Idle',
     on: {
-      'refs.inject': {
-        target: '.Generation Idle',
-      },
       'controls.play': {
         actions: 'play',
         target: '.Seeking',
