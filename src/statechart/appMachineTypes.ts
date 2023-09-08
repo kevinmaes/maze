@@ -53,5 +53,3 @@ export type AppMachineEvent =
     }
   | { type: 'display.update' }
   | { type: 'generation.finish' };
-
-export type AppMachineEventId = AppMachineEvent['type'];
