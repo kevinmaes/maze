@@ -1,4 +1,4 @@
-import { assign, createMachine, log, sendTo } from 'xstate';
+import { assign, createMachine, sendTo } from 'xstate';
 import {
   AppMachineContext,
   AppMachineEvent,

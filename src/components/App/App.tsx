@@ -6,7 +6,6 @@ import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, ImageHolder, Link, Version } from './App.css';
-import { AppMachineEvent } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
 
