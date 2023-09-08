@@ -2,7 +2,6 @@ import { assign, createMachine, sendParent } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
-import { Ref } from 'react';
 import { ICell } from '../components/generation/Cell';
 import { seek } from '../components/generation/seek';
 
