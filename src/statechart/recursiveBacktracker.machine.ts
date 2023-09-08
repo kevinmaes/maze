@@ -42,20 +42,12 @@ export const generationAlgorithmMachine =
           },
     },
     id: 'generationAlgorithmMachine',
-    context: ({ input }) => {
-      console.log('input', input);
-      return input;
-    },
+    context: ({ input }) => input,
     initial: 'Generation Idle',
     states: {
       'Generation Idle': {
         on: {
           'generation.start': {
-            actions: [
-              log('Starting generation'),
-              ({ context }) => console.log('context', context),
-            ],
-
             target: 'Initializing',
           },
         },

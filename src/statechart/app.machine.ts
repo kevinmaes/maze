@@ -46,7 +46,7 @@ export const appMachine =
         Idle: {
           on: {
             'refs.inject': {
-              actions: [log('refs.inject event'), 'storeGridRef'],
+              actions: 'storeGridRef',
               target: 'Generating',
             },
           },
@@ -95,7 +95,7 @@ export const appMachine =
               },
             },
             Playing: {
-              entry: [log('Playing entry'), 'startGenerationAlgorithmMachine'],
+              entry: 'startGenerationAlgorithmMachine',
               on: {
                 'controls.pause': {
                   actions: ['pauseGenerationAlgorithmMachine'],
@@ -143,9 +143,7 @@ export const appMachine =
     {
       actions: {
         storeGridRef: assign({
-          gridRef: ({ event }) => {
-            return event.params.gridRef;
-          },
+          gridRef: ({ event }) => event.params.gridRef,
         }),
         refreshGenerationSessionId: assign({
           generationSessionId: () => new Date().getTime(),
