@@ -6,6 +6,7 @@ import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, ImageHolder, Link, Version } from './App.css';
+import { AppMachineEvent } from '../../statechart/appMachineTypes';
 
 declare const VERSION: string;
 
@@ -63,7 +64,13 @@ const App = () => {
           }}
         />
 
-        <Controls state={appState} sendControlEvent={send} />
+        <Controls
+          state={appState}
+          sendControlEvent={(event: AppMachineEvent) => {
+            console.log('app event received from controls', event);
+            return send(event);
+          }}
+        />
         <Stage
           width={1000}
           height={1000}
