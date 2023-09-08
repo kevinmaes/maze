@@ -57,9 +57,8 @@ export const appMachine =
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
             input: ({ context }) => {
-              console.log('input fn', context);
               if (context.gridRef && 'current' in context.gridRef) {
-                const ctx = {
+                return {
                   canPlay: true,
                   currentCell: undefined,
                   eligibleNeighbors: [],
@@ -70,8 +69,6 @@ export const appMachine =
                   grid: context.gridRef.current,
                   pathId: context.generationSessionId.toString(),
                 };
-                console.log('ctx', ctx);
-                return ctx;
               }
 
               return undefined;
