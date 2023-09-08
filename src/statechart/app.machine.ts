@@ -1,4 +1,4 @@
-import { ContextFrom, createMachine } from 'xstate';
+import { createMachine } from 'xstate';
 import {
   AppMachineContext,
   AppMachineEvent,
