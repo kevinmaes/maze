@@ -1,4 +1,4 @@
-import { assign, createMachine, sendParent } from 'xstate';
+import { assign, createMachine, log, sendParent } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
@@ -42,12 +42,20 @@ export const generationAlgorithmMachine =
           },
     },
     id: 'generationAlgorithmMachine',
-    context: ({ input }) => input,
+    context: ({ input }) => {
+      console.log('input', input);
+      return input;
+    },
     initial: 'Generation Idle',
     states: {
       'Generation Idle': {
         on: {
           'generation.start': {
+            actions: [
+              log('Starting generation'),
+              ({ context }) => console.log('context', context),
+            ],
+
             target: 'Initializing',
           },
         },

@@ -1,4 +1,4 @@
-import { createMachine } from 'xstate';
+import { assign, createMachine, log, sendTo } from 'xstate';
 import {
   AppMachineContext,
   AppMachineEvent,
@@ -46,7 +46,7 @@ export const appMachine =
         Idle: {
           on: {
             'refs.inject': {
-              actions: ['storeGridRef'],
+              actions: [log('refs.inject event'), 'storeGridRef'],
               target: 'Generating',
             },
           },
@@ -57,8 +57,9 @@ export const appMachine =
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
             input: ({ context }) => {
+              console.log('input fn', context);
               if (context.gridRef && 'current' in context.gridRef) {
-                return {
+                const ctx = {
                   canPlay: true,
                   currentCell: undefined,
                   eligibleNeighbors: [],
@@ -69,6 +70,8 @@ export const appMachine =
                   grid: context.gridRef.current,
                   pathId: context.generationSessionId.toString(),
                 };
+                console.log('ctx', ctx);
+                return ctx;
               }
 
               return undefined;
@@ -92,7 +95,7 @@ export const appMachine =
               },
             },
             Playing: {
-              entry: 'startGenerationAlgorithmMachine',
+              entry: [log('Playing entry'), 'startGenerationAlgorithmMachine'],
               on: {
                 'controls.pause': {
                   actions: ['pauseGenerationAlgorithmMachine'],
@@ -138,6 +141,35 @@ export const appMachine =
       },
     },
     {
+      actions: {
+        storeGridRef: assign({
+          gridRef: ({ event }) => {
+            return event.params.gridRef;
+          },
+        }),
+        refreshGenerationSessionId: assign({
+          generationSessionId: () => new Date().getTime(),
+        }),
+        updateGenerationParams: assign({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          generationParams: ({ context, event }: any) => ({
+            ...context.generationParams,
+            [event.params.name]: event.params.value,
+          }),
+        }),
+        startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'generation.start',
+        }),
+        playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.play',
+        }),
+        pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.pause',
+        }),
+        stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.step.forward',
+        }),
+      },
       actors: {
         generationAlgorithmMachine,
       },

@@ -1,5 +1,4 @@
 import Image from 'next/image';
-import { assign, sendTo } from 'xstate';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { Levers } from '../Levers/Levers';
 import { Controls } from '../Controls/Controls';
@@ -18,40 +17,7 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send /* appService */] = useActor(appMachine, {
-    actions: {
-      storeGridRef: assign({
-        gridRef: ({ context }) => context.params.gridRef,
-      }),
-
-      refreshGenerationSessionId: assign({
-        generationSessionId: () => new Date().getTime(),
-      }),
-      updateGenerationParams: assign({
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        generationParams: ({ context, event }: any) => ({
-          ...context.generationParams,
-          [event.params.name]: event.params.value,
-        }),
-      }),
-      startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'generation.start',
-      }),
-      playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.play',
-      }),
-      pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.pause',
-      }),
-      stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.step.forward',
-      }),
-    },
-    // actors: {
-    //   // Can switch between algorithm machines by making this a function
-    //   childMachine: generationAlgorithmMachine,
-    // },
-  });
+  const [appState, send /* appService */] = useActor(appMachine);
 
   const {
     context: { generationParams, generationSessionId },
