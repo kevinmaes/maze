@@ -64,13 +64,7 @@ const App = () => {
           }}
         />
 
-        <Controls
-          state={appState}
-          sendControlEvent={(event: AppMachineEvent) => {
-            console.log('app event received from controls', event);
-            return send(event);
-          }}
-        />
+        <Controls state={appState} sendControlEvent={send} />
         <Stage
           width={1000}
           height={1000}
