@@ -44,6 +44,21 @@ export const generationAlgorithmMachine =
     id: 'generationAlgorithmMachine',
     context: ({ input }) => input,
     initial: 'Generation Idle',
+    on: {
+      'refs.inject': {
+        target: '.Generation Idle',
+      },
+      'controls.play': {
+        actions: 'play',
+        target: '.Seeking',
+      },
+      'controls.pause': {
+        actions: 'pause',
+      },
+      'controls.step.forward': {
+        target: '.Seeking',
+      },
+    },
     states: {
       'Generation Idle': {
         on: {
