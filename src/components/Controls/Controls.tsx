@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 
-import { State } from 'xstate';
+import { StateFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
-import {
-  AppMachineContext,
-  AppMachineEvent,
-  AppMachineEventId,
-} from '../../statechart/appMachineTypes';
+import { AppMachineEvent } from '../../statechart/appMachineTypes';
 import { Keyboard } from '../Keyboard/Keyboard';
 import {
   ControlButton,
@@ -19,11 +15,12 @@ import {
   FlashingControlButton,
   Prompt,
 } from './Controls.css';
+import { appMachine } from '../../statechart/app.machine';
 
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
-  sendControlEvent: (event: AppMachineEvent | AppMachineEventId) => void;
+  sendControlEvent: (event: AppMachineEvent) => void;
 }
 
 const iconFillColor = '#2563EB';
@@ -89,14 +86,11 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     if (event.detail === 0) {
       return;
     }
-    const type = id as AppMachineEventId;
-    const eventObj = { type } as AppMachineEvent;
+    const eventObj = { type: id } as AppMachineEvent;
     sendControlEvent(eventObj);
   };
 
-  const renderStateControls = (
-    state: State<AppMachineContext, AppMachineEvent>
-  ) => {
+  const renderStateControls = (state: StateFrom<typeof appMachine>) => {
     const canStartOver = state.can({ type: 'app.restart' });
     const canPlay = state.can({ type: 'controls.play' });
     const canPause = state.can({ type: 'controls.pause' });
