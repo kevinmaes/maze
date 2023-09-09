@@ -1,14 +1,6 @@
 import { Ref } from 'react';
 import { IGrid } from '../components/generation/Grid';
 
-export enum GenerationParamsId {
-  BORDER_WEIGHT = 'borderWeight',
-  CELL_SIZE = 'cellSize',
-  FPS = 'fps',
-  GRID_COLUMNS = 'gridColumns',
-  GRID_ROWS = 'gridRows',
-}
-
 export type GridRef = Ref<IGrid>;
 
 export interface GenerationParams {
