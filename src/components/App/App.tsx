@@ -5,7 +5,7 @@ import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
-import { AppContainer, ImageHolder, Link, Version } from './App.css';
+import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 
 declare const VERSION: string;
 
@@ -73,7 +73,7 @@ const App = () => {
           generationSessionId={generationSessionId}
         />
 
-        <footer>
+        <Footer>
           <Version>{version}</Version>
           <Link
             className="App-link"
@@ -92,7 +92,7 @@ const App = () => {
             </ImageHolder>
             @kvmaes
           </Link>
-        </footer>
+        </Footer>
       </AppContainer>
     </>
   );
