@@ -91,6 +91,7 @@ export const appMachine =
               },
             },
             Playing: {
+              tags: 'playing',
               entry: 'startGenerationAlgorithmMachine',
               on: {
                 'controls.pause': {

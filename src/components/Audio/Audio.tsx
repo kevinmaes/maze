@@ -11,11 +11,10 @@ interface Props {
 
 export const Audio = ({ columnIndex }: Props) => {
   const startFrequency = frequencies['C0'];
+  const prevColumnIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
     diatonicScales.c.major.indexOf('C0')
   );
-  const prevColumnIndexRef = useRef<number>(0);
-
   const increment: number = columnIndex - prevColumnIndexRef.current;
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
   const note = diatonicScales.c.major[frequencyIndex];
@@ -28,8 +27,8 @@ export const Audio = ({ columnIndex }: Props) => {
 
   play();
 
-  prevFrequencyIndexRef.current = frequencyIndex;
   prevColumnIndexRef.current = columnIndex;
+  prevFrequencyIndexRef.current = frequencyIndex;
 
   return null;
 };

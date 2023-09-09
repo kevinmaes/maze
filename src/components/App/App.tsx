@@ -76,7 +76,7 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
-        <Audio {...audioProps} />
+        {appState.hasTag('playing') && <Audio {...audioProps} />}
         <Levers
           enabled={leversEnabled}
           params={generationParams}
