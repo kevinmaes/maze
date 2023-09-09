@@ -6,6 +6,7 @@ import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
+import { useEffect } from 'react';
 
 declare const VERSION: string;
 
@@ -17,27 +18,24 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send /* appService */] = useActor(appMachine);
-
+  const [appState, send, appActor] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
   } = appState;
 
-  // React.useEffect(() => {
-  //   const subscription = appService.subscribe((state) => {
-  //     console.log('appState machine value', state.value);
+  useEffect(() => {
+    const subscription = appActor.subscribe((state) => {
+      const childMachine = state.children?.generationAlgorithmMachine;
+      if (childMachine) {
+        console.log(
+          'childMachine state value',
+          childMachine.getSnapshot().value
+        );
+      }
+    });
 
-  //     const childMachine = state.children?.generationAlgorithmMachine;
-  //     if (childMachine) {
-  //       console.log(
-  //         'childMachine state value',
-  //         (childMachine as any).state.value
-  //       );
-  //     }
-  //   });
-
-  //   return subscription.unsubscribe;
-  // }, [appService]); // note: service should never change
+    return subscription.unsubscribe;
+  }, [appActor]); // note: service should never change
 
   const leversEnabled =
     appState.matches('Idle') ||
