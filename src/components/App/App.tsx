@@ -19,10 +19,10 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send, appActor] = useActor(appMachine);
+  const [state, send, appActor] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
-  } = appState;
+  } = state;
 
   const [position, setPosition] = useState({ columnIndex: 0, rowIndex: 0 });
 
@@ -58,8 +58,8 @@ const App = () => {
   // }, [appActor]); // note: service should never change
 
   const leversEnabled =
-    appState.matches('Idle') ||
-    appState.matches({
+    state.matches('Idle') ||
+    state.matches({
       Generating: 'Initializing',
     });
 
@@ -76,7 +76,7 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
-        {appState.hasTag('playing') && <Audio {...audioProps} />}
+        {state.hasTag('playing') && <Audio {...audioProps} />}
         <Levers
           enabled={leversEnabled}
           params={generationParams}
@@ -86,7 +86,7 @@ const App = () => {
           }}
         />
 
-        <Controls state={appState} sendControlEvent={send} />
+        <Controls state={state} sendControlEvent={send} />
         <Stage
           width={1000}
           height={1000}
