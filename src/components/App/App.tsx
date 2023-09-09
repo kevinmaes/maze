@@ -17,10 +17,10 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send /* appActor */] = useActor(appMachine);
+  const [state, send /* appActor */] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
-  } = appState;
+  } = state;
 
   // useEffect(() => {
   //   const subscription = appActor.subscribe((state) => {
@@ -37,8 +37,8 @@ const App = () => {
   // }, [appActor]); // note: service should never change
 
   const leversEnabled =
-    appState.matches('Idle') ||
-    appState.matches({
+    state.matches('Idle') ||
+    state.matches({
       Generating: 'Initializing',
     });
 
@@ -60,7 +60,7 @@ const App = () => {
           }}
         />
 
-        <Controls state={appState} sendControlEvent={send} />
+        <Controls state={state} sendControlEvent={send} />
         <Stage
           width={1000}
           height={1000}
