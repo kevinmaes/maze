@@ -7,7 +7,7 @@ import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 import { Audio } from '../Audio/Audio';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 declare const VERSION: string;
 
@@ -19,12 +19,29 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, send /* appActor */] = useActor(appMachine);
+  const [appState, send, appActor] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
   } = appState;
 
   const [position, setPosition] = useState({ columnIndex: 0, rowIndex: 0 });
+
+  useEffect(() => {
+    const subscription = appActor.subscribe((state) => {
+      const childMachine = state.children?.generationAlgorithmMachine;
+      if (childMachine) {
+        setPosition({
+          columnIndex:
+            childMachine.getSnapshot().context.currentCell?.getColumnIndex() ??
+            0,
+          rowIndex:
+            childMachine.getSnapshot().context.currentCell?.getRowIndex() ?? 0,
+        });
+      }
+    });
+
+    return subscription.unsubscribe;
+  }, [appActor]);
 
   // useEffect(() => {
   //   const subscription = appActor.subscribe((state) => {
