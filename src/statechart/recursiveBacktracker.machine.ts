@@ -39,7 +39,13 @@ export const generationAlgorithmMachine =
           },
     },
     id: 'generationAlgorithmMachine',
-    context: ({ input }) => input,
+    context: ({ input }) => ({
+      currentCell: undefined,
+      eligibleNeighbors: [],
+      stack: [],
+      startIndex: 0,
+      ...input,
+    }),
     initial: 'Generation Idle',
     on: {
       'controls.play': {

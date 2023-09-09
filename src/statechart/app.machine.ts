@@ -74,11 +74,6 @@ export const appMachine =
               if (context.gridRef && 'current' in context.gridRef) {
                 return {
                   canPlay: true,
-                  currentCell: undefined,
-                  eligibleNeighbors: [],
-                  stack: [],
-                  startIndex: 0,
-                  // Daynamic context properties
                   fps: context.generationParams.fps,
                   grid: context.gridRef.current,
                   pathId: context.generationSessionId.toString(),
