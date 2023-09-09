@@ -6,7 +6,6 @@ import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
-import { AppMachineEvent } from '../../statechart/appMachineTypes';
 import { Keyboard } from '../Keyboard/Keyboard';
 import {
   ControlButton,
@@ -15,11 +14,32 @@ import {
   FlashingControlButton,
   Prompt,
 } from './Controls.css';
-import { appMachine } from '../../statechart/app.machine';
+import {
+  AppMachineEvent,
+  ControlEvent,
+  appMachine,
+} from '../../statechart/app.machine';
+
+interface AppControlButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  id: ControlEvent['type'];
+}
+function AppControlButton(props: AppControlButtonProps) {
+  const { children, ...rest } = props;
+  return <ControlButton {...rest}>{children}</ControlButton>;
+}
+
+interface FlashingAppControlButtonProps extends AppControlButtonProps {
+  $animate: boolean;
+}
+
+function FlashingAppControlButton(props: FlashingAppControlButtonProps) {
+  const { children, ...rest } = props;
+  return <FlashingControlButton {...rest}>{children}</FlashingControlButton>;
+}
 
 interface Props {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  state: any;
+  state: StateFrom<typeof appMachine>;
   sendControlEvent: (event: AppMachineEvent) => void;
 }
 
@@ -108,44 +128,44 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
         )}
         <ControlsGroup>
           {canStartOver ? (
-            <ControlButton
+            <AppControlButton
               id="app.restart"
               onClick={handleClick}
               disabled={!canStartOver}
               title="Restart (ENTER)"
             >
               <StartOver fill={getIconFillColor(canStartOver)} />
-            </ControlButton>
+            </AppControlButton>
           ) : (
-            <ControlButton
+            <AppControlButton
               id="controls.stop"
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
             >
               <Stop fill={getIconFillColor(canStop)} />
-            </ControlButton>
+            </AppControlButton>
           )}
           {canPause ? (
-            <ControlButton
+            <AppControlButton
               id="controls.pause"
               onClick={handleClick}
               disabled={!canPause}
               title="Pause (SPACE)"
             >
               <Pause fill={getIconFillColor(canPause)} />
-            </ControlButton>
+            </AppControlButton>
           ) : (
-            <ControlButton
+            <AppControlButton
               id="controls.play"
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"
             >
               <Play fill={getIconFillColor(canPlay)} />
-            </ControlButton>
+            </AppControlButton>
           )}
-          <FlashingControlButton
+          <FlashingAppControlButton
             id="controls.step.forward"
             onClick={handleClick}
             disabled={!canStepForward}
@@ -153,7 +173,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
             $animate={flashStepForward}
           >
             <StepForward fill={getIconFillColor(canStepForward)} />
-          </FlashingControlButton>
+          </FlashingAppControlButton>
         </ControlsGroup>
         {state.matches({
           Generating: 'Initializing',

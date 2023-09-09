@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { InputHTMLAttributes } from 'react';
 
-import {
-  GenerationParams,
-  GenerationParamsId,
-} from '../../statechart/appMachineTypes';
 import { Fieldset, Form } from './Levers.css';
+import { GenerationParams } from '../../types';
 
 const CellSize = {
   DEFAULT: 20,
@@ -16,6 +13,13 @@ interface Props {
   enabled: boolean;
   params: GenerationParams;
   updateFromLevers: (data: { name: string; value: number }) => void;
+}
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  name: keyof GenerationParams;
+}
+function GenerationParamInput(inputProps: InputProps) {
+  return <input {...inputProps} />;
 }
 
 export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
@@ -31,9 +35,9 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
         <div>
           <label>FPS ({params.fps})</label>
-          <input
+          <GenerationParamInput
             type="range"
-            name={GenerationParamsId.FPS}
+            name="fps"
             value={params.fps}
             min="1"
             max="60"
@@ -45,7 +49,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
           <label>Cell Size ({params.cellSize})</label>
           <input
             type="range"
-            name={GenerationParamsId.CELL_SIZE}
+            name="cellSize"
             value={params.cellSize}
             min={CellSize.MIN}
             max={CellSize.MAX}
@@ -57,7 +61,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
           <label>Border Weight ({params.borderWeight})</label>
           <input
             type="range"
-            name={GenerationParamsId.BORDER_WEIGHT}
+            name="borderWeight"
             value={params.borderWeight}
             min="1"
             max="10"
@@ -68,7 +72,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
           <label>Grid Columns ({params.gridColumns})</label>
           <input
             type="range"
-            name={GenerationParamsId.GRID_COLUMNS}
+            name="gridColumns"
             value={params.gridColumns}
             min="2"
             max="25"
@@ -79,7 +83,7 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
           <label>Grid Rows ({params.gridRows})</label>
           <input
             type="range"
-            name={GenerationParamsId.GRID_ROWS}
+            name="gridRows"
             value={params.gridRows}
             min="2"
             max="25"
