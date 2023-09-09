@@ -1,15 +1,10 @@
-import { useMachine } from '@xstate/react';
-
 import Image from 'next/image';
-
-import { assign } from 'xstate';
-import { sendTo } from 'xstate/lib/actions';
-import { appMachine } from '../../statechart/app.machine';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import GlobalStyle from '../../styles/GlobalStyles';
-import { Controls } from '../Controls/Controls';
 import { Levers } from '../Levers/Levers';
+import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
+import { useActor } from '@xstate/react';
+import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 
 declare const VERSION: string;
@@ -22,60 +17,24 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [appState, appSend /* appService */] = useMachine(appMachine, {
-    actions: {
-      storeGridRef: assign({
-        gridRef: (_, { params }) => params.gridRef,
-      }),
-
-      refreshGenerationSessionId: assign({
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        generationSessionId: (_) => new Date().getTime(),
-      }),
-      updateGenerationParams: assign({
-        generationParams: ({ generationParams }, { params }) => ({
-          ...generationParams,
-          [params.name]: params.value,
-        }),
-      }),
-      startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'generation.start',
-      }),
-      playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.play',
-      }),
-      pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.pause',
-      }),
-      stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-        type: 'controls.step.forward',
-      }),
-    },
-    services: {
-      // Can switch between algorithm machines by making this a function
-      childMachine: generationAlgorithmMachine,
-    },
-  });
-
+  const [appState, send /* appActor */] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
   } = appState;
 
-  // React.useEffect(() => {
-  //   const subscription = appService.subscribe((state) => {
-  //     console.log('appState machine value', state.value);
-
+  // useEffect(() => {
+  //   const subscription = appActor.subscribe((state) => {
   //     const childMachine = state.children?.generationAlgorithmMachine;
   //     if (childMachine) {
   //       console.log(
   //         'childMachine state value',
-  //         (childMachine as any).state.value
+  //         childMachine.getSnapshot().value
   //       );
   //     }
   //   });
 
   //   return subscription.unsubscribe;
-  // }, [appService]); // note: service should never change
+  // }, [appActor]); // note: service should never change
 
   const leversEnabled =
     appState.matches('Idle') ||
@@ -96,17 +55,18 @@ const App = () => {
           enabled={leversEnabled}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
-            appSend({ type: 'generation.param.set', params: data });
+            send({ type: 'generation.param.set', params: data });
+            // Do we need to also INJECT_FPS into algo machine via props?
           }}
         />
 
-        <Controls state={appState} sendControlEvent={appSend} />
+        <Controls state={appState} sendControlEvent={send} />
         <Stage
           width={1000}
           height={1000}
           pixelRatio={1}
           generationParams={generationParams}
-          appSend={appSend}
+          send={send}
           generationSessionId={generationSessionId}
         />
 

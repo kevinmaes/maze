@@ -1,4 +1,4 @@
-import { ContextFrom, createMachine } from 'xstate';
+import { assign, createMachine, sendTo } from 'xstate';
 import {
   AppMachineContext,
   AppMachineEvent,
@@ -33,118 +33,140 @@ const initialAppMachineContext: AppMachineContext = {
 
 export const appMachine =
   /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATBIoSAHAGZWU+QDYA7Gplr5AGhABPcQBYJrCgEZ50xRICsa1pZP2HAX3cG0qCgEkIABswDDwwADNYCmJsACswAGMWDiEePgFsIVEEMQ0TCykTeVZFJzc1ZSkDYxzFe0sKVXtFE1VLR3qNe09vdAoAcTBcAhJsKAwIYlhUQORDCgBXVAgiMDZOJBA0-jJMzez5KQ1G+w1WIqk61i7q8Qk1CkUtdQlS+XlLKXsTHpAfAaG+CIMXGOCBGQo4RiUwAFutUrwdoJ9ognIoKHlFJ9LPd6vl7LccporEoZE8ZBJ2q1fv9BsNgWN-NgdshAsQAF4gjAJciEPCkQJRGZzeGbbYZLLiRSFRrqLR1NSWVgVEyEsSXCzKLquSylLTNGl9OngkEUAAKs0MXJ52D5AqFyAWjFF3EREpRCEu8goNnaxSelicrHs+iM4i+snaCg+wY0l3aikNvmNI1NFrm1t5-MFDEIpFQLq2bt2kpyGnRNg0SnMEar5bVLhMFCKTg+Wle10OSYB9NGUHNjsYEG5WftVEthfFJY9hSbrW+dm0rkqGjVdQaTRabQ6li63ZTDP7ZsHkBHtuzUVgeYLKTFxeRoGyuQrEirdhUbjrijVJge7UDgalLu7wSD8Xh-EagKpoyx5OqeNp2jmV5gL44SkHgADuNAQJO957I+qK-o8oHKtolzSholhrnYjRPNIyrSI40rdOB-wACLkCE-xhFeNDJBsrrpNOBE5K8Dzlsoai6JcUhqA4hLtM2ujyGcaghsUnSJr82CkBAcBCD4CJCQ+Ih3PITYSaRhzSnJBJhjkbhSI0JjtLojgVLo3YBMERlIvhpk5OoFifnUNi6OcZhrqojxYmiahmHYUj7lBh6+e6IliM03pKqcXRYuZSirvZmXnBiFSfBUXTmGYajJb2pp+MyJCshyIJpcJAViGYFg5RoeXWEUpRqhqjzXN89R6mpWm9MmKV9ualptXexn+U+nzopYLh9dKyisMURzDc0GISNIr5aJ8fUqHVJowSeEDtSZ2SOLI5UOM4qiycNpSNMqLjWOYr67rVrF9BxuAPatqL2D1hxxlIUiBqdVT2Yo3qtLJrAKF8ypmGBnhAA */
-  createMachine({
-    schema: {
-      context: {} as AppMachineContext,
-      events: {} as AppMachineEvent,
-    },
-    tsTypes: {} as import('./app.machine.typegen').Typegen0,
-    predictableActionArguments: true,
-    preserveActionOrder: true,
-    context: initialAppMachineContext,
-    id: 'app',
-    initial: 'Idle',
-    states: {
-      Idle: {
-        on: {
-          'refs.inject': {
-            actions: ['storeGridRef'],
-            target: 'Generating',
-          },
-        },
+  createMachine(
+    {
+      types: {
+        context: {} as AppMachineContext,
+        events: {} as AppMachineEvent,
       },
-      Generating: {
-        initial: 'Initializing',
-        invoke: {
-          id: 'generationAlgorithmMachine',
-          src: 'childMachine',
-          data: (ctx) => {
-            const defaultChildMachineContext = {
-              canPlay: true,
-              currentCell: undefined,
-              eligibleNeighbors: [],
-              stack: [],
-              startIndex: 0,
-            };
-
-            const childContext: ContextFrom<typeof generationAlgorithmMachine> =
-              {
-                ...defaultChildMachineContext,
-                fps: ctx.generationParams.fps,
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                grid: (ctx.gridRef as any).current,
-                pathId: ctx.generationSessionId.toString(),
-              };
-
-            return childContext;
-          },
-        },
-        on: {
-          'display.update': {
-            // eslint-disable-next-line @typescript-eslint/no-empty-function
-            actions: [() => {}],
-          },
-          'generation.finish': {
-            target: 'Done',
-          },
-        },
-        states: {
-          Initializing: {
-            on: {
-              'controls.play': {
-                target: 'Playing',
-              },
+      context: initialAppMachineContext,
+      id: 'app',
+      initial: 'Idle',
+      states: {
+        Idle: {
+          on: {
+            'refs.inject': {
+              actions: 'storeGridRef',
+              target: 'Generating',
             },
           },
-          Playing: {
-            onEntry: 'startGenerationAlgorithmMachine',
-            on: {
-              'controls.pause': {
-                actions: ['pauseGenerationAlgorithmMachine'],
-                target: 'Paused',
-              },
-              'controls.stop': {
-                actions: ['refreshGenerationSessionId'],
-                target: '#app.Idle',
-              },
+        },
+        Generating: {
+          initial: 'Initializing',
+          invoke: {
+            id: 'generationAlgorithmMachine',
+            src: generationAlgorithmMachine,
+            input: ({ context }) => {
+              if (context.gridRef && 'current' in context.gridRef) {
+                return {
+                  canPlay: true,
+                  currentCell: undefined,
+                  eligibleNeighbors: [],
+                  stack: [],
+                  startIndex: 0,
+                  // Daynamic context properties
+                  fps: context.generationParams.fps,
+                  grid: context.gridRef.current,
+                  pathId: context.generationSessionId.toString(),
+                };
+              }
+
+              return undefined;
             },
           },
-          Paused: {
-            on: {
-              'controls.play': {
-                actions: ['playGenerationAlgorithmMachine'],
-                target: 'Playing',
+          on: {
+            // TODO: Find out why this bug exists where the absence of listening to this 'display.update' event
+            // Causes the UI to not update during the generation state.
+            'display.update': {},
+            'generation.finish': {
+              target: 'Done',
+            },
+          },
+          states: {
+            Initializing: {
+              on: {
+                'controls.play': {
+                  target: 'Playing',
+                },
               },
-              'controls.stop': {
-                actions: ['refreshGenerationSessionId'],
-                target: '#app.Idle',
+            },
+            Playing: {
+              entry: 'startGenerationAlgorithmMachine',
+              on: {
+                'controls.pause': {
+                  actions: ['pauseGenerationAlgorithmMachine'],
+                  target: 'Paused',
+                },
+                'controls.stop': {
+                  actions: ['refreshGenerationSessionId'],
+                  target: '#app.Idle',
+                },
               },
-              'controls.step.forward': {
-                actions: ['stepGenerationAlgorithmMachine'],
+            },
+            Paused: {
+              on: {
+                'controls.play': {
+                  actions: ['playGenerationAlgorithmMachine'],
+                  target: 'Playing',
+                },
+                'controls.stop': {
+                  actions: ['refreshGenerationSessionId'],
+                  target: '#app.Idle',
+                },
+                'controls.step.forward': {
+                  actions: ['stepGenerationAlgorithmMachine'],
+                },
               },
             },
           },
         },
-      },
-      Done: {
-        on: {
-          'app.restart': {
-            actions: ['refreshGenerationSessionId'],
-            target: 'Idle',
+        Done: {
+          on: {
+            'app.restart': {
+              actions: ['refreshGenerationSessionId'],
+              target: '#app.Idle',
+            },
           },
         },
       },
-    },
-    on: {
-      'generation.param.set': {
-        actions: ['updateGenerationParams'],
-        target: 'Idle',
+      on: {
+        'generation.param.set': {
+          actions: ['updateGenerationParams'],
+          target: '#app.Idle',
+        },
       },
     },
-  });
-
-// const service = interpret(appMachine).subscribe((state) => {
-//   console.log('appMachine:', state.value);
-// });
-
-// service.start();
+    {
+      actions: {
+        storeGridRef: assign({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          gridRef: ({ event }: any) => event.params.gridRef,
+        }),
+        refreshGenerationSessionId: assign({
+          generationSessionId: () => new Date().getTime(),
+        }),
+        updateGenerationParams: assign({
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          generationParams: ({ context, event }: any) => ({
+            ...context.generationParams,
+            [event.params.name]: event.params.value,
+          }),
+        }),
+        startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'generation.start',
+        }),
+        playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.play',
+        }),
+        pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.pause',
+        }),
+        stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
+          type: 'controls.step.forward',
+        }),
+      },
+      actors: {
+        generationAlgorithmMachine,
+      },
+    }
+  );
