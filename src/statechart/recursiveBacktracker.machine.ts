@@ -1,4 +1,4 @@
-import { StateFrom, assign, createMachine, sendParent } from 'xstate';
+import { assign, createMachine, sendParent } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
