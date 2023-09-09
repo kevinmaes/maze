@@ -1,4 +1,4 @@
-import { assign, createMachine, sendParent } from 'xstate';
+import { StateFrom, assign, createMachine, sendParent } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
@@ -86,7 +86,7 @@ export const generationAlgorithmMachine =
                 columnIndex: context.currentCell?.getColumnIndex(),
                 rowIndex: context.currentCell?.getRowIndex(),
                 maxColumnIndex: (context.grid as IGrid)?.getColumns() - 1,
-                maxRowIndex: (context.grid as Grid).getRows() - 1,
+                maxRowIndex: (context.grid as IGrid).getRows() - 1,
               },
             },
           })),

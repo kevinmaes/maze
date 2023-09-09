@@ -16,6 +16,7 @@ import {
 } from './Controls.css';
 import {
   AppMachineEvent,
+  AppMachineState,
   ControlEvent,
   appMachine,
 } from '../../statechart/app.machine';
@@ -39,7 +40,7 @@ function FlashingAppControlButton(props: FlashingAppControlButtonProps) {
 }
 
 interface Props {
-  state: StateFrom<typeof appMachine>;
+  state: AppMachineState;
   sendControlEvent: (event: AppMachineEvent) => void;
 }
 
@@ -110,7 +111,7 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
     sendControlEvent(eventObj);
   };
 
-  const renderStateControls = (state: StateFrom<typeof appMachine>) => {
+  const renderStateControls = (state: AppMachineState) => {
     const canStartOver = state.can({ type: 'app.restart' });
     const canPlay = state.can({ type: 'controls.play' });
     const canPause = state.can({ type: 'controls.pause' });

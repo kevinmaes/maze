@@ -7,7 +7,6 @@ import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 import { Audio } from '../Audio/Audio';
-import { useEffect, useState } from 'react';
 
 declare const VERSION: string;
 
@@ -19,29 +18,10 @@ const App = () => {
     console.log('Cannot get version of application.');
   }
 
-  const [state, send, appActor] = useActor(appMachine);
+  const [state, send] = useActor(appMachine);
   const {
     context: { generationParams, generationSessionId },
   } = state;
-
-  const [position, setPosition] = useState({ columnIndex: 0, rowIndex: 0 });
-
-  useEffect(() => {
-    const subscription = appActor.subscribe((state) => {
-      const childMachine = state.children?.generationAlgorithmMachine;
-      if (childMachine) {
-        setPosition({
-          columnIndex:
-            childMachine.getSnapshot().context.currentCell?.getColumnIndex() ??
-            0,
-          rowIndex:
-            childMachine.getSnapshot().context.currentCell?.getRowIndex() ?? 0,
-        });
-      }
-    });
-
-    return subscription.unsubscribe;
-  }, [appActor]);
 
   // useEffect(() => {
   //   const subscription = appActor.subscribe((state) => {
@@ -63,10 +43,6 @@ const App = () => {
       Generating: 'Initializing',
     });
 
-  const audioProps = {
-    columnIndex: position.columnIndex,
-  };
-
   return (
     <>
       <GlobalStyle />
@@ -76,7 +52,7 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
-        <Audio {...audioProps} />
+        <Audio algorithmActor={state.children?.generationAlgorithmMachine} />
         <Levers
           enabled={leversEnabled}
           params={generationParams}
