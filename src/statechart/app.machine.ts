@@ -1,4 +1,4 @@
-import { assign, createMachine, sendTo } from 'xstate';
+import { EventFrom, assign, createMachine, sendTo } from 'xstate';
 import { GenerationParams, GridRef } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
@@ -182,3 +182,5 @@ export const appMachine =
       },
     }
   );
+
+export type AppMachineEvent = EventFrom<typeof appMachine>;
