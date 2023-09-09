@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 
-import { GenerationParams } from '../../statechart/appMachineTypes';
 import { Fieldset, Form } from './Levers.css';
+import { GenerationParams } from '../../types';
 
 const CellSize = {
   DEFAULT: 20,

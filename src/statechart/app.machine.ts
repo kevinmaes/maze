@@ -1,8 +1,8 @@
 import { EventFrom, assign, createMachine, sendTo } from 'xstate';
-import { GenerationParams } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 import { Ref } from 'react';
 import { IGrid } from '../components/generation/Grid';
+import { GenerationParams } from '../types';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
