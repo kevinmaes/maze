@@ -4,7 +4,27 @@ import { frequencies, diatonicScales } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 
-const BASE_FREQUENCY = frequencies['C3'];
+const audioOptions: Array<{
+  name: string;
+  startFrequency: keyof typeof frequencies;
+  path: string;
+}> = [
+  {
+    name: 'Marimba 1',
+    startFrequency: 'C3',
+    path: '/sounds/Ensoniq-ESQ-1-Marimba-C3.wav',
+  },
+  {
+    name: 'Marimba 2',
+    startFrequency: 'C5',
+    path: '/sounds/marimba-c5.wav',
+  },
+  {
+    name: 'Synth 1',
+    startFrequency: 'C1',
+    path: '/sounds/Casio-CZ-5000-Synth-Bass-C1.wav',
+  },
+];
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
@@ -12,10 +32,11 @@ interface Props {
 }
 
 export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
+  const selectedAudio = audioOptions[0];
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
-    diatonicScales.c.major.indexOf('C3')
+    diatonicScales.c.major.indexOf(selectedAudio.startFrequency)
   );
 
   const columnIndex =
@@ -35,15 +56,15 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
   const note = diatonicScales.c.major[frequencyIndex];
   const frequency = frequencies[note];
-  const playbackRate = frequency / BASE_FREQUENCY;
+  const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
 
   useEffect(() => {
-    prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf('C3');
-  }, [generationSessionId]);
+    prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf(
+      selectedAudio.startFrequency
+    );
+  }, [generationSessionId, selectedAudio.startFrequency]);
 
-  // const [play] = useSound('/sounds/marimba-c5.wav', {
-  // const [play] = useSound('/sounds/Ensoniq-ESQ-1-Marimba-C3.wav', {
-  const [play] = useSound('/sounds/Casio-CZ-5000-Synth-Bass-C1.wav', {
+  const [play] = useSound(selectedAudio.path, {
     playbackRate,
   });
 
