@@ -1,9 +1,5 @@
 import { assign, createMachine, sendTo } from 'xstate';
-import {
-  AppMachineContext,
-  AppMachineEvent,
-  GenerationParams,
-} from './appMachineTypes';
+import { GenerationParams, GridRef } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 30;
@@ -24,7 +20,7 @@ export const defaultGenerationParams: GenerationParams = {
   gridRows: GRID_SIZE_DEFAULT,
 };
 
-const initialAppMachineContext: AppMachineContext = {
+const initialAppMachineContext = {
   mazeId: '',
   generationParams: defaultGenerationParams,
   gridRef: undefined,
@@ -36,8 +32,28 @@ export const appMachine =
   createMachine(
     {
       types: {
-        context: {} as AppMachineContext,
-        events: {} as AppMachineEvent,
+        context: {} as {
+          mazeId: string;
+          generationParams: GenerationParams;
+          gridRef: GridRef | undefined;
+          generationSessionId: number;
+        },
+        events: {} as
+          | { type: 'controls.play' }
+          | { type: 'controls.stop' }
+          | { type: 'controls.pause' }
+          | { type: 'app.restart' }
+          | { type: 'controls.step.forward' }
+          | {
+              type: 'generation.param.set';
+              params: { name: string; value: number };
+            }
+          | {
+              type: 'refs.inject';
+              params: { gridRef: GridRef };
+            }
+          | { type: 'display.update' }
+          | { type: 'generation.finish' },
       },
       context: initialAppMachineContext,
       id: 'app',

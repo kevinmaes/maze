@@ -29,27 +29,3 @@ export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
   gridRows: number; // Passed down to algo.
 }
-
-export interface AppMachineContext {
-  mazeId: string;
-  generationParams: GenerationParams;
-  gridRef: GridRef | undefined;
-  generationSessionId: number;
-}
-
-export type AppMachineEvent =
-  | { type: 'controls.play' }
-  | { type: 'controls.stop' }
-  | { type: 'controls.pause' }
-  | { type: 'app.restart' }
-  | { type: 'controls.step.forward' }
-  | {
-      type: 'generation.param.set';
-      params: { name: string; value: number };
-    }
-  | {
-      type: 'refs.inject';
-      params: { gridRef: GridRef };
-    }
-  | { type: 'display.update' }
-  | { type: 'generation.finish' };
