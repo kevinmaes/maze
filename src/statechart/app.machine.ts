@@ -1,6 +1,8 @@
 import { EventFrom, assign, createMachine, sendTo } from 'xstate';
-import { GenerationParams, GridRef } from './appMachineTypes';
+import { GenerationParams } from './appMachineTypes';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
+import { Ref } from 'react';
+import { IGrid } from '../components/generation/Grid';
 
 const FPS_DEFAULT = 30;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -20,7 +22,7 @@ export const appMachine =
         context: {} as {
           mazeId: string;
           generationParams: GenerationParams;
-          gridRef: GridRef | undefined;
+          gridRef: Ref<IGrid> | undefined;
           generationSessionId: number;
         },
         events: {} as
@@ -35,7 +37,7 @@ export const appMachine =
             }
           | {
               type: 'refs.inject';
-              params: { gridRef: GridRef };
+              params: { gridRef: Ref<IGrid> };
             }
           | { type: 'display.update' }
           | { type: 'generation.finish' },

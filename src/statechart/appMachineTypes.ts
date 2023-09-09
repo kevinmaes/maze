@@ -1,8 +1,3 @@
-import { Ref } from 'react';
-import { IGrid } from '../components/generation/Grid';
-
-export type GridRef = Ref<IGrid>;
-
 export interface GenerationParams {
   // Needed only by the State/Grid/Cells (not the algorothm).
   borderWeight: number; // Passed down to Grid/cell.
