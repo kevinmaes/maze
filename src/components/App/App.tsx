@@ -52,7 +52,10 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
-        <Audio algorithmActor={state.children?.generationAlgorithmMachine} />
+        <Audio
+          algorithmActor={state.children?.generationAlgorithmMachine}
+          generationSessionId={generationSessionId}
+        />
         <Levers
           enabled={leversEnabled}
           params={generationParams}
