@@ -4,7 +4,7 @@ import { frequencies, diatonicScales } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 
-const BASE_FREQUENCY = frequencies['C0'];
+const BASE_FREQUENCY = frequencies['C3'];
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
@@ -15,7 +15,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
-    diatonicScales.c.major.indexOf('C0')
+    diatonicScales.c.major.indexOf('C3')
   );
 
   const columnIndex =
@@ -38,10 +38,12 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const playbackRate = frequency / BASE_FREQUENCY;
 
   useEffect(() => {
-    prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf('C0');
+    prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf('C3');
   }, [generationSessionId]);
 
-  const [play] = useSound('/sounds/marimba-c5.wav', {
+  // const [play] = useSound('/sounds/marimba-c5.wav', {
+  // const [play] = useSound('/sounds/Ensoniq-ESQ-1-Marimba-C3.wav', {
+  const [play] = useSound('/sounds/Casio-CZ-5000-Synth-Bass-C1.wav', {
     playbackRate,
   });
 
