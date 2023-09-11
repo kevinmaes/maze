@@ -126,30 +126,27 @@ export const generationAlgorithmMachine =
     },
     actions: {
       initGeneration: assign({
-        currentCell: ({ context }) => (context.grid as IGrid).getStartCell(),
+        currentCell: ({ context }) => context.grid.getStartCell(),
       }),
       visitStartCell: ({ context }) => {
-        const currentCell = (context.grid as IGrid).getStartCell();
+        const currentCell = context.grid.getStartCell();
         return currentCell.visit(null, context.pathId);
       },
       play: assign({ canPlay: true }),
       pause: assign({ canPlay: false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ context: { grid, currentCell } }) =>
-          (grid as IGrid).getNeighbors(currentCell as ICell),
+          grid.getNeighbors(currentCell as ICell),
       }),
       pickNextCell: assign(
-        ({ context: { grid, pathId, startIndex, currentCell } }) => {
-          const verifiedGrid = grid as IGrid;
-          return {
-            currentCell: seek({
-              grid: verifiedGrid,
-              pathId,
-              current: currentCell as ICell,
-              startIndex,
-            }),
-          };
-        }
+        ({ context: { grid, pathId, startIndex, currentCell } }) => ({
+          currentCell: seek({
+            grid,
+            pathId,
+            current: currentCell as ICell,
+            startIndex,
+          }),
+        })
       ),
       pushToStack: assign(({ context: { stack, currentCell } }) => {
         if (currentCell) {
