@@ -7,19 +7,19 @@ interface Direction {
 
 export const DIRECTIONS: Direction[] = [
   {
-    name: 'North',
+    name: 'Top',
     getIndices: (rowIndex, colIndex) => [rowIndex - 1, colIndex],
   },
   {
-    name: 'East',
+    name: 'Right',
     getIndices: (rowIndex, colIndex) => [rowIndex, colIndex + 1],
   },
   {
-    name: 'South',
+    name: 'Bottom',
     getIndices: (rowIndex, colIndex) => [rowIndex + 1, colIndex],
   },
   {
-    name: 'West',
+    name: 'Left',
     getIndices: (rowIndex, colIndex) => [rowIndex, colIndex - 1],
   },
 ];

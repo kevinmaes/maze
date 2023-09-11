@@ -32,6 +32,6 @@ export interface ICell {
   visit: (prevCell: ICell | null, pathId: string) => ICell;
 }
 
-export type DirectionName = 'North' | 'East' | 'South' | 'West';
+export type DirectionName = 'Top' | 'Right' | 'Bottom' | 'Left';
 export type Connections = ICell[];
 export type Walls = Set<DirectionName>;
