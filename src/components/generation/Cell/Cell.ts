@@ -199,16 +199,16 @@ export default class Cell implements ICell {
   }
 
   drawWalls() {
+    // Skip drawing walls if this is an internally blocked cell.
+    if (this.blockedInternal) {
+      return;
+    }
+
     const {
       canvasCtx,
       cellStyle: { borderColor, borderWeight, size },
       position: { isStart, isEnd },
     } = this;
-
-    // Skip drawing walls if this is an internally blocked cell.
-    if (this.blockedInternal) {
-      return;
-    }
 
     canvasCtx.strokeStyle = borderColor;
     canvasCtx.lineWidth = borderWeight;
