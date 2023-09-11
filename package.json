@@ -1,6 +1,6 @@
 {
   "name": "maze",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -16,7 +16,7 @@
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
     "styled-components": "6.0.7",
-    "xstate": "5.0.0-beta.24"
+    "xstate": "5.0.0-beta.27"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
