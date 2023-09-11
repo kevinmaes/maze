@@ -10,7 +10,7 @@ interface AlgorithmContext extends AlgorithmGenerationParams {
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
-  grid: IGrid | undefined;
+  grid: IGrid;
   pathId: string;
   stack: ICell[];
   startIndex: number;
@@ -158,7 +158,7 @@ export const generationAlgorithmMachine =
         return { stack };
       }),
       popFromStack: assign(({ context: { stack } }) => {
-        const prevCell = stack.pop() as ICell;
+        const prevCell = stack.pop();
         prevCell?.setAsBacktrack();
         return { stack, currentCell: prevCell };
       }),
