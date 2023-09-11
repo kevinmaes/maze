@@ -1,6 +1,5 @@
 import { EventFrom, assign, createMachine, sendTo } from 'xstate';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
-import { Ref } from 'react';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
 
@@ -29,7 +28,7 @@ export const appMachine =
         context: {
           mazeId: string;
           generationParams: GenerationParams;
-          gridRef: Ref<IGrid> | undefined;
+          grid: IGrid | undefined;
           generationSessionId: number;
         };
         events:
@@ -39,8 +38,8 @@ export const appMachine =
               params: { name: string; value: number };
             }
           | {
-              type: 'refs.inject';
-              params: { gridRef: Ref<IGrid> };
+              type: 'grid.inject';
+              params: { grid: IGrid };
             }
           | { type: 'display.update' }
           | { type: 'generation.finish' };
@@ -54,7 +53,7 @@ export const appMachine =
           gridColumns: GRID_SIZE_DEFAULT,
           gridRows: GRID_SIZE_DEFAULT,
         },
-        gridRef: undefined,
+        grid: undefined,
         generationSessionId: new Date().getTime(),
       },
       id: 'app',
@@ -62,7 +61,7 @@ export const appMachine =
       states: {
         Idle: {
           on: {
-            'refs.inject': {
+            'grid.inject': {
               actions: 'storeGridRef',
               target: 'Generating',
             },
@@ -74,16 +73,12 @@ export const appMachine =
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
             input: ({ context }) => {
-              if (context.gridRef && 'current' in context.gridRef) {
-                return {
-                  canPlay: true,
-                  fps: context.generationParams.fps,
-                  grid: context.gridRef.current,
-                  pathId: context.generationSessionId.toString(),
-                };
-              }
-
-              return undefined;
+              return {
+                canPlay: true,
+                fps: context.generationParams.fps,
+                grid: context.grid,
+                pathId: context.generationSessionId.toString(),
+              };
             },
           },
           on: {
@@ -152,7 +147,7 @@ export const appMachine =
       actions: {
         storeGridRef: assign({
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          gridRef: ({ event }: any) => event.params.gridRef,
+          grid: ({ event }: any) => event.params.grid,
         }),
         refreshGenerationSessionId: assign({
           generationSessionId: () => new Date().getTime(),
