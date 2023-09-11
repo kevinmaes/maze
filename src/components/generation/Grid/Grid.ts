@@ -1,7 +1,19 @@
-import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
 import { IGrid } from './types';
 import { ICell } from '../Cell';
+import { DirectionName } from '../Cell/types';
+import { getColumnIndex, getIndex, getRowIndex } from './gridHelpers';
+import { isEligible } from '../Cell/Cell';
+
+const neighborsAt: Record<
+  DirectionName,
+  (rowIndex: number, columnIndex: number) => [number, number]
+> = {
+  Top: (rowIndex, colIndex) => [rowIndex - 1, colIndex],
+  Right: (rowIndex, colIndex) => [rowIndex, colIndex + 1],
+  Bottom: (rowIndex, colIndex) => [rowIndex + 1, colIndex],
+  Left: (rowIndex, colIndex) => [rowIndex, colIndex - 1],
+};
 
 export default class Grid implements IGrid {
   public cells: ICell[];
@@ -16,6 +28,8 @@ export default class Grid implements IGrid {
     private startIndex: number = 0,
     private cellSize: number = 10,
     private borderWeight: number = 1,
+
+    // Blocked cells can be used to create visual patterns within the grid.
     private blockedCells: ICell[] = []
   ) {
     this.cellTotal = rows * cols;
@@ -29,7 +43,7 @@ export default class Grid implements IGrid {
     this.create();
   }
 
-  getCanvasCtx(): CanvasRenderingContext2D {
+  getCanvasCtx() {
     return this.canvasCtx;
   }
 
@@ -44,13 +58,13 @@ export default class Grid implements IGrid {
       );
 
       const cellPosition = {
-        column: index % this.cols,
         index,
+        column: getColumnIndex(index, this.cols),
+        row: getRowIndex(index, this.cols),
         isBlocked,
         isEnd: index === this.endIndex,
         isMiddle: index === middleIndex,
         isStart: index === this.startIndex,
-        row: Math.floor(index / this.cols),
       };
 
       const cellStyle = {
@@ -80,7 +94,7 @@ export default class Grid implements IGrid {
     return this.cols;
   }
 
-  getStartCell(): ICell {
+  getStartCell() {
     const startCell = this.getCellByIndex();
     startCell.setAsVisited();
     return startCell;
@@ -90,41 +104,37 @@ export default class Grid implements IGrid {
     return this.cells[index];
   }
 
+  /**
+   * Returns a variable length array of eligible neighboring cells.
+   * @param cell
+   * @returns
+   */
   getNeighbors(cell: ICell) {
-    const neighbors = DIRECTIONS.map((direction) => {
-      const [nRowIndex, nColIndex] = direction.getIndices(
-        cell.getRowIndex(),
-        cell.getColumnIndex()
-      );
-      // Ensure it is on the grid.
-      if (
-        nRowIndex < 0 ||
-        nColIndex < 0 ||
-        nRowIndex > this.rows - 1 ||
-        nColIndex > this.cols - 1
-      ) {
-        return null;
-      }
-      const neighborIndex = nRowIndex * this.cols + nColIndex;
-      return neighborIndex;
-    })
-      .filter(
-        (neighborIndex: number | null): neighborIndex is number =>
-          neighborIndex !== null
-      )
-      .map((neighborIndex) => this.cells[neighborIndex]);
-
-    return neighbors;
-  }
-
-  getEligibleNeighbors(cell: ICell) {
-    return this.getNeighbors(cell).filter((neighbor: ICell) => {
-      return !neighbor.isIneligible();
-    });
+    return (
+      // Get the neighbor's row/column indices.
+      Object.values(neighborsAt)
+        .map((getNeighbor) =>
+          getNeighbor(cell.getRowIndex(), cell.getColumnIndex())
+        )
+        // Ensure the neighbor is within the grid.
+        .filter(
+          ([rowIndex, columnIndex]) =>
+            columnIndex >= 0 &&
+            rowIndex >= 0 &&
+            columnIndex < this.cols &&
+            rowIndex < this.rows
+        )
+        // Get the neighboring cell from indices.
+        .map(([rowIndex, columnIndex]) => {
+          const neighborIndex = getIndex(rowIndex, columnIndex, this.cols);
+          return this.cells[neighborIndex];
+        })
+        .filter(isEligible)
+    );
   }
 
   pickNeighbor(cell: ICell) {
-    const neighbors = this.getEligibleNeighbors(cell);
+    const neighbors = this.getNeighbors(cell);
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];
   }
