@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import { frequencies, diatonicScales } from './notes';
 import { ActorRefFrom } from 'xstate';
@@ -43,9 +43,12 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     );
   }, [generationSessionId, selectedAudio.startFrequency]);
 
+  const [volume, setVolume] = useState(0.5);
+  const [isMuted, setIsMuted] = useState(false);
+
   const [play] = useSound(selectedAudio.path, {
     playbackRate,
-    volume: 1,
+    volume: isMuted ? 0 : volume,
   });
 
   play();
@@ -54,5 +57,34 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   prevRowIndexRef.current = rowIndex;
   prevFrequencyIndexRef.current = frequencyIndex;
 
-  return null;
+  const inputHandlers = {
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setVolume(event.target.valueAsNumber);
+    },
+  };
+
+  return (
+    <form onSubmit={(event) => event.preventDefault()}>
+      <label htmlFor="mute">Mute/Unmute</label>
+      <button
+        id="mute"
+        onClick={() => {
+          setIsMuted((prev) => !prev);
+        }}
+      >
+        {isMuted ? 'Unmute' : 'Mute'}
+      </button>
+      <label htmlFor="volume">Volumne</label>
+      <input
+        disabled={isMuted}
+        type="range"
+        name="volumne"
+        value={volume}
+        min="0"
+        max="1"
+        step={0.1}
+        {...inputHandlers}
+      />
+    </form>
+  );
 };
