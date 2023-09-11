@@ -124,7 +124,7 @@ export default class Grid implements IGrid {
             columnIndex < this.cols &&
             rowIndex < this.rows
         )
-        // Get the neighboring cell.
+        // Get the neighboring cell from indices.
         .map(([rowIndex, columnIndex]) => {
           const neighborIndex = getIndex(rowIndex, columnIndex, this.cols);
           return this.cells[neighborIndex];
