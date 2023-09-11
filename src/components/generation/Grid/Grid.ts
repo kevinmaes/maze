@@ -92,7 +92,7 @@ export default class Grid implements IGrid {
 
   getNeighbors(cell: ICell) {
     const neighbors = DIRECTIONS.map((direction) => {
-      const [nRowIndex, nColIndex] = direction.getIndices(
+      const [nRowIndex, nColIndex] = direction.getNeighborIndices(
         cell.getRowIndex(),
         cell.getColumnIndex()
       );
