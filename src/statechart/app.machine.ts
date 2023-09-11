@@ -101,11 +101,11 @@ export const appMachine =
               entry: 'startGenerationAlgorithmMachine',
               on: {
                 'controls.pause': {
-                  actions: ['pauseGenerationAlgorithmMachine'],
+                  actions: 'pauseGenerationAlgorithmMachine',
                   target: 'Paused',
                 },
                 'controls.stop': {
-                  actions: ['refreshGenerationSessionId'],
+                  actions: 'refreshGenerationSessionId',
                   target: '#app.Idle',
                 },
               },
@@ -113,15 +113,15 @@ export const appMachine =
             Paused: {
               on: {
                 'controls.play': {
-                  actions: ['playGenerationAlgorithmMachine'],
+                  actions: 'playGenerationAlgorithmMachine',
                   target: 'Playing',
                 },
                 'controls.stop': {
-                  actions: ['refreshGenerationSessionId'],
+                  actions: 'refreshGenerationSessionId',
                   target: '#app.Idle',
                 },
                 'controls.step.forward': {
-                  actions: ['stepGenerationAlgorithmMachine'],
+                  actions: 'stepGenerationAlgorithmMachine',
                 },
               },
             },
@@ -130,7 +130,7 @@ export const appMachine =
         Done: {
           on: {
             'app.restart': {
-              actions: ['refreshGenerationSessionId'],
+              actions: 'refreshGenerationSessionId',
               target: '#app.Idle',
             },
           },
