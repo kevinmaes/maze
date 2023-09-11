@@ -1,7 +1,17 @@
-import { DIRECTIONS } from '../directions';
 import Cell from '../Cell';
 import { IGrid } from './types';
 import { ICell } from '../Cell';
+import { DirectionName } from '../Cell/types';
+
+const neighborsAt: Record<
+  DirectionName,
+  (rowIndex: number, columnIndex: number) => [number, number]
+> = {
+  Top: (rowIndex, colIndex) => [rowIndex - 1, colIndex],
+  Right: (rowIndex, colIndex) => [rowIndex, colIndex + 1],
+  Bottom: (rowIndex, colIndex) => [rowIndex + 1, colIndex],
+  Left: (rowIndex, colIndex) => [rowIndex, colIndex - 1],
+};
 
 export default class Grid implements IGrid {
   public cells: ICell[];
@@ -91,23 +101,24 @@ export default class Grid implements IGrid {
   }
 
   getNeighbors(cell: ICell) {
-    const neighbors = DIRECTIONS.map((direction) => {
-      const [nRowIndex, nColIndex] = direction.getNeighborIndices(
-        cell.getRowIndex(),
-        cell.getColumnIndex()
-      );
-      // Ensure it is on the grid.
-      if (
-        nRowIndex < 0 ||
-        nColIndex < 0 ||
-        nRowIndex > this.rows - 1 ||
-        nColIndex > this.cols - 1
-      ) {
-        return null;
-      }
-      const neighborIndex = nRowIndex * this.cols + nColIndex;
-      return neighborIndex;
-    })
+    const neighbors = Object.values(neighborsAt)
+      .map((getNeighbor) => {
+        const [nRowIndex, nColIndex] = getNeighbor(
+          cell.getRowIndex(),
+          cell.getColumnIndex()
+        );
+        // Ensure it is on the grid.
+        if (
+          nRowIndex < 0 ||
+          nColIndex < 0 ||
+          nRowIndex > this.rows - 1 ||
+          nColIndex > this.cols - 1
+        ) {
+          return null;
+        }
+        const neighborIndex = nRowIndex * this.cols + nColIndex;
+        return neighborIndex;
+      })
       .filter(
         (neighborIndex: number | null): neighborIndex is number =>
           neighborIndex !== null
