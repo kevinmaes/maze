@@ -45,6 +45,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
 
   const [play] = useSound(selectedAudio.path, {
     playbackRate,
+    volume: 1,
   });
 
   play();
