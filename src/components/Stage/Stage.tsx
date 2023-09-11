@@ -1,4 +1,4 @@
-import React, { Ref } from 'react';
+import React, { Ref, useEffect, useRef } from 'react';
 
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
@@ -24,10 +24,10 @@ export const Stage = ({
 }: Props) => {
   const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
-  const canvasRef: Ref<HTMLCanvasElement> = React.useRef(null);
-  const gridRef = React.useRef<Grid | null>(null);
+  const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
+  const gridRef = useRef<Grid | null>(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (canvasRef && canvasRef.current) {
       const canvasCtx = canvasRef.current.getContext(
         '2d'
