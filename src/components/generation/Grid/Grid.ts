@@ -2,6 +2,7 @@ import Cell from '../Cell';
 import { IGrid } from './types';
 import { ICell } from '../Cell';
 import { DirectionName } from '../Cell/types';
+import { getColumnIndex, getIndex, getRowIndex } from './gridHelpers';
 
 const neighborsAt: Record<
   DirectionName,
@@ -54,13 +55,13 @@ export default class Grid implements IGrid {
       );
 
       const cellPosition = {
-        column: index % this.cols,
         index,
+        column: getColumnIndex(index, this.cols),
+        row: getRowIndex(index, this.cols),
         isBlocked,
         isEnd: index === this.endIndex,
         isMiddle: index === middleIndex,
         isStart: index === this.startIndex,
-        row: Math.floor(index / this.cols),
       };
 
       const cellStyle = {
@@ -116,7 +117,7 @@ export default class Grid implements IGrid {
         ) {
           return null;
         }
-        const neighborIndex = nRowIndex * this.cols + nColIndex;
+        const neighborIndex = getIndex(nRowIndex, nColIndex, this.cols);
         return neighborIndex;
       })
       .filter(
