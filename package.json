@@ -1,6 +1,6 @@
 {
   "name": "maze",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -20,20 +20,20 @@
     "styled-components": "6.0.7",
     "url-loader": "^4.1.1",
     "use-sound": "^4.0.1",
-    "xstate": "5.0.0-beta.24"
+    "xstate": "5.0.0-beta.27"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
     "@types/aria-query": "5.0.1",
     "@types/jest": "29.5.4",
-    "@types/node": "^20.5.9",
+    "@types/node": "^20.6.0",
     "@types/react": "18.2.21",
     "@types/react-dom": "18.2.7",
-    "@types/styled-components": "5.1.26",
+    "@types/styled-components": "5.1.27",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "@typescript-eslint/typescript-estree": "6.6.0",
-    "eslint": "8.48.0",
+    "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "typescript": "5.2.2"
   }
