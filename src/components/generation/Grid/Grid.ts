@@ -28,6 +28,8 @@ export default class Grid implements IGrid {
     private startIndex: number = 0,
     private cellSize: number = 10,
     private borderWeight: number = 1,
+
+    // Blocked cells can be used to create visual patterns within the grid.
     private blockedCells: ICell[] = []
   ) {
     this.cellTotal = rows * cols;
