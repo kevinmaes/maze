@@ -62,7 +62,7 @@ export const appMachine =
         Idle: {
           on: {
             'grid.inject': {
-              actions: 'storeGridRef',
+              actions: 'storeGrid',
               target: 'Generating',
             },
           },
@@ -145,7 +145,7 @@ export const appMachine =
     },
     {
       actions: {
-        storeGridRef: assign({
+        storeGrid: assign({
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           grid: ({ event }: any) => event.params.grid,
         }),
