@@ -107,12 +107,12 @@ export default class Grid implements IGrid {
           cell.getRowIndex(),
           cell.getColumnIndex()
         );
-        // Ensure it is on the grid.
+        // Ensure it is within grid bounds.
         if (
-          nRowIndex < 0 ||
           nColIndex < 0 ||
-          nRowIndex > this.rows - 1 ||
-          nColIndex > this.cols - 1
+          nRowIndex < 0 ||
+          nColIndex >= this.cols ||
+          nRowIndex >= this.rows
         ) {
           return null;
         }
