@@ -52,10 +52,7 @@ const App = () => {
         <p>
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
-        <Audio
-          algorithmActor={state.children?.generationAlgorithmMachine}
-          generationSessionId={generationSessionId}
-        />
+
         <Levers
           enabled={leversEnabled}
           params={generationParams}
@@ -66,6 +63,10 @@ const App = () => {
         />
 
         <Controls state={state} sendControlEvent={send} />
+        <Audio
+          algorithmActor={state.children?.generationAlgorithmMachine}
+          generationSessionId={generationSessionId}
+        />
         <Stage
           width={1000}
           height={1000}
