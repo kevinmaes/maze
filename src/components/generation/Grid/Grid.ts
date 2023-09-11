@@ -43,7 +43,7 @@ export default class Grid implements IGrid {
     this.create();
   }
 
-  getCanvasCtx(): CanvasRenderingContext2D {
+  getCanvasCtx() {
     return this.canvasCtx;
   }
 
@@ -94,7 +94,7 @@ export default class Grid implements IGrid {
     return this.cols;
   }
 
-  getStartCell(): ICell {
+  getStartCell() {
     const startCell = this.getCellByIndex();
     startCell.setAsVisited();
     return startCell;
