@@ -146,18 +146,30 @@ export const appMachine =
     {
       actions: {
         storeGrid: assign({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          grid: ({ event }: any) => event.params.grid,
+          grid: ({ context, event }) => {
+            if ('params' in event && 'grid' in event.params) {
+              return event.params.grid;
+            }
+            return context.grid;
+          },
         }),
         refreshGenerationSessionId: assign({
           generationSessionId: () => new Date().getTime(),
         }),
         updateGenerationParams: assign({
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          generationParams: ({ context, event }: any) => ({
-            ...context.generationParams,
-            [event.params.name]: event.params.value,
-          }),
+          generationParams: ({ context, event }) => {
+            if (
+              'params' in event &&
+              'name' in event.params &&
+              'value' in event.params
+            ) {
+              return {
+                ...context.generationParams,
+                [event.params.name]: event.params.value,
+              };
+            }
+            return context.generationParams;
+          },
         }),
         startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
           type: 'generation.start',
