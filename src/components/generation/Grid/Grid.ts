@@ -118,15 +118,15 @@ export default class Grid implements IGrid {
         )
         // Ensure the neighbor is within the grid.
         .filter(
-          ([nRowIndex, nColIndex]) =>
-            nColIndex >= 0 &&
-            nRowIndex >= 0 &&
-            nColIndex < this.cols &&
-            nRowIndex < this.rows
+          ([rowIndex, columnIndex]) =>
+            columnIndex >= 0 &&
+            rowIndex >= 0 &&
+            columnIndex < this.cols &&
+            rowIndex < this.rows
         )
         // Get the neighboring cell.
-        .map(([nRowIndex, nColIndex]) => {
-          const neighborIndex = getIndex(nRowIndex, nColIndex, this.cols);
+        .map(([rowIndex, columnIndex]) => {
+          const neighborIndex = getIndex(rowIndex, columnIndex, this.cols);
           return this.cells[neighborIndex];
         })
         .filter(isEligible)
