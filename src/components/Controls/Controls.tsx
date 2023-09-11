@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { StateFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
@@ -18,7 +17,6 @@ import {
   AppMachineEvent,
   AppMachineState,
   ControlEvent,
-  appMachine,
 } from '../../statechart/app.machine';
 
 interface AppControlButtonProps
