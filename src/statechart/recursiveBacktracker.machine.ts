@@ -139,15 +139,11 @@ export const generationAlgorithmMachine =
         const currentCell = (context.grid as IGrid).getStartCell();
         return currentCell.visit(null, context.pathId);
       },
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       play: assign({ canPlay: true }),
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       pause: assign({ canPlay: false }),
       findNeighbors: assign({
-        eligibleNeighbors: ({ context }) => {
-          const { grid, currentCell } = context;
-          return (grid as IGrid).getEligibleNeighbors(currentCell as ICell);
-        },
+        eligibleNeighbors: ({ context: { grid, currentCell } }) =>
+          (grid as IGrid).getNeighbors(currentCell as ICell),
       }),
       pickNextCell: assign(
         ({ context: { grid, pathId, startIndex, currentCell } }) => {
