@@ -24,7 +24,8 @@ export interface ICell {
   getIndex: () => number;
   getPathId: () => string;
   getRowIndex: () => number;
-  isIneligible: () => boolean;
+  isVisited: () => boolean;
+  isBlocked: () => boolean;
   setAsBacktrack: () => void;
   setAsCursor: () => void;
   setAsVisited: () => void;

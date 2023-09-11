@@ -100,8 +100,12 @@ export default class Cell implements ICell {
     return this;
   }
 
-  isIneligible() {
-    return this.visited || this.blockedInternal;
+  isVisited() {
+    return this.visited;
+  }
+
+  isBlocked() {
+    return this.blockedInternal;
   }
 
   setAsBacktrack() {
@@ -252,4 +256,13 @@ export default class Cell implements ICell {
     canvasCtx.lineTo(x2, y2);
     canvasCtx.stroke();
   }
+}
+
+/**
+ * Filter predicate function to determine if a cell is eligible for the next step in the algorithm.
+ * @param cell
+ * @returns
+ */
+export function isEligible(cell: ICell) {
+  return !cell.isVisited() && !cell.isBlocked();
 }

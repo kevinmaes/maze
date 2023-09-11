@@ -3,6 +3,7 @@ import { IGrid } from './types';
 import { ICell } from '../Cell';
 import { DirectionName } from '../Cell/types';
 import { getColumnIndex, getIndex, getRowIndex } from './gridHelpers';
+import { isEligible } from '../Cell/Cell';
 
 const neighborsAt: Record<
   DirectionName,
@@ -101,42 +102,37 @@ export default class Grid implements IGrid {
     return this.cells[index];
   }
 
+  /**
+   * Returns a variable length array of eligible neighboring cells.
+   * @param cell
+   * @returns
+   */
   getNeighbors(cell: ICell) {
-    const neighbors = Object.values(neighborsAt)
-      .map((getNeighbor) => {
-        const [nRowIndex, nColIndex] = getNeighbor(
-          cell.getRowIndex(),
-          cell.getColumnIndex()
-        );
-        // Ensure it is within grid bounds.
-        if (
-          nColIndex < 0 ||
-          nRowIndex < 0 ||
-          nColIndex >= this.cols ||
-          nRowIndex >= this.rows
-        ) {
-          return null;
-        }
-        const neighborIndex = getIndex(nRowIndex, nColIndex, this.cols);
-        return neighborIndex;
-      })
-      .filter(
-        (neighborIndex: number | null): neighborIndex is number =>
-          neighborIndex !== null
-      )
-      .map((neighborIndex) => this.cells[neighborIndex]);
-
-    return neighbors;
-  }
-
-  getEligibleNeighbors(cell: ICell) {
-    return this.getNeighbors(cell).filter((neighbor: ICell) => {
-      return !neighbor.isIneligible();
-    });
+    return (
+      // Get the neighbor's row/column indices.
+      Object.values(neighborsAt)
+        .map((getNeighbor) =>
+          getNeighbor(cell.getRowIndex(), cell.getColumnIndex())
+        )
+        // Ensure the neighbor is within the grid.
+        .filter(
+          ([nRowIndex, nColIndex]) =>
+            nColIndex >= 0 &&
+            nRowIndex >= 0 &&
+            nColIndex < this.cols &&
+            nRowIndex < this.rows
+        )
+        // Get the neighboring cell.
+        .map(([nRowIndex, nColIndex]) => {
+          const neighborIndex = getIndex(nRowIndex, nColIndex, this.cols);
+          return this.cells[neighborIndex];
+        })
+        .filter(isEligible)
+    );
   }
 
   pickNeighbor(cell: ICell) {
-    const neighbors = this.getEligibleNeighbors(cell);
+    const neighbors = this.getNeighbors(cell);
     const nextIndex = Math.floor(Math.random() * neighbors.length);
     return neighbors[nextIndex];
   }

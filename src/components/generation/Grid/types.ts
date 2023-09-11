@@ -4,8 +4,8 @@ export interface IGrid {
   getCanvasCtx: () => CanvasRenderingContext2D;
   getCells: () => ICell[];
   getColumns: () => number;
-  getEligibleNeighbors: (cell: ICell) => ICell[];
   getRows: () => number;
+  getNeighbors: (cell: ICell) => ICell[];
   getStartCell: () => ICell;
   pickNeighbor: (cell: ICell) => ICell;
 }
