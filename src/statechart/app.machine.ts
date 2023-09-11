@@ -28,7 +28,7 @@ export const appMachine =
         context: {
           mazeId: string;
           generationParams: GenerationParams;
-          grid: IGrid | undefined;
+          grid: IGrid | null;
           generationSessionId: number;
         };
         events:
@@ -53,7 +53,7 @@ export const appMachine =
           gridColumns: GRID_SIZE_DEFAULT,
           gridRows: GRID_SIZE_DEFAULT,
         },
-        grid: undefined,
+        grid: null,
         generationSessionId: new Date().getTime(),
       },
       id: 'app',
