@@ -10,7 +10,6 @@ interface Props {
   width?: number;
   height?: number;
   pixelRatio?: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   send: (event: AppMachineEvent) => void;
   generationSessionId: number;
 }
