@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xstate/react": "4.0.0-beta.8",
+    "@xstate/react": "4.0.0-beta.9",
     "next": "13.4.19",
     "prettier": "^3.0.3",
     "react": "18.2.0",
