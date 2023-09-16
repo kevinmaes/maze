@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { frequencies, diatonicScales } from './notes';
+import { frequencies, diatonicScales, arpegios } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
+import { Toggle } from './Audio.css';
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
@@ -11,11 +12,16 @@ interface Props {
 }
 
 export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
+  const [isArpeggio, toggleArpeggio] = useState(false);
+
   const selectedAudio = audioOptions[0];
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
-    diatonicScales.c.major.indexOf(selectedAudio.startFrequency)
+    // diatonicScales.c.major.indexOf(selectedAudio.startFrequency)
+    (isArpeggio ? arpegios : diatonicScales).c.major.indexOf(
+      selectedAudio.startFrequency
+    )
   );
 
   const columnIndex =
@@ -33,15 +39,17 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       : // Otherwise combine changes in both directions.
         columnChange + rowChange;
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
-  const note = diatonicScales.c.major[frequencyIndex];
+  // const note = diatonicScales.c.major[frequencyIndex];
+  const note = (isArpeggio ? arpegios : diatonicScales).c.major[frequencyIndex];
   const frequency = frequencies[note];
   const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
 
   useEffect(() => {
-    prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf(
-      selectedAudio.startFrequency
-    );
-  }, [generationSessionId, selectedAudio.startFrequency]);
+    // prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf(
+    prevFrequencyIndexRef.current = (
+      isArpeggio ? arpegios : diatonicScales
+    ).c.major.indexOf(selectedAudio.startFrequency);
+  }, [generationSessionId, selectedAudio.startFrequency, isArpeggio]);
 
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
@@ -74,6 +82,10 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       >
         {isMuted ? 'Unmute' : 'Mute'}
       </button>
+      <Toggle
+        on={isArpeggio}
+        onClick={() => toggleArpeggio((value) => !value)}
+      />
       <label htmlFor="volume">Volumne</label>
       <input
         disabled={isMuted}
