@@ -1,12 +1,5 @@
 import styled, { css, keyframes } from 'styled-components';
 
-export const StartOver = styled.button``;
-export const Play = styled.button``;
-export const Stop = styled.button``;
-export const Pause = styled.button``;
-export const StepBack = styled.button``;
-export const StepForward = styled.button``;
-
 export const ControlsContainer = styled.div`
   width: 170px;
   height: 50px;
@@ -22,24 +15,6 @@ export const ControlsGroup = styled.div<{ flash?: boolean }>`
   height: 50px;
   justify-content: space-evenly;
   margin: auto auto 5px auto;
-
-  // TODO: Need to tweak this later
-  // & button {
-  //   animation-name: flash;
-  //   animation-iteration-count: 3;
-  //   animation-duration: 0.2s;
-  //   animation-play-state: ${({ flash }) => (flash ? 'running' : 'paused')};
-
-  //   @keyframes flash {
-  //     from {
-  //       opacity: 1;
-  //     }
-
-  //     to {
-  //       opacity: 0;
-  //     }
-  //   }
-  /* } */
 `;
 
 export const Prompt = styled.span`

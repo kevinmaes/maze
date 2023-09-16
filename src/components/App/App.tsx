@@ -36,12 +36,6 @@ const App = () => {
   //   return subscription.unsubscribe;
   // }, [appActor]); // note: service should never change
 
-  const leversEnabled =
-    state.matches('Idle') ||
-    state.matches({
-      Generating: 'Initializing',
-    });
-
   return (
     <>
       <GlobalStyle />
@@ -52,7 +46,7 @@ const App = () => {
           <i>Next.js, XState, Canvas, TypeScript</i>
         </p>
         <Levers
-          enabled={leversEnabled}
+          enabled={state.hasTag('levers enabled')}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
             send({ type: 'generation.param.set', params: data });
