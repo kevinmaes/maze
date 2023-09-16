@@ -14,14 +14,14 @@ interface Props {
   generationSessionId: number;
 }
 
-export const Stage = ({
+export function Stage({
   width = 100,
   height = 100,
   pixelRatio = window.devicePixelRatio,
   generationParams,
   send,
   generationSessionId,
-}: Props) => {
+}: Props) {
   const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
   const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
@@ -66,6 +66,4 @@ export const Stage = ({
   const dh = Math.floor(pixelRatio * cellSize * gridRows) + 2 * borderWeight;
 
   return <Canvas ref={canvasRef} width={dw} height={dh} />;
-};
-
-Stage.displayName = 'Stage (memo)';
+}

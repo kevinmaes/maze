@@ -9,7 +9,7 @@ import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 
 declare const VERSION: string;
 
-const App = () => {
+export default function App() {
   let version = 'unknown';
   try {
     version = VERSION;
@@ -87,6 +87,4 @@ const App = () => {
       </AppContainer>
     </>
   );
-};
-
-export default App;
+}

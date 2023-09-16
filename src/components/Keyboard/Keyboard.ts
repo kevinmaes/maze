@@ -17,7 +17,7 @@ interface Props {
   state: string;
 }
 
-export const Keyboard = ({ eventEmitter, handlers, state }: Props) => {
+export function Keyboard({ eventEmitter, handlers, state }: Props) {
   useEffect(() => {
     const eventNames = Object.keys(handlers);
 
@@ -31,4 +31,4 @@ export const Keyboard = ({ eventEmitter, handlers, state }: Props) => {
       );
   }, [state, eventEmitter, handlers]);
   return null;
-};
+}
