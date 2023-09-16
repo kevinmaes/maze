@@ -4269,10 +4269,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
 
-xstate@5.0.0-beta.27:
-  version "5.0.0-beta.27"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.0.0-beta.27.tgz#4f5492146315a22f8d8538b9dc9b743b87d1549a"
-  integrity sha512-oNuu2oPy/S/YP1ZcGg6WhezO7MUCHhziauVDmkwOEgTX9/XpvFdC7gv7Wmhm4DoUETk5DZ7aDNbUuq9QgKLFYA==
+xstate@5.0.0-beta.28:
+  version "5.0.0-beta.28"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.0.0-beta.28.tgz#a548d79bea759cd6ba2d9bf0bdb035ae635b9ffd"
+  integrity sha512-4uN7+gmjUbWETknjnE1yjtsOnqzJFeQSRBVipAGS5ZQEu9dgwQzmLCInuC54eJdffd6raszDAPTD2vDACOm42A==
 
 yallist@^3.0.2:
   version "3.1.1"
