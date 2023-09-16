@@ -60,6 +60,7 @@ export const appMachine =
       initial: 'Idle',
       states: {
         Idle: {
+          tags: 'levers enabled',
           on: {
             'grid.inject': {
               actions: 'storeGrid',
@@ -91,6 +92,7 @@ export const appMachine =
           },
           states: {
             Initializing: {
+              tags: 'levers enabled',
               on: {
                 'controls.play': {
                   target: 'Playing',

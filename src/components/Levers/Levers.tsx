@@ -22,7 +22,7 @@ function GenerationParamInput(inputProps: InputProps) {
   return <input {...inputProps} />;
 }
 
-export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
+export function Levers({ enabled, params, updateFromLevers }: Props) {
   const onLeverChange = ({
     target: { name, value },
   }: React.ChangeEvent<HTMLInputElement>) =>
@@ -93,4 +93,4 @@ export const Levers = ({ enabled, params, updateFromLevers }: Props) => {
       </Fieldset>
     </Form>
   );
-};
+}

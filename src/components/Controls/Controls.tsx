@@ -49,7 +49,7 @@ const iconFillDisabledColor = '#D3D3D3';
 const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
-export const Controls = ({ state, sendControlEvent }: Props) => {
+export function Controls({ state, sendControlEvent }: Props) {
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
@@ -184,4 +184,4 @@ export const Controls = ({ state, sendControlEvent }: Props) => {
   };
 
   return <ControlsContainer>{renderStateControls(state)}</ControlsContainer>;
-};
+}

@@ -10,7 +10,7 @@ import { Audio } from '../Audio/Audio';
 
 declare const VERSION: string;
 
-const App = () => {
+export default function App() {
   let version = 'unknown';
   try {
     version = VERSION;
@@ -37,12 +37,6 @@ const App = () => {
   //   return subscription.unsubscribe;
   // }, [appActor]); // note: service should never change
 
-  const leversEnabled =
-    state.matches('Idle') ||
-    state.matches({
-      Generating: 'Initializing',
-    });
-
   return (
     <>
       <GlobalStyle />
@@ -54,7 +48,7 @@ const App = () => {
         </p>
 
         <Levers
-          enabled={leversEnabled}
+          enabled={state.hasTag('levers enabled')}
           params={generationParams}
           updateFromLevers={(data: { name: string; value: number }) => {
             send({ type: 'generation.param.set', params: data });
@@ -99,6 +93,4 @@ const App = () => {
       </AppContainer>
     </>
   );
-};
-
-export default App;
+}
