@@ -21,7 +21,7 @@
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
     "@types/aria-query": "5.0.1",
-    "@types/jest": "29.5.4",
+    "@types/jest": "29.5.5",
     "@types/node": "^20.6.2",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
