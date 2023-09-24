@@ -1,5 +1,24 @@
 import styled from 'styled-components';
 
+export const AudioForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 180px;
+  margin: 20px auto 45px auto;
+`;
+
+export const VolumneContainer = styled.div`
+  margin-right: 15px;
+`;
+
+export const ToggleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+`;
+
 export const Toggle = styled.button<{ on: boolean }>`
   width: 50px;
   height: 25px;
@@ -10,6 +29,7 @@ export const Toggle = styled.button<{ on: boolean }>`
   transition: background 0.2s ease-out;
   border: none;
   cursor: pointer;
+  margin-right: 10px;
 
   &::after {
     content: '';

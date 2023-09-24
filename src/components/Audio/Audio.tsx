@@ -4,7 +4,13 @@ import { frequencies, diatonicScales, arpegios } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
-import { Toggle } from './Audio.css';
+import {
+  AudioForm,
+  Toggle,
+  ToggleContainer,
+  VolumneContainer,
+} from './Audio.css';
+import { VolumeIcon, VolumeXIcon } from 'lucide-react';
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
@@ -41,6 +47,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
   // const note = diatonicScales.c.major[frequencyIndex];
   const note = (isArpeggio ? arpegios : diatonicScales).c.major[frequencyIndex];
+  console.log('note', note);
   const frequency = frequencies[note];
   const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
 
@@ -51,7 +58,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     ).c.major.indexOf(selectedAudio.startFrequency);
   }, [generationSessionId, selectedAudio.startFrequency, isArpeggio]);
 
-  const [volume, setVolume] = useState(0.5);
+  const [volume /* setVolume */] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
 
   const [play] = useSound(selectedAudio.path, {
@@ -59,44 +66,55 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     volume: isMuted ? 0 : volume,
   });
 
-  play();
+  try {
+    console.log('rate', playbackRate);
+    play();
+  } catch (e) {
+    console.error(e);
+  }
 
   prevColumnIndexRef.current = columnIndex;
   prevRowIndexRef.current = rowIndex;
   prevFrequencyIndexRef.current = frequencyIndex;
 
-  const inputHandlers = {
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-      setVolume(event.target.valueAsNumber);
-    },
-  };
+  // const inputHandlers = {
+  //   onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     setVolume(event.target.valueAsNumber);
+  //   },
+  // };
 
   return (
-    <form onSubmit={(event) => event.preventDefault()}>
-      <label htmlFor="mute">Mute/Unmute</label>
-      <button
-        id="mute"
-        onClick={() => {
-          setIsMuted((prev) => !prev);
-        }}
-      >
-        {isMuted ? 'Unmute' : 'Mute'}
-      </button>
-      <Toggle
-        on={isArpeggio}
-        onClick={() => toggleArpeggio((value) => !value)}
-      />
-      <label htmlFor="volume">Volumne</label>
-      <input
-        disabled={isMuted}
-        type="range"
-        name="volumne"
-        value={volume}
-        min="0"
-        max="1"
-        step={0.1}
-        {...inputHandlers}
-      />
-    </form>
+    <AudioForm onSubmit={(event) => event.preventDefault()}>
+      <VolumneContainer>
+        {/* <label htmlFor="mute">Mute/Unmute</label> */}
+        <button
+          id="mute"
+          onClick={() => {
+            setIsMuted((prev) => !prev);
+          }}
+        >
+          {isMuted ? <VolumeXIcon /> : <VolumeIcon />}
+        </button>
+      </VolumneContainer>
+      <ToggleContainer>
+        <Toggle
+          id="arpeggio"
+          on={isArpeggio}
+          onClick={() => toggleArpeggio((value) => !value)}
+        />
+        <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
+      </ToggleContainer>
+      {/* <label htmlFor="volume">Volumne</label> */}
+      {/* <input
+          disabled={isMuted}
+          type="range"
+          name="volumne"
+          value={volume}
+          min="0"
+          max="1"
+          step={0.1}
+          {...inputHandlers}
+        /> */}
+    </AudioForm>
   );
 };
