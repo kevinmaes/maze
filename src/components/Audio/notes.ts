@@ -230,14 +230,21 @@ export function getNote(frequencyIndex: number, isArpeggio: boolean) {
     index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
   }
 
-  const note = notes[index];
-
-  return note;
+  return notes[index];
 }
 
-// export function getNoteFrequency(note) {
-//   const frequency = frequencies[note];
-//   if (isNaN(frequency)) {
+export function getStartingNoteFrequency(
+  note: keyof typeof frequencies,
+  isArpeggio: boolean
+) {
+  return (isArpeggio ? arpeggios : diatonicScales).c.major.indexOf(note);
+}
 
-//   }
-// }
+export function getNoteFrequency(note: keyof typeof frequencies) {
+  let frequency = frequencies[note];
+  if (isNaN(frequency)) {
+    frequency = frequencies.C0;
+  }
+
+  return frequency;
+}

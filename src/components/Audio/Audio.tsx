@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { frequencies, diatonicScales, arpeggios, getNote } from './notes';
+import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
@@ -24,10 +24,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
-    // diatonicScales.c.major.indexOf(selectedAudio.startFrequency)
-    (isArpeggio ? arpeggios : diatonicScales).c.major.indexOf(
-      selectedAudio.startFrequency
-    )
+    getStartingNoteFrequency(selectedAudio.startingNote, isArpeggio)
   );
 
   const columnIndex =
@@ -45,18 +42,16 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       : // Otherwise combine changes in both directions.
         columnChange + rowChange;
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
-  // const note = diatonicScales.c.major[frequencyIndex];
   const note = getNote(frequencyIndex, isArpeggio);
-  console.log('note', note);
-  const frequency = frequencies[note];
-  const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
+  const frequency = getNoteFrequency(note);
+  const playbackRate = frequency / getNoteFrequency(selectedAudio.startingNote);
 
   useEffect(() => {
-    // prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf(
-    prevFrequencyIndexRef.current = (
-      isArpeggio ? arpeggios : diatonicScales
-    ).c.major.indexOf(selectedAudio.startFrequency);
-  }, [generationSessionId, selectedAudio.startFrequency, isArpeggio]);
+    prevFrequencyIndexRef.current = getStartingNoteFrequency(
+      selectedAudio.startingNote,
+      isArpeggio
+    );
+  }, [generationSessionId, selectedAudio.startingNote, isArpeggio]);
 
   const [volume /* setVolume */] = useState(0.5);
   const [isMuted, setIsMuted] = useState(false);
