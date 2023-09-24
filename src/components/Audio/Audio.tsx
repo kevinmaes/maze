@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { frequencies, diatonicScales, arpegios } from './notes';
+import { frequencies, diatonicScales, arpeggios } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
@@ -25,7 +25,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
     // diatonicScales.c.major.indexOf(selectedAudio.startFrequency)
-    (isArpeggio ? arpegios : diatonicScales).c.major.indexOf(
+    (isArpeggio ? arpeggios : diatonicScales).c.major.indexOf(
       selectedAudio.startFrequency
     )
   );
@@ -46,7 +46,9 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         columnChange + rowChange;
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
   // const note = diatonicScales.c.major[frequencyIndex];
-  const note = (isArpeggio ? arpegios : diatonicScales).c.major[frequencyIndex];
+  const note = (isArpeggio ? arpeggios : diatonicScales).c.major[
+    frequencyIndex
+  ];
   console.log('note', note);
   const frequency = frequencies[note];
   const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
@@ -54,7 +56,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   useEffect(() => {
     // prevFrequencyIndexRef.current = diatonicScales.c.major.indexOf(
     prevFrequencyIndexRef.current = (
-      isArpeggio ? arpegios : diatonicScales
+      isArpeggio ? arpeggios : diatonicScales
     ).c.major.indexOf(selectedAudio.startFrequency);
   }, [generationSessionId, selectedAudio.startFrequency, isArpeggio]);
 

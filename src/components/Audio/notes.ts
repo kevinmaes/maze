@@ -181,7 +181,7 @@ export const diatonicScales: Record<'c', Mode> = {
     ],
   },
 };
-export const arpegios: Record<'c', Mode> = {
+export const arpeggios: Record<'c', Mode> = {
   c: {
     major: [
       'C0',
