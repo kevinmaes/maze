@@ -214,3 +214,28 @@ export const arpeggios: Record<'c', Mode> = {
     ],
   },
 };
+
+export function getNote(frequencyIndex: number, isArpeggio: boolean) {
+  let index = frequencyIndex;
+  if (index < 0) {
+    index = 0;
+  }
+  const notes = isArpeggio ? arpeggios.c.major : diatonicScales.c.major;
+  if (index < 0) {
+    index = 0;
+  }
+  if (index > notes.length - 1) {
+    index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
+  }
+
+  const note = notes[index];
+
+  return note;
+}
+
+// export function getNoteFrequency(note) {
+//   const frequency = frequencies[note];
+//   if (isNaN(frequency)) {
+
+//   }
+// }

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { frequencies, diatonicScales, arpeggios } from './notes';
+import { frequencies, diatonicScales, arpeggios, getNote } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
@@ -46,9 +46,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         columnChange + rowChange;
   const frequencyIndex = prevFrequencyIndexRef.current + increment;
   // const note = diatonicScales.c.major[frequencyIndex];
-  const note = (isArpeggio ? arpeggios : diatonicScales).c.major[
-    frequencyIndex
-  ];
+  const note = getNote(frequencyIndex, isArpeggio);
   console.log('note', note);
   const frequency = frequencies[note];
   const playbackRate = frequency / frequencies[selectedAudio.startFrequency];
