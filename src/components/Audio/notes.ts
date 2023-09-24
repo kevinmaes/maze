@@ -216,11 +216,13 @@ export const arpeggios: Record<'c', Mode> = {
 };
 
 export function getNote(frequencyIndex: number, isArpeggio: boolean) {
-  let index = frequencyIndex;
-  if (index < 0) {
-    index = 0;
-  }
   const notes = isArpeggio ? arpeggios.c.major : diatonicScales.c.major;
+  let index = frequencyIndex;
+
+  // Cycles but stays at the low end and high end for a while.
+  // index = index % notes.length;
+
+  // Randomly re-positions when exceeding the bounds of the notes array.
   if (index < 0) {
     index = 0;
   }
