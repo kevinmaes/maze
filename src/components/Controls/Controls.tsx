@@ -11,7 +11,6 @@ import {
   ControlsContainer,
   ControlsGroup,
   FlashingControlButton,
-  HiddenLabel,
   Prompt,
 } from './Controls.css';
 import {
@@ -19,6 +18,7 @@ import {
   AppMachineState,
   ControlEvent,
 } from '../../statechart/app.machine';
+import { HiddenLabel } from '../shared/form.css';
 
 export interface AppControlLabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {

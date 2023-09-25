@@ -34,8 +34,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
     <Form>
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
         <div>
-          <label>FPS ({params.fps})</label>
+          <label htmlFor="fps">FPS ({params.fps})</label>
           <GenerationParamInput
+            id="fps"
             type="range"
             name="fps"
             value={params.fps}
@@ -46,8 +47,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label>Cell Size ({params.cellSize})</label>
+          <label htmlFor="cellSize">Cell Size ({params.cellSize})</label>
           <input
+            id="cellSize"
             type="range"
             name="cellSize"
             value={params.cellSize}
@@ -58,8 +60,11 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label>Border Weight ({params.borderWeight})</label>
+          <label htmlFor="borderWeight">
+            Border Weight ({params.borderWeight})
+          </label>
           <input
+            id="borderWeight"
             type="range"
             name="borderWeight"
             value={params.borderWeight}
@@ -69,8 +74,11 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label>Grid Columns ({params.gridColumns})</label>
+          <label htmlFor="gridColumns">
+            Grid Columns ({params.gridColumns})
+          </label>
           <input
+            id="gridColumns"
             type="range"
             name="gridColumns"
             value={params.gridColumns}
@@ -80,8 +88,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label>Grid Rows ({params.gridRows})</label>
+          <label htmlFor="gridRows">Grid Rows ({params.gridRows})</label>
           <input
+            id="gridRows"
             type="range"
             name="gridRows"
             value={params.gridRows}

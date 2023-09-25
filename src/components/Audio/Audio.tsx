@@ -13,7 +13,8 @@ import {
   ToggleContainer,
   VolumneContainer,
 } from './Audio.css';
-import { ControlButton, HiddenLabel } from '../Controls/Controls.css';
+import { ControlButton } from '../Controls/Controls.css';
+import { HiddenLabel } from '../shared/form.css';
 
 export interface AudioControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
