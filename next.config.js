@@ -38,4 +38,7 @@ module.exports = {
   images: {
     disableStaticImages: true,
   },
+  compiler: {
+    styledComponents: true,
+  },
 };
