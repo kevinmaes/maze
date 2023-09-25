@@ -3,8 +3,8 @@ import styled from 'styled-components';
 export const AudioForm = styled.form`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  width: 180px;
+  justify-content: space-between;
+  width: 150px;
   margin: 20px auto 45px auto;
 `;
 
@@ -17,6 +17,7 @@ export const ToggleContainer = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  min-width: 120px;
 `;
 
 export const Toggle = styled.button<{ $on: boolean }>`
