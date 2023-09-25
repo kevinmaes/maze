@@ -80,12 +80,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     volume: isMuted ? 0 : volume,
   });
 
-  try {
-    console.log('rate', playbackRate);
-    play();
-  } catch (e) {
-    console.error(e);
-  }
+  play();
 
   prevColumnIndexRef.current = columnIndex;
   prevRowIndexRef.current = rowIndex;
@@ -118,7 +113,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       <ToggleContainer>
         <Toggle
           id="arpeggio"
-          on={isArpeggio}
+          $on={isArpeggio}
           onClick={() => toggleArpeggio((value) => !value)}
         />
         <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
