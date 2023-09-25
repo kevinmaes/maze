@@ -88,7 +88,7 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             name="borderWeight"
             value={params.borderWeight}
             min="1"
-            max="10"
+            max="5"
             {...inputHandlers}
           />
         </div>
