@@ -4,13 +4,32 @@ import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
+import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
+import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
+
 import {
   AudioForm,
   Toggle,
   ToggleContainer,
   VolumneContainer,
 } from './Audio.css';
-import { VolumeIcon, VolumeXIcon } from 'lucide-react';
+import { ControlButton } from '../Controls/Controls.css';
+
+export interface AudioControlButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  id: 'audio.mute';
+}
+export function AudioControlButton(props: AudioControlButtonProps) {
+  const { children, ...rest } = props;
+  return <ControlButton {...rest}>{children}</ControlButton>;
+}
+
+const iconFillColor = '#2563EB';
+const iconFillDisabledColor = '#666';
+
+const getIconFillColor = (enabled = false) => {
+  return enabled ? iconFillColor : iconFillDisabledColor;
+};
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
@@ -82,14 +101,19 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     <AudioForm onSubmit={(event) => event.preventDefault()}>
       <VolumneContainer>
         {/* <label htmlFor="mute">Mute/Unmute</label> */}
-        <button
-          id="mute"
+        <AudioControlButton
+          id="audio.mute"
           onClick={() => {
             setIsMuted((prev) => !prev);
           }}
+          title="Toggle sound on/off"
         >
-          {isMuted ? <VolumeXIcon /> : <VolumeIcon />}
-        </button>
+          {isMuted ? (
+            <SoundOff fill={getIconFillColor(!isMuted)} />
+          ) : (
+            <SoundOn fill={getIconFillColor(!isMuted)} />
+          )}
+        </AudioControlButton>
       </VolumneContainer>
       <ToggleContainer>
         <Toggle
@@ -101,15 +125,15 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       </ToggleContainer>
       {/* <label htmlFor="volume">Volumne</label> */}
       {/* <input
-          disabled={isMuted}
-          type="range"
-          name="volumne"
-          value={volume}
-          min="0"
-          max="1"
-          step={0.1}
-          {...inputHandlers}
-        /> */}
+        disabled={isMuted}
+        type="range"
+        name="volumne"
+        value={volume}
+        min="0"
+        max="1"
+        step={0.1}
+        {...inputHandlers}
+      /> */}
     </AudioForm>
   );
 };

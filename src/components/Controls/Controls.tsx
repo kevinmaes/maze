@@ -19,11 +19,11 @@ import {
   ControlEvent,
 } from '../../statechart/app.machine';
 
-interface AppControlButtonProps
+export interface AppControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
-function AppControlButton(props: AppControlButtonProps) {
+export function PlayControlButton(props: AppControlButtonProps) {
   const { children, ...rest } = props;
   return <ControlButton {...rest}>{children}</ControlButton>;
 }
@@ -127,42 +127,42 @@ export function Controls({ state, sendControlEvent }: Props) {
         )}
         <ControlsGroup>
           {canStartOver ? (
-            <AppControlButton
+            <PlayControlButton
               id="app.restart"
               onClick={handleClick}
               disabled={!canStartOver}
               title="Restart (ENTER)"
             >
               <StartOver fill={getIconFillColor(canStartOver)} />
-            </AppControlButton>
+            </PlayControlButton>
           ) : (
-            <AppControlButton
+            <PlayControlButton
               id="controls.stop"
               onClick={handleClick}
               disabled={!canStop}
               title="Stop (ESC)"
             >
               <Stop fill={getIconFillColor(canStop)} />
-            </AppControlButton>
+            </PlayControlButton>
           )}
           {canPause ? (
-            <AppControlButton
+            <PlayControlButton
               id="controls.pause"
               onClick={handleClick}
               disabled={!canPause}
               title="Pause (SPACE)"
             >
               <Pause fill={getIconFillColor(canPause)} />
-            </AppControlButton>
+            </PlayControlButton>
           ) : (
-            <AppControlButton
+            <PlayControlButton
               id="controls.play"
               onClick={handleClick}
               disabled={!canPlay}
               title="Play (ENTER)"
             >
               <Play fill={getIconFillColor(canPlay)} />
-            </AppControlButton>
+            </PlayControlButton>
           )}
           <FlashingAppControlButton
             id="controls.step.forward"
