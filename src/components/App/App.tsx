@@ -7,6 +7,7 @@ import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 import { Audio } from '../Audio/Audio';
+import Head from 'next/head';
 
 declare const VERSION: string;
 
@@ -39,6 +40,9 @@ export default function App() {
 
   return (
     <>
+      <Head>
+        <title>Maze Generation</title>
+      </Head>
       <GlobalStyle />
       <AppContainer>
         <h1>Maze Generation</h1>
