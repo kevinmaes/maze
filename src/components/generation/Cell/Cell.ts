@@ -11,6 +11,7 @@ export default class Cell implements ICell {
   private connections: Connections;
   private walls: Walls;
   private visited: boolean;
+  private lastVisited?: number;
   private backtrack: boolean;
   private isCursor = false;
 
@@ -119,6 +120,7 @@ export default class Cell implements ICell {
   visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;
+    this.lastVisited = Date.now();
 
     this.setAsCursor();
 
@@ -179,11 +181,17 @@ export default class Cell implements ICell {
 
   drawFill(color: string) {
     const {
-      cellStyle: { borderWeight, size },
+      cellStyle: { borderWeight, size, visitedColor },
     } = this;
 
     const fillX = this.x + 0.5 * borderWeight;
     const fillY = this.y + 0.5 * borderWeight;
+
+    // Slowly fade out visited cells.
+    if (color === visitedColor && this.lastVisited) {
+      const decay = (Date.now() - this.lastVisited) * 0.00007;
+      color = `rgba(37, 99, 235, ${0.2 - decay})`;
+    }
 
     this.canvasCtx.fillStyle = color;
     this.canvasCtx.fillRect(fillX, fillY, size, size);
