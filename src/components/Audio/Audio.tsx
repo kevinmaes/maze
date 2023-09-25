@@ -97,7 +97,13 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   };
 
   return (
-    <AudioForm onSubmit={(event) => event.preventDefault()}>
+    <AudioForm
+      onKeyDown={(event) => {
+        // Blocks the Enter and Space keys from affecting this form's buttons and inputs
+        event.preventDefault();
+      }}
+      onSubmit={(event) => event.preventDefault()}
+    >
       <VolumneContainer>
         <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
@@ -129,10 +135,6 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         <Toggle
           id="arpeggio"
           $on={isArpeggio}
-          onKeyDown={(event) => {
-            // Blocks the Enter and Space keys from triggering the toggle
-            event.preventDefault();
-          }}
           onClick={() => toggleArpeggio((value) => !value)}
         />
         <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
