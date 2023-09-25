@@ -73,7 +73,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   }, [generationSessionId, selectedAudio.startingNote, isArpeggio]);
 
   const [volume /* setVolume */] = useState(0.5);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   const [play] = useSound(selectedAudio.path, {
     playbackRate,
