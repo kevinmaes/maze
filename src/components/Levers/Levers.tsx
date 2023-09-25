@@ -59,7 +59,7 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             value={params.fps}
             min="5"
             max="60"
-            step={5}
+            step="5"
             {...inputHandlers}
           />
         </LeverSet>
@@ -74,7 +74,7 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             value={params.cellSize}
             min={CellSize.MIN}
             max={CellSize.MAX}
-            step={5}
+            step="5"
             {...inputHandlers}
           />
         </LeverSet>
@@ -101,8 +101,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             type="range"
             name="gridColumns"
             value={params.gridColumns}
-            min="2"
+            min="5"
             max="25"
+            step="5"
             {...inputHandlers}
           />
         </LeverSet>
@@ -115,8 +116,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             type="range"
             name="gridRows"
             value={params.gridRows}
-            min="2"
+            min="5"
             max="25"
+            step="5"
             {...inputHandlers}
           />
         </LeverSet>
