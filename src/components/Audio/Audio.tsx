@@ -13,7 +13,7 @@ import {
   ToggleContainer,
   VolumneContainer,
 } from './Audio.css';
-import { ControlButton } from '../Controls/Controls.css';
+import { ControlButton, HiddenLabel } from '../Controls/Controls.css';
 
 export interface AudioControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -95,7 +95,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   return (
     <AudioForm onSubmit={(event) => event.preventDefault()}>
       <VolumneContainer>
-        {/* <label htmlFor="mute">Mute/Unmute</label> */}
+        <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
           id="audio.mute"
           onClick={() => {
@@ -118,7 +118,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         />
         <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
       </ToggleContainer>
-      {/* <label htmlFor="volume">Volumne</label> */}
+      {/* <HiddenLabel htmlFor="volume">Volumne</HiddenLabel> */}
       {/* <input
         disabled={isMuted}
         type="range"

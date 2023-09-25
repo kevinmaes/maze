@@ -11,6 +11,7 @@ import {
   ControlsContainer,
   ControlsGroup,
   FlashingControlButton,
+  HiddenLabel,
   Prompt,
 } from './Controls.css';
 import {
@@ -19,10 +20,21 @@ import {
   ControlEvent,
 } from '../../statechart/app.machine';
 
+export interface AppControlLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  htmlFor: ControlEvent['type'];
+}
+
 export interface AppControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
+
+export function PlayControlLabel(props: AppControlLabelProps) {
+  const { children, ...rest } = props;
+  return <HiddenLabel {...rest}>{children}</HiddenLabel>;
+}
+
 export function PlayControlButton(props: AppControlButtonProps) {
   const { children, ...rest } = props;
   return <ControlButton {...rest}>{children}</ControlButton>;
@@ -127,43 +139,60 @@ export function Controls({ state, sendControlEvent }: Props) {
         )}
         <ControlsGroup>
           {canStartOver ? (
-            <PlayControlButton
-              id="app.restart"
-              onClick={handleClick}
-              disabled={!canStartOver}
-              title="Restart (ENTER)"
-            >
-              <StartOver fill={getIconFillColor(canStartOver)} />
-            </PlayControlButton>
+            <>
+              <PlayControlLabel htmlFor="app.restart">Restart</PlayControlLabel>
+              <PlayControlButton
+                id="app.restart"
+                onClick={handleClick}
+                disabled={!canStartOver}
+                title="Restart (ENTER)"
+              >
+                <StartOver fill={getIconFillColor(canStartOver)} />
+              </PlayControlButton>
+            </>
           ) : (
-            <PlayControlButton
-              id="controls.stop"
-              onClick={handleClick}
-              disabled={!canStop}
-              title="Stop (ESC)"
-            >
-              <Stop fill={getIconFillColor(canStop)} />
-            </PlayControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.stop">Stop</PlayControlLabel>
+              <PlayControlButton
+                id="controls.stop"
+                onClick={handleClick}
+                disabled={!canStop}
+                title="Stop (ESC)"
+              >
+                <Stop fill={getIconFillColor(canStop)} />
+              </PlayControlButton>
+            </>
           )}
           {canPause ? (
-            <PlayControlButton
-              id="controls.pause"
-              onClick={handleClick}
-              disabled={!canPause}
-              title="Pause (SPACE)"
-            >
-              <Pause fill={getIconFillColor(canPause)} />
-            </PlayControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.pause">
+                Pause
+              </PlayControlLabel>
+              <PlayControlButton
+                id="controls.pause"
+                onClick={handleClick}
+                disabled={!canPause}
+                title="Pause (SPACE)"
+              >
+                <Pause fill={getIconFillColor(canPause)} />
+              </PlayControlButton>
+            </>
           ) : (
-            <PlayControlButton
-              id="controls.play"
-              onClick={handleClick}
-              disabled={!canPlay}
-              title="Play (ENTER)"
-            >
-              <Play fill={getIconFillColor(canPlay)} />
-            </PlayControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.play">Play</PlayControlLabel>
+              <PlayControlButton
+                id="controls.play"
+                onClick={handleClick}
+                disabled={!canPlay}
+                title="Play (ENTER)"
+              >
+                <Play fill={getIconFillColor(canPlay)} />
+              </PlayControlButton>
+            </>
           )}
+          <PlayControlLabel htmlFor="controls.step.forward">
+            Step forward
+          </PlayControlLabel>
           <FlashingAppControlButton
             id="controls.step.forward"
             onClick={handleClick}
