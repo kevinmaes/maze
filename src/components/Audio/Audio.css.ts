@@ -6,7 +6,7 @@ export const AudioForm = styled.form`
   flex-direction: row;
   justify-content: space-between;
   width: 300px;
-  margin: 20px auto 45px auto;
+  margin: 5px auto 5px auto;
 `;
 
 export const VolumneContainer = styled.div`
