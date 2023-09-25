@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Fieldset, Form } from './Levers.css';
+import { Fieldset, Form, LeverSet } from './Levers.css';
 import { GenerationParams } from '../../types';
 
 const CellSize = {
@@ -48,7 +48,7 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
       }}
     >
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
-        <div>
+        <LeverSet>
           <GenerationParamInputLabel htmlFor="fps">
             FPS ({params.fps})
           </GenerationParamInputLabel>
@@ -62,8 +62,8 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             step={5}
             {...inputHandlers}
           />
-        </div>
-        <div>
+        </LeverSet>
+        <LeverSet>
           <GenerationParamInputLabel htmlFor="cellSize">
             Cell Size ({params.cellSize})
           </GenerationParamInputLabel>
@@ -77,8 +77,8 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             step={5}
             {...inputHandlers}
           />
-        </div>
-        <div>
+        </LeverSet>
+        <LeverSet>
           <GenerationParamInputLabel htmlFor="borderWeight">
             Border Weight ({params.borderWeight})
           </GenerationParamInputLabel>
@@ -91,8 +91,8 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             max="5"
             {...inputHandlers}
           />
-        </div>
-        <div>
+        </LeverSet>
+        <LeverSet>
           <GenerationParamInputLabel htmlFor="gridColumns">
             Grid Columns ({params.gridColumns})
           </GenerationParamInputLabel>
@@ -105,8 +105,8 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             max="25"
             {...inputHandlers}
           />
-        </div>
-        <div>
+        </LeverSet>
+        <LeverSet>
           <GenerationParamInputLabel htmlFor="gridRows">
             Grid Rows ({params.gridRows})
           </GenerationParamInputLabel>
@@ -119,7 +119,7 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             max="25"
             {...inputHandlers}
           />
-        </div>
+        </LeverSet>
       </Fieldset>
     </Form>
   );
