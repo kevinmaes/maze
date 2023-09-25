@@ -44,7 +44,7 @@ export default function App() {
         <h1>Maze Generation</h1>
         <h2>Recursive Backtracker</h2>
         <p>
-          <i>Next.js, XState, Canvas, TypeScript</i>
+          <i>React, XState, Canvas, TypeScript</i>
         </p>
 
         <Levers
