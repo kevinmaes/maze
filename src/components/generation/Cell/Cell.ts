@@ -7,6 +7,9 @@ import {
   CellStyle,
 } from './types';
 
+// The higher the multiplier, the faster the fade.
+const DECAY_MULTIPLIER = 0.00005;
+
 export default class Cell implements ICell {
   private connections: Connections;
   private walls: Walls;
@@ -189,8 +192,8 @@ export default class Cell implements ICell {
 
     // Slowly fade out visited cells.
     if (color === visitedColor && this.lastVisited) {
-      const decay = (Date.now() - this.lastVisited) * 0.00007;
-      color = `rgba(37, 99, 235, ${0.2 - decay})`;
+      const decay = (Date.now() - this.lastVisited) * DECAY_MULTIPLIER;
+      color = `rgba(37, 99, 235, ${0.4 - decay})`;
     }
 
     this.canvasCtx.fillStyle = color;

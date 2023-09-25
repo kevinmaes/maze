@@ -83,7 +83,7 @@ export default class Grid implements IGrid {
         borderWeight: this.borderWeight,
         cursorColor: 'white',
         size: this.cellSize,
-        visitedColor: 'rgba(37, 99, 235, 0.3)',
+        visitedColor: 'rgba(37, 99, 235, .4)',
       };
 
       const cell = new Cell(this.canvasCtx, cellPosition, cellStyle);
