@@ -52,9 +52,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
             type="range"
             name="fps"
             value={params.fps}
-            min="1"
+            min="5"
             max="60"
-            step={1}
+            step={5}
             {...inputHandlers}
           />
         </div>
