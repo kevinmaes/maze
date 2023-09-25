@@ -1,4 +1,4 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 
 import { Fieldset, Form } from './Levers.css';
 import { GenerationParams } from '../../types';
@@ -15,11 +15,21 @@ interface Props {
   updateFromLevers: (data: { name: string; value: number }) => void;
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  htmlFor: keyof GenerationParams;
+}
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: keyof GenerationParams;
   name: keyof GenerationParams;
 }
-function GenerationParamInput(inputProps: InputProps) {
-  return <input {...inputProps} />;
+
+function GenerationParamInputLabel(props: InputLabelProps) {
+  return <label {...props} />;
+}
+
+function GenerationParamInput(props: InputProps) {
+  return <input {...props} />;
 }
 
 export function Levers({ enabled, params, updateFromLevers }: Props) {
@@ -34,7 +44,9 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
     <Form>
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
         <div>
-          <label htmlFor="fps">FPS ({params.fps})</label>
+          <GenerationParamInputLabel htmlFor="fps">
+            FPS ({params.fps})
+          </GenerationParamInputLabel>
           <GenerationParamInput
             id="fps"
             type="range"
@@ -47,8 +59,10 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="cellSize">Cell Size ({params.cellSize})</label>
-          <input
+          <GenerationParamInputLabel htmlFor="cellSize">
+            Cell Size ({params.cellSize})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
             id="cellSize"
             type="range"
             name="cellSize"
@@ -60,10 +74,10 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="borderWeight">
+          <GenerationParamInputLabel htmlFor="borderWeight">
             Border Weight ({params.borderWeight})
-          </label>
-          <input
+          </GenerationParamInputLabel>
+          <GenerationParamInput
             id="borderWeight"
             type="range"
             name="borderWeight"
@@ -74,10 +88,10 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="gridColumns">
+          <GenerationParamInputLabel htmlFor="gridColumns">
             Grid Columns ({params.gridColumns})
-          </label>
-          <input
+          </GenerationParamInputLabel>
+          <GenerationParamInput
             id="gridColumns"
             type="range"
             name="gridColumns"
@@ -88,8 +102,10 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
           />
         </div>
         <div>
-          <label htmlFor="gridRows">Grid Rows ({params.gridRows})</label>
-          <input
+          <GenerationParamInputLabel htmlFor="gridRows">
+            Grid Rows ({params.gridRows})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
             id="gridRows"
             type="range"
             name="gridRows"
