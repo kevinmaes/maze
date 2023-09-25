@@ -20,31 +20,31 @@ import {
 } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 
-export interface AppControlLabelProps
+export interface PlayControlLabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
   htmlFor: ControlEvent['type'];
 }
 
-export interface AppControlButtonProps
+export interface PlayControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
 
-export function PlayControlLabel(props: AppControlLabelProps) {
+export function PlayControlLabel(props: PlayControlLabelProps) {
   const { children, ...rest } = props;
   return <HiddenLabel {...rest}>{children}</HiddenLabel>;
 }
 
-export function PlayControlButton(props: AppControlButtonProps) {
+export function PlayControlButton(props: PlayControlButtonProps) {
   const { children, ...rest } = props;
   return <ControlButton {...rest}>{children}</ControlButton>;
 }
 
-interface FlashingAppControlButtonProps extends AppControlButtonProps {
+interface FlashingPlayControlButtonProps extends PlayControlButtonProps {
   $animate: boolean;
 }
 
-function FlashingAppControlButton(props: FlashingAppControlButtonProps) {
+function FlashingAppControlButton(props: FlashingPlayControlButtonProps) {
   const { children, ...rest } = props;
   return <FlashingControlButton {...rest}>{children}</FlashingControlButton>;
 }
