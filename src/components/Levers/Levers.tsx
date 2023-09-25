@@ -41,7 +41,12 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
   const inputHandlers = { onChange: onLeverChange };
 
   return (
-    <Form>
+    <Form
+      id="levers"
+      onKeyDown={(e) => {
+        e.preventDefault();
+      }}
+    >
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
         <div>
           <GenerationParamInputLabel htmlFor="fps">

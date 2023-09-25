@@ -8,6 +8,7 @@ import { appMachine } from '../../statechart/app.machine';
 import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
 import { Audio } from '../Audio/Audio';
 import Head from 'next/head';
+import { useEffect } from 'react';
 
 declare const VERSION: string;
 
@@ -24,19 +25,15 @@ export default function App() {
     context: { generationParams, generationSessionId },
   } = state;
 
-  // useEffect(() => {
-  //   const subscription = appActor.subscribe((state) => {
-  //     const childMachine = state.children?.generationAlgorithmMachine;
-  //     if (childMachine) {
-  //       console.log(
-  //         'childMachine state value',
-  //         childMachine.getSnapshot().value
-  //       );
-  //     }
-  //   });
-
-  //   return subscription.unsubscribe;
-  // }, [appActor]); // note: service should never change
+  useEffect(() => {
+    function ignoreSpace(e: KeyboardEvent) {
+      if (e.key == ' ' && e.target == document.body) {
+        e.preventDefault();
+      }
+    }
+    window.addEventListener('keydown', ignoreSpace);
+    return () => window.removeEventListener('keydown', ignoreSpace);
+  }, []);
 
   return (
     <>
