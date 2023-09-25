@@ -205,42 +205,34 @@ export default class Cell implements ICell {
 
     const {
       canvasCtx,
-      cellStyle: { borderColor, borderWeight, size },
-      position: { isStart, isEnd },
+      cellStyle: { borderColor, edgeColor, borderWeight, size },
+      position: { isStart, isEnd, edges },
     } = this;
 
     canvasCtx.strokeStyle = borderColor;
     canvasCtx.lineWidth = borderWeight;
 
     if (this.walls.has('Top')) {
-      this.line(this.x, this.y, this.x + size, this.y, borderColor);
+      const color = edges.has('Top') ? edgeColor : borderColor;
+      this.line(this.x, this.y, this.x + size, this.y, color);
     }
 
     if (this.walls.has('Right')) {
       if (!isEnd) {
-        this.line(
-          this.x + size,
-          this.y,
-          this.x + size,
-          this.y + size,
-          borderColor
-        );
+        const color = edges.has('Right') ? edgeColor : borderColor;
+        this.line(this.x + size, this.y, this.x + size, this.y + size, color);
       }
     }
 
     if (this.walls.has('Bottom')) {
-      this.line(
-        this.x,
-        this.y + size,
-        this.x + size,
-        this.y + size,
-        borderColor
-      );
+      const color = edges.has('Bottom') ? edgeColor : borderColor;
+      this.line(this.x, this.y + size, this.x + size, this.y + size, color);
     }
 
     if (this.walls.has('Left')) {
       if (!isStart) {
-        this.line(this.x, this.y, this.x, this.y + size, borderColor);
+        const color = edges.has('Left') ? edgeColor : borderColor;
+        this.line(this.x, this.y, this.x, this.y + size, color);
       }
     }
   }

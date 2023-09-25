@@ -57,6 +57,14 @@ export default class Grid implements IGrid {
         this.blockedCells.find((cell) => cell.getIndex() === index)
       );
 
+      const edges = new Set<DirectionName>();
+      const rowIndex = getRowIndex(index, this.cols);
+      const columnIndex = getColumnIndex(index, this.cols);
+      if (rowIndex === 0) edges.add('Top');
+      if (columnIndex === this.cols - 1) edges.add('Right');
+      if (rowIndex === this.rows - 1) edges.add('Bottom');
+      if (columnIndex === 0) edges.add('Left');
+
       const cellPosition = {
         index,
         column: getColumnIndex(index, this.cols),
@@ -65,11 +73,13 @@ export default class Grid implements IGrid {
         isEnd: index === this.endIndex,
         isMiddle: index === middleIndex,
         isStart: index === this.startIndex,
+        edges,
       };
 
       const cellStyle = {
         backtrackColor: 'rgba(255,0,0, 0)',
         borderColor: 'white',
+        edgeColor: 'white',
         borderWeight: this.borderWeight,
         cursorColor: 'white',
         size: this.cellSize,
