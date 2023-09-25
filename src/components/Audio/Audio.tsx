@@ -115,6 +115,10 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         <Toggle
           id="arpeggio"
           $on={isArpeggio}
+          onKeyDown={(event) => {
+            // Blocks the Enter and Space keys from triggering the toggle
+            event.preventDefault();
+          }}
           onClick={() => toggleArpeggio((value) => !value)}
         />
         <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
