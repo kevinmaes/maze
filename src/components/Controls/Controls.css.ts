@@ -6,7 +6,7 @@ export const ControlsContainer = styled.div`
   border: 1px solid white;
   border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.2);
-  margin: 10px auto;
+  margin: 20px auto 45px auto;
 `;
 
 export const ControlsGroup = styled.div<{ flash?: boolean }>`

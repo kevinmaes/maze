@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { StateFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
@@ -16,30 +15,42 @@ import {
 } from './Controls.css';
 import {
   AppMachineEvent,
+  AppMachineState,
   ControlEvent,
-  appMachine,
 } from '../../statechart/app.machine';
+import { HiddenLabel } from '../shared/form.css';
 
-interface AppControlButtonProps
+export interface PlayControlLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  htmlFor: ControlEvent['type'];
+}
+
+export interface PlayControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
-function AppControlButton(props: AppControlButtonProps) {
+
+export function PlayControlLabel(props: PlayControlLabelProps) {
+  const { children, ...rest } = props;
+  return <HiddenLabel {...rest}>{children}</HiddenLabel>;
+}
+
+export function PlayControlButton(props: PlayControlButtonProps) {
   const { children, ...rest } = props;
   return <ControlButton {...rest}>{children}</ControlButton>;
 }
 
-interface FlashingAppControlButtonProps extends AppControlButtonProps {
+interface FlashingPlayControlButtonProps extends PlayControlButtonProps {
   $animate: boolean;
 }
 
-function FlashingAppControlButton(props: FlashingAppControlButtonProps) {
+function FlashingAppControlButton(props: FlashingPlayControlButtonProps) {
   const { children, ...rest } = props;
   return <FlashingControlButton {...rest}>{children}</FlashingControlButton>;
 }
 
 interface Props {
-  state: StateFrom<typeof appMachine>;
+  state: AppMachineState;
   sendControlEvent: (event: AppMachineEvent) => void;
 }
 
@@ -110,7 +121,7 @@ export function Controls({ state, sendControlEvent }: Props) {
     sendControlEvent(eventObj);
   };
 
-  const renderStateControls = (state: StateFrom<typeof appMachine>) => {
+  const renderStateControls = (state: AppMachineState) => {
     const canStartOver = state.can({ type: 'app.restart' });
     const canPlay = state.can({ type: 'controls.play' });
     const canPause = state.can({ type: 'controls.pause' });
@@ -128,43 +139,60 @@ export function Controls({ state, sendControlEvent }: Props) {
         )}
         <ControlsGroup>
           {canStartOver ? (
-            <AppControlButton
-              id="app.restart"
-              onClick={handleClick}
-              disabled={!canStartOver}
-              title="Restart (ENTER)"
-            >
-              <StartOver fill={getIconFillColor(canStartOver)} />
-            </AppControlButton>
+            <>
+              <PlayControlLabel htmlFor="app.restart">Restart</PlayControlLabel>
+              <PlayControlButton
+                id="app.restart"
+                onClick={handleClick}
+                disabled={!canStartOver}
+                title="Restart (ENTER)"
+              >
+                <StartOver fill={getIconFillColor(canStartOver)} />
+              </PlayControlButton>
+            </>
           ) : (
-            <AppControlButton
-              id="controls.stop"
-              onClick={handleClick}
-              disabled={!canStop}
-              title="Stop (ESC)"
-            >
-              <Stop fill={getIconFillColor(canStop)} />
-            </AppControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.stop">Stop</PlayControlLabel>
+              <PlayControlButton
+                id="controls.stop"
+                onClick={handleClick}
+                disabled={!canStop}
+                title="Stop (ESC)"
+              >
+                <Stop fill={getIconFillColor(canStop)} />
+              </PlayControlButton>
+            </>
           )}
           {canPause ? (
-            <AppControlButton
-              id="controls.pause"
-              onClick={handleClick}
-              disabled={!canPause}
-              title="Pause (SPACE)"
-            >
-              <Pause fill={getIconFillColor(canPause)} />
-            </AppControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.pause">
+                Pause
+              </PlayControlLabel>
+              <PlayControlButton
+                id="controls.pause"
+                onClick={handleClick}
+                disabled={!canPause}
+                title="Pause (SPACE)"
+              >
+                <Pause fill={getIconFillColor(canPause)} />
+              </PlayControlButton>
+            </>
           ) : (
-            <AppControlButton
-              id="controls.play"
-              onClick={handleClick}
-              disabled={!canPlay}
-              title="Play (ENTER)"
-            >
-              <Play fill={getIconFillColor(canPlay)} />
-            </AppControlButton>
+            <>
+              <PlayControlLabel htmlFor="controls.play">Play</PlayControlLabel>
+              <PlayControlButton
+                id="controls.play"
+                onClick={handleClick}
+                disabled={!canPlay}
+                title="Play (ENTER)"
+              >
+                <Play fill={getIconFillColor(canPlay)} />
+              </PlayControlButton>
+            </>
           )}
+          <PlayControlLabel htmlFor="controls.step.forward">
+            Step forward
+          </PlayControlLabel>
           <FlashingAppControlButton
             id="controls.step.forward"
             onClick={handleClick}

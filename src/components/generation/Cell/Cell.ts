@@ -122,15 +122,6 @@ export default class Cell implements ICell {
 
     this.setAsCursor();
 
-    if (!this.position.isStart && !this.position.isEnd) {
-      this.walls = new Set([
-        'Top',
-        'Right',
-        'Bottom',
-        'Left',
-      ] as DirectionName[]);
-    }
-
     if (prevCell) {
       this.connect(prevCell);
     }

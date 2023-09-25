@@ -1,6 +1,6 @@
-import React, { InputHTMLAttributes } from 'react';
+import React from 'react';
 
-import { Fieldset, Form } from './Levers.css';
+import { Fieldset, Form, LeverSet } from './Levers.css';
 import { GenerationParams } from '../../types';
 
 const CellSize = {
@@ -15,11 +15,21 @@ interface Props {
   updateFromLevers: (data: { name: string; value: number }) => void;
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  htmlFor: keyof GenerationParams;
+}
+
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  id: keyof GenerationParams;
   name: keyof GenerationParams;
 }
-function GenerationParamInput(inputProps: InputProps) {
-  return <input {...inputProps} />;
+
+function GenerationParamInputLabel(props: InputLabelProps) {
+  return <label {...props} />;
+}
+
+function GenerationParamInput(props: InputProps) {
+  return <input {...props} />;
 }
 
 export function Levers({ enabled, params, updateFromLevers }: Props) {
@@ -31,65 +41,87 @@ export function Levers({ enabled, params, updateFromLevers }: Props) {
   const inputHandlers = { onChange: onLeverChange };
 
   return (
-    <Form>
+    <Form
+      id="levers"
+      onKeyDown={(e) => {
+        e.preventDefault();
+      }}
+    >
       <Fieldset disabled={!enabled} data-test-id="levers-fieldset">
-        <div>
-          <label>FPS ({params.fps})</label>
+        <LeverSet>
+          <GenerationParamInputLabel htmlFor="fps">
+            FPS ({params.fps})
+          </GenerationParamInputLabel>
           <GenerationParamInput
+            id="fps"
             type="range"
             name="fps"
             value={params.fps}
-            min="1"
-            max="60"
-            step={1}
+            min="10"
+            max="200"
+            step="5"
             {...inputHandlers}
           />
-        </div>
-        <div>
-          <label>Cell Size ({params.cellSize})</label>
-          <input
+        </LeverSet>
+        <LeverSet>
+          <GenerationParamInputLabel htmlFor="cellSize">
+            Cell Size ({params.cellSize})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
+            id="cellSize"
             type="range"
             name="cellSize"
             value={params.cellSize}
             min={CellSize.MIN}
             max={CellSize.MAX}
-            step={5}
+            step="5"
             {...inputHandlers}
           />
-        </div>
-        <div>
-          <label>Border Weight ({params.borderWeight})</label>
-          <input
+        </LeverSet>
+        <LeverSet>
+          <GenerationParamInputLabel htmlFor="borderWeight">
+            Border Weight ({params.borderWeight})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
+            id="borderWeight"
             type="range"
             name="borderWeight"
             value={params.borderWeight}
             min="1"
-            max="10"
+            max="5"
             {...inputHandlers}
           />
-        </div>
-        <div>
-          <label>Grid Columns ({params.gridColumns})</label>
-          <input
+        </LeverSet>
+        <LeverSet>
+          <GenerationParamInputLabel htmlFor="gridColumns">
+            Grid Columns ({params.gridColumns})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
+            id="gridColumns"
             type="range"
             name="gridColumns"
             value={params.gridColumns}
-            min="2"
+            min="5"
             max="25"
+            step="5"
             {...inputHandlers}
           />
-        </div>
-        <div>
-          <label>Grid Rows ({params.gridRows})</label>
-          <input
+        </LeverSet>
+        <LeverSet>
+          <GenerationParamInputLabel htmlFor="gridRows">
+            Grid Rows ({params.gridRows})
+          </GenerationParamInputLabel>
+          <GenerationParamInput
+            id="gridRows"
             type="range"
             name="gridRows"
             value={params.gridRows}
-            min="2"
+            min="5"
             max="25"
+            step="5"
             {...inputHandlers}
           />
-        </div>
+        </LeverSet>
       </Fieldset>
     </Form>
   );

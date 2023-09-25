@@ -1,9 +1,9 @@
-import { EventFrom, assign, createMachine, sendTo } from 'xstate';
+import { EventFrom, StateFrom, assign, createMachine, sendTo } from 'xstate';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
 
-const FPS_DEFAULT = 30;
+const FPS_DEFAULT = 20;
 const BORDER_WEIGHT_DEFAULT = 2;
 const GRID_SIZE_DEFAULT = 15;
 
@@ -192,4 +192,5 @@ export const appMachine =
     }
   );
 
+export type AppMachineState = StateFrom<typeof appMachine>;
 export type AppMachineEvent = EventFrom<typeof appMachine>;
