@@ -11,6 +11,7 @@ import {
   AudioForm,
   Toggle,
   ToggleContainer,
+  Volume,
   VolumneContainer,
 } from './Audio.css';
 import { ControlButton } from '../Controls/Controls.css';
@@ -73,7 +74,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     );
   }, [generationSessionId, selectedAudio.startingNote, isArpeggio]);
 
-  const [volume /* setVolume */] = useState(0.5);
+  const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
 
   const [play] = useSound(selectedAudio.path, {
@@ -87,11 +88,11 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   prevRowIndexRef.current = rowIndex;
   prevFrequencyIndexRef.current = frequencyIndex;
 
-  // const inputHandlers = {
-  //   onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-  //     setVolume(event.target.valueAsNumber);
-  //   },
-  // };
+  const inputHandlers = {
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      setVolume(event.target.valueAsNumber);
+    },
+  };
 
   return (
     <AudioForm onSubmit={(event) => event.preventDefault()}>
@@ -99,6 +100,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
           id="audio.mute"
+          style={{ marginRight: '10px' }}
           onClick={() => {
             setIsMuted((prev) => !prev);
           }}
@@ -110,6 +112,17 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
             <SoundOn fill={getIconFillColor(!isMuted)} />
           )}
         </AudioControlButton>
+        <HiddenLabel htmlFor="volume">Volumne</HiddenLabel>
+        <Volume
+          disabled={isMuted}
+          type="range"
+          name="volumne"
+          value={volume}
+          min="0"
+          max="1"
+          step={0.1}
+          {...inputHandlers}
+        />
       </VolumneContainer>
       <ToggleContainer>
         <Toggle
@@ -123,17 +136,6 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         />
         <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
       </ToggleContainer>
-      {/* <HiddenLabel htmlFor="volume">Volumne</HiddenLabel> */}
-      {/* <input
-        disabled={isMuted}
-        type="range"
-        name="volumne"
-        value={volume}
-        min="0"
-        max="1"
-        step={0.1}
-        {...inputHandlers}
-      /> */}
     </AudioForm>
   );
 };

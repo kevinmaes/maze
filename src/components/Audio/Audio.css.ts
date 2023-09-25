@@ -4,12 +4,14 @@ export const AudioForm = styled.form`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 150px;
+  width: 300px;
   margin: 20px auto 45px auto;
 `;
 
 export const VolumneContainer = styled.div`
-  margin-right: 15px;
+  display: flex;
+  flex-direction: row;
+  margin-right: 10px;
 `;
 
 export const ToggleContainer = styled.div`
@@ -18,6 +20,11 @@ export const ToggleContainer = styled.div`
   justify-content: flex-start;
   align-items: center;
   min-width: 120px;
+  margin-right: 15px;
+`;
+
+export const Volume = styled.input`
+  margin-right: 15px;
 `;
 
 export const Toggle = styled.button<{ $on: boolean }>`
