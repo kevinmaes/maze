@@ -9,12 +9,12 @@ import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 
 import {
   AudioForm,
+  StyledAudioControlButton,
   Toggle,
   ToggleContainer,
   Volume,
   VolumneContainer,
 } from './Audio.css';
-import { ControlButton } from '../Controls/Controls.css';
 import { HiddenLabel } from '../shared/form.css';
 
 export interface AudioControlButtonProps
@@ -23,7 +23,9 @@ export interface AudioControlButtonProps
 }
 export function AudioControlButton(props: AudioControlButtonProps) {
   const { children, ...rest } = props;
-  return <ControlButton {...rest}>{children}</ControlButton>;
+  return (
+    <StyledAudioControlButton {...rest}>{children}</StyledAudioControlButton>
+  );
 }
 
 const iconFillColor = '#2563EB';
@@ -100,7 +102,6 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
           id="audio.mute"
-          style={{ marginRight: '10px' }}
           onClick={() => {
             setIsMuted((prev) => !prev);
           }}

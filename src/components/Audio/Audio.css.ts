@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { ControlButton } from '../Controls/Controls.css';
 
 export const AudioForm = styled.form`
   display: flex;
@@ -14,16 +15,20 @@ export const VolumneContainer = styled.div`
   margin-right: 10px;
 `;
 
+export const StyledAudioControlButton = styled(ControlButton)`
+  padding: 0 12px 0 14px;
+`;
+
+export const Volume = styled.input`
+  margin-right: 15px;
+`;
+
 export const ToggleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
   min-width: 120px;
-  margin-right: 15px;
-`;
-
-export const Volume = styled.input`
   margin-right: 15px;
 `;
 
