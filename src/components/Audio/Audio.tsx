@@ -37,12 +37,13 @@ const getIconFillColor = (enabled = false) => {
 
 interface Props {
   algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
+  generationSessionId: number;
 }
 
-export const Audio = ({ algorithmActor }: Props) => {
-  const selectedAudio = audioOptions[0];
+export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const [isArpeggio, toggleArpeggio] = useState(false);
 
+  const selectedAudio = audioOptions[0];
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
   const prevFrequencyIndexRef = useRef<number>(
@@ -67,6 +68,13 @@ export const Audio = ({ algorithmActor }: Props) => {
   const note = getNote(frequencyIndex, isArpeggio);
   const frequency = getNoteFrequency(note);
   const playbackRate = frequency / getNoteFrequency(selectedAudio.startingNote);
+
+  useEffect(() => {
+    prevFrequencyIndexRef.current = getStartingNoteFrequency(
+      selectedAudio.startingNote,
+      isArpeggio
+    );
+  }, [generationSessionId, selectedAudio.startingNote, isArpeggio]);
 
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
