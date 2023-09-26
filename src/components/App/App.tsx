@@ -5,7 +5,18 @@ import { Controls } from '../Controls/Controls';
 import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
 import { appMachine } from '../../statechart/app.machine';
-import { AppContainer, Footer, ImageHolder, Link, Version } from './App.css';
+import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
+import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
+import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
+import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
+import {
+  AppContainer,
+  Footer,
+  ImageHolder,
+  Link,
+  Technologies,
+  Version,
+} from './App.css';
 import { Audio } from '../Audio/Audio';
 import Head from 'next/head';
 import { useEffect } from 'react';
@@ -44,10 +55,6 @@ export default function App() {
       <AppContainer>
         <h1>Maze Generation</h1>
         <h2>Recursive Backtracker</h2>
-        <p>
-          <i>React, XState, Canvas, TypeScript</i>
-        </p>
-
         <Levers
           enabled={state.hasTag('levers enabled')}
           params={generationParams}
@@ -72,7 +79,13 @@ export default function App() {
         />
 
         <Footer>
-          <Version>{version}</Version>
+          <Technologies>
+            <ReactLogo />
+            <TypeScriptLogo />
+            <CanvasLogo />
+            <XStateLogo />
+          </Technologies>
+          <Version>v{version}</Version>
           <Link
             className="App-link"
             href="https://twitter.com/kvmaes"

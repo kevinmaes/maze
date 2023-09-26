@@ -33,9 +33,20 @@ export const ReplayButton = styled.button`
 `;
 
 export const Footer = styled.footer`
-  height: 200px;
+  height: 300px;
   line-height: 30px;
 `;
+
+export const Technologies = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 150px;
+`;
+
 export const Version = styled.h5`
   display: inline;
   margin-right: 10px;
