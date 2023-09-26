@@ -215,20 +215,27 @@ export const arpeggios: Record<'c', Mode> = {
   },
 };
 
+export const chords: Record<
+  'stranger-things',
+  Array<keyof typeof frequencies>
+> = {
+  'stranger-things': ['C3', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'],
+};
+
 export function getNote(frequencyIndex: number, isArpeggio: boolean) {
   const notes = isArpeggio ? arpeggios.c.major : diatonicScales.c.major;
   let index = frequencyIndex;
 
   // Cycles but stays at the low end and high end for a while.
-  // index = index % notes.length;
+  index = index % notes.length;
 
   // Randomly re-positions when exceeding the bounds of the notes array.
-  if (index < 0) {
-    index = 0;
-  }
-  if (index > notes.length - 1) {
-    index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
-  }
+  // if (index < 0) {
+  //   index = 0;
+  // }
+  // if (index > notes.length - 1) {
+  //   index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
+  // }
 
   return notes[index];
 }
