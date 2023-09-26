@@ -7,10 +7,14 @@ import {
   CellStyle,
 } from './types';
 
+// The higher the multiplier, the faster the fade.
+const DECAY_MULTIPLIER = 0.00005;
+
 export default class Cell implements ICell {
   private connections: Connections;
   private walls: Walls;
   private visited: boolean;
+  private lastVisited?: number;
   private backtrack: boolean;
   private isCursor = false;
 
@@ -119,6 +123,7 @@ export default class Cell implements ICell {
   visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;
+    this.lastVisited = Date.now();
 
     this.setAsCursor();
 
@@ -179,11 +184,17 @@ export default class Cell implements ICell {
 
   drawFill(color: string) {
     const {
-      cellStyle: { borderWeight, size },
+      cellStyle: { borderWeight, size, visitedColor },
     } = this;
 
     const fillX = this.x + 0.5 * borderWeight;
     const fillY = this.y + 0.5 * borderWeight;
+
+    // Slowly fade out visited cells.
+    if (color === visitedColor && this.lastVisited) {
+      const decay = (Date.now() - this.lastVisited) * DECAY_MULTIPLIER;
+      color = `rgba(37, 99, 235, ${0.4 - decay})`;
+    }
 
     this.canvasCtx.fillStyle = color;
     this.canvasCtx.fillRect(fillX, fillY, size, size);
@@ -197,42 +208,34 @@ export default class Cell implements ICell {
 
     const {
       canvasCtx,
-      cellStyle: { borderColor, borderWeight, size },
-      position: { isStart, isEnd },
+      cellStyle: { borderColor, edgeColor, borderWeight, size },
+      position: { isStart, isEnd, edges },
     } = this;
 
     canvasCtx.strokeStyle = borderColor;
     canvasCtx.lineWidth = borderWeight;
 
     if (this.walls.has('Top')) {
-      this.line(this.x, this.y, this.x + size, this.y, borderColor);
+      const color = edges.has('Top') ? edgeColor : borderColor;
+      this.line(this.x, this.y, this.x + size, this.y, color);
     }
 
     if (this.walls.has('Right')) {
       if (!isEnd) {
-        this.line(
-          this.x + size,
-          this.y,
-          this.x + size,
-          this.y + size,
-          borderColor
-        );
+        const color = edges.has('Right') ? edgeColor : borderColor;
+        this.line(this.x + size, this.y, this.x + size, this.y + size, color);
       }
     }
 
     if (this.walls.has('Bottom')) {
-      this.line(
-        this.x,
-        this.y + size,
-        this.x + size,
-        this.y + size,
-        borderColor
-      );
+      const color = edges.has('Bottom') ? edgeColor : borderColor;
+      this.line(this.x, this.y + size, this.x + size, this.y + size, color);
     }
 
     if (this.walls.has('Left')) {
       if (!isStart) {
-        this.line(this.x, this.y, this.x, this.y + size, borderColor);
+        const color = edges.has('Left') ? edgeColor : borderColor;
+        this.line(this.x, this.y, this.x, this.y + size, color);
       }
     }
   }
