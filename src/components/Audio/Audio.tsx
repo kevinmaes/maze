@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import useSound from 'use-sound';
 import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 import { ActorRefFrom } from 'xstate';
