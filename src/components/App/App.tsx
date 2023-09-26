@@ -58,7 +58,10 @@ export default function App() {
         />
 
         <Controls state={state} sendControlEvent={send} />
-        <Audio algorithmActor={state.children?.generationAlgorithmMachine} />
+        <Audio
+          algorithmActor={state.children?.generationAlgorithmMachine}
+          generationSessionId={generationSessionId}
+        />
         <Stage
           width={1000}
           height={1000}
