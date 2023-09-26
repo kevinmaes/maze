@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 import { ActorRefFrom } from 'xstate';
@@ -46,9 +46,11 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const selectedAudio = audioOptions[0];
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
-  const prevFrequencyIndexRef = useRef<number>(
-    getStartingNoteFrequency(selectedAudio.startingNote, isArpeggio)
+  const startingNoteFrequency = getStartingNoteFrequency(
+    selectedAudio.startingNote,
+    isArpeggio
   );
+  const prevFrequencyIndexRef = useRef<number>(startingNoteFrequency);
 
   const columnIndex =
     algorithmActor?.getSnapshot().context.currentCell?.getColumnIndex() ?? 0;
@@ -70,11 +72,8 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const playbackRate = frequency / getNoteFrequency(selectedAudio.startingNote);
 
   useEffect(() => {
-    prevFrequencyIndexRef.current = getStartingNoteFrequency(
-      selectedAudio.startingNote,
-      isArpeggio
-    );
-  }, [generationSessionId, selectedAudio.startingNote, isArpeggio]);
+    prevFrequencyIndexRef.current = startingNoteFrequency;
+  }, [generationSessionId, startingNoteFrequency]);
 
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
