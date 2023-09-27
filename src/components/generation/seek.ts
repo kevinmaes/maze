@@ -5,17 +5,9 @@ interface SeekOptions {
   grid: IGrid;
   pathId: string;
   current: ICell | null;
-  startIndex: number;
-  endIndex?: number | null;
 }
 
-export const seek = ({
-  grid,
-  pathId,
-  current,
-  startIndex = 0,
-  endIndex = null,
-}: SeekOptions): ICell => {
+export const seek = ({ grid, pathId, current }: SeekOptions): ICell => {
   let next;
   if (current) {
     next = grid.pickNeighbor(current);
@@ -27,12 +19,7 @@ export const seek = ({
       return next.visit(current, pathId);
     }
   } else {
-    if (endIndex !== null) {
-      next = grid.getCells()[endIndex];
-    } else {
-      next = grid.getCells()[startIndex];
-    }
-
+    next = grid.getStartCell();
     next.visit(null, pathId);
   }
 

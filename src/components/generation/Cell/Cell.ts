@@ -116,10 +116,6 @@ export default class Cell implements ICell {
     this.backtrack = true;
   }
 
-  setAsVisited() {
-    this.visited = true;
-  }
-
   visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;
@@ -196,8 +192,20 @@ export default class Cell implements ICell {
       color = `rgba(37, 99, 235, ${0.4 - decay})`;
     }
 
-    this.canvasCtx.fillStyle = color;
-    this.canvasCtx.fillRect(fillX, fillY, size, size);
+    if (this.isCursor) {
+      // For the cursor, add a smaller fill rect inside the larger one.
+      this.canvasCtx.fillStyle = visitedColor;
+      this.canvasCtx.fillRect(fillX, fillY, size, size);
+
+      const innerFillX = fillX + 4;
+      const innerFillY = fillY + 4;
+
+      this.canvasCtx.fillStyle = color;
+      this.canvasCtx.fillRect(innerFillX, innerFillY, size - 10, size - 10);
+    } else {
+      this.canvasCtx.fillStyle = color;
+      this.canvasCtx.fillRect(fillX, fillY, size, size);
+    }
   }
 
   drawWalls() {
