@@ -16,6 +16,7 @@ import {
   Link,
   Technologies,
   Version,
+  VersionContainer,
 } from './App.css';
 import { Audio } from '../Audio/Audio';
 import Head from 'next/head';
@@ -85,24 +86,26 @@ export default function App() {
             <CanvasLogo />
             <XStateLogo />
           </Technologies>
-          <Version>v{version}</Version>
-          <Link
-            className="App-link"
-            href="https://twitter.com/kvmaes"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <ImageHolder>
-              <Image
-                className="App-footer-image"
-                src={'/images/twitter-logo-transparent.png'}
-                alt="Twitter logo"
-                width="20"
-                height="16"
-              />
-            </ImageHolder>
-            @kvmaes
-          </Link>
+          <VersionContainer>
+            <Version>v{version}</Version>
+            <Link
+              className="App-link"
+              href="https://twitter.com/kvmaes"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ImageHolder>
+                <Image
+                  className="App-footer-image"
+                  src={'/images/twitter-x-logo.png'}
+                  alt="Twitter logo"
+                  width="18"
+                  height="18"
+                />
+              </ImageHolder>
+              @kvmaes
+            </Link>
+          </VersionContainer>
         </Footer>
       </AppContainer>
     </>
