@@ -116,10 +116,6 @@ export default class Cell implements ICell {
     this.backtrack = true;
   }
 
-  setAsVisited() {
-    this.visited = true;
-  }
-
   visit(prevCell: ICell | null, pathId: string): ICell {
     this.pathId = pathId;
     this.visited = true;

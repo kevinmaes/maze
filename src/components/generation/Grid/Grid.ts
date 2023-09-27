@@ -112,9 +112,9 @@ export default class Grid implements IGrid {
     return this.getCellAtIndex(this.startIndex);
   }
 
-  visitStartCell() {
+  visitStartCell(pathId: string) {
     const startCell = this.getStartCell();
-    startCell.setAsVisited();
+    startCell.visit(null, pathId);
     return startCell;
   }
 

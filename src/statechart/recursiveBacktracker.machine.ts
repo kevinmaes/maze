@@ -74,7 +74,7 @@ export const generationAlgorithmMachine =
         },
       },
       Initializing: {
-        entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
+        entry: ['initGeneration', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             guard: 'playing is allowed',
@@ -139,12 +139,9 @@ export const generationAlgorithmMachine =
     },
     actions: {
       initGeneration: assign({
-        currentCell: ({ context }) => context.grid.visitStartCell(),
+        currentCell: ({ context }) =>
+          context.grid.visitStartCell(context.pathId),
       }),
-      visitStartCell: ({ context }) => {
-        const currentCell = context.grid.visitStartCell();
-        return currentCell.visit(null, context.pathId);
-      },
       play: assign({ canPlay: true }),
       pause: assign({ canPlay: false }),
       findNeighbors: assign({

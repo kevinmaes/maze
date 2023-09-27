@@ -2,10 +2,10 @@ import { ICell } from '../Cell';
 
 export interface IGrid {
   getCanvasCtx: () => CanvasRenderingContext2D;
-  getStartCell: () => ICell;
   getColumns: () => number;
   getRows: () => number;
+  getStartCell: () => ICell;
+  visitStartCell: (pathId: string) => ICell;
   getNeighbors: (cell: ICell) => ICell[];
-  visitStartCell: () => ICell;
   pickNeighbor: (cell: ICell) => ICell;
 }
