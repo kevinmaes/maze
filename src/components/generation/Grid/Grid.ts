@@ -91,10 +91,6 @@ export default class Grid implements IGrid {
     }
   }
 
-  getCells() {
-    return this.cells;
-  }
-
   getRows() {
     return this.rows;
   }
@@ -103,14 +99,23 @@ export default class Grid implements IGrid {
     return this.cols;
   }
 
-  getStartCell() {
-    const startCell = this.getCellByIndex();
-    startCell.setAsVisited();
-    return startCell;
+  getCellAtIndex(index: number) {
+    if (index < 0 || index > this.cellTotal) {
+      throw new Error(
+        `Index ${index} is out of range. Must be between 0 and ${this.cellTotal}.`
+      );
+    }
+    return this.cells[index];
   }
 
-  getCellByIndex(index = 0) {
-    return this.cells[index];
+  getStartCell() {
+    return this.getCellAtIndex(this.startIndex);
+  }
+
+  visitStartCell() {
+    const startCell = this.getStartCell();
+    startCell.setAsVisited();
+    return startCell;
   }
 
   /**
@@ -150,8 +155,7 @@ export default class Grid implements IGrid {
 
   // Draw all cells.
   draw() {
-    const cells = this.getCells();
-    for (const cell of cells) {
+    for (const cell of this.cells) {
       cell.draw();
     }
   }
