@@ -81,7 +81,7 @@ export default class Grid implements IGrid {
         borderColor: 'white',
         edgeColor: 'white',
         borderWeight: this.borderWeight,
-        cursorColor: 'white',
+        cursorColor: 'rgba(236, 233, 168, 1)',
         size: this.cellSize,
         visitedColor: 'rgba(37, 99, 235, .4)',
       };
