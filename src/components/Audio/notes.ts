@@ -244,7 +244,6 @@ export function getStartingNoteIndex(audioConfig: AudioConfig) {
   const startingNoteIndexRet =
     startingNoteIndex ??
     sequence.indexOf(startingNote as keyof typeof frequencies);
-  console.log(startingNoteIndexRet);
   return startingNoteIndexRet;
 }
 
@@ -253,7 +252,6 @@ export function getNextNoteData(
   lastFrequencyIndex: number,
   visualIncrement: number
 ) {
-  // console.log('----');
   const { sequence, style } = audioConfig;
 
   // Get the next frequency index based on the audioConfig style.
@@ -268,25 +266,15 @@ export function getNextNoteData(
       nextFrequencyIndex += visualIncrement;
       if (nextFrequencyIndex < 0) {
         nextFrequencyIndex = Math.floor(Math.random() * sequence.length);
-        console.log('fixed low index', nextFrequencyIndex);
       } else if (nextFrequencyIndex > sequence.length - 1) {
         nextFrequencyIndex = Math.floor(Math.random() * sequence.length);
-        console.log('fixed high index', nextFrequencyIndex);
       }
       break;
     default:
   }
 
-  // console.log(
-  //   'nextFrequencyIndex',
-  //   nextFrequencyIndex,
-  //   'length: ',
-  //   sequence.length
-  // );
-
   const nextNote = audioConfig.sequence[nextFrequencyIndex];
   const nextFrequency = getNoteFrequency(nextNote);
-
   const startingNoteIndex = getStartingNoteIndex(audioConfig);
 
   const nextRelativePlaybackRate =

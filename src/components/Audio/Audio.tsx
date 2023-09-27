@@ -71,13 +71,6 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     visualIncrement
   );
 
-  // console.log(
-  //   nextFrequencyIndex,
-  //   nextFrequency,
-  //   nextNote,
-  //   nextRelativePlaybackRate
-  // );
-
   useEffect(() => {
     prevFrequencyIndexRef.current = startingNoteFrequencyIndex;
   }, [generationSessionId, startingNoteFrequencyIndex]);
