@@ -64,12 +64,11 @@ export default function App() {
             // Do we need to also INJECT_FPS into algo machine via props?
           }}
         />
-
-        <Controls state={state} sendControlEvent={send} />
         <Audio
           algorithmActor={state.children?.generationAlgorithmMachine}
           generationSessionId={generationSessionId}
         />
+        <Controls state={state} sendControlEvent={send} />
         <Stage
           width={1000}
           height={1000}
