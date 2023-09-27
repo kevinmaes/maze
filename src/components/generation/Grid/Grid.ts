@@ -48,7 +48,6 @@ export default class Grid implements IGrid {
   }
 
   create() {
-    // const middleColIndex = Math.floor(gridColumns / 2);
     const middleRowIndex = Math.floor(this.rows / 2);
     const middleIndex = middleRowIndex * this.cols + middleRowIndex;
 
