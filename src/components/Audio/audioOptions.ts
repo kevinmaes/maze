@@ -12,7 +12,7 @@ export type AudioConfig = {
     | 'visual-syncronized-random';
 };
 
-export const audioOptions: AudioConfig[] = [
+export const audioConfigOptions: AudioConfig[] = [
   {
     name: 'Marimba Scale',
     startingNote: 'C3',

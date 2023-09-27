@@ -3,19 +3,19 @@ import useSound from 'use-sound';
 import { getNextNoteData, getStartingNoteIndex } from './notes';
 import { ActorRefFrom } from 'xstate';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
-import { audioOptions } from './audioOptions';
+import { audioConfigOptions } from './audioOptions';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 
 import {
   AudioForm,
+  Select,
   StyledAudioControlButton,
-  Toggle,
-  ToggleContainer,
   Volume,
   VolumneContainer,
 } from './Audio.css';
 import { HiddenLabel } from '../shared/form.css';
+import { AudioConfig } from './audioOptions';
 
 export interface AudioControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -41,10 +41,9 @@ interface Props {
 }
 
 export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
-  const [isArpeggio, toggleArpeggio] = useState(false);
-
-  const selectedAudio = audioOptions[0];
-  const startingNoteFrequencyIndex = getStartingNoteIndex(selectedAudio);
+  const [audioConfigIndex, selectAudioConfigIndex] = useState(0);
+  const audioConfig = audioConfigOptions[audioConfigIndex];
+  const startingNoteFrequencyIndex = getStartingNoteIndex(audioConfig);
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
 
@@ -66,7 +65,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
         columnChange + rowChange;
 
   const { nextFrequencyIndex, nextRelativePlaybackRate } = getNextNoteData(
-    selectedAudio,
+    audioConfig,
     prevFrequencyIndexRef.current,
     visualIncrement
   );
@@ -78,7 +77,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
 
-  const [play] = useSound(selectedAudio.path, {
+  const [play] = useSound(audioConfig.path, {
     playbackRate: nextRelativePlaybackRate,
     volume: isMuted ? 0 : volume,
   });
@@ -103,6 +102,19 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       }}
       onSubmit={(event) => event.preventDefault()}
     >
+      <Select
+        onChange={(event) => {
+          selectAudioConfigIndex(Number(event.target.value));
+        }}
+      >
+        {audioConfigOptions.map((option: AudioConfig, index: number) => {
+          return (
+            <option key={option.name} value={index}>
+              {option.name}
+            </option>
+          );
+        })}
+      </Select>
       <VolumneContainer>
         <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
@@ -130,14 +142,6 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
           {...inputHandlers}
         />
       </VolumneContainer>
-      <ToggleContainer>
-        <Toggle
-          id="arpeggio"
-          $on={isArpeggio}
-          onClick={() => toggleArpeggio((value) => !value)}
-        />
-        <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
-      </ToggleContainer>
     </AudioForm>
   );
 };
