@@ -186,12 +186,6 @@ export default class Cell implements ICell {
     const fillX = this.x + 0.5 * borderWeight;
     const fillY = this.y + 0.5 * borderWeight;
 
-    // Slowly fade out visited cells.
-    if (color === visitedColor && this.lastVisited) {
-      const decay = (Date.now() - this.lastVisited) * DECAY_MULTIPLIER;
-      color = `rgba(37, 99, 235, ${0.4 - decay})`;
-    }
-
     if (this.isCursor) {
       // For the cursor, add a smaller fill rect inside the larger one.
       this.canvasCtx.fillStyle = visitedColor;
@@ -203,6 +197,11 @@ export default class Cell implements ICell {
       this.canvasCtx.fillStyle = color;
       this.canvasCtx.fillRect(innerFillX, innerFillY, size - 10, size - 10);
     } else {
+      // Slowly fade out visited cells (if not backtracked).
+      if (!this.backtrack && color === visitedColor && this.lastVisited) {
+        const decay = (Date.now() - this.lastVisited) * DECAY_MULTIPLIER;
+        color = `rgba(37, 99, 235, ${0.4 - decay})`;
+      }
       this.canvasCtx.fillStyle = color;
       this.canvasCtx.fillRect(fillX, fillY, size, size);
     }
