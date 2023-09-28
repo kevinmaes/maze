@@ -21,7 +21,7 @@
     "styled-components": "6.0.8",
     "url-loader": "^4.1.1",
     "use-sound": "^4.0.1",
-    "xstate": "5.0.0-beta.29"
+    "xstate": "5.0.0-beta.31"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
