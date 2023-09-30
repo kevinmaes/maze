@@ -30,7 +30,6 @@ export interface ICell {
   isBlocked: () => boolean;
   setAsBacktrack: () => void;
   setAsCursor: () => void;
-  setAsVisited: () => void;
   unsetAsCursor: () => void;
   visit: (prevCell: ICell | null, pathId: string) => ICell;
 }
