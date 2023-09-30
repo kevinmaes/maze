@@ -1,11 +1,13 @@
 import { arpeggios, diatonicScales, frequencies } from './notes';
 
+type Note = keyof typeof frequencies;
+
 export type AudioConfig = {
   name: string;
-  startingNote?: keyof typeof frequencies;
+  startingNote?: Note;
   startingNoteIndex?: number;
   path: string;
-  sequence: Array<keyof typeof frequencies>;
+  sequence: Note[];
   style:
     | 'ascending-cycle'
     | 'visual-syncronized-cycle'
@@ -13,6 +15,13 @@ export type AudioConfig = {
 };
 
 export const audioConfigOptions: AudioConfig[] = [
+  {
+    name: 'Marimba Chromatic',
+    startingNote: 'C3',
+    path: '/sounds/Ensoniq-ESQ-1-Marimba-C3.wav',
+    sequence: Object.keys(frequencies) as Note[],
+    style: 'visual-syncronized-cycle',
+  },
   {
     name: 'Marimba Scale',
     startingNote: 'C3',
