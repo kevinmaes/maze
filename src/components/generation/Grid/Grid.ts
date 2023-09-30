@@ -48,7 +48,6 @@ export default class Grid implements IGrid {
   }
 
   create() {
-    // const middleColIndex = Math.floor(gridColumns / 2);
     const middleRowIndex = Math.floor(this.rows / 2);
     const middleIndex = middleRowIndex * this.cols + middleRowIndex;
 
@@ -56,6 +55,14 @@ export default class Grid implements IGrid {
       const isBlocked = Boolean(
         this.blockedCells.find((cell) => cell.getIndex() === index)
       );
+
+      const edges = new Set<DirectionName>();
+      const rowIndex = getRowIndex(index, this.cols);
+      const columnIndex = getColumnIndex(index, this.cols);
+      if (rowIndex === 0) edges.add('Top');
+      if (columnIndex === this.cols - 1) edges.add('Right');
+      if (rowIndex === this.rows - 1) edges.add('Bottom');
+      if (columnIndex === 0) edges.add('Left');
 
       const cellPosition = {
         index,
@@ -65,25 +72,23 @@ export default class Grid implements IGrid {
         isEnd: index === this.endIndex,
         isMiddle: index === middleIndex,
         isStart: index === this.startIndex,
+        edges,
       };
 
       const cellStyle = {
         backtrackColor: 'rgba(255,0,0, 0)',
         borderColor: 'white',
+        edgeColor: 'white',
         borderWeight: this.borderWeight,
-        cursorColor: 'white',
+        cursorColor: 'rgba(236, 233, 168, 1)',
         size: this.cellSize,
-        visitedColor: 'rgba(236, 233, 168, 0.4)',
+        visitedColor: 'rgba(37, 99, 235, .4)',
       };
 
       const cell = new Cell(this.canvasCtx, cellPosition, cellStyle);
 
       this.cells.push(cell);
     }
-  }
-
-  getCells() {
-    return this.cells;
   }
 
   getRows() {
@@ -94,14 +99,23 @@ export default class Grid implements IGrid {
     return this.cols;
   }
 
-  getStartCell() {
-    const startCell = this.getCellByIndex();
-    startCell.setAsVisited();
-    return startCell;
+  getCellAtIndex(index: number) {
+    if (index < 0 || index > this.cellTotal) {
+      throw new Error(
+        `Index ${index} is out of range. Must be between 0 and ${this.cellTotal}.`
+      );
+    }
+    return this.cells[index];
   }
 
-  getCellByIndex(index = 0) {
-    return this.cells[index];
+  getStartCell() {
+    return this.getCellAtIndex(this.startIndex);
+  }
+
+  visitStartCell(pathId: string) {
+    const startCell = this.getStartCell();
+    startCell.visit(null, pathId);
+    return startCell;
   }
 
   /**
@@ -141,8 +155,7 @@ export default class Grid implements IGrid {
 
   // Draw all cells.
   draw() {
-    const cells = this.getCells();
-    for (const cell of cells) {
+    for (const cell of this.cells) {
       cell.draw();
     }
   }

@@ -74,7 +74,7 @@ export const generationAlgorithmMachine =
         },
       },
       Initializing: {
-        entry: ['initGeneration', 'visitStartCell', 'pushToStack'],
+        entry: ['setCurrentCellToStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             guard: 'playing is allowed',
@@ -138,29 +138,23 @@ export const generationAlgorithmMachine =
       'back at the start': ({ context: { stack } }) => stack.length === 0,
     },
     actions: {
-      initGeneration: assign({
-        currentCell: ({ context }) => context.grid.getStartCell(),
+      setCurrentCellToStartCell: assign({
+        currentCell: ({ context }) =>
+          context.grid.visitStartCell(context.pathId),
       }),
-      visitStartCell: ({ context }) => {
-        const currentCell = context.grid.getStartCell();
-        return currentCell.visit(null, context.pathId);
-      },
       play: assign({ canPlay: true }),
       pause: assign({ canPlay: false }),
       findNeighbors: assign({
         eligibleNeighbors: ({ context: { grid, currentCell } }) =>
           grid.getNeighbors(currentCell as ICell),
       }),
-      pickNextCell: assign(
-        ({ context: { grid, pathId, startIndex, currentCell } }) => ({
-          currentCell: seek({
-            grid,
-            pathId,
-            current: currentCell as ICell,
-            startIndex,
-          }),
-        })
-      ),
+      pickNextCell: assign(({ context: { grid, pathId, currentCell } }) => ({
+        currentCell: seek({
+          grid,
+          pathId,
+          current: currentCell as ICell,
+        }),
+      })),
       pushToStack: assign(({ context: { stack, currentCell } }) => {
         if (currentCell) {
           stack.push(currentCell);

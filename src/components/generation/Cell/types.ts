@@ -5,11 +5,13 @@ export interface CellPosition {
   isEnd: boolean;
   isStart: boolean;
   row: number;
+  edges: Set<DirectionName>;
 }
 
 export interface CellStyle {
   backtrackColor: string;
   borderColor: string;
+  edgeColor: string;
   borderWeight: number;
   size: number;
   cursorColor: string;
@@ -28,7 +30,6 @@ export interface ICell {
   isBlocked: () => boolean;
   setAsBacktrack: () => void;
   setAsCursor: () => void;
-  setAsVisited: () => void;
   unsetAsCursor: () => void;
   visit: (prevCell: ICell | null, pathId: string) => ICell;
 }
