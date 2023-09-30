@@ -33,22 +33,44 @@ export const ReplayButton = styled.button`
 `;
 
 export const Footer = styled.footer`
-  height: 200px;
+  height: 300px;
   line-height: 30px;
 `;
+
+export const Technologies = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin: 20px auto;
+  width: 150px;
+`;
+
+export const VersionContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 5px auto;
+  width: 150px;
+  height: 25px;
+`;
+
 export const Version = styled.h5`
   display: inline;
-  margin-right: 10px;
+  margin-right: 12px;
   color: #555;
 `;
 
 export const Link = styled.a`
   text-decoration: none;
+  line-height: 16px;
+  color: #0070f3;
+  display: inline;
 `;
 
 export const ImageHolder = styled.div`
-  display: inline;
-  height: 16px;
-  width: 20px;
-  margin: 0 2px -3px 0;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
 `;

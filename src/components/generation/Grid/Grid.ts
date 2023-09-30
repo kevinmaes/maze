@@ -48,7 +48,6 @@ export default class Grid implements IGrid {
   }
 
   create() {
-    // const middleColIndex = Math.floor(gridColumns / 2);
     const middleRowIndex = Math.floor(this.rows / 2);
     const middleIndex = middleRowIndex * this.cols + middleRowIndex;
 
@@ -81,7 +80,7 @@ export default class Grid implements IGrid {
         borderColor: 'white',
         edgeColor: 'white',
         borderWeight: this.borderWeight,
-        cursorColor: 'white',
+        cursorColor: 'rgba(236, 233, 168, 1)',
         size: this.cellSize,
         visitedColor: 'rgba(37, 99, 235, .4)',
       };
@@ -92,10 +91,6 @@ export default class Grid implements IGrid {
     }
   }
 
-  getCells() {
-    return this.cells;
-  }
-
   getRows() {
     return this.rows;
   }
@@ -104,14 +99,23 @@ export default class Grid implements IGrid {
     return this.cols;
   }
 
-  getStartCell() {
-    const startCell = this.getCellByIndex();
-    startCell.setAsVisited();
-    return startCell;
+  getCellAtIndex(index: number) {
+    if (index < 0 || index > this.cellTotal) {
+      throw new Error(
+        `Index ${index} is out of range. Must be between 0 and ${this.cellTotal}.`
+      );
+    }
+    return this.cells[index];
   }
 
-  getCellByIndex(index = 0) {
-    return this.cells[index];
+  getStartCell() {
+    return this.getCellAtIndex(this.startIndex);
+  }
+
+  visitStartCell(pathId: string) {
+    const startCell = this.getStartCell();
+    startCell.visit(null, pathId);
+    return startCell;
   }
 
   /**
@@ -151,8 +155,7 @@ export default class Grid implements IGrid {
 
   // Draw all cells.
   draw() {
-    const cells = this.getCells();
-    for (const cell of cells) {
+    for (const cell of this.cells) {
       cell.draw();
     }
   }
