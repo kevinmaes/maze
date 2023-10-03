@@ -21,20 +21,20 @@
     "styled-components": "6.0.8",
     "url-loader": "^4.1.1",
     "use-sound": "^4.0.1",
-    "xstate": "5.0.0-beta.29"
+    "xstate": "5.0.0-beta.32"
   },
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
-    "@types/aria-query": "5.0.1",
+    "@types/aria-query": "5.0.2",
     "@types/jest": "29.5.5",
     "@types/node": "^20.6.2",
-    "@types/react": "18.2.22",
-    "@types/react-dom": "18.2.7",
-    "@types/styled-components": "5.1.27",
+    "@types/react-dom": "18.2.8",
+    "@types/react": "18.2.24",
+    "@types/styled-components": "5.1.28",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
     "@typescript-eslint/typescript-estree": "6.7.4",
-    "eslint": "8.49.0",
+    "eslint": "8.50.0",
     "eslint-config-next": "13.4.19",
     "typescript": "5.2.2"
   }
