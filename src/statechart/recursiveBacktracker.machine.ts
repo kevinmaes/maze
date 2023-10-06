@@ -85,16 +85,8 @@ export const generationAlgorithmMachine =
       Seeking: {
         entry: [
           'findNeighbors',
-          sendParent(({ context }) => ({
+          sendParent(() => ({
             type: 'display.update',
-            data: {
-              cursorPosition: {
-                columnIndex: context.currentCell?.getColumnIndex(),
-                rowIndex: context.currentCell?.getRowIndex(),
-                maxColumnIndex: (context.grid as IGrid)?.getColumns() - 1,
-                maxRowIndex: (context.grid as IGrid).getRows() - 1,
-              },
-            },
           })),
         ],
         always: {
