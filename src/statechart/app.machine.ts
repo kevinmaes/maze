@@ -73,8 +73,9 @@ export const appMachine =
           invoke: {
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
-            input: ({ context }) => {
+            input: ({ context, self }) => {
               return {
+                parent: self,
                 canPlay: true,
                 fps: context.generationParams.fps,
                 grid: context.grid,

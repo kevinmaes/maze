@@ -1,4 +1,4 @@
-import { assign, createMachine, sendParent } from 'xstate';
+import { ActorRef, assign, createMachine, sendTo } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
@@ -7,6 +7,7 @@ import { seek } from '../components/generation/seek';
 import { AlgorithmGenerationParams } from '../types';
 
 interface AlgorithmContext extends AlgorithmGenerationParams {
+  parent: ActorRef<{ type: 'display.update' }, any>;
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
@@ -22,6 +23,7 @@ export const generationAlgorithmMachine =
     types: {} as {
       context: AlgorithmContext;
       input: {
+        parent: ActorRef<{ type: 'display.update' }, any>;
         canPlay: boolean;
         fps: number;
         grid: IGrid;
@@ -85,9 +87,12 @@ export const generationAlgorithmMachine =
       Seeking: {
         entry: [
           'findNeighbors',
-          sendParent(() => ({
-            type: 'display.update',
-          })),
+          sendTo(
+            ({ context }) => context.parent,
+            () => ({
+              type: 'display.update',
+            })
+          ),
         ],
         always: {
           target: 'Advancing',
@@ -119,7 +124,12 @@ export const generationAlgorithmMachine =
         ],
       },
       Finished: {
-        entry: sendParent({ type: 'generation.finish' }),
+        entry: sendTo(
+          ({ context }) => context.parent,
+          () => ({
+            type: 'display.update',
+          })
+        ),
       },
     },
   }).provide({
