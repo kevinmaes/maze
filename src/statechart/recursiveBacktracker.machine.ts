@@ -157,14 +157,16 @@ export const generationAlgorithmMachine =
       })),
       pushToStack: assign(({ context: { stack, currentCell } }) => {
         if (currentCell) {
-          stack.push(currentCell);
+          return {
+            stack: [...stack, currentCell],
+          };
         }
-        return { stack };
+        return {};
       }),
       popFromStack: assign(({ context: { stack } }) => {
         const prevCell = stack.pop();
         prevCell?.setAsBacktrack();
-        return { stack, currentCell: prevCell };
+        return { stack: [...stack], currentCell: prevCell };
       }),
     },
     delays: {
