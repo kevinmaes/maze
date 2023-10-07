@@ -6,8 +6,12 @@ import { ICell } from '../components/generation/Cell';
 import { seek } from '../components/generation/seek';
 import { AlgorithmGenerationParams } from '../types';
 
+type ParentUpdateEvent =
+  | { type: 'display.update' }
+  | { type: 'generation.finish' };
+
 interface AlgorithmContext extends AlgorithmGenerationParams {
-  parent: ActorRef<{ type: 'display.update' }, any>;
+  parent: ActorRef<ParentUpdateEvent, any>;
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
@@ -23,7 +27,7 @@ export const generationAlgorithmMachine =
     types: {} as {
       context: AlgorithmContext;
       input: {
-        parent: ActorRef<{ type: 'display.update' }, any>;
+        parent: ActorRef<ParentUpdateEvent, any>;
         canPlay: boolean;
         fps: number;
         grid: IGrid;
@@ -127,7 +131,7 @@ export const generationAlgorithmMachine =
         entry: sendTo(
           ({ context }) => context.parent,
           () => ({
-            type: 'display.update',
+            type: 'generation.finish',
           })
         ),
       },
