@@ -6,12 +6,14 @@ import { ICell } from '../components/generation/Cell';
 import { seek } from '../components/generation/seek';
 import { AlgorithmGenerationParams } from '../types';
 
-type ParentUpdateEvent =
-  | { type: 'display.update' }
-  | { type: 'generation.finish' };
+type ParentMachine = ActorRef<
+  { type: 'display.update' } | { type: 'generation.finish' },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  any
+>;
 
 interface AlgorithmContext extends AlgorithmGenerationParams {
-  parent: ActorRef<ParentUpdateEvent, any>;
+  parent: ParentMachine;
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
@@ -27,7 +29,7 @@ export const generationAlgorithmMachine =
     types: {} as {
       context: AlgorithmContext;
       input: {
-        parent: ActorRef<ParentUpdateEvent, any>;
+        parent: ParentMachine;
         canPlay: boolean;
         fps: number;
         grid: IGrid;
