@@ -1,4 +1,4 @@
-import { assign, createMachine, sendParent } from 'xstate';
+import { ActorRef, assign, createMachine, sendTo } from 'xstate';
 
 import type { IGrid } from '../components/generation/Grid';
 
@@ -6,7 +6,14 @@ import { ICell } from '../components/generation/Cell';
 import { seek } from '../components/generation/seek';
 import { AlgorithmGenerationParams } from '../types';
 
+type ParentMachine = ActorRef<
+  { type: 'display.update' } | { type: 'generation.finish' },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  any
+>;
+
 interface AlgorithmContext extends AlgorithmGenerationParams {
+  parent: ParentMachine;
   canPlay: boolean;
   currentCell: ICell | undefined;
   eligibleNeighbors: ICell[];
@@ -22,6 +29,7 @@ export const generationAlgorithmMachine =
     types: {} as {
       context: AlgorithmContext;
       input: {
+        parent: ParentMachine;
         canPlay: boolean;
         fps: number;
         grid: IGrid;
@@ -85,17 +93,12 @@ export const generationAlgorithmMachine =
       Seeking: {
         entry: [
           'findNeighbors',
-          sendParent(({ context }) => ({
-            type: 'display.update',
-            data: {
-              cursorPosition: {
-                columnIndex: context.currentCell?.getColumnIndex(),
-                rowIndex: context.currentCell?.getRowIndex(),
-                maxColumnIndex: (context.grid as IGrid)?.getColumns() - 1,
-                maxRowIndex: (context.grid as IGrid).getRows() - 1,
-              },
-            },
-          })),
+          sendTo(
+            ({ context }) => context.parent,
+            () => ({
+              type: 'display.update',
+            })
+          ),
         ],
         always: {
           target: 'Advancing',
@@ -127,7 +130,12 @@ export const generationAlgorithmMachine =
         ],
       },
       Finished: {
-        entry: sendParent({ type: 'generation.finish' }),
+        entry: sendTo(
+          ({ context }) => context.parent,
+          () => ({
+            type: 'generation.finish',
+          })
+        ),
       },
     },
   }).provide({
@@ -157,14 +165,16 @@ export const generationAlgorithmMachine =
       })),
       pushToStack: assign(({ context: { stack, currentCell } }) => {
         if (currentCell) {
-          stack.push(currentCell);
+          return {
+            stack: [...stack, currentCell],
+          };
         }
-        return { stack };
+        return {};
       }),
       popFromStack: assign(({ context: { stack } }) => {
         const prevCell = stack.pop();
         prevCell?.setAsBacktrack();
-        return { stack, currentCell: prevCell };
+        return { stack: [...stack], currentCell: prevCell };
       }),
     },
     delays: {
