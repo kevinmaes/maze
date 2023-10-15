@@ -96,10 +96,10 @@ export default function App() {
               <ImageHolder>
                 <Image
                   className="App-footer-image"
-                  src={'/images/twitter-x-logo.png'}
+                  src={'/images/twitter-logo-transparent.png'}
                   alt="Twitter logo"
-                  width="18"
-                  height="18"
+                  width="20"
+                  height="16"
                 />
               </ImageHolder>
               @kvmaes
