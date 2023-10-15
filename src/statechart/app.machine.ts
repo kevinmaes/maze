@@ -73,8 +73,9 @@ export const appMachine =
           invoke: {
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
-            input: ({ context }) => {
+            input: ({ context, self }) => {
               return {
+                parent: self,
                 canPlay: true,
                 fps: context.generationParams.fps,
                 grid: context.grid,
@@ -100,10 +101,14 @@ export const appMachine =
               },
             },
             Playing: {
-              entry: 'startGenerationAlgorithmMachine',
+              entry: sendTo('generationAlgorithmMachine', {
+                type: 'generation.start',
+              }),
               on: {
                 'controls.pause': {
-                  actions: 'pauseGenerationAlgorithmMachine',
+                  actions: sendTo('generationAlgorithmMachine', {
+                    type: 'controls.pause',
+                  }),
                   target: 'Paused',
                 },
                 'controls.stop': {
@@ -115,7 +120,9 @@ export const appMachine =
             Paused: {
               on: {
                 'controls.play': {
-                  actions: 'playGenerationAlgorithmMachine',
+                  actions: sendTo('generationAlgorithmMachine', {
+                    type: 'controls.play',
+                  }),
                   target: 'Playing',
                 },
                 'controls.stop': {
@@ -123,7 +130,9 @@ export const appMachine =
                   target: '#app.Idle',
                 },
                 'controls.step.forward': {
-                  actions: 'stepGenerationAlgorithmMachine',
+                  actions: sendTo('generationAlgorithmMachine', {
+                    type: 'controls.step.forward',
+                  }),
                 },
               },
             },
@@ -172,18 +181,6 @@ export const appMachine =
             }
             return context.generationParams;
           },
-        }),
-        startGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-          type: 'generation.start',
-        }),
-        playGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-          type: 'controls.play',
-        }),
-        pauseGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-          type: 'controls.pause',
-        }),
-        stepGenerationAlgorithmMachine: sendTo('generationAlgorithmMachine', {
-          type: 'controls.step.forward',
         }),
       },
       actors: {
