@@ -35,6 +35,7 @@ export function Footer() {
       <VersionContainer>
         <Link
           className="App-link"
+          title="View the maze generation on GitHub"
           href="https://github.com/kevinmaes/maze"
           target="_blank"
           rel="noreferrer"
@@ -46,6 +47,7 @@ export function Footer() {
         </Link>
         <Link
           className="App-link"
+          title="Maze generation statecharts at Stately Studio"
           href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370"
           target="_blank"
           rel="noreferrer"
@@ -56,6 +58,7 @@ export function Footer() {
         </Link>
         <Link
           className="App-link"
+          title="Follow me on Twitter"
           href="https://twitter.com/kvmaes"
           target="_blank"
           rel="noreferrer"
