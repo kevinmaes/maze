@@ -9,6 +9,7 @@ import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
 import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
 import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
 import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
+import GitHub from '../../assets/svg/logos/github-svgrepo-com.svg';
 import {
   AppContainer,
   Footer,
@@ -86,7 +87,17 @@ export default function App() {
             <XStateLogo />
           </Technologies>
           <VersionContainer>
-            <Version>v{version}</Version>
+            <Link
+              className="App-link"
+              href="https://github.com/kevinmaes/maze"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ImageHolder>
+                <GitHub />
+              </ImageHolder>
+              <Version>v{version}</Version>
+            </Link>
             <Link
               className="App-link"
               href="https://twitter.com/kvmaes"

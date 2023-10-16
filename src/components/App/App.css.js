@@ -50,21 +50,24 @@ export const Technologies = styled.div`
 export const VersionContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
   margin: 5px auto;
-  width: 150px;
+  width: 195px;
   height: 25px;
 `;
 
 export const Version = styled.h5`
   display: inline;
+  margin-left: 4px;
   margin-right: 12px;
   color: #555;
 `;
 
 export const Link = styled.a`
+  width: 180px;
   text-decoration: none;
-  line-height: 16px;
+  line-height: 20px;
   color: #0070f3;
   display: inline;
 `;
