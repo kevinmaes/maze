@@ -85,7 +85,6 @@ export default function App() {
             <ReactLogo />
             <TypeScriptLogo />
             <CanvasLogo />
-            {/* <StatelyLogo /> */}
             <XStateLogo />
           </Technologies>
           <VersionContainer>
