@@ -9,6 +9,7 @@ import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
 import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
 import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
 import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
+import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
 import GitHub from '../../assets/svg/logos/github.svg';
 import {
   AppContainer,
@@ -84,6 +85,7 @@ export default function App() {
             <ReactLogo />
             <TypeScriptLogo />
             <CanvasLogo />
+            {/* <StatelyLogo /> */}
             <XStateLogo />
           </Technologies>
           <VersionContainer>
@@ -97,6 +99,16 @@ export default function App() {
                 <GitHub />
               </ImageHolder>
               <Version>v{version}</Version>
+            </Link>
+            <Link
+              className="App-link"
+              href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <ImageHolder>
+                <StatelyLogo />
+              </ImageHolder>
             </Link>
             <Link
               className="App-link"

@@ -43,8 +43,8 @@ export const Technologies = styled.div`
   flex-direction: row;
   align-content: center;
   align-items: center;
-  margin: 20px auto;
-  width: 150px;
+  margin: 0 auto;
+  width: 180px;
 `;
 
 export const VersionContainer = styled.div`
@@ -53,8 +53,7 @@ export const VersionContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   margin: 5px auto;
-  width: 195px;
-  height: 25px;
+  width: 300px;
 `;
 
 export const Version = styled.h5`
@@ -65,7 +64,6 @@ export const Version = styled.h5`
 `;
 
 export const Link = styled.a`
-  width: 180px;
   text-decoration: none;
   line-height: 20px;
   color: #0070f3;
