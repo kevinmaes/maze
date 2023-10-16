@@ -9,7 +9,7 @@ import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
 import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
 import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
 import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
-import GitHub from '../../assets/svg/logos/github-svgrepo-com.svg';
+import GitHub from '../../assets/svg/logos/github.svg';
 import {
   AppContainer,
   Footer,
