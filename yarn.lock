@@ -4585,6 +4585,11 @@ xstate@5.0.0-beta.33:
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.0.0-beta.33.tgz#2f25ce90cc0d7b1c84a5183347f5cecb980e065e"
   integrity sha512-zHwbY2d2GGrsIySUCybrlq6YAPGM20yKpvliroDqfSbwa255Z1d7RYLkbbxiLx8SnEwDpWVple7JTXkjOw3JLA==
 
+xstate@5.0.0-beta.40:
+  version "5.0.0-beta.40"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.0.0-beta.40.tgz#ad81c909320175b816577a1c96347fb1e685093b"
+  integrity sha512-q3tGXbfaHC785Eol2YFU3NmYfRy3XIA/pN2m2rK2oHY5t70SCUO0TvmLqxheE5sB4yJI+47U6XX7pdCtCVA3hg==
+
 xstate@^4.33.4:
   version "4.38.2"
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-4.38.2.tgz#1b74544fc9c8c6c713ba77f81c6017e65aa89804"
