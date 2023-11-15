@@ -1722,26 +1722,26 @@
     "@typescript-eslint/types" "6.7.5"
     eslint-visitor-keys "^3.4.1"
 
-"@xstate/cli@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.5.tgz#a17562c6c39a5e32953f0b6b73eb542ecad36ab4"
-  integrity sha512-amRefk5q6Td1AG4tf827i+Df6IHw9yDakhUoY8xlkSbBLzGXWO+mNxjBvbxjBHP6+SOLxR9WyLqK1nTuYzvmdg==
+"@xstate/cli@^0.5.9":
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.9.tgz#7c7ceffe5824d4a025df915b0014c850e986448a"
+  integrity sha512-T/+BvLBErM+ieo/2ZcQCA6B/lkoJygAnEvCefy8L8E0tL5cPWEqI9uXm4ct33IOfyPqe8jc/iVJJd0ticZ7NnA==
   dependencies:
     "@babel/core" "^7.21.4"
-    "@xstate/machine-extractor" "^0.12.0"
-    "@xstate/tools-shared" "^4.0.2"
+    "@xstate/machine-extractor" "^0.12.1"
+    "@xstate/tools-shared" "^4.0.3"
     chokidar "^3.5.3"
     commander "^8.0.0"
     dotenv "^16.0.3"
     isomorphic-fetch "^3.0.0"
-    prettier "^2.8.7"
+    prettier "^2.8.8"
     xstate "^4.33.4"
     xstate-beta "npm:xstate@beta"
 
-"@xstate/machine-extractor@^0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@xstate/machine-extractor/-/machine-extractor-0.12.0.tgz#8987fa04b334b7a0cedbb67bfff6669ee7f7fe7c"
-  integrity sha512-M04o2hKXIgEGUqNwnDkxPfh3LK0paqHmYHQzZriNvDDdQXs11WS2hTyXFw/XmFwHZwoDrWVOovjtudvHrRXRwA==
+"@xstate/machine-extractor@^0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@xstate/machine-extractor/-/machine-extractor-0.12.1.tgz#e6543fdc133a14378486cae004c73f302eab461f"
+  integrity sha512-6hq+MYuUiiJ9QYX/3hmI5bXuAVihUQBezF9+rgl24oNo3PHcUGbwPAWPZoZjpkDyKAvZB17xC/EEgRU+EI2oNQ==
   dependencies:
     "@babel/parser" "^7.21.4"
     "@babel/traverse" "^7.21.4"
@@ -1756,13 +1756,13 @@
     use-isomorphic-layout-effect "^1.1.2"
     use-sync-external-store "^1.0.0"
 
-"@xstate/tools-shared@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@xstate/tools-shared/-/tools-shared-4.0.2.tgz#581c40198053f49b1e24a55ad613daf201e34ca9"
-  integrity sha512-go+thsv/WBg51fZQ5PGmFcOnE43TcYay11znD/OB9eNrIrEnEumRTsluZPSs3S9NsO5L2/Tx79S8Hj61Em5/oQ==
+"@xstate/tools-shared@^4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@xstate/tools-shared/-/tools-shared-4.0.3.tgz#2267f50a3ba3ed974a0b117049de25e89e06f002"
+  integrity sha512-pp71XLBzLsreCYsZHAFlYaSR2Ehqx0z7nyiCYoJjwsxDDJJ0/iwo7rOGyqAAN4lRy9hcLugjF/68OkpVN/Y4Tw==
   dependencies:
     "@statelyai/sky" "0.0.4"
-    "@xstate/machine-extractor" "^0.12.0"
+    "@xstate/machine-extractor" "^0.12.1"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
@@ -3834,7 +3834,7 @@ prelude-ls@^1.2.1:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
   integrity sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==
 
-prettier@^2.8.7:
+prettier@^2.8.8:
   version "2.8.8"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
   integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==

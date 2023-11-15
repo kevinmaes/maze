@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@xstate/cli": "^0.5.5",
+    "@xstate/cli": "^0.5.9",
     "@xstate/react": "4.0.0-beta.10",
     "file-loader": "^6.2.0",
     "lucide-react": "^0.286.0",
