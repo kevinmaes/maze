@@ -1741,10 +1741,10 @@
     "@babel/types" "^7.21.4"
     recast "^0.23.1"
 
-"@xstate/react@4.0.0-beta.10":
-  version "4.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/@xstate/react/-/react-4.0.0-beta.10.tgz#35b67128560b2fab685e3d3113c3392b1c93492e"
-  integrity sha512-S77ALlcoMYMiG9cVlf9qpcy0V6hZ6Va9K/jU4xidX21JsI6YI9i8HMtmMAiRbeV+chkwThe0otEEWFFUWXNHgg==
+"@xstate/react@4.0.0-beta.11":
+  version "4.0.0-beta.11"
+  resolved "https://registry.yarnpkg.com/@xstate/react/-/react-4.0.0-beta.11.tgz#14258127f876a64ce27f749f2aa6f3414fed6192"
+  integrity sha512-qjV7cr8pkeNCZOmxjy+HuJmWV1liyR5nkLQhKz0+Ugxnz/D/Pmp9forPFrHno6UqH2Q2lVFUnLLpocihhK/Znw==
   dependencies:
     use-isomorphic-layout-effect "^1.1.2"
     use-sync-external-store "^1.0.0"
