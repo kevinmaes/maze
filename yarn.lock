@@ -1722,10 +1722,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@xstate/cli@^0.5.11":
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.11.tgz#c33bce0ed15841b684c7bb42d3723834d43098aa"
-  integrity sha512-RqpOaUS0KSUfeJDn8wk+QzRbfxO0XxDg0nFGxA9L/XTuu504leJ3SVh3TqX11IqEo54Sr+qtJaWTtTJVKCc1UA==
+"@xstate/cli@^0.5.12":
+  version "0.5.12"
+  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.12.tgz#2b1006c1f8aa7ddb14de3341909ec3084a9fd703"
+  integrity sha512-LDeTaPMAvpIaA2OLUhA6Vz8GsdwMvzHyfMW5yd72Ss5UNuS/S85Di61bcKSqDixw5g06gkDueEjrhVRzqRTO3A==
   dependencies:
     "@babel/core" "^7.21.4"
     "@xstate/machine-extractor" "^0.13.0"
