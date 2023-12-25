@@ -1722,14 +1722,14 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@xstate/cli@^0.5.11":
-  version "0.5.11"
-  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.11.tgz#c33bce0ed15841b684c7bb42d3723834d43098aa"
-  integrity sha512-RqpOaUS0KSUfeJDn8wk+QzRbfxO0XxDg0nFGxA9L/XTuu504leJ3SVh3TqX11IqEo54Sr+qtJaWTtTJVKCc1UA==
+"@xstate/cli@^0.5.15":
+  version "0.5.15"
+  resolved "https://registry.yarnpkg.com/@xstate/cli/-/cli-0.5.15.tgz#a58e9bfe260001c92393d327b8a3dc029da8a659"
+  integrity sha512-AYrFHmX9qw/oBRvzHiWD20R8cGOIM68/bUI4iV3q2ARgRDZxGXJm7pdAu+IpBXMkjLvI3IpfUEZRogmSDNRk9w==
   dependencies:
     "@babel/core" "^7.21.4"
-    "@xstate/machine-extractor" "^0.13.0"
-    "@xstate/tools-shared" "^4.0.5"
+    "@xstate/machine-extractor" "^0.14.1"
+    "@xstate/tools-shared" "^4.0.8"
     chokidar "^3.5.3"
     commander "^8.0.0"
     dotenv "^16.0.3"
@@ -1738,10 +1738,10 @@
     xstate "^4.33.4"
     xstate-beta "npm:xstate@beta"
 
-"@xstate/machine-extractor@^0.13.0":
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/@xstate/machine-extractor/-/machine-extractor-0.13.0.tgz#93badaa8fff7daf6ea1cf15942df63a6549214e8"
-  integrity sha512-4basKJWMZmOe6LZu/x8y/fzt6lOEfkO2qTSr2QWSZ0bmaLf964U7lN7nPNIzcj//I5HEnGMtF/cVFBMdN6hIJg==
+"@xstate/machine-extractor@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@xstate/machine-extractor/-/machine-extractor-0.14.1.tgz#aac78138bbfcc15c0e3330f7e2798c829b0c3b53"
+  integrity sha512-6Qyl6Wyka4ievPH2Wps07YrK5opVJlqzK3FYJ0Vnxib+JmpXl0IhxKTWQTDgkVyLZ79oji/CQCfjponIUefjJw==
   dependencies:
     "@babel/parser" "^7.21.4"
     "@babel/traverse" "^7.21.4"
@@ -1756,12 +1756,12 @@
     use-isomorphic-layout-effect "^1.1.2"
     use-sync-external-store "^1.0.0"
 
-"@xstate/tools-shared@^4.0.5":
-  version "4.0.5"
-  resolved "https://registry.yarnpkg.com/@xstate/tools-shared/-/tools-shared-4.0.5.tgz#d5ecd5d586578c2eec68dcc069ba05dcb0d7cf26"
-  integrity sha512-A9xdk1Aw7bDmRIK6cv5yy+1vmK3S0neDrbeoS/B/A0JnYdhQJqPFB16qa8UrUmbaz79mjccAiqAxE5HNEOgm9A==
+"@xstate/tools-shared@^4.0.8":
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/@xstate/tools-shared/-/tools-shared-4.0.8.tgz#2560d84f0c3c4e6cceafa6d9dbe347b75e156778"
+  integrity sha512-+64do079XYd6snDjRTP9PWhCSjJp2daZqHWvzDcTc8Iq2kCrlgf93wg9t96NrdkOFFtBbumgLNiiSOY6Zh0BBg==
   dependencies:
-    "@xstate/machine-extractor" "^0.13.0"
+    "@xstate/machine-extractor" "^0.14.1"
 
 acorn-jsx@^5.3.2:
   version "5.3.2"
