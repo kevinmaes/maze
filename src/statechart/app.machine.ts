@@ -131,6 +131,7 @@ export const appMachine =
           },
         },
         Done: {
+          entry: 'drawGrid',
           on: {
             'app.restart': {
               actions: 'refreshGenerationSessionId',
