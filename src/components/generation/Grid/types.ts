@@ -1,6 +1,7 @@
 import { ICell } from '../Cell';
 
 export interface IGrid {
+  draw: () => void;
   getCanvasCtx: () => CanvasRenderingContext2D;
   getColumns: () => number;
   getRows: () => number;

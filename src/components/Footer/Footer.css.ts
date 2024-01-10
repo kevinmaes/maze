@@ -32,7 +32,7 @@ export const ReplayButton = styled.button`
   box-shadow: 2px 2px 15px 1px rgba(0, 0, 0, 0.4);
 `;
 
-export const Footer = styled.footer`
+export const FooterContainer = styled.footer`
   height: 300px;
   line-height: 30px;
 `;
@@ -43,28 +43,29 @@ export const Technologies = styled.div`
   flex-direction: row;
   align-content: center;
   align-items: center;
-  margin: 20px auto;
-  width: 150px;
+  margin: 0 auto;
+  width: 180px;
 `;
 
 export const VersionContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
   margin: 5px auto;
-  width: 150px;
-  height: 25px;
+  width: 300px;
 `;
 
 export const Version = styled.h5`
   display: inline;
+  margin-left: 4px;
   margin-right: 12px;
   color: #555;
 `;
 
 export const Link = styled.a`
   text-decoration: none;
-  line-height: 16px;
+  line-height: 20px;
   color: #0070f3;
   display: inline;
 `;
