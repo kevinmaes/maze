@@ -58,10 +58,6 @@ export function Stage({
     generationSessionId,
   ]);
 
-  if (gridRef.current && gridRef.current.getCanvasCtx()) {
-    gridRef.current.draw();
-  }
-
   const dw = Math.floor(pixelRatio * cellSize * gridColumns) + 2 * borderWeight;
   const dh = Math.floor(pixelRatio * cellSize * gridRows) + 2 * borderWeight;
 

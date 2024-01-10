@@ -40,9 +40,7 @@ export const appMachine =
           | {
               type: 'grid.inject';
               params: { grid: IGrid };
-            }
-          | { type: 'display.update' }
-          | { type: 'generation.finish' };
+            };
       },
       context: {
         mazeId: '',
@@ -63,7 +61,7 @@ export const appMachine =
           tags: 'levers enabled',
           on: {
             'grid.inject': {
-              actions: 'storeGrid',
+              actions: ['storeGrid', 'drawGrid'],
               target: 'Generating',
             },
           },
@@ -73,21 +71,15 @@ export const appMachine =
           invoke: {
             id: 'generationAlgorithmMachine',
             src: generationAlgorithmMachine,
-            input: ({ context, self }) => {
+            input: ({ context }) => {
               return {
-                parent: self,
                 canPlay: true,
                 fps: context.generationParams.fps,
                 grid: context.grid,
                 pathId: context.generationSessionId.toString(),
               };
             },
-          },
-          on: {
-            // TODO: Find out why this bug exists where the absence of listening to this 'display.update' event
-            // Causes the UI to not update during the generation state.
-            'display.update': {},
-            'generation.finish': {
+            onDone: {
               target: 'Done',
             },
           },
@@ -139,6 +131,7 @@ export const appMachine =
           },
         },
         Done: {
+          entry: 'drawGrid',
           on: {
             'app.restart': {
               actions: 'refreshGenerationSessionId',
@@ -156,6 +149,9 @@ export const appMachine =
     },
     {
       actions: {
+        drawGrid: ({ context }) => {
+          context.grid?.draw();
+        },
         storeGrid: assign({
           grid: ({ context, event }) => {
             if ('params' in event && 'grid' in event.params) {
