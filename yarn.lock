@@ -4534,10 +4534,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.0.0-beta.34.tgz#91de6c98386e09d2334745d178a3c87bff90ec51"
   integrity sha512-blGMNp1kogr7dC96hLnulXF5OS8lddlW1or4wUTqaDHYKZACdTvCuAuT3yTrNcDDR/ihZJtFc0NvMfZ8PBsJRg==
 
-xstate@5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.4.1.tgz#fe8ba0cbff24ce7d4d2d65b0ae8eb9acc93e8610"
-  integrity sha512-1DDT047hsTCSgm3BwLyb4sXQDmTdbLutc4ni0MLACgd2yX6vij35pnNNf1F4U6kQ8njx6NxQ6wpLjlh1lqs0NQ==
+xstate@5.5.1:
+  version "5.5.1"
+  resolved "https://registry.yarnpkg.com/xstate/-/xstate-5.5.1.tgz#279ee1a8c537278e5cae414964938ade045f6f2b"
+  integrity sha512-12Was43pPJKg3JWoelOREtTNYgFz6tRlNrMaRuqOibEe3pn8/uOWiP8ySMfOynyIjHUxd4BU7wV9O54Ma3FM6g==
 
 xstate@^4.33.4:
   version "4.38.2"
