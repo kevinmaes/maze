@@ -1756,10 +1756,10 @@
     "@babel/types" "^7.21.4"
     recast "^0.23.1"
 
-"@xstate/react@4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@xstate/react/-/react-4.0.2.tgz#97193ba96129e0cebf0ac7245dd355b723c1e37c"
-  integrity sha512-t5Xau/H8nS9nlowV+72RneqaQ/wqkQ8C/8ij4gEvHcoCQptc2REgZkjOpV74xyTabUZnUeYwdDTsMmz5ot3S+Q==
+"@xstate/react@4.0.3":
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/@xstate/react/-/react-4.0.3.tgz#038382f28ae050c6e6611cf4d072e542608f6a0c"
+  integrity sha512-yGxW6WljN04tyKxHrmejVdnKeRt26rzqNmJFYXtMZSUTDI98xFToI18eSoW2tSoyGRH/3Bmb8kUsa3l9Mr2E4Q==
   dependencies:
     use-isomorphic-layout-effect "^1.1.2"
     use-sync-external-store "^1.0.0"
