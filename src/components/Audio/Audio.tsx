@@ -52,32 +52,13 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   );
   const prevFrequencyIndexRef = useRef<number>(startingNoteFrequency);
 
-  const columnIndex =
-    algorithmActor?.getSnapshot().context.currentCell?.getColumnIndex() ?? 0;
-  const rowIndex =
-    algorithmActor?.getSnapshot().context.currentCell?.getRowIndex() ?? 0;
-
-  const columnChange: number = columnIndex - prevColumnIndexRef.current;
-  const rowChange: number = rowIndex - prevRowIndexRef.current;
-
-  const increment =
-    // If only moving one cell at a time, increment by one in either direction
-    Math.abs(Math.max(columnChange, rowChange)) <= 1
-      ? columnChange || rowChange
-      : // Otherwise combine changes in both directions.
-        columnChange + rowChange;
-  const frequencyIndex = prevFrequencyIndexRef.current + increment;
-  const note = getNote(frequencyIndex, isArpeggio);
-  const frequency = getNoteFrequency(note);
-  const playbackRate = frequency / getNoteFrequency(selectedAudio.startingNote);
-
   useEffect(() => {
     prevFrequencyIndexRef.current = startingNoteFrequency;
   }, [generationSessionId, startingNoteFrequency]);
 
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
-
+  const [playbackRate, setPlaybackRate] = useState(1);
   const [play] = useSound(selectedAudio.path, {
     playbackRate,
     volume: isMuted ? 0 : volume,
@@ -85,15 +66,44 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
 
   play();
 
-  prevColumnIndexRef.current = columnIndex;
-  prevRowIndexRef.current = rowIndex;
-  prevFrequencyIndexRef.current = frequencyIndex;
-
   const inputHandlers = {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       setVolume(event.target.valueAsNumber);
     },
   };
+
+  useEffect(() => {
+    algorithmActor?.subscribe((state) => {
+      const columnIndex = state.context.currentCell?.getColumnIndex() ?? 0;
+      const rowIndex = state.context.currentCell?.getRowIndex() ?? 0;
+      const columnChange: number = columnIndex - prevColumnIndexRef.current;
+      const rowChange: number = rowIndex - prevRowIndexRef.current;
+
+      const increment =
+        // If only moving one cell at a time, increment by one in either direction
+        Math.abs(Math.max(columnChange, rowChange)) <= 1
+          ? columnChange || rowChange
+          : // Otherwise combine changes in both directions.
+            columnChange + rowChange;
+      const frequencyIndex = prevFrequencyIndexRef.current + increment;
+      const note = getNote(frequencyIndex, isArpeggio);
+      const frequency = getNoteFrequency(note);
+      const playbackRate =
+        frequency / getNoteFrequency(selectedAudio.startingNote);
+
+      setPlaybackRate(playbackRate);
+
+      prevColumnIndexRef.current = columnIndex;
+      prevRowIndexRef.current = rowIndex;
+      prevFrequencyIndexRef.current = frequencyIndex;
+    });
+  }, [
+    algorithmActor,
+    isArpeggio,
+    play,
+    setPlaybackRate,
+    selectedAudio.startingNote,
+  ]);
 
   return (
     <AudioForm
