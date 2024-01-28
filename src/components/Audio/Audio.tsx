@@ -74,6 +74,14 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
 
   useEffect(() => {
     algorithmActor?.subscribe((state) => {
+      // Only reinitialize audio values if restarting the maze generation
+      if (state.matches('Initializing')) {
+        prevColumnIndexRef.current = 0;
+        prevRowIndexRef.current = 0;
+        prevFrequencyIndexRef.current = startingNoteFrequency;
+        return;
+      }
+
       const columnIndex = state.context.currentCell?.getColumnIndex() ?? 0;
       const rowIndex = state.context.currentCell?.getRowIndex() ?? 0;
       const columnChange: number = columnIndex - prevColumnIndexRef.current;
@@ -101,6 +109,7 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
     algorithmActor,
     isArpeggio,
     play,
+    startingNoteFrequency,
     setPlaybackRate,
     selectedAudio.startingNote,
   ]);
