@@ -1,11 +1,4 @@
-import {
-  EventFrom,
-  StateFrom,
-  assign,
-  createMachine,
-  sendTo,
-  setup,
-} from 'xstate';
+import { EventFrom, StateFrom, assign, sendTo, setup } from 'xstate';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
@@ -45,20 +38,15 @@ export const appMachine =
           }
         | {
             type: 'grid.inject';
-            params: { grid: IGrid };
+            grid: IGrid;
           };
     },
     actions: {
-      drawGrid: ({ context }) => {
-        context.grid?.draw();
+      drawGrid: (_, params: { grid: IGrid | null }) => {
+        params.grid?.draw();
       },
       storeGrid: assign({
-        grid: ({ context, event }) => {
-          if ('params' in event && 'grid' in event.params) {
-            return event.params.grid;
-          }
-          return context.grid;
-        },
+        grid: (_, params: { grid: IGrid }) => params.grid,
       }),
       refreshGenerationSessionId: assign({
         generationSessionId: () => new Date().getTime(),
@@ -102,7 +90,18 @@ export const appMachine =
         tags: 'levers enabled',
         on: {
           'grid.inject': {
-            actions: ['storeGrid', 'drawGrid'],
+            actions: [
+              {
+                type: 'storeGrid',
+                params: ({ event }) => ({ grid: event.grid }),
+              },
+              {
+                type: 'drawGrid',
+                params: ({ context }) => ({
+                  grid: context.grid,
+                }),
+              },
+            ],
             target: 'Generating',
           },
         },
@@ -172,7 +171,10 @@ export const appMachine =
         },
       },
       Done: {
-        entry: 'drawGrid',
+        entry: {
+          type: 'drawGrid',
+          params: ({ context }) => ({ grid: context.grid }),
+        },
         on: {
           'app.restart': {
             actions: 'refreshGenerationSessionId',
