@@ -52,7 +52,7 @@ export function Footer() {
           target="_blank"
           rel="noreferrer"
         >
-          <ImageHolder>
+          <ImageHolder style={{ paddingTop: '5px' }}>
             <StatelyLogo />
           </ImageHolder>
         </Link>
