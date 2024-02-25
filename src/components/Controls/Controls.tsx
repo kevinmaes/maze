@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 
+import { useSelector } from '@xstate/react';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
 import {
+  AppMachineContext,
   AppMachineEvent,
-  AppMachineState,
   ControlEvent,
 } from '../../statechart/app.machine';
 import { Keyboard } from '../Keyboard/Keyboard';
@@ -49,11 +50,6 @@ function FlashingAppControlButton(props: FlashingPlayControlButtonProps) {
   return <FlashingControlButton {...rest}>{children}</FlashingControlButton>;
 }
 
-interface Props {
-  state: AppMachineState;
-  sendControlEvent: (event: AppMachineEvent) => void;
-}
-
 const iconFillColor = '#2563EB';
 const iconFillDisabledColor = '#D3D3D3';
 // const iconFillInitializingColor = '#72B0FF';
@@ -61,7 +57,10 @@ const iconFillDisabledColor = '#D3D3D3';
 const getIconFillColor = (enabled = false) =>
   enabled ? iconFillColor : iconFillDisabledColor;
 
-export function Controls({ state, sendControlEvent }: Props) {
+export function Controls() {
+  const actorRef = AppMachineContext.useActorRef();
+  const state = useSelector(actorRef, (state) => state);
+
   const [flashStepForward, setFlashStepForward] = useState(false);
 
   const keyHandlers = {
@@ -70,7 +69,7 @@ export function Controls({ state, sendControlEvent }: Props) {
         if (state.can({ type: 'controls.step.forward' })) {
           setFlashStepForward(true);
           setTimeout(() => setFlashStepForward(false), 200);
-          sendControlEvent({ type: 'controls.step.forward' });
+          actorRef.send({ type: 'controls.step.forward' });
         }
       }
     },
@@ -79,26 +78,26 @@ export function Controls({ state, sendControlEvent }: Props) {
         case ' ':
         case 'Enter': {
           if (state.can({ type: 'controls.play' })) {
-            sendControlEvent({ type: 'controls.play' });
+            actorRef.send({ type: 'controls.play' });
           }
           if (state.can({ type: 'controls.pause' })) {
-            sendControlEvent({ type: 'controls.pause' });
+            actorRef.send({ type: 'controls.pause' });
           }
           if (state.can({ type: 'app.restart' })) {
-            sendControlEvent({ type: 'app.restart' });
+            actorRef.send({ type: 'app.restart' });
           }
           break;
         }
 
         case 'ArrowLeft': {
           if (state.can({ type: 'app.restart' })) {
-            sendControlEvent({ type: 'app.restart' });
+            actorRef.send({ type: 'app.restart' });
           }
           break;
         }
         case 'Escape': {
           if (state.can({ type: 'controls.stop' })) {
-            sendControlEvent({ type: 'controls.stop' });
+            actorRef.send({ type: 'controls.stop' });
           }
           break;
         }
@@ -118,7 +117,7 @@ export function Controls({ state, sendControlEvent }: Props) {
       return;
     }
     const eventObj = { type: id } as AppMachineEvent;
-    sendControlEvent(eventObj);
+    actorRef.send(eventObj);
   }
 
   const canStartOver = state.can({ type: 'app.restart' });
