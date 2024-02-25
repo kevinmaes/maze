@@ -28,7 +28,7 @@ export const appMachine =
         mazeId: string;
         generationParams: GenerationParams;
         grid: IGrid | null;
-        generationSessionId?: number;
+        generationSessionId: number;
       };
       events:
         | ControlEvent
@@ -58,6 +58,7 @@ export const appMachine =
         gridRows: GRID_SIZE_DEFAULT,
       },
       grid: null,
+      generationSessionId: new Date().getTime(),
     },
     id: 'app',
     initial: 'Idle',
@@ -92,7 +93,7 @@ export const appMachine =
               canPlay: true,
               fps: context.generationParams.fps,
               grid: context.grid,
-              pathId: context.generationSessionId?.toString() ?? '',
+              pathId: context.generationSessionId.toString(),
             };
           },
           onDone: {
