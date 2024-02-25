@@ -1,4 +1,11 @@
-import { EventFrom, StateFrom, assign, sendTo, setup } from 'xstate';
+import {
+  EventFrom,
+  StateFrom,
+  assign,
+  createMachine,
+  sendTo,
+  setup,
+} from 'xstate';
 import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
@@ -67,9 +74,9 @@ export const appMachine =
         },
       }),
     },
-    // actors: {
-    //   generationAlgorithmMachine,
-    // },
+    actors: {
+      generationAlgorithmMachine,
+    },
   }).createMachine({
     context: {
       mazeId: '',
@@ -109,8 +116,8 @@ export const appMachine =
       Generating: {
         initial: 'Initializing',
         invoke: {
-          id: 'generationAlgorithmMachine',
-          src: generationAlgorithmMachine,
+          // id: 'generationAlgorithmMachine',
+          src: createMachine(generationAlgorithmMachine),
           input: ({ context }) => {
             return {
               canPlay: true,
