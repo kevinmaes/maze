@@ -42,12 +42,10 @@ export default function App() {
             send({ type: 'generation.param.set', params: data });
           }}
         />
-        {state.children?.generationAlgorithmMachine && (
-          <Audio
-            algorithmActor={state.children?.generationAlgorithmMachine}
-            generationSessionId={generationSessionId}
-          />
-        )}
+        <Audio
+          algorithmActor={state.children?.generationAlgorithmMachine}
+          generationSessionId={generationSessionId}
+        />
         <Controls state={state} sendControlEvent={send} />
         <Stage
           width={1000}
