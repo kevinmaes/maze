@@ -107,7 +107,7 @@ export function Controls({ state, sendControlEvent }: Props) {
     },
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     const {
       currentTarget: { id },
     } = event;
@@ -119,98 +119,92 @@ export function Controls({ state, sendControlEvent }: Props) {
     }
     const eventObj = { type: id } as AppMachineEvent;
     sendControlEvent(eventObj);
-  };
+  }
 
-  const renderStateControls = (state: AppMachineState) => {
-    const canStartOver = state.can({ type: 'app.restart' });
-    const canPlay = state.can({ type: 'controls.play' });
-    const canPause = state.can({ type: 'controls.pause' });
-    const canStop = state.can({ type: 'controls.stop' });
-    const canStepForward = state.can({ type: 'controls.step.forward' });
+  const canStartOver = state.can({ type: 'app.restart' });
+  const canPlay = state.can({ type: 'controls.play' });
+  const canPause = state.can({ type: 'controls.pause' });
+  const canStop = state.can({ type: 'controls.stop' });
+  const canStepForward = state.can({ type: 'controls.step.forward' });
 
-    return (
-      <div>
-        {typeof window !== 'undefined' && (
-          <Keyboard
-            eventEmitter={window.document}
-            handlers={keyHandlers}
-            state={JSON.stringify(state.value)}
-          />
+  return (
+    <ControlsContainer>
+      {typeof window !== 'undefined' && (
+        <Keyboard
+          eventEmitter={window.document}
+          handlers={keyHandlers}
+          state={JSON.stringify(state.value)}
+        />
+      )}
+      <ControlsGroup>
+        {canStartOver ? (
+          <>
+            <PlayControlLabel htmlFor="app.restart">Restart</PlayControlLabel>
+            <PlayControlButton
+              id="app.restart"
+              onClick={handleClick}
+              disabled={!canStartOver}
+              title="Restart (ENTER)"
+            >
+              <StartOver fill={getIconFillColor(canStartOver)} />
+            </PlayControlButton>
+          </>
+        ) : (
+          <>
+            <PlayControlLabel htmlFor="controls.stop">Stop</PlayControlLabel>
+            <PlayControlButton
+              id="controls.stop"
+              onClick={handleClick}
+              disabled={!canStop}
+              title="Stop (ESC)"
+            >
+              <Stop fill={getIconFillColor(canStop)} />
+            </PlayControlButton>
+          </>
         )}
-        <ControlsGroup>
-          {canStartOver ? (
-            <>
-              <PlayControlLabel htmlFor="app.restart">Restart</PlayControlLabel>
-              <PlayControlButton
-                id="app.restart"
-                onClick={handleClick}
-                disabled={!canStartOver}
-                title="Restart (ENTER)"
-              >
-                <StartOver fill={getIconFillColor(canStartOver)} />
-              </PlayControlButton>
-            </>
-          ) : (
-            <>
-              <PlayControlLabel htmlFor="controls.stop">Stop</PlayControlLabel>
-              <PlayControlButton
-                id="controls.stop"
-                onClick={handleClick}
-                disabled={!canStop}
-                title="Stop (ESC)"
-              >
-                <Stop fill={getIconFillColor(canStop)} />
-              </PlayControlButton>
-            </>
-          )}
-          {canPause ? (
-            <>
-              <PlayControlLabel htmlFor="controls.pause">
-                Pause
-              </PlayControlLabel>
-              <PlayControlButton
-                id="controls.pause"
-                onClick={handleClick}
-                disabled={!canPause}
-                title="Pause (SPACE)"
-              >
-                <Pause fill={getIconFillColor(canPause)} />
-              </PlayControlButton>
-            </>
-          ) : (
-            <>
-              <PlayControlLabel htmlFor="controls.play">Play</PlayControlLabel>
-              <PlayControlButton
-                id="controls.play"
-                onClick={handleClick}
-                disabled={!canPlay}
-                title="Play (ENTER)"
-              >
-                <Play fill={getIconFillColor(canPlay)} />
-              </PlayControlButton>
-            </>
-          )}
-          <PlayControlLabel htmlFor="controls.step.forward">
-            Step forward
-          </PlayControlLabel>
-          <FlashingAppControlButton
-            id="controls.step.forward"
-            onClick={handleClick}
-            disabled={!canStepForward}
-            title="Step Forward (RIGHT ARROW)"
-            $animate={flashStepForward}
-          >
-            <StepForward fill={getIconFillColor(canStepForward)} />
-          </FlashingAppControlButton>
-        </ControlsGroup>
-        {state.matches({
-          Generating: 'Initializing',
-        }) ? (
-          <Prompt>Press ENTER to start</Prompt>
-        ) : null}
-      </div>
-    );
-  };
-
-  return <ControlsContainer>{renderStateControls(state)}</ControlsContainer>;
+        {canPause ? (
+          <>
+            <PlayControlLabel htmlFor="controls.pause">Pause</PlayControlLabel>
+            <PlayControlButton
+              id="controls.pause"
+              onClick={handleClick}
+              disabled={!canPause}
+              title="Pause (SPACE)"
+            >
+              <Pause fill={getIconFillColor(canPause)} />
+            </PlayControlButton>
+          </>
+        ) : (
+          <>
+            <PlayControlLabel htmlFor="controls.play">Play</PlayControlLabel>
+            <PlayControlButton
+              id="controls.play"
+              onClick={handleClick}
+              disabled={!canPlay}
+              title="Play (ENTER)"
+            >
+              <Play fill={getIconFillColor(canPlay)} />
+            </PlayControlButton>
+          </>
+        )}
+        <PlayControlLabel htmlFor="controls.step.forward">
+          Step forward
+        </PlayControlLabel>
+        <FlashingAppControlButton
+          id="controls.step.forward"
+          onClick={handleClick}
+          disabled={!canStepForward}
+          title="Step Forward (RIGHT ARROW)"
+          $animate={flashStepForward}
+        >
+          <StepForward fill={getIconFillColor(canStepForward)} />
+        </FlashingAppControlButton>
+      </ControlsGroup>
+      {state.matches({
+        Generating: 'Initializing',
+      }) ? (
+        <Prompt>Press ENTER to start</Prompt>
+      ) : null}
+    </ControlsContainer>
+  );
 }
