@@ -38,7 +38,7 @@ export const generationAlgorithmMachine =
           };
     },
     guards: {
-      'playing is allowed': ({ context }) => context.canPlay,
+      'can play': ({ context }) => context.canPlay,
       'reached a dead end': ({ context: { eligibleNeighbors } }) =>
         eligibleNeighbors.length === 0,
       'back at the start': ({ context: { stack } }) => stack.length === 0,
@@ -122,7 +122,7 @@ export const generationAlgorithmMachine =
         ],
         after: {
           SEEK_INTERVAL: {
-            guard: 'playing is allowed',
+            guard: 'can play',
             target: 'Seeking',
           },
         },
