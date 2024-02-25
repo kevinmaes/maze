@@ -48,6 +48,18 @@ export const generationAlgorithmMachine =
         stack: ({ context: { stack, currentCell } }) =>
           currentCell ? [...stack, currentCell] : stack,
       }),
+      findNeighbors: assign({
+        eligibleNeighbors: ({ context: { grid, currentCell } }) =>
+          grid.getNeighbors(currentCell as ICell),
+      }),
+      pickNextCell: assign(({ context: { grid, pathId, currentCell } }) => ({
+        currentCell: seek({
+          grid,
+          pathId,
+          current: currentCell as ICell,
+        }),
+      })),
+      drawGrid: ({ context: { grid } }) => grid.draw(),
     },
     delays: {
       SEEK_INTERVAL: ({ context: { fps } }) => 1000 / fps,
@@ -95,31 +107,13 @@ export const generationAlgorithmMachine =
         },
       },
       Seeking: {
-        entry: [
-          // Find neighbors
-          assign({
-            eligibleNeighbors: ({ context: { grid, currentCell } }) =>
-              grid.getNeighbors(currentCell as ICell),
-          }),
-          // draw the grid
-          ({ context: { grid } }) => grid.draw(),
-        ],
+        entry: ['findNeighbors', 'drawGrid'],
         always: {
           target: 'Advancing',
         },
       },
       Advancing: {
-        entry: [
-          // Pick the next cell
-          assign(({ context: { grid, pathId, currentCell } }) => ({
-            currentCell: seek({
-              grid,
-              pathId,
-              current: currentCell as ICell,
-            }),
-          })),
-          'pushToStack',
-        ],
+        entry: ['pickNextCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             guard: 'can play',
