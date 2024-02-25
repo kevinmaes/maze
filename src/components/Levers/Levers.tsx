@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useActorRef, useSelector } from '@xstate/react';
+import { useSelector } from '@xstate/react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import { GenerationParams } from '../../types';
 import { Fieldset, Form, LeverSet } from './Levers.css';

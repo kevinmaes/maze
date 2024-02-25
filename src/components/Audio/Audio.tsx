@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { ActorRefFrom } from 'xstate';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
 import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 

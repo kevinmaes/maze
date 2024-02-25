@@ -9,7 +9,6 @@ import Stop from '../../assets/svg/controls/stop.svg';
 import {
   AppMachineContext,
   AppMachineEvent,
-  AppMachineState,
   ControlEvent,
 } from '../../statechart/app.machine';
 import { Keyboard } from '../Keyboard/Keyboard';

@@ -1,10 +1,6 @@
 import { useSelector } from '@xstate/react';
 import React, { Ref, useEffect, useRef } from 'react';
-import {
-  AppMachineContext,
-  AppMachineEvent,
-} from '../../statechart/app.machine';
-import { GenerationParams } from '../../types';
+import { AppMachineContext } from '../../statechart/app.machine';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
 
