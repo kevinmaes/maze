@@ -35,22 +35,35 @@ export const generationAlgorithmMachine =
           }
         | {
             type: 'controls.step.forward';
-          }
-        | {
-            type: 'display.update';
           };
     },
     guards: {
-      'playing is allowed': ({ context }) => context.canPlay,
+      'can play': ({ context }) => context.canPlay,
       'reached a dead end': ({ context: { eligibleNeighbors } }) =>
         eligibleNeighbors.length === 0,
       'back at the start': ({ context: { stack } }) => stack.length === 0,
     },
     actions: {
+      setCurrentStartCell: assign({
+        currentCell: ({ context }) =>
+          context.grid.visitStartCell(context.pathId),
+      }),
       pushToStack: assign({
         stack: ({ context: { stack, currentCell } }) =>
           currentCell ? [...stack, currentCell] : stack,
       }),
+      findNeighbors: assign({
+        eligibleNeighbors: ({ context: { grid, currentCell } }) =>
+          grid.getNeighbors(currentCell as ICell),
+      }),
+      pickNextCell: assign(({ context: { grid, pathId, currentCell } }) => ({
+        currentCell: seek({
+          grid,
+          pathId,
+          current: currentCell as ICell,
+        }),
+      })),
+      drawGrid: ({ context: { grid } }) => grid.draw(),
     },
     delays: {
       SEEK_INTERVAL: ({ context: { fps } }) => 1000 / fps,
@@ -73,27 +86,16 @@ export const generationAlgorithmMachine =
       'controls.pause': {
         actions: assign({ canPlay: false }),
       },
-      'controls.step.forward': {
-        target: '.Seeking',
-      },
+      'controls.step.forward': '.Seeking',
     },
     states: {
       'Generation Idle': {
         on: {
-          'generation.start': {
-            target: 'Initializing',
-          },
+          'generation.start': 'Initializing',
         },
       },
       Initializing: {
-        entry: [
-          // Set the current start cell
-          assign({
-            currentCell: ({ context }) =>
-              context.grid.visitStartCell(context.pathId),
-          }),
-          'pushToStack',
-        ],
+        entry: ['setCurrentStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             guard: ({ context }) => context.canPlay,
@@ -102,34 +104,16 @@ export const generationAlgorithmMachine =
         },
       },
       Seeking: {
-        entry: [
-          // Find neighbors
-          assign({
-            eligibleNeighbors: ({ context: { grid, currentCell } }) =>
-              grid.getNeighbors(currentCell as ICell),
-          }),
-          // draw the grid
-          ({ context: { grid } }) => grid.draw(),
-        ],
+        entry: ['findNeighbors', 'drawGrid'],
         always: {
           target: 'Advancing',
         },
       },
       Advancing: {
-        entry: [
-          // Pick the next cell
-          assign(({ context: { grid, pathId, currentCell } }) => ({
-            currentCell: seek({
-              grid,
-              pathId,
-              current: currentCell as ICell,
-            }),
-          })),
-          'pushToStack',
-        ],
+        entry: ['pickNextCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
-            guard: 'playing is allowed',
+            guard: 'can play',
             target: 'Seeking',
           },
         },
@@ -139,14 +123,12 @@ export const generationAlgorithmMachine =
         },
       },
       Backtracking: {
-        entry: [
-          // Pop from the stack
-          assign(({ context: { stack } }) => {
-            const prevCell = stack.pop();
-            prevCell?.setAsBacktrack();
-            return { stack: [...stack], currentCell: prevCell };
-          }),
-        ],
+        // Pop from the stack
+        entry: assign(({ context: { stack } }) => {
+          const prevCell = stack.pop();
+          prevCell?.setAsBacktrack();
+          return { stack: [...stack], currentCell: prevCell };
+        }),
         always: [
           {
             guard: 'back at the start',

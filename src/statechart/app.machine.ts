@@ -97,17 +97,13 @@ export const appMachine =
               pathId: context.generationSessionId.toString(),
             };
           },
-          onDone: {
-            target: 'Done',
-          },
+          onDone: 'Done',
         },
         states: {
           Initializing: {
             tags: 'levers enabled',
             on: {
-              'controls.play': {
-                target: 'Playing',
-              },
+              'controls.play': 'Playing',
             },
           },
           Playing: {
@@ -121,9 +117,7 @@ export const appMachine =
                 }),
                 target: 'Paused',
               },
-              'controls.stop': {
-                target: '#app.Idle',
-              },
+              'controls.stop': '#app.Idle',
             },
           },
           Paused: {
@@ -134,9 +128,7 @@ export const appMachine =
                 }),
                 target: 'Playing',
               },
-              'controls.stop': {
-                target: '#app.Idle',
-              },
+              'controls.stop': '#app.Idle',
               'controls.step.forward': {
                 actions: sendTo('generationAlgorithmMachine', {
                   type: 'controls.step.forward',
@@ -149,22 +141,18 @@ export const appMachine =
       Done: {
         entry: 'drawGrid',
         on: {
-          'app.restart': {
-            target: '#app.Idle',
-          },
+          'app.restart': '#app.Idle',
         },
       },
     },
     on: {
       'generation.param.set': {
-        actions: [
-          assign({
-            generationParams: ({ context, event: { generationParam } }) => ({
-              ...context.generationParams,
-              [generationParam.name]: generationParam.value,
-            }),
+        actions: assign({
+          generationParams: ({ context, event: { generationParam } }) => ({
+            ...context.generationParams,
+            [generationParam.name]: generationParam.value,
           }),
-        ],
+        }),
         target: '#app.Idle',
       },
     },
