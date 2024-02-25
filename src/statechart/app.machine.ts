@@ -118,6 +118,9 @@ export const appMachine =
         invoke: {
           src: 'generationAlgorithmMachine',
           input: ({ context }) => {
+            if (!context.grid) {
+              throw new Error('Grid is not available');
+            }
             return {
               canPlay: true,
               fps: context.generationParams.fps,
