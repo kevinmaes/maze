@@ -126,14 +126,12 @@ export const generationAlgorithmMachine =
         },
       },
       Backtracking: {
-        entry: [
-          // Pop from the stack
-          assign(({ context: { stack } }) => {
-            const prevCell = stack.pop();
-            prevCell?.setAsBacktrack();
-            return { stack: [...stack], currentCell: prevCell };
-          }),
-        ],
+        // Pop from the stack
+        entry: assign(({ context: { stack } }) => {
+          const prevCell = stack.pop();
+          prevCell?.setAsBacktrack();
+          return { stack: [...stack], currentCell: prevCell };
+        }),
         always: [
           {
             guard: 'back at the start',
