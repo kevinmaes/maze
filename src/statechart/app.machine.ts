@@ -46,21 +46,6 @@ export const appMachine =
       refreshGenerationSessionId: assign({
         generationSessionId: () => new Date().getTime(),
       }),
-      updateGenerationParams: assign({
-        generationParams: ({ context, event }) => {
-          if (
-            'params' in event &&
-            'name' in event.params &&
-            'value' in event.params
-          ) {
-            return {
-              ...context.generationParams,
-              [event.params.name]: event.params.value,
-            };
-          }
-          return context.generationParams;
-        },
-      }),
     },
     actors: {
       generationAlgorithmMachine,
@@ -174,7 +159,14 @@ export const appMachine =
     },
     on: {
       'generation.param.set': {
-        actions: ['updateGenerationParams'],
+        actions: [
+          assign({
+            generationParams: ({ context, event }) => ({
+              ...context.generationParams,
+              [event.params.name]: event.params.value,
+            }),
+          }),
+        ],
         target: '#app.Idle',
       },
     },
