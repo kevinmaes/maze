@@ -1,9 +1,8 @@
-import Cell from '../Cell';
-import { IGrid } from './types';
-import { ICell } from '../Cell';
+import Cell, { ICell } from '../Cell';
+import { isEligible } from '../Cell/Cell';
 import { DirectionName } from '../Cell/types';
 import { getColumnIndex, getIndex, getRowIndex } from './gridHelpers';
-import { isEligible } from '../Cell/Cell';
+import { IGrid } from './types';
 
 const neighborsAt: Record<
   DirectionName,

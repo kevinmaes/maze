@@ -1,9 +1,8 @@
 import React, { Ref, useEffect, useRef } from 'react';
-
-import Grid from '../generation/Grid';
-import { Canvas } from './Stage.css';
 import { AppMachineEvent } from '../../statechart/app.machine';
 import { GenerationParams } from '../../types';
+import Grid from '../generation/Grid';
+import { Canvas } from './Stage.css';
 
 interface Props {
   generationParams: GenerationParams;
@@ -43,8 +42,7 @@ export function Stage({
         borderWeight
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
       );
-      // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-      send({ type: 'grid.inject', params: { grid: gridRef.current } });
+      send({ type: 'grid.inject', grid: gridRef.current });
     }
   }, [
     generationParams,

@@ -5,7 +5,13 @@ import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
+import {
+  AppMachineEvent,
+  AppMachineState,
+  ControlEvent,
+} from '../../statechart/app.machine';
 import { Keyboard } from '../Keyboard/Keyboard';
+import { HiddenLabel } from '../shared/form.css';
 import {
   ControlButton,
   ControlsContainer,
@@ -13,12 +19,6 @@ import {
   FlashingControlButton,
   Prompt,
 } from './Controls.css';
-import {
-  AppMachineEvent,
-  AppMachineState,
-  ControlEvent,
-} from '../../statechart/app.machine';
-import { HiddenLabel } from '../shared/form.css';
 
 export interface PlayControlLabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
