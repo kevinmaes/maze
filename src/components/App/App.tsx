@@ -39,14 +39,7 @@ export default function App() {
           <Levers />
           <Audio />
           <Controls />
-          {/* <Stage
-            width={1000}
-            height={1000}
-            pixelRatio={1}
-            generationParams={generationParams}
-            send={send}
-            generationSessionId={generationSessionId}
-          /> */}
+          <Stage width={1000} height={1000} pixelRatio={1} />
           <Footer />
         </AppMachineContext.Provider>
       </AppContainer>
