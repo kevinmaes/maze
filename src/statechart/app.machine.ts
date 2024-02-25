@@ -116,8 +116,7 @@ export const appMachine =
       Generating: {
         initial: 'Initializing',
         invoke: {
-          // id: 'generationAlgorithmMachine',
-          src: createMachine(generationAlgorithmMachine),
+          src: generationAlgorithmMachine,
           input: ({ context }) => {
             return {
               canPlay: true,
