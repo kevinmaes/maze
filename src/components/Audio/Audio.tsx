@@ -36,7 +36,7 @@ const getIconFillColor = (enabled = false) => {
 };
 
 interface Props {
-  algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
+  algorithmActor?: ActorRefFrom<typeof generationAlgorithmMachine>;
   generationSessionId: number;
 }
 
