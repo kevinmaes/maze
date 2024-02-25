@@ -1,7 +1,6 @@
-import { useActor } from '@xstate/react';
 import Head from 'next/head';
 import { useEffect } from 'react';
-import { AppMachineContext, appMachine } from '../../statechart/app.machine';
+import { AppMachineContext } from '../../statechart/app.machine';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { Audio } from '../Audio/Audio';
 import { Controls } from '../Controls/Controls';
@@ -11,11 +10,6 @@ import { Stage } from '../Stage';
 import { AppContainer } from './App.css';
 
 export default function App() {
-  // const [state, send] = useActor(appMachine);
-  // const {
-  //   context: { generationParams, generationSessionId },
-  // } = state;
-
   useEffect(() => {
     function ignoreSpace(e: KeyboardEvent) {
       if (e.key == ' ' && e.target == document.body) {
