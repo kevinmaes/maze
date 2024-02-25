@@ -74,9 +74,6 @@ export const appMachine =
         },
       }),
     },
-    actors: {
-      generationAlgorithmMachine,
-    },
   }).createMachine({
     context: {
       mazeId: '',
