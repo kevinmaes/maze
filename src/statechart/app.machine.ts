@@ -42,12 +42,7 @@ export const appMachine =
           };
     },
     actions: {
-      drawGrid: (_, params: { grid: IGrid | null }) => {
-        params.grid?.draw();
-      },
-      storeGrid: assign({
-        grid: (_, params: { grid: IGrid }) => params.grid,
-      }),
+      drawGrid: ({ context }) => context.grid?.draw(),
       refreshGenerationSessionId: assign({
         generationSessionId: () => new Date().getTime(),
       }),
@@ -91,16 +86,10 @@ export const appMachine =
         on: {
           'grid.inject': {
             actions: [
-              {
-                type: 'storeGrid',
-                params: ({ event }) => ({ grid: event.grid }),
-              },
-              {
-                type: 'drawGrid',
-                params: ({ context }) => ({
-                  grid: context.grid,
-                }),
-              },
+              assign({
+                grid: ({ event }) => event.grid,
+              }),
+              'drawGrid',
             ],
             target: 'Generating',
           },
@@ -174,10 +163,7 @@ export const appMachine =
         },
       },
       Done: {
-        entry: {
-          type: 'drawGrid',
-          params: ({ context }) => ({ grid: context.grid }),
-        },
+        entry: 'drawGrid',
         on: {
           'app.restart': {
             actions: 'refreshGenerationSessionId',
