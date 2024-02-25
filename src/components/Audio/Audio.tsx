@@ -7,6 +7,8 @@ import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracke
 import { audioOptions } from './audioOptions';
 import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 
+import { useSelector } from '@xstate/react';
+import { AppMachineContext } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 import {
   AudioForm,
@@ -35,12 +37,17 @@ const getIconFillColor = (enabled = false) => {
   return enabled ? iconFillColor : iconFillDisabledColor;
 };
 
-interface Props {
-  algorithmActor?: ActorRefFrom<typeof generationAlgorithmMachine>;
-  generationSessionId: number;
-}
+export function Audio() {
+  const actorRef = AppMachineContext.useActorRef();
+  const algorithmActor = useSelector(
+    actorRef,
+    (state) => state.children?.generationAlgorithmMachine
+  );
+  const generationSessionId = useSelector(
+    actorRef,
+    (state) => state.context.generationSessionId
+  );
 
-export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
   const [isArpeggio, toggleArpeggio] = useState(false);
 
   const selectedAudio = audioOptions[0];
@@ -159,4 +166,4 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       </ToggleContainer>
     </AudioForm>
   );
-};
+}

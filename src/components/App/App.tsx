@@ -37,11 +37,8 @@ export default function App() {
           <h1>Maze Generation</h1>
           <h2>Recursive Backtracker</h2>
           <Levers />
-          {/* <Audio
-            algorithmActor={state.children?.generationAlgorithmMachine}
-            generationSessionId={generationSessionId}
-          />
-          <Controls state={state} sendControlEvent={send} />
+          <Audio />
+          {/* <Controls state={state} sendControlEvent={send} />
           <Stage
             width={1000}
             height={1000}
