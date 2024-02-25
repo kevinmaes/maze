@@ -35,9 +35,6 @@ export const generationAlgorithmMachine =
           }
         | {
             type: 'controls.step.forward';
-          }
-        | {
-            type: 'display.update';
           };
     },
     guards: {
