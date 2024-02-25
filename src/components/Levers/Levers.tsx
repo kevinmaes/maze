@@ -44,7 +44,7 @@ export function Levers() {
   }: React.ChangeEvent<HTMLInputElement>) =>
     actorRef.send({
       type: 'generation.param.set',
-      partialParams: { name, value: parseInt(value, 10) },
+      generationParam: { name, value: parseInt(value, 10) },
     });
 
   const inputHandlers = { onChange: onLeverChange };

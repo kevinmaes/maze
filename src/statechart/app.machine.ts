@@ -35,7 +35,7 @@ export const appMachine =
         | ControlEvent
         | {
             type: 'generation.param.set';
-            partialParams: { name: string; value: number };
+            generationParam: { name: string; value: number };
           }
         | {
             type: 'grid.inject';
@@ -159,9 +159,9 @@ export const appMachine =
       'generation.param.set': {
         actions: [
           assign({
-            generationParams: ({ context, event: { partialParams } }) => ({
+            generationParams: ({ context, event: { generationParam } }) => ({
               ...context.generationParams,
-              [partialParams.name]: partialParams.value,
+              [generationParam.name]: generationParam.value,
             }),
           }),
         ],
