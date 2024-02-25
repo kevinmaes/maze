@@ -1,7 +1,5 @@
 import { assign, setup } from 'xstate';
-
 import type { IGrid } from '../components/generation/Grid';
-
 import { ICell } from '../components/generation/Cell';
 import { seek } from '../components/generation/seek';
 
