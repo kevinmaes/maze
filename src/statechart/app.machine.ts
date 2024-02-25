@@ -1,3 +1,4 @@
+import { createActorContext } from '@xstate/react';
 import { EventFrom, StateFrom, assign, sendTo, setup } from 'xstate';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
@@ -34,7 +35,7 @@ export const appMachine =
         | ControlEvent
         | {
             type: 'generation.param.set';
-            params: { name: string; value: number };
+            partialParams: { name: string; value: number };
           }
         | {
             type: 'grid.inject';
@@ -158,9 +159,9 @@ export const appMachine =
       'generation.param.set': {
         actions: [
           assign({
-            generationParams: ({ context, event }) => ({
+            generationParams: ({ context, event: { partialParams } }) => ({
               ...context.generationParams,
-              [event.params.name]: event.params.value,
+              [partialParams.name]: partialParams.value,
             }),
           }),
         ],
@@ -168,6 +169,8 @@ export const appMachine =
       },
     },
   });
+
+export const AppMachineContext = createActorContext(appMachine);
 
 export type AppMachineState = StateFrom<typeof appMachine>;
 export type AppMachineEvent = EventFrom<typeof appMachine>;
