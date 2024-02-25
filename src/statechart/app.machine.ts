@@ -147,14 +147,12 @@ export const appMachine =
     },
     on: {
       'generation.param.set': {
-        actions: [
-          assign({
-            generationParams: ({ context, event: { generationParam } }) => ({
-              ...context.generationParams,
-              [generationParam.name]: generationParam.value,
-            }),
+        actions: assign({
+          generationParams: ({ context, event: { generationParam } }) => ({
+            ...context.generationParams,
+            [generationParam.name]: generationParam.value,
           }),
-        ],
+        }),
         target: '#app.Idle',
       },
     },
