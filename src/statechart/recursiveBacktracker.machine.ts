@@ -73,16 +73,12 @@ export const generationAlgorithmMachine =
       'controls.pause': {
         actions: assign({ canPlay: false }),
       },
-      'controls.step.forward': {
-        target: '.Seeking',
-      },
+      'controls.step.forward': '.Seeking',
     },
     states: {
       'Generation Idle': {
         on: {
-          'generation.start': {
-            target: 'Initializing',
-          },
+          'generation.start': 'Initializing',
         },
       },
       Initializing: {
