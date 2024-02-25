@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 import { ActorRefFrom } from 'xstate';
+import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
+import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
 import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
 import { audioOptions } from './audioOptions';
-import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
-import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
+import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 
+import { HiddenLabel } from '../shared/form.css';
 import {
   AudioForm,
   StyledAudioControlButton,
@@ -15,7 +16,6 @@ import {
   Volume,
   VolumneContainer,
 } from './Audio.css';
-import { HiddenLabel } from '../shared/form.css';
 
 export interface AudioControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {

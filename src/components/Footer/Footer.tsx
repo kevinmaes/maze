@@ -1,3 +1,10 @@
+import Image from 'next/image';
+import GitHub from '../../assets/svg/logos/github.svg';
+import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
+import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
+import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
+import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
+import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
 import {
   FooterContainer,
   ImageHolder,
@@ -6,13 +13,6 @@ import {
   Version,
   VersionContainer,
 } from './Footer.css';
-import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
-import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
-import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
-import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
-import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
-import GitHub from '../../assets/svg/logos/github.svg';
-import Image from 'next/image';
 
 declare const VERSION: string;
 

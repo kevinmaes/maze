@@ -1,6 +1,6 @@
 import { assign, setup } from 'xstate';
-import type { IGrid } from '../components/generation/Grid';
 import { ICell } from '../components/generation/Cell';
+import type { IGrid } from '../components/generation/Grid';
 import { seek } from '../components/generation/seek';
 import { AlgorithmGenerationParams } from '../types';
 
