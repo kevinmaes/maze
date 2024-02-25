@@ -1,7 +1,7 @@
 import { EventFrom, StateFrom, assign, sendTo, setup } from 'xstate';
-import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
+import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 20;
 const BORDER_WEIGHT_DEFAULT = 2;

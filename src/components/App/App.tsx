@@ -1,14 +1,14 @@
-import GlobalStyle from '../../styles/GlobalStyles';
-import { Levers } from '../Levers/Levers';
-import { Controls } from '../Controls/Controls';
-import { Stage } from '../Stage';
 import { useActor } from '@xstate/react';
-import { appMachine } from '../../statechart/app.machine';
-import { AppContainer } from './App.css';
-import { Audio } from '../Audio/Audio';
 import Head from 'next/head';
 import { useEffect } from 'react';
+import { appMachine } from '../../statechart/app.machine';
+import GlobalStyle from '../../styles/GlobalStyles';
+import { Audio } from '../Audio/Audio';
+import { Controls } from '../Controls/Controls';
 import { Footer } from '../Footer/Footer';
+import { Levers } from '../Levers/Levers';
+import { Stage } from '../Stage';
+import { AppContainer } from './App.css';
 
 export default function App() {
   const [state, send] = useActor(appMachine);

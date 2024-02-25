@@ -1,9 +1,8 @@
 import React, { Ref, useEffect, useRef } from 'react';
-
-import Grid from '../generation/Grid';
-import { Canvas } from './Stage.css';
 import { AppMachineEvent } from '../../statechart/app.machine';
 import { GenerationParams } from '../../types';
+import Grid from '../generation/Grid';
+import { Canvas } from './Stage.css';
 
 interface Props {
   generationParams: GenerationParams;

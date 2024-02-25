@@ -1,10 +1,10 @@
 import {
-  ICell,
-  Connections,
-  Walls,
-  DirectionName,
   CellPosition,
   CellStyle,
+  Connections,
+  DirectionName,
+  ICell,
+  Walls,
 } from './types';
 
 // The higher the multiplier, the faster the fade.
