@@ -39,13 +39,12 @@ const getIconFillColor = (enabled = false) => {
 
 export function Audio() {
   const actorRef = AppMachineContext.useActorRef();
-  const algorithmActor = useSelector(
+  const { algorithmActor, generationSessionId } = useSelector(
     actorRef,
-    (state) => state.children?.generationAlgorithmMachine
-  );
-  const generationSessionId = useSelector(
-    actorRef,
-    (state) => state.context.generationSessionId
+    (state) => ({
+      algorithmActor: state.children?.generationAlgorithmMachine,
+      generationSessionId: state.context.generationSessionId,
+    })
   );
 
   const [isArpeggio, toggleArpeggio] = useState(false);
