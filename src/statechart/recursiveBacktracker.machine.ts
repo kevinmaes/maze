@@ -44,6 +44,10 @@ export const generationAlgorithmMachine =
       'back at the start': ({ context: { stack } }) => stack.length === 0,
     },
     actions: {
+      setCurrentStartCell: assign({
+        currentCell: ({ context }) =>
+          context.grid.visitStartCell(context.pathId),
+      }),
       pushToStack: assign({
         stack: ({ context: { stack, currentCell } }) =>
           currentCell ? [...stack, currentCell] : stack,
@@ -91,14 +95,7 @@ export const generationAlgorithmMachine =
         },
       },
       Initializing: {
-        entry: [
-          // Set the current start cell
-          assign({
-            currentCell: ({ context }) =>
-              context.grid.visitStartCell(context.pathId),
-          }),
-          'pushToStack',
-        ],
+        entry: ['setCurrentStartCell', 'pushToStack'],
         after: {
           SEEK_INTERVAL: {
             guard: ({ context }) => context.canPlay,
