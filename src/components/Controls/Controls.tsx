@@ -107,7 +107,7 @@ export function Controls({ state, sendControlEvent }: Props) {
     },
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
     const {
       currentTarget: { id },
     } = event;
@@ -119,16 +119,16 @@ export function Controls({ state, sendControlEvent }: Props) {
     }
     const eventObj = { type: id } as AppMachineEvent;
     sendControlEvent(eventObj);
-  };
+  }
 
-  const renderStateControls = (state: AppMachineState) => {
-    const canStartOver = state.can({ type: 'app.restart' });
-    const canPlay = state.can({ type: 'controls.play' });
-    const canPause = state.can({ type: 'controls.pause' });
-    const canStop = state.can({ type: 'controls.stop' });
-    const canStepForward = state.can({ type: 'controls.step.forward' });
+  const canStartOver = state.can({ type: 'app.restart' });
+  const canPlay = state.can({ type: 'controls.play' });
+  const canPause = state.can({ type: 'controls.pause' });
+  const canStop = state.can({ type: 'controls.stop' });
+  const canStepForward = state.can({ type: 'controls.step.forward' });
 
-    return (
+  return (
+    <ControlsContainer>
       <div>
         {typeof window !== 'undefined' && (
           <Keyboard
@@ -209,8 +209,6 @@ export function Controls({ state, sendControlEvent }: Props) {
           <Prompt>Press ENTER to start</Prompt>
         ) : null}
       </div>
-    );
-  };
-
-  return <ControlsContainer>{renderStateControls(state)}</ControlsContainer>;
+    </ControlsContainer>
+  );
 }
