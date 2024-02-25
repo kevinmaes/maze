@@ -38,8 +38,8 @@ export default function App() {
           <h2>Recursive Backtracker</h2>
           <Levers />
           <Audio />
-          {/* <Controls state={state} sendControlEvent={send} />
-          <Stage
+          <Controls />
+          {/* <Stage
             width={1000}
             height={1000}
             pixelRatio={1}
