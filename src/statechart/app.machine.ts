@@ -21,7 +21,7 @@ export type ControlEvent =
   | { type: 'app.restart' };
 
 export const appMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATBIoSAHAGZWU+QDYA7Gplr5AGhABPcQBYJrCgEZ50xRICsa1pZP2HAX3cG0qCgEkIABswDDwwADNYCmJsACswAGMWDiEePgFsIVEEMQ0TCykTeVZFJzc1ZSkDYxzFe0sKVXtFE1VLR3qNe09vdAoAcTBcAhJsKAwIYlhUQORDCgBXVAgiMDZOJBA0-jJMzez5KQ1G+w1WIqk61i7q8Qk1CkUtdQlS+XlLKXsTHpAfAaG+CIMXGOCBGQo4RiUwAFutUrwdoJ9ognIoKHlFJ9LPd6vl7LccporEoZE8ZBJ2q1fv9BsNgWN-NgdshAsQAF4gjAJciEPCkQJRGZzeGbbYZLLiRSFRrqLR1NSWVgVEyEsSXCzKLquSylLTNGl9OngkEUAAKs0MXJ52D5AqFyAWjFF3EREpRCEu8goNnaxSelicrHs+iM4i+snaCg+wY0l3aikNvmNI1NFrm1t5-MFDEIpFQLq2bt2kpyGnRNg0SnMEar5bVLhMFCKTg+Wle10OSYB9NGUHNjsYEG5WftVEthfFJY9hSbrW+dm0rkqGjVdQaTRabQ6li63ZTDP7ZsHkBHtuzUVgeYLKTFxeRoGyuQrEirdhUbjrijVJge7UDgalLu7wSD8Xh-EagKpoyx5OqeNp2jmV5gL44SkHgADuNAQJO957I+qK-o8oHKtolzSholhrnYjRPNIyrSI40rdOB-wACLkCE-xhFeNDJBsrrpNOBE5K8Dzlsoai6JcUhqA4hLtM2ujyGcaghsUnSJr82CkBAcBCD4CJCQ+Ih3PITYSaRhzSnJBJhjkbhSI0JjtLojgVLo3YBMERlIvhpk5OoFifnUNi6OcZhrqojxYmiahmHYUj7lBh6+e6IliM03pKqcXRYuZSirvZmXnBiFSfBUXTmGYajJb2pp+MyJCshyIJpcJAViGYFg5RoeXWEUpRqhqjzXN89R6mpWm9MmKV9ualptXexn+U+nzopYLh9dKyisMURzDc0GISNIr5aJ8fUqHVJowSeEDtSZ2SOLI5UOM4qiycNpSNMqLjWOYr67rVrF9BxuAPatqL2D1hxxlIUiBqdVT2Yo3qtLJrAKF8ypmGBnhAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5QEMAOqDEMB2YBOyALgJYD22AdKsgQLYWxiEDaADALqKiqmzEnkuIAB6IAtAE4ATAFYKADgDMAdgCMAFgnr1i1hMUyANCACe49fIBsFVZZk6Z8mTMXblMgL4fjaVBQCSEAA2YFh4xBAUxNgAVmAAxiwcQjx8AthCoghiyoqqFBIyrMqsUvIWZVLqxmbZipbKFNrqUqzqqspSqi7KXj7oFADiYLgEJNhQGBDkYFHYAG6kANazOPhEZNgAgkFQpOGEABa0ALLI8YfRYGycSCCp-JuZiCqNMiUGdupFWq414nYKFIpGopAZlJYNMpet4QL4hiN1uMoAFsI9kEFiAAvaKTeLkQh4UhBWBUILIEw3FK8R6CO5ZMSKKpAqwQz6qViWP6mcRg1gUXTub6qeoQlx9OEDYajDYTCgABXJJlxGHx2EJxNJ1AArowqXcHulnghVK0KCUrJZIapVPpLP9srIpAUmaxbaV5LYvhL4dKkbiFUqVWqNSSGIRSKh9dwaUb6eJFPJnaV6vo2kn3PIHWINPIKFbWI5Tcp1AXtD6pYixgH5chdZBVQSiWHUEro-dY094yaQebCxyyvJynZOtmDPzCpZikLivopBW-H7q3La-WII31c3SbAI1HkgbO3TQAylBRZ+plBIuZYJBDodnofmJKUZN0GjIJPJpAuETLkQq60YdcQy3cMwD8AAzfYAHcaAgdtDS7Y9EB0PNvgkT9vj0DpnGUMcigKGRISkSFE0caR1B-AARGYMHhPA4EIGgkluGM0iQkRxDtAonQsTRFDTVQHVLAUGlYUp9A-NpKIlbBSAgOAhF8al2KPTjskwniZCqcp9EE7MP3yeRC3qDRtPqMof0CEIVNpDJuzEKx+Q-XJyMsYztAkMcygFPIp3qfjv1hX0q1lKBbLjZDshcPMOXedw8nKJQ8J5aK2gFV9WDyTlPS0SwfyXMLUXRTEcQmCKOIZTR+Ti6EXFUJL6mzPkBWKexX1FOxFAK0L-0VClcQqtSGVNRQbChXI+VYYyQWalxzQwqRbwhYsSnnYLKz-GtAMgIb7Kiz4KHsdwMNZEEimqVKxDBOQXHseQTtfW1tOomY9uNFpGnEp6X1kS1FGE27unsLKJDfRMSy8LwgA */
   setup({
     types: {} as {
       context: {
@@ -42,30 +42,7 @@ export const appMachine =
           };
     },
     actions: {
-      drawGrid: (_, params: { grid: IGrid | null }) => {
-        params.grid?.draw();
-      },
-      storeGrid: assign({
-        grid: (_, params: { grid: IGrid }) => params.grid,
-      }),
-      refreshGenerationSessionId: assign({
-        generationSessionId: () => new Date().getTime(),
-      }),
-      updateGenerationParams: assign({
-        generationParams: ({ context, event }) => {
-          if (
-            'params' in event &&
-            'name' in event.params &&
-            'value' in event.params
-          ) {
-            return {
-              ...context.generationParams,
-              [event.params.name]: event.params.value,
-            };
-          }
-          return context.generationParams;
-        },
-      }),
+      drawGrid: ({ context }) => context.grid?.draw(),
     },
     actors: {
       generationAlgorithmMachine,
@@ -88,19 +65,16 @@ export const appMachine =
     states: {
       Idle: {
         tags: 'levers enabled',
+        entry: assign({
+          generationSessionId: () => new Date().getTime(),
+        }),
         on: {
           'grid.inject': {
             actions: [
-              {
-                type: 'storeGrid',
-                params: ({ event }) => ({ grid: event.grid }),
-              },
-              {
-                type: 'drawGrid',
-                params: ({ context }) => ({
-                  grid: context.grid,
-                }),
-              },
+              assign({
+                grid: ({ event }) => event.grid,
+              }),
+              'drawGrid',
             ],
             target: 'Generating',
           },
@@ -147,7 +121,6 @@ export const appMachine =
                 target: 'Paused',
               },
               'controls.stop': {
-                actions: 'refreshGenerationSessionId',
                 target: '#app.Idle',
               },
             },
@@ -161,7 +134,6 @@ export const appMachine =
                 target: 'Playing',
               },
               'controls.stop': {
-                actions: 'refreshGenerationSessionId',
                 target: '#app.Idle',
               },
               'controls.step.forward': {
@@ -174,13 +146,9 @@ export const appMachine =
         },
       },
       Done: {
-        entry: {
-          type: 'drawGrid',
-          params: ({ context }) => ({ grid: context.grid }),
-        },
+        entry: 'drawGrid',
         on: {
           'app.restart': {
-            actions: 'refreshGenerationSessionId',
             target: '#app.Idle',
           },
         },
@@ -188,7 +156,14 @@ export const appMachine =
     },
     on: {
       'generation.param.set': {
-        actions: ['updateGenerationParams'],
+        actions: [
+          assign({
+            generationParams: ({ context, event }) => ({
+              ...context.generationParams,
+              [event.params.name]: event.params.value,
+            }),
+          }),
+        ],
         target: '#app.Idle',
       },
     },
