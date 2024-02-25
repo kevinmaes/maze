@@ -74,6 +74,9 @@ export const appMachine =
         },
       }),
     },
+    actors: {
+      generationAlgorithmMachine,
+    },
   }).createMachine({
     context: {
       mazeId: '',
@@ -113,7 +116,7 @@ export const appMachine =
       Generating: {
         initial: 'Initializing',
         invoke: {
-          src: generationAlgorithmMachine,
+          src: 'generationAlgorithmMachine',
           input: ({ context }) => {
             return {
               canPlay: true,
