@@ -47,6 +47,15 @@ export const generationAlgorithmMachine =
     },
     guards: {
       'playing is allowed': ({ context }) => context.canPlay,
+      'reached a dead end': ({ context: { eligibleNeighbors } }) =>
+        eligibleNeighbors.length === 0,
+      'back at the start': ({ context: { stack } }) => stack.length === 0,
+    },
+    actions: {
+      pushToStack: assign({
+        stack: ({ context: { stack, currentCell } }) =>
+          currentCell ? [...stack, currentCell] : stack,
+      }),
     },
     delays: {
       SEEK_INTERVAL: ({ context: { fps } }) => 1000 / fps,
@@ -83,20 +92,12 @@ export const generationAlgorithmMachine =
       },
       Initializing: {
         entry: [
-          // 'setCurrentCellToStartCell',
+          // Set the current start cell
           assign({
             currentCell: ({ context }) =>
               context.grid.visitStartCell(context.pathId),
           }),
-          // 'pushToStack',
-          assign(({ context: { stack, currentCell } }) => {
-            if (currentCell) {
-              return {
-                stack: [...stack, currentCell],
-              };
-            }
-            return {};
-          }),
+          'pushToStack',
         ],
         after: {
           SEEK_INTERVAL: {
@@ -107,12 +108,12 @@ export const generationAlgorithmMachine =
       },
       Seeking: {
         entry: [
-          // 'findNeighbors',
+          // Find neighbors
           assign({
             eligibleNeighbors: ({ context: { grid, currentCell } }) =>
               grid.getNeighbors(currentCell as ICell),
           }),
-          // 'draw',
+          // draw the grid
           ({ context: { grid } }) => grid.draw(),
         ],
         always: {
@@ -121,7 +122,7 @@ export const generationAlgorithmMachine =
       },
       Advancing: {
         entry: [
-          // 'pickNextCell',
+          // Pick the next cell
           assign(({ context: { grid, pathId, currentCell } }) => ({
             currentCell: seek({
               grid,
@@ -129,33 +130,22 @@ export const generationAlgorithmMachine =
               current: currentCell as ICell,
             }),
           })),
-          // 'pushToStack',
-          assign(({ context: { stack, currentCell } }) => {
-            if (currentCell) {
-              return {
-                stack: [...stack, currentCell],
-              };
-            }
-            return {};
-          }),
+          'pushToStack',
         ],
         after: {
           SEEK_INTERVAL: {
-            // guard: 'playing is allowed',
-            guard: ({ context }) => context.canPlay,
+            guard: 'playing is allowed',
             target: 'Seeking',
           },
         },
         always: {
-          // guard: 'reached a dead end',
-          guard: ({ context: { eligibleNeighbors } }) =>
-            eligibleNeighbors.length === 0,
+          guard: 'reached a dead end',
           target: 'Backtracking',
         },
       },
       Backtracking: {
         entry: [
-          // 'popFromStack'
+          // Pop from the stack
           assign(({ context: { stack } }) => {
             const prevCell = stack.pop();
             prevCell?.setAsBacktrack();
@@ -164,8 +154,7 @@ export const generationAlgorithmMachine =
         ],
         always: [
           {
-            // guard: 'back at the start',
-            guard: ({ context: { stack } }) => stack.length === 0,
+            guard: 'back at the start',
             target: 'Finished',
           },
           {
