@@ -109,6 +109,7 @@ export const appMachine =
       Generating: {
         initial: 'Initializing',
         invoke: {
+          id: 'generationAlgorithmMachine',
           src: 'generationAlgorithmMachine',
           input: ({ context }) => {
             if (!context.grid) {
