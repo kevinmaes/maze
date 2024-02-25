@@ -28,7 +28,7 @@ export const appMachine =
         mazeId: string;
         generationParams: GenerationParams;
         grid: IGrid | null;
-        generationSessionId: number;
+        generationSessionId?: number;
       };
       events:
         | ControlEvent
@@ -43,9 +43,6 @@ export const appMachine =
     },
     actions: {
       drawGrid: ({ context }) => context.grid?.draw(),
-      refreshGenerationSessionId: assign({
-        generationSessionId: () => new Date().getTime(),
-      }),
     },
     actors: {
       generationAlgorithmMachine,
@@ -61,13 +58,15 @@ export const appMachine =
         gridRows: GRID_SIZE_DEFAULT,
       },
       grid: null,
-      generationSessionId: new Date().getTime(),
     },
     id: 'app',
     initial: 'Idle',
     states: {
       Idle: {
         tags: 'levers enabled',
+        entry: assign({
+          generationSessionId: () => new Date().getTime(),
+        }),
         on: {
           'grid.inject': {
             actions: [
@@ -93,7 +92,7 @@ export const appMachine =
               canPlay: true,
               fps: context.generationParams.fps,
               grid: context.grid,
-              pathId: context.generationSessionId.toString(),
+              pathId: context.generationSessionId?.toString() ?? '',
             };
           },
           onDone: {
@@ -121,7 +120,6 @@ export const appMachine =
                 target: 'Paused',
               },
               'controls.stop': {
-                actions: 'refreshGenerationSessionId',
                 target: '#app.Idle',
               },
             },
@@ -135,7 +133,6 @@ export const appMachine =
                 target: 'Playing',
               },
               'controls.stop': {
-                actions: 'refreshGenerationSessionId',
                 target: '#app.Idle',
               },
               'controls.step.forward': {
@@ -151,7 +148,6 @@ export const appMachine =
         entry: 'drawGrid',
         on: {
           'app.restart': {
-            actions: 'refreshGenerationSessionId',
             target: '#app.Idle',
           },
         },
