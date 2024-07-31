@@ -24,18 +24,10 @@ export const generationAlgorithmMachine =
         pathId: string;
       };
       events:
-        | {
-            type: 'generation.start';
-          }
-        | {
-            type: 'controls.play';
-          }
-        | {
-            type: 'controls.pause';
-          }
-        | {
-            type: 'controls.step.forward';
-          };
+        | { type: 'generation.start' }
+        | { type: 'controls.play' }
+        | { type: 'controls.pause' }
+        | { type: 'controls.step.forward' };
     },
     guards: {
       'can play': ({ context }) => context.canPlay,
