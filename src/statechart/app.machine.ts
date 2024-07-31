@@ -71,12 +71,7 @@ export const appMachine =
         }),
         on: {
           'grid.inject': {
-            actions: [
-              assign({
-                grid: ({ event }) => event.grid,
-              }),
-              'drawGrid',
-            ],
+            actions: [assign({ grid: ({ event }) => event.grid }), 'drawGrid'],
             target: 'Generating',
           },
         },
