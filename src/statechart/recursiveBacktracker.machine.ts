@@ -97,9 +97,7 @@ export const generationAlgorithmMachine =
       },
       Seeking: {
         entry: ['findNeighbors', 'drawGrid'],
-        always: {
-          target: 'Advancing',
-        },
+        always: 'Advancing',
       },
       Advancing: {
         entry: ['pickNextCell', 'pushToStack'],
@@ -122,13 +120,8 @@ export const generationAlgorithmMachine =
           return { stack: [...stack], currentCell: prevCell };
         }),
         always: [
-          {
-            guard: 'back at the start',
-            target: 'Finished',
-          },
-          {
-            target: 'Seeking',
-          },
+          { guard: 'back at the start', target: 'Finished' },
+          { target: 'Seeking' },
         ],
       },
       Finished: {
