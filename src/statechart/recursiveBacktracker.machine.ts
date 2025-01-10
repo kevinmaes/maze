@@ -66,7 +66,7 @@ export const recursiveBacktrackerMachine =
       drawGrid: ({ context: { grid } }) => grid.draw(),
     },
     delays: {
-      SEEK_INTERVAL: ({ context: { fps } }) => 1000 / fps,
+      seekWait: ({ context: { fps } }) => 1000 / fps,
     },
   }).createMachine({
     id: 'recursiveBacktracker',
@@ -97,7 +97,7 @@ export const recursiveBacktrackerMachine =
       Initializing: {
         entry: ['setCurrentStartCell', 'pushToStack'],
         after: {
-          SEEK_INTERVAL: {
+          seekWait: {
             guard: ({ context }) => context.canPlay,
             target: 'Seeking',
           },
@@ -112,7 +112,7 @@ export const recursiveBacktrackerMachine =
       Advancing: {
         entry: ['pickNextCell', 'pushToStack'],
         after: {
-          SEEK_INTERVAL: {
+          seekWait: {
             guard: 'can play',
             target: 'Seeking',
           },
