@@ -21,7 +21,7 @@ export function Footer() {
   try {
     version = VERSION;
   } catch (error) {
-    console.log('Cannot get version of application.');
+    console.log('Cannot get version of application.', error);
   }
 
   return (

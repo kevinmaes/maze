@@ -40,7 +40,7 @@ export function Audio() {
   const { algorithmActor, generationSessionId } = useSelector(
     actorRef,
     (state) => ({
-      algorithmActor: state.children?.generationAlgorithmMachine,
+      algorithmActor: state.children?.generationAlgorithm,
       generationSessionId: state.context.generationSessionId,
     })
   );
