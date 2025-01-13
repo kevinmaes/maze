@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@xstate/cli": "^0.5.17",
-    "@xstate/react": "^5.0.1",
+    "@xstate/react": "^5.0.2",
     "file-loader": "^6.2.0",
     "lucide-react": "^0.470.0",
     "next": "15.1.4",
