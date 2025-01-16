@@ -12,7 +12,7 @@
     "@xstate/cli": "^0.5.17",
     "@xstate/react": "^5.0.2",
     "file-loader": "^6.2.0",
-    "lucide-react": "^0.470.0",
+    "lucide-react": "^0.471.1",
     "next": "15.1.4",
     "prettier": "^3.4.2",
     "react": "19.0.0",
