@@ -1,5 +1,5 @@
 import { createActorContext } from '@xstate/react';
-import { EventFrom, StateFrom, assign, sendTo, setup } from 'xstate';
+import { assign, sendTo, setup } from 'xstate';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
 import { recursiveBacktrackerMachine } from './recursiveBacktracker.machine';
@@ -71,12 +71,7 @@ export const appMachine =
         }),
         on: {
           'grid.inject': {
-            actions: [
-              assign({
-                grid: ({ event }) => event.grid,
-              }),
-              'drawGrid',
-            ],
+            actions: [assign({ grid: ({ event }) => event.grid }), 'drawGrid'],
             target: 'Generating',
           },
         },
@@ -159,6 +154,3 @@ export const appMachine =
   });
 
 export const AppMachineContext = createActorContext(appMachine);
-
-export type AppMachineState = StateFrom<typeof appMachine>;
-export type AppMachineEvent = EventFrom<typeof appMachine>;
