@@ -2,7 +2,7 @@ import { createActorContext } from '@xstate/react';
 import { assign, sendTo, setup } from 'xstate';
 import { IGrid } from '../components/generation/Grid';
 import { GenerationParams } from '../types';
-import { generationAlgorithmMachine } from './recursiveBacktracker.machine';
+import { recursiveBacktrackerMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 20;
 const BORDER_WEIGHT_DEFAULT = 2;
@@ -46,7 +46,7 @@ export const appMachine =
       drawGrid: ({ context }) => context.grid?.draw(),
     },
     actors: {
-      generationAlgorithmMachine,
+      generationAlgorithm: recursiveBacktrackerMachine,
     },
   }).createMachine({
     context: {
@@ -79,8 +79,8 @@ export const appMachine =
       Generating: {
         initial: 'Initializing',
         invoke: {
-          id: 'generationAlgorithmMachine',
-          src: 'generationAlgorithmMachine',
+          id: 'generationAlgorithm',
+          src: 'generationAlgorithm',
           input: ({ context }) => {
             if (!context.grid) {
               throw new Error('Grid is not available');
@@ -102,12 +102,12 @@ export const appMachine =
             },
           },
           Playing: {
-            entry: sendTo('generationAlgorithmMachine', {
+            entry: sendTo('generationAlgorithm', {
               type: 'generation.start',
             }),
             on: {
               'controls.pause': {
-                actions: sendTo('generationAlgorithmMachine', {
+                actions: sendTo('generationAlgorithm', {
                   type: 'controls.pause',
                 }),
                 target: 'Paused',
@@ -118,14 +118,14 @@ export const appMachine =
           Paused: {
             on: {
               'controls.play': {
-                actions: sendTo('generationAlgorithmMachine', {
+                actions: sendTo('generationAlgorithm', {
                   type: 'controls.play',
                 }),
                 target: 'Playing',
               },
               'controls.stop': '#app.Idle',
               'controls.step.forward': {
-                actions: sendTo('generationAlgorithmMachine', {
+                actions: sendTo('generationAlgorithm', {
                   type: 'controls.step.forward',
                 }),
               },
