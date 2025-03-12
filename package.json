@@ -34,7 +34,7 @@
     "@typescript-eslint/eslint-plugin": "8.19.1",
     "@typescript-eslint/parser": "8.19.1",
     "@typescript-eslint/typescript-estree": "8.19.1",
-    "eslint-config-next": "15.1.4",
+    "eslint-config-next": "15.2.2",
     "eslint": "9.18.0",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier": "^3.4.2",
