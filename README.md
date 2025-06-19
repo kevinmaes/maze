@@ -1,3 +1,9 @@
+[![Next.js](https://img.shields.io/badge/Next.js-13.4.0-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-18.2.0-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.9.5-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+[![XState](https://img.shields.io/badge/XState-4.38.0-purple?style=for-the-badge&logo=xstate)](https://xstate.js.org/)
+[![Styled Components](https://img.shields.io/badge/Styled%20Components-5.3.10-pink?style=for-the-badge&logo=styled-components)](https://styled-components.com/)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 # Maze
