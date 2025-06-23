@@ -2,6 +2,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 # Maze
 
+[![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)](https://react.dev) [![Next.js](https://img.shields.io/badge/Next.js-15.3.4-000000?style=flat-square&logo=next.js)](https://nextjs.org) [![XState](https://img.shields.io/badge/XState-5.20.0-121212?style=flat-square&logo=xstate)](https://xstate.js.org) [![Styled Components](https://img.shields.io/badge/Styled%20Components-6.1.19-DB7093?style=flat-square&logo=styled-components)](https://styled-components.com) [![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org) [![Lucide](https://img.shields.io/badge/Lucide-0.518.0-000000?style=flat-square&logo=lucide)](https://lucide.dev) [![ESLint](https://img.shields.io/badge/ESLint-9.29.0-4B32C3?style=flat-square&logo=eslint)](https://eslint.org) [![Prettier](https://img.shields.io/badge/Prettier-3.5.3-F7B93E?style=flat-square&logo=prettier)](https://prettier.io)
+
+
 ## Algorithms for maze generation
 
 Welcome! This repo is where I work on my passion for creating mazes with code.
