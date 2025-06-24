@@ -7,7 +7,6 @@
 
 # pnpm
 .pnpm-store/
-pnpm-lock.yaml
 
 # next.js
 /.next/
