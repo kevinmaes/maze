@@ -6,7 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:coverage": "vitest --coverage",
+    "test:formatting": "prettier --check . && eslint . --ext .ts,.tsx,.js,.jsx"
   },
   "dependencies": {
     "@xstate/cli": "^0.5.17",
@@ -26,7 +32,6 @@
   "devDependencies": {
     "@svgr/webpack": "8.1.0",
     "@types/aria-query": "5.0.4",
-    "@types/jest": "30.0.0",
     "@types/node": "^24.0.3",
     "@types/react-dom": "19.1.6",
     "@types/react": "19.1.8",
@@ -36,8 +41,14 @@
     "@typescript-eslint/typescript-estree": "8.34.1",
     "eslint-config-next": "15.3.4",
     "eslint": "9.29.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^14.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-v8": "^2.0.0",
+    "jsdom": "^24.0.0",
     "prettier-plugin-organize-imports": "^4.1.0",
     "prettier": "^3.5.3",
-    "typescript": "5.8.3"
+    "typescript": "5.8.3",
+    "vitest": "^2.0.0"
   }
 }
