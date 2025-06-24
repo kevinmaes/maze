@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# pnpm
+.pnpm-store/
+pnpm-lock.yaml
+
 # next.js
 /.next/
 
@@ -25,5 +29,3 @@ src/statechart/**.typegen.ts
 .env.production.local
 
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
