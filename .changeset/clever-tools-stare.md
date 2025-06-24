@@ -2,4 +2,4 @@
 'maze': patch
 ---
 
-Adding CI checks for code quality. Migrating from Jest to Vitest.
+Adding CI checks for code quality. Migrating from Yarn -> pnpm and Jest -> Vitest.
