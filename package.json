@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:coverage": "vitest --coverage",
     "test:formatting": "prettier --check . && eslint . --ext .ts,.tsx,.js,.jsx",
-    "test:ci": "act pull_request --workflows .github/workflows/ci.yml --container-architecture linux/amd64"
+    "test:ci": "act pull_request --workflows .github/workflows/ci.yml --container-architecture linux/amd64",
+    "changeset": "changeset"
   },
   "dependencies": {
     "@changesets/cli": "^2.29.5",
