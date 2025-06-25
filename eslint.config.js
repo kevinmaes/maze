@@ -1,13 +1,13 @@
 // See: https://eslint.org/docs/latest/use/configure/configuration-files-new
 
-import js from '@eslint/js';
-import nextPlugin from '@next/eslint-plugin-next';
-import tseslint from '@typescript-eslint/eslint-plugin';
-import tsparser from '@typescript-eslint/parser';
-import prettier from 'eslint-config-prettier';
+const js = require('@eslint/js');
+const nextPlugin = require('@next/eslint-plugin-next');
+const tseslint = require('@typescript-eslint/eslint-plugin');
+const tsparser = require('@typescript-eslint/parser');
+const prettier = require('eslint-config-prettier');
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
-export default [
+module.exports = [
   // Ignore patterns
   {
     ignores: [
@@ -21,6 +21,9 @@ export default [
       '.env',
       '*.log',
       '*.tmp',
+      '__mocks__/**',
+      'custom.d.ts',
+      'vitest.setup.ts',
     ],
   },
   // CommonJS configuration for Next.js config files
@@ -41,12 +44,13 @@ export default [
       '@typescript-eslint/no-require-imports': 'off',
     },
   },
-  // JavaScript configuration
+  // JavaScript configuration for source files
   js.configs.recommended,
   {
-    files: ['**/*.{js,ts,jsx,tsx}'],
-    excludedFiles: ['next.config.js', '*.config.js'],
+    files: ['src/**/*.{js,ts,jsx,tsx}', '**/*.{js,ts,jsx,tsx}'],
+    ignores: ['next.config.js', '*.config.js'],
     languageOptions: {
+      sourceType: 'module',
       parser: tsparser,
       parserOptions: {
         ecmaVersion: 'latest',
