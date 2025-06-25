@@ -38,12 +38,14 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-var-requires': 'off',
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
   // JavaScript configuration
   js.configs.recommended,
   {
     files: ['**/*.{js,ts,jsx,tsx}'],
+    excludedFiles: ['next.config.js', '*.config.js'],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
