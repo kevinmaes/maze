@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
