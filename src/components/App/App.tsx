@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { Audio } from '../Audio/Audio';
