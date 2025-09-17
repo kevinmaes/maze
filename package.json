@@ -43,7 +43,7 @@
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
     "@types/aria-query": "5.0.4",
-    "@types/node": "^24.0.3",
+    "@types/node": "^24.5.1",
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@types/styled-components": "5.1.34",
