@@ -1,5 +1,17 @@
 # maze
 
+## 1.0.25
+
+### Patch Changes
+
+- 059dfb9: Add workflow to auto-merge dev to main after Version Packages PR is merged
+- 129dc18: Remove unused dependencies and files identified by knip
+- 3cebc17: Bump Vite version
+- 8c1fac2: Delete redundant deploy-prod action workflow
+- 5d8657b: Delete old workflow for deploying to prod
+- dacdc75: Fix lock file
+- ffe2ba9: Update Stately URL to Recursive Backtracker machine
+
 ## 1.0.24
 
 ### Patch Changes
