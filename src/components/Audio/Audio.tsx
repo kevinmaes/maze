@@ -1,12 +1,13 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import { getNextNoteData, getStartingNoteIndex } from './notes';
-import { ActorRefFrom } from 'xstate';
-import { generationAlgorithmMachine } from '../../statechart/recursiveBacktracker.machine';
-import { audioConfigOptions } from './audioOptions';
+import { audioConfigOptions, AudioConfig } from './audioOptions';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 
+import { useSelector } from '@xstate/react';
+import { AppMachineContext } from '../../statechart/app.machine';
+import { HiddenLabel } from '../shared/form.css';
 import {
   AudioForm,
   Select,
@@ -14,8 +15,6 @@ import {
   Volume,
   VolumneContainer,
 } from './Audio.css';
-import { HiddenLabel } from '../shared/form.css';
-import { AudioConfig } from './audioOptions';
 
 export interface AudioControlButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -35,18 +34,22 @@ const getIconFillColor = (enabled = false) => {
   return enabled ? iconFillColor : iconFillDisabledColor;
 };
 
-interface Props {
-  algorithmActor: ActorRefFrom<typeof generationAlgorithmMachine>;
-  generationSessionId: number;
-}
+export function Audio() {
+  const actorRef = AppMachineContext.useActorRef();
+  const { algorithmActor, generationSessionId } = useSelector(
+    actorRef,
+    (state) => ({
+      algorithmActor: state.children?.generationAlgorithm,
+      generationSessionId: state.context.generationSessionId,
+    })
+  );
 
-export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
-  const [audioConfigIndex, selectAudioConfigIndex] = useState(0);
+  const [audioConfigIndex, setAudioConfigIndex] = useState(0);
   const audioConfig = audioConfigOptions[audioConfigIndex];
   const startingNoteFrequencyIndex = getStartingNoteIndex(audioConfig);
+
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
-
   const prevFrequencyIndexRef = useRef<number>(startingNoteFrequencyIndex);
 
   const columnIndex =
@@ -102,9 +105,11 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       }}
       onSubmit={(event) => event.preventDefault()}
     >
+      <HiddenLabel htmlFor="audio.config">Audio Config</HiddenLabel>
       <Select
+        id="audio.config"
         onChange={(event) => {
-          selectAudioConfigIndex(Number(event.target.value));
+          setAudioConfigIndex(Number(event.target.value));
         }}
       >
         {audioConfigOptions.map((option: AudioConfig, index: number) => {
@@ -130,11 +135,11 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
             <SoundOn fill={getIconFillColor(!isMuted)} />
           )}
         </AudioControlButton>
-        <HiddenLabel htmlFor="volume">Volumne</HiddenLabel>
+        <HiddenLabel htmlFor="volume">Volume</HiddenLabel>
         <Volume
           disabled={isMuted}
           type="range"
-          name="volumne"
+          name="volume"
           value={volume}
           min="0"
           max="1"
@@ -144,4 +149,4 @@ export const Audio = ({ algorithmActor, generationSessionId }: Props) => {
       </VolumneContainer>
     </AudioForm>
   );
-};
+}

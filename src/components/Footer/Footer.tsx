@@ -1,3 +1,10 @@
+import Image from 'next/image';
+import GitHub from '../../assets/svg/logos/github.svg';
+import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
+import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
+import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
+import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
+import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
 import {
   FooterContainer,
   ImageHolder,
@@ -6,13 +13,6 @@ import {
   Version,
   VersionContainer,
 } from './Footer.css';
-import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
-import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
-import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
-import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
-import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
-import GitHub from '../../assets/svg/logos/github.svg';
-import Image from 'next/image';
 
 declare const VERSION: string;
 
@@ -21,7 +21,7 @@ export function Footer() {
   try {
     version = VERSION;
   } catch (error) {
-    console.log('Cannot get version of application.');
+    console.log('Cannot get version of application.', error);
   }
 
   return (
@@ -48,11 +48,11 @@ export function Footer() {
         <Link
           className="App-link"
           title="Maze generation statecharts at Stately Studio"
-          href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370"
+          href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370?machineId=2629fce3-681d-433d-9aa7-4b572c13c0f8"
           target="_blank"
           rel="noreferrer"
         >
-          <ImageHolder>
+          <ImageHolder style={{ paddingTop: '5px' }}>
             <StatelyLogo />
           </ImageHolder>
         </Link>

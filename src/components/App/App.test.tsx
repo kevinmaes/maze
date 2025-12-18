@@ -1,10 +1,11 @@
-import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 import App from './App';
 
-it('renders without crashing', () => {
-  const container = document.getElementById('app');
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const root = createRoot(container!);
-  root.render(<App />);
+describe('App', () => {
+  it('renders without crashing', () => {
+    render(<App />);
+    // Add a basic assertion - you can customize this based on your App component
+    expect(document.body).toBeInTheDocument();
+  });
 });

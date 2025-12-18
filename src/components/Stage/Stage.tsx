@@ -1,27 +1,28 @@
+import { useSelector } from '@xstate/react';
 import React, { Ref, useEffect, useRef } from 'react';
-
+import { AppMachineContext } from '../../statechart/app.machine';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
-import { AppMachineEvent } from '../../statechart/app.machine';
-import { GenerationParams } from '../../types';
 
 interface Props {
-  generationParams: GenerationParams;
   width?: number;
   height?: number;
   pixelRatio?: number;
-  send: (event: AppMachineEvent) => void;
-  generationSessionId: number;
 }
 
 export function Stage({
   width = 100,
   height = 100,
   pixelRatio = window.devicePixelRatio,
-  generationParams,
-  send,
-  generationSessionId,
 }: Props) {
+  const actorRef = AppMachineContext.useActorRef();
+  const { generationParams, generationSessionId } = useSelector(
+    actorRef,
+    (state) => ({
+      generationParams: state.context.generationParams,
+      generationSessionId: state.context.generationSessionId,
+    })
+  );
   const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
 
   const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
@@ -43,18 +44,16 @@ export function Stage({
         borderWeight
         // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
       );
-      // TODO: Can omit fps and send that directly from appMachine -> algo machine.
-      send({ type: 'grid.inject', params: { grid: gridRef.current } });
+      actorRef.send({ type: 'grid.inject', grid: gridRef.current });
     }
   }, [
-    generationParams,
     height,
     width,
     borderWeight,
     cellSize,
     gridColumns,
     gridRows,
-    send,
+    actorRef,
     generationSessionId,
   ]);
 
