@@ -28,7 +28,7 @@ This project uses a release train pattern for deployments with the following bra
 
 4. **Production Deployment**
    - Review and merge release PR to `main`
-   - GitHub Action triggers production deployment to Vercel
+   - Vercel automatically deploys to production
 
 ## Commands
 
