@@ -48,7 +48,7 @@ export function Footer() {
         <Link
           className="App-link"
           title="Maze generation statecharts at Stately Studio"
-          href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370"
+          href="https://stately.ai/registry/editor/e1573b28-f815-4571-8017-6e4743a0f370?machineId=2629fce3-681d-433d-9aa7-4b572c13c0f8"
           target="_blank"
           rel="noreferrer"
         >
