@@ -1,6 +1,6 @@
 {
   "name": "maze",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "private": true,
   "packageManager": "pnpm@9.0.0",
   "engines": {
