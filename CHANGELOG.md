@@ -1,5 +1,11 @@
 # maze
 
+## 1.0.26
+
+### Patch Changes
+
+- 3e62864: Rename promote-to-main workflow to deploy for clarity
+
 ## 1.0.25
 
 ### Patch Changes
