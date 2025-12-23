@@ -22,13 +22,11 @@ import {
   Prompt,
 } from './Controls.css';
 
-export interface PlayControlLabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface PlayControlLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   htmlFor: ControlEvent['type'];
 }
 
-export interface PlayControlButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface PlayControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
 
