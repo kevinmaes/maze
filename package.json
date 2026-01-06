@@ -31,7 +31,7 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-is": "19.2.3",
-    "styled-components": "6.1.19",
+    "styled-components": "6.2.0",
     "url-loader": "^4.1.1",
     "use-sound": "^5.0.0",
     "xstate": "5.25.0"
