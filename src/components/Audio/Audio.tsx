@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
+import { getNextNoteData, getStartingNoteIndex } from './notes';
+import { audioConfigOptions, AudioConfig } from './audioOptions';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
-import { audioOptions } from './audioOptions';
-import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
+import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 
 import { useSelector } from '@xstate/react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 import {
   AudioForm,
+  Select,
   StyledAudioControlButton,
-  Toggle,
-  ToggleContainer,
   Volume,
   VolumneContainer,
 } from './Audio.css';
@@ -44,78 +43,58 @@ export function Audio() {
     })
   );
 
-  const [isArpeggio, toggleArpeggio] = useState(false);
+  const [audioConfigIndex, setAudioConfigIndex] = useState(0);
+  const audioConfig = audioConfigOptions[audioConfigIndex];
+  const startingNoteFrequencyIndex = getStartingNoteIndex(audioConfig);
 
-  const selectedAudio = audioOptions[0];
   const prevColumnIndexRef = useRef<number>(0);
   const prevRowIndexRef = useRef<number>(0);
-  const startingNoteFrequency = getStartingNoteFrequency(
-    selectedAudio.startingNote,
-    isArpeggio
+  const prevFrequencyIndexRef = useRef<number>(startingNoteFrequencyIndex);
+
+  const columnIndex =
+    algorithmActor?.getSnapshot().context.currentCell?.getColumnIndex() ?? 0;
+  const rowIndex =
+    algorithmActor?.getSnapshot().context.currentCell?.getRowIndex() ?? 0;
+
+  const columnChange: number = columnIndex - prevColumnIndexRef.current;
+  const rowChange: number = rowIndex - prevRowIndexRef.current;
+
+  const visualIncrement =
+    // If only moving one cell at a time, increment by one in either direction
+    Math.abs(Math.max(columnChange, rowChange)) <= 1
+      ? columnChange || rowChange
+      : // Otherwise combine changes in both directions.
+        columnChange + rowChange;
+
+  const { nextFrequencyIndex, nextRelativePlaybackRate } = getNextNoteData(
+    audioConfig,
+    prevFrequencyIndexRef.current,
+    visualIncrement
   );
-  const prevFrequencyIndexRef = useRef<number>(startingNoteFrequency);
 
   useEffect(() => {
-    prevFrequencyIndexRef.current = startingNoteFrequency;
-  }, [generationSessionId, startingNoteFrequency]);
+    prevFrequencyIndexRef.current = startingNoteFrequencyIndex;
+  }, [generationSessionId, startingNoteFrequencyIndex]);
 
   const [volume, setVolume] = useState(0.5);
   const [isMuted, setIsMuted] = useState(true);
-  const [playbackRate, setPlaybackRate] = useState(1);
-  const [play] = useSound(selectedAudio.path, {
-    playbackRate,
+
+  const [play] = useSound(audioConfig.path, {
+    playbackRate: nextRelativePlaybackRate,
     volume: isMuted ? 0 : volume,
   });
 
   play();
+
+  prevColumnIndexRef.current = columnIndex;
+  prevRowIndexRef.current = rowIndex;
+  prevFrequencyIndexRef.current = nextFrequencyIndex;
 
   const inputHandlers = {
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
       setVolume(event.target.valueAsNumber);
     },
   };
-
-  useEffect(() => {
-    algorithmActor?.subscribe((state) => {
-      // Only reinitialize audio values if restarting the maze generation
-      if (state.matches('Initializing')) {
-        prevColumnIndexRef.current = 0;
-        prevRowIndexRef.current = 0;
-        prevFrequencyIndexRef.current = startingNoteFrequency;
-        return;
-      }
-
-      const columnIndex = state.context.currentCell?.getColumnIndex() ?? 0;
-      const rowIndex = state.context.currentCell?.getRowIndex() ?? 0;
-      const columnChange: number = columnIndex - prevColumnIndexRef.current;
-      const rowChange: number = rowIndex - prevRowIndexRef.current;
-
-      const increment =
-        // If only moving one cell at a time, increment by one in either direction
-        Math.abs(Math.max(columnChange, rowChange)) <= 1
-          ? columnChange || rowChange
-          : // Otherwise combine changes in both directions.
-            columnChange + rowChange;
-      const frequencyIndex = prevFrequencyIndexRef.current + increment;
-      const note = getNote(frequencyIndex, isArpeggio);
-      const frequency = getNoteFrequency(note);
-      const playbackRate =
-        frequency / getNoteFrequency(selectedAudio.startingNote);
-
-      setPlaybackRate(playbackRate);
-
-      prevColumnIndexRef.current = columnIndex;
-      prevRowIndexRef.current = rowIndex;
-      prevFrequencyIndexRef.current = frequencyIndex;
-    });
-  }, [
-    algorithmActor,
-    isArpeggio,
-    play,
-    startingNoteFrequency,
-    setPlaybackRate,
-    selectedAudio.startingNote,
-  ]);
 
   return (
     <AudioForm
@@ -125,6 +104,21 @@ export function Audio() {
       }}
       onSubmit={(event) => event.preventDefault()}
     >
+      <HiddenLabel htmlFor="audio.config">Audio Config</HiddenLabel>
+      <Select
+        id="audio.config"
+        onChange={(event) => {
+          setAudioConfigIndex(Number(event.target.value));
+        }}
+      >
+        {audioConfigOptions.map((option: AudioConfig, index: number) => {
+          return (
+            <option key={option.name} value={index}>
+              {option.name}
+            </option>
+          );
+        })}
+      </Select>
       <VolumneContainer>
         <HiddenLabel htmlFor="audio.mute">Mute/Unmute</HiddenLabel>
         <AudioControlButton
@@ -140,11 +134,11 @@ export function Audio() {
             <SoundOn fill={getIconFillColor(!isMuted)} />
           )}
         </AudioControlButton>
-        <HiddenLabel htmlFor="volume">Volumne</HiddenLabel>
+        <HiddenLabel htmlFor="volume">Volume</HiddenLabel>
         <Volume
           disabled={isMuted}
           type="range"
-          name="volumne"
+          name="volume"
           value={volume}
           min="0"
           max="1"
@@ -152,14 +146,6 @@ export function Audio() {
           {...inputHandlers}
         />
       </VolumneContainer>
-      <ToggleContainer>
-        <Toggle
-          id="arpeggio"
-          $on={isArpeggio}
-          onClick={() => toggleArpeggio((value) => !value)}
-        />
-        <label htmlFor="arpeggio">{isArpeggio ? 'Arpeggio' : 'Scale'}</label>
-      </ToggleContainer>
     </AudioForm>
   );
 }

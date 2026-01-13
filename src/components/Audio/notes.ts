@@ -1,3 +1,5 @@
+import { AudioConfig } from './audioOptions';
+
 export const frequencies = {
   C0: 16.35,
   'C#0': 17.32,
@@ -215,30 +217,12 @@ export const arpeggios: Record<'c', Mode> = {
   },
 };
 
-export function getNote(frequencyIndex: number, isArpeggio: boolean) {
-  const notes = isArpeggio ? arpeggios.c.major : diatonicScales.c.major;
-  let index = frequencyIndex;
-
-  // Cycles but stays at the low end and high end for a while.
-  // index = index % notes.length;
-
-  // Randomly re-positions when exceeding the bounds of the notes array.
-  if (index < 0) {
-    index = 0;
-  }
-  if (index > notes.length - 1) {
-    index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
-  }
-
-  return notes[index];
-}
-
-export function getStartingNoteFrequency(
-  note: keyof typeof frequencies,
-  isArpeggio: boolean
-) {
-  return (isArpeggio ? arpeggios : diatonicScales).c.major.indexOf(note);
-}
+export const chords: Record<
+  'stranger-things',
+  Array<keyof typeof frequencies>
+> = {
+  'stranger-things': ['C3', 'E4', 'G4', 'B4', 'C5', 'B4', 'G4', 'E4'],
+};
 
 export function getNoteFrequency(note: keyof typeof frequencies) {
   let frequency = frequencies[note];
@@ -247,4 +231,59 @@ export function getNoteFrequency(note: keyof typeof frequencies) {
   }
 
   return frequency;
+}
+
+export function getStartingNoteIndex(audioConfig: AudioConfig) {
+  const { startingNoteIndex, startingNote, sequence } = audioConfig;
+  if (
+    typeof startingNoteIndex === 'undefined' &&
+    typeof startingNote === 'undefined'
+  ) {
+    throw new Error('Must provide either startingNoteIndex or startingNote');
+  }
+  const startingNoteIndexRet =
+    startingNoteIndex ??
+    sequence.indexOf(startingNote as keyof typeof frequencies);
+  return startingNoteIndexRet;
+}
+
+export function getNextNoteData(
+  audioConfig: AudioConfig,
+  lastFrequencyIndex: number,
+  visualIncrement: number
+) {
+  const { sequence, style } = audioConfig;
+
+  // Get the next frequency index based on the audioConfig style.
+  let nextFrequencyIndex = lastFrequencyIndex;
+
+  switch (style) {
+    case 'ascending-cycle':
+      nextFrequencyIndex += 1;
+      nextFrequencyIndex = nextFrequencyIndex % sequence.length;
+      break;
+    case 'visual-syncronized-random':
+      nextFrequencyIndex += visualIncrement;
+      if (nextFrequencyIndex < 0) {
+        nextFrequencyIndex = Math.floor(Math.random() * sequence.length);
+      } else if (nextFrequencyIndex > sequence.length - 1) {
+        nextFrequencyIndex = Math.floor(Math.random() * sequence.length);
+      }
+      break;
+    default:
+  }
+
+  const nextNote = audioConfig.sequence[nextFrequencyIndex];
+  const nextFrequency = getNoteFrequency(nextNote);
+  const startingNoteIndex = getStartingNoteIndex(audioConfig);
+
+  const nextRelativePlaybackRate =
+    nextFrequency / frequencies[sequence[startingNoteIndex]];
+
+  return {
+    nextFrequencyIndex,
+    nextFrequency,
+    nextNote,
+    nextRelativePlaybackRate,
+  };
 }
