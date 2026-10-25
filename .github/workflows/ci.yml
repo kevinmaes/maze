@@ -13,21 +13,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
       - name: Check code formatting
-        run: pnpm format:check
+        run: bun run format:check
       - name: Run linting
-        run: pnpm lint
+        run: bun run lint
       - name: Type checking
-        run: pnpm typecheck
+        run: bun run typecheck
 
   tests:
     name: Tests (Node ${{ matrix.node-version }})
@@ -38,20 +39,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'pnpm'
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
       - name: Build project
-        run: pnpm build
+        run: bun run build
       - name: Run tests
-        run: pnpm test
+        run: bun run test
       - name: Run test coverage
-        run: pnpm test:coverage
+        run: bun run test:coverage
       - name: Test formatting
-        run: pnpm test:formatting
+        run: bun run test:formatting

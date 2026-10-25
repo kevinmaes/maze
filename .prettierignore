@@ -1,5 +1,5 @@
 # Lock files
-pnpm-lock.yaml
+bun.lock
 yarn.lock
 package-lock.json
 

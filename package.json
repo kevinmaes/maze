@@ -2,10 +2,9 @@
   "name": "maze",
   "version": "1.0.26",
   "private": true,
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "bun@1.4.4",
   "engines": {
-    "node": ">=20.0.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=20.0.0"
   },
   "scripts": {
     "dev": "next dev",
@@ -19,7 +18,8 @@
     "test:coverage": "vitest --coverage",
     "test:formatting": "prettier --check . && eslint . --ext .ts,.tsx,.js,.jsx",
     "test:ci": "act pull_request --workflows .github/workflows/ci.yml --container-architecture linux/amd64",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "changeset:version": "changeset version && bun install --lockfile-only"
   },
   "dependencies": {
     "@xstate/react": "^6.0.0",
@@ -55,5 +55,6 @@
     "typescript": "5.9.3",
     "vite": "^7.3.0",
     "vitest": "^4.0.16"
-  }
+  },
+  "trustedDependencies": []
 }
