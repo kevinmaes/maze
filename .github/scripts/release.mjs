@@ -88,25 +88,29 @@ export function updateRelease({ repository, source, tree, git, api = github }) {
   } else {
     git('fetch', 'origin', branch);
     const base = text('merge-base', source, head);
-    // A rerun with the same generated tree and dev ancestry needs no commits.
-    if (base !== source || text('rev-parse', `${head}^{tree}`) !== tree) {
-      // Undo the previous generated files with a new signed commit. Restoring
-      // the common ancestor's tree makes the following merge conflict-free,
-      // while retaining every existing release commit in branch history.
-      appendTree(head, base, 'Prepare release branch for current dev');
-      api('POST', `${repo}/merges`, {
-        base: branch,
-        head: source,
-        commit_message: 'Merge dev into release branch',
+    if (head !== source && base === head) {
+      // Once a release PR was merged, its retained branch can move to the new
+      // dev tip without creating a commit or weakening signature enforcement.
+      const response = api('PATCH', `${repo}/git/refs/heads/${branch}`, {
+        sha: source,
+        force: false,
       });
-      head = api('GET', `${repo}/git/ref/heads/${branch}`).object.sha;
+      head = response.object.sha;
+      if (head !== source) {
+        throw new Error('Release branch did not fast-forward to current dev');
+      }
+    } else if (base !== source) {
+      // Squash merges leave the retained branch divergent. Append a signed
+      // commit with dev's tree instead of rewriting history or creating an
+      // unsigned server-side merge commit.
+      head = appendTree(head, source, 'Sync release branch with current dev');
       git('fetch', 'origin', branch);
       if (
         text('rev-parse', `${head}^{tree}`) !==
         text('rev-parse', `${source}^{tree}`)
       ) {
         throw new Error(
-          'Release branch changed unexpectedly while merging dev'
+          'Release branch changed unexpectedly while syncing dev'
         );
       }
     }

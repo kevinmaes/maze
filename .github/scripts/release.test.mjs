@@ -73,7 +73,6 @@ beforeEach(() => {
   api = (method, endpoint, body) => {
     events.push({ method, endpoint, body });
     expect(method).not.toBe('DELETE');
-    expect(body?.force).toBeUndefined();
     const head = () => server(['rev-parse', ref]).toString().trim();
     if (endpoint.endsWith(`/git/matching-refs/heads/${branch}`)) {
       const output = server(['for-each-ref', '--format=%(objectname)', ref])
@@ -86,6 +85,14 @@ beforeEach(() => {
       server(['update-ref', ref, body.sha, '0'.repeat(40)]);
       return {};
     }
+    if (method === 'PATCH' && endpoint.endsWith(`/git/refs/heads/${branch}`)) {
+      expect(body.force).toBe(false);
+      const current = head();
+      server(['merge-base', '--is-ancestor', current, body.sha]);
+      server(['update-ref', ref, body.sha, current]);
+      return { object: { sha: body.sha } };
+    }
+    expect(body?.force).toBeUndefined();
     if (endpoint === 'graphql') {
       const input = body.variables.input;
       expect(input.branch).toEqual({
@@ -122,21 +129,6 @@ beforeEach(() => {
           },
         },
       };
-    }
-    if (endpoint.endsWith('/merges')) {
-      expect(body.base).toBe(branch);
-      const current = head();
-      if (
-        server(['merge-base', current, body.head]).toString().trim() ===
-        body.head
-      ) {
-        return null;
-      }
-      const tree = server(['merge-tree', '--write-tree', current, body.head])
-        .toString()
-        .trim();
-      append(current, tree, body.commit_message, [current, body.head]);
-      return {};
     }
     if (endpoint.endsWith(`/git/ref/heads/${branch}`)) {
       return { object: { sha: head() } };
@@ -204,7 +196,6 @@ function release(files = {}) {
       .toString()
       .trim()
   ).toBe(tree);
-  server(['merge-base', '--is-ancestor', source, head]);
   return { source, tree, head, url };
 }
 
@@ -237,11 +228,13 @@ test('updates a divergent release branch without losing history or current dev f
   expect(events.filter((event) => event.endpoint === 'graphql')).toHaveLength(
     2
   );
-  expect(events.some((event) => event.endpoint.endsWith('/merges'))).toBe(true);
+  expect(events.some((event) => event.endpoint.endsWith('/merges'))).toBe(
+    false
+  );
   expect(events.at(-1).endpoint).toContain('/pulls/1624');
 });
 
-test.each(['merge', 'version'])(
+test.each(['sync', 'version'])(
   'recovers after an interrupted %s step',
   (step) => {
     const previous = release();
@@ -249,7 +242,10 @@ test.each(['merge', 'version'])(
     const originalApi = api;
     api = (method, endpoint, body) => {
       if (
-        (step === 'merge' && endpoint.endsWith('/merges')) ||
+        (step === 'sync' &&
+          endpoint === 'graphql' &&
+          body.variables.input.message.headline ===
+            'Sync release branch with current dev') ||
         (step === 'version' &&
           endpoint === 'graphql' &&
           body.variables.input.message.headline === 'Version Packages')
@@ -274,9 +270,13 @@ test('does not append commits when rerun with the same release tree', () => {
   events.length = 0;
   expect(release().head).toBe(previous.head);
   expect(events.some((event) => event.endpoint === 'graphql')).toBe(false);
-  expect(events.some((event) => event.endpoint.endsWith('/merges'))).toBe(
-    false
-  );
+  expect(
+    events.some(
+      (event) =>
+        event.method === 'PATCH' &&
+        event.endpoint.endsWith(`/git/refs/heads/${branch}`)
+    )
+  ).toBe(false);
 });
 
 test.each(['merge', 'squash'])(
@@ -293,6 +293,16 @@ test.each(['merge', 'squash'])(
     server(['merge-base', '--is-ancestor', previous.head, head]);
     expect(events.some((event) => event.endpoint.endsWith('/git/refs'))).toBe(
       false
+    );
+    expect(
+      events.some(
+        (event) =>
+          event.method === 'PATCH' &&
+          event.endpoint.endsWith(`/git/refs/heads/${branch}`)
+      )
+    ).toBe(mode === 'merge');
+    expect(events.filter((event) => event.endpoint === 'graphql')).toHaveLength(
+      mode === 'merge' ? 1 : 2
     );
     expect(events.at(-1).method).toBe('POST');
   }

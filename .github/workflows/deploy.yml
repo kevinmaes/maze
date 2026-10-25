@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   promote:
-    name: Merge dev to main
+    name: Promote dev to main
     runs-on: ubuntu-latest
     if: >-
       github.event_name == 'workflow_dispatch' ||
@@ -25,17 +25,20 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Merge dev into main through GitHub
+      - name: Fast-forward main to dev through GitHub
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
-          gh api --method POST "repos/$GH_REPO/merges" \
-            -f base=main \
-            -f head=dev \
-            -f commit_message="Merge dev into main"
+          main_sha=$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq '.object.sha')
+          dev_sha=$(gh api "repos/$GH_REPO/git/ref/heads/dev" --jq '.object.sha')
+          if [[ "$main_sha" != "$dev_sha" ]]; then
+            gh api --method PATCH "repos/$GH_REPO/git/refs/heads/main" \
+              -f sha="$dev_sha" \
+              -F force=false
+          fi
 
       - name: Summary
         run: |
-          echo "Merged dev into main (or main was already up to date)." >> "$GITHUB_STEP_SUMMARY"
+          echo "Main now matches the signed commits on dev." >> "$GITHUB_STEP_SUMMARY"
           echo "Verify the production deployment in Vercel." >> "$GITHUB_STEP_SUMMARY"
