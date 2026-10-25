@@ -28,3 +28,7 @@ src/statechart/**.typegen.ts
 .env.production.local
 
 npm-debug.log*
+
+# Local editor configuration and TypeScript cache
+.replit
+tsconfig.tsbuildinfo

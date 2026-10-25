@@ -112,7 +112,7 @@ export const frequencies = {
 type Scale = Array<keyof typeof frequencies>;
 type Mode = Record<'major', Scale>;
 
-export const diatonicScales: Record<'c', Mode> = {
+const diatonicScales: Record<'c', Mode> = {
   c: {
     major: [
       'C0',
@@ -181,7 +181,7 @@ export const diatonicScales: Record<'c', Mode> = {
     ],
   },
 };
-export const arpeggios: Record<'c', Mode> = {
+const arpeggios: Record<'c', Mode> = {
   c: {
     major: [
       'C0',

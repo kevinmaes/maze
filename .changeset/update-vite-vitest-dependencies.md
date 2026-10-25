@@ -1,5 +1,5 @@
 ---
-"maze": patch
+'maze': patch
 ---
 
 Update Vite and Vitest dependencies and fix build error

@@ -41,4 +41,7 @@ Thumbs.db
 *.tsbuildinfo
 
 # Generated files
-src/statechart/**.typegen.ts 
+src/statechart/**.typegen.ts
+
+# Workspace notes
+.context/
