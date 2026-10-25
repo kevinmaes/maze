@@ -22,20 +22,20 @@ import {
   Prompt,
 } from './Controls.css';
 
-export interface PlayControlLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+interface PlayControlLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   htmlFor: ControlEvent['type'];
 }
 
-export interface PlayControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface PlayControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
 
-export function PlayControlLabel(props: PlayControlLabelProps) {
+function PlayControlLabel(props: PlayControlLabelProps) {
   const { children, ...rest } = props;
   return <HiddenLabel {...rest}>{children}</HiddenLabel>;
 }
 
-export function PlayControlButton(props: PlayControlButtonProps) {
+function PlayControlButton(props: PlayControlButtonProps) {
   const { children, ...rest } = props;
   return <ControlButton {...rest}>{children}</ControlButton>;
 }

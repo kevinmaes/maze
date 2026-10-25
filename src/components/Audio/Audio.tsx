@@ -17,10 +17,10 @@ import {
   VolumneContainer,
 } from './Audio.css';
 
-export interface AudioControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface AudioControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: 'audio.mute';
 }
-export function AudioControlButton(props: AudioControlButtonProps) {
+function AudioControlButton(props: AudioControlButtonProps) {
   const { children, ...rest } = props;
   return (
     <StyledAudioControlButton {...rest}>{children}</StyledAudioControlButton>
