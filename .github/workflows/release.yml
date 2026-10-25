@@ -26,20 +26,23 @@ jobs:
           # We need full history to properly version
           fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: package.json
 
       - name: Setup Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'pnpm'
 
       - name: Install Dependencies
-        run: pnpm install --frozen-lockfile
+        run: bun install --frozen-lockfile
 
       - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1
+        with:
+          version: bun run changeset:version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

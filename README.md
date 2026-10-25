@@ -23,12 +23,12 @@ Thanks for visiting!
 
 ## Getting Started
 
-First, run the development server:
+Install Bun 1.4.4, then install dependencies and run the development server.
+Bun manages packages and scripts; Next.js and Vitest still run on Node.js.
 
 ```bash
-npm run dev
-# or
-yarn dev
+bun install --frozen-lockfile
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.

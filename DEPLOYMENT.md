@@ -19,7 +19,7 @@ This project uses a release train pattern for deployments with the following bra
 2. **Development Integration**
    - Merge feature PR to `dev`
    - Vercel automatically deploys `dev` branch
-   - Create changeset: `pnpm changeset`
+   - Create changeset: `bun run changeset`
 
 3. **Release Process**
    - Push to `dev` with changesets
@@ -34,7 +34,7 @@ This project uses a release train pattern for deployments with the following bra
 
 ```bash
 # Create a changeset
-pnpm changeset
+bun run changeset
 
 # Create a feature branch
 git checkout -b feature/my-feature dev
