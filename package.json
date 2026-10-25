@@ -14,9 +14,9 @@
     "format:check": "prettier --check .",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
+    "knip": "knip",
     "test": "vitest run",
     "test:coverage": "vitest --coverage",
-    "test:formatting": "prettier --check . && eslint . --ext .ts,.tsx,.js,.jsx",
     "test:ci": "act pull_request --workflows .github/workflows/ci.yml --container-architecture linux/amd64",
     "changeset": "changeset",
     "changeset:version": "changeset version && bun install --lockfile-only"

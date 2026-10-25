@@ -1,46 +1,44 @@
-# Automatically merges dev into main after a "Version Packages" PR is merged
-# This completes the release process - Vercel will auto-deploy main to production
+# Promote releases to main, where Vercel deploys production.
 name: Deploy
 
 on:
   pull_request:
     types: [closed]
     branches: [dev]
-  # Keep manual trigger as backup
   workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-main
+  cancel-in-progress: false
 
 jobs:
   promote:
-    name: Merge dev to main
+    name: Promote dev to main
     runs-on: ubuntu-latest
-    # Only run if PR was merged (not just closed) AND is a Version Packages PR
-    # For workflow_dispatch, always run
-    if: >
+    if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event.pull_request.merged == true &&
        contains(github.event.pull_request.title, 'Version Packages'))
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
+      - name: Fast-forward main to dev through GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-      - name: Merge dev into main
-        run: |
-          git checkout main
-          git pull origin main
-          git merge origin/dev --no-edit
-          git push origin main
+          main_sha=$(gh api "repos/$GH_REPO/git/ref/heads/main" --jq '.object.sha')
+          dev_sha=$(gh api "repos/$GH_REPO/git/ref/heads/dev" --jq '.object.sha')
+          if [[ "$main_sha" != "$dev_sha" ]]; then
+            gh api --method PATCH "repos/$GH_REPO/git/refs/heads/main" \
+              -f sha="$dev_sha" \
+              -F force=false
+          fi
 
       - name: Summary
         run: |
-          echo "✅ Successfully merged dev into main"
-          echo "🚀 Vercel will now deploy to production"
+          echo "Main now matches the signed commits on dev." >> "$GITHUB_STEP_SUMMARY"
+          echo "Verify the production deployment in Vercel." >> "$GITHUB_STEP_SUMMARY"
