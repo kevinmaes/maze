@@ -1,8 +1,8 @@
-import Cell, { ICell } from '../Cell';
+import Cell, { type ICell } from '../Cell';
 import { isEligible } from '../Cell/Cell';
-import { DirectionName } from '../Cell/types';
+import type { DirectionName } from '../Cell/types';
 import { getColumnIndex, getIndex, getRowIndex } from './gridHelpers';
-import { IGrid } from './types';
+import type { IGrid } from './types';
 
 const neighborsAt: Record<
   DirectionName,
@@ -99,12 +99,13 @@ export default class Grid implements IGrid {
   }
 
   getCellAtIndex(index: number) {
-    if (index < 0 || index > this.cellTotal) {
+    const cell = this.cells[index];
+    if (!cell) {
       throw new Error(
-        `Index ${index} is out of range. Must be between 0 and ${this.cellTotal}.`
+        `Index ${index} is out of range. Must be between 0 and ${this.endIndex}.`
       );
     }
-    return this.cells[index];
+    return cell;
   }
 
   getStartCell() {
@@ -140,7 +141,7 @@ export default class Grid implements IGrid {
         // Get the neighboring cell from indices.
         .map(([rowIndex, columnIndex]) => {
           const neighborIndex = getIndex(rowIndex, columnIndex, this.cols);
-          return this.cells[neighborIndex];
+          return this.getCellAtIndex(neighborIndex);
         })
         .filter(isEligible)
     );

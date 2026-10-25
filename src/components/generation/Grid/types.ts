@@ -1,4 +1,4 @@
-import { ICell } from '../Cell';
+import type { ICell } from '../Cell';
 
 export interface IGrid {
   draw: () => void;
@@ -8,5 +8,5 @@ export interface IGrid {
   getStartCell: () => ICell;
   visitStartCell: (pathId: string) => ICell;
   getNeighbors: (cell: ICell) => ICell[];
-  pickNeighbor: (cell: ICell) => ICell;
+  pickNeighbor: (cell: ICell) => ICell | undefined;
 }

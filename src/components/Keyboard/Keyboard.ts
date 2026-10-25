@@ -19,15 +19,15 @@ interface Props {
 
 export function Keyboard({ eventEmitter, handlers, state }: Props) {
   useEffect(() => {
-    const eventNames = Object.keys(handlers);
+    const entries = Object.entries(handlers);
 
-    eventNames.forEach((eventName) =>
-      eventEmitter.addEventListener(eventName, handlers[eventName])
+    entries.forEach(([eventName, handler]) =>
+      eventEmitter.addEventListener(eventName, handler)
     );
 
     return () =>
-      eventNames.forEach((eventName) =>
-        eventEmitter.removeEventListener(eventName, handlers[eventName])
+      entries.forEach(([eventName, handler]) =>
+        eventEmitter.removeEventListener(eventName, handler)
       );
   }, [state, eventEmitter, handlers]);
   return null;
