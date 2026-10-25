@@ -1,5 +1,5 @@
-import { ICell } from './Cell';
-import { IGrid } from './Grid';
+import type { ICell } from './Cell';
+import type { IGrid } from './Grid';
 
 interface SeekOptions {
   grid: IGrid;
@@ -7,7 +7,11 @@ interface SeekOptions {
   current: ICell | null;
 }
 
-export const seek = ({ grid, pathId, current }: SeekOptions): ICell => {
+export const seek = ({
+  grid,
+  pathId,
+  current,
+}: SeekOptions): ICell | undefined => {
   let next;
   if (current) {
     next = grid.pickNeighbor(current);

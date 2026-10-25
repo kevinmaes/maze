@@ -1,7 +1,7 @@
 import { createActorContext } from '@xstate/react';
 import { assign, sendTo, setup } from 'xstate';
-import { IGrid } from '../components/generation/Grid';
-import { GenerationParams } from '../types';
+import type { IGrid } from '../components/generation/Grid';
+import type { GenerationParams } from '../types';
 import { recursiveBacktrackerMachine } from './recursiveBacktracker.machine';
 
 const FPS_DEFAULT = 20;

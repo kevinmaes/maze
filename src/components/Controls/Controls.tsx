@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { useSelector } from '@xstate/react';
-import { EventFrom } from 'xstate';
+import type { EventFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
 import StartOver from '../../assets/svg/controls/start-over.svg';
@@ -10,7 +10,7 @@ import Stop from '../../assets/svg/controls/stop.svg';
 import {
   appMachine,
   AppMachineContext,
-  ControlEvent,
+  type ControlEvent,
 } from '../../statechart/app.machine';
 import { Keyboard } from '../Keyboard/Keyboard';
 import { HiddenLabel } from '../shared/form.css';

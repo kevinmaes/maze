@@ -1,10 +1,6 @@
-import { frequencies } from './notes';
+import type { frequencies } from './notes';
 
-export const audioOptions: Array<{
-  name: string;
-  startingNote: keyof typeof frequencies;
-  path: string;
-}> = [
+export const audioOptions = [
   {
     name: 'Marimba 1',
     startingNote: 'C3',
@@ -20,4 +16,8 @@ export const audioOptions: Array<{
     startingNote: 'C1',
     path: '/sounds/Casio-CZ-5000-Synth-Bass-C1.wav',
   },
-];
+] as const satisfies ReadonlyArray<{
+  name: string;
+  startingNote: keyof typeof frequencies;
+  path: string;
+}>;

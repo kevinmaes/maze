@@ -230,7 +230,7 @@ export function getNote(frequencyIndex: number, isArpeggio: boolean) {
     index = notes.length - Math.ceil(Math.random() * notes.length * 0.8);
   }
 
-  return notes[index];
+  return notes[index] ?? 'C0';
 }
 
 export function getStartingNoteFrequency(
