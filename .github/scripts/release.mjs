@@ -1,5 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { execFileSync } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, relative, resolve } from 'node:path';
@@ -18,18 +19,41 @@ const execute = (command, args, options = {}) =>
 function github(method, endpoint, body) {
   const args = ['api', '--method', method, endpoint];
   if (body) args.push('--input', '-');
-  const output = execute('gh', args, {
-    input: body ? JSON.stringify(body) : undefined,
-  }).toString();
+  let output;
+  try {
+    output = execute('gh', args, {
+      input: body ? JSON.stringify(body) : undefined,
+    }).toString();
+  } catch (error) {
+    // gh ends HTTP failures with "(HTTP <status>)" on stderr.
+    const status = /\(HTTP (\d{3})\)/.exec(String(error.stderr))?.[1];
+    if (status) error.status = Number(status);
+    throw error;
+  }
   const result = output ? JSON.parse(output) : null;
   if (result?.errors?.length) throw new Error(JSON.stringify(result.errors));
   return result;
 }
 
+// Reruns keep the run ID, so the attempt keeps a rerun from colliding with a
+// temp ref that a cancelled attempt left behind.
+const runId = () =>
+  process.env.GITHUB_RUN_ID
+    ? `${process.env.GITHUB_RUN_ID}-${process.env.GITHUB_RUN_ATTEMPT ?? '1'}`
+    : randomUUID();
+
 // Dependencies are injectable so tests can exercise the GitHub API flow
 // against real Git histories without touching GitHub branches.
-export function updateRelease({ repository, source, tree, git, api = github }) {
+export function updateRelease({
+  repository,
+  source,
+  tree,
+  git,
+  api = github,
+  id = runId(),
+}) {
   const branch = 'changeset-release/dev';
+  const temporary = `changeset-release/tmp-${id}`;
   const repo = `repos/${repository}`;
   const paths = (filter) =>
     git(
@@ -54,40 +78,51 @@ export function updateRelease({ repository, source, tree, git, api = github }) {
     throw new Error('Versioned tree matches dev; nothing to release');
   }
 
-  // Rebuild the branch from dev on every run so its history always contains
-  // dev. Appending sync commits kept the tree current but left the merge base
-  // behind, which made the release PR conflict. Only this branch is moved;
-  // rulesets block force pushes to main and dev.
-  const refs = api('GET', `${repo}/git/matching-refs/heads/${branch}`);
-  if (refs.some((ref) => ref.ref === `refs/heads/${branch}`)) {
-    api('PATCH', `${repo}/git/refs/heads/${branch}`, {
-      sha: source,
-      force: true,
-    });
-  } else {
-    api('POST', `${repo}/git/refs`, {
-      ref: `refs/heads/${branch}`,
-      sha: source,
-    });
-  }
-
-  // createCommitOnBranch commits are signed by GitHub, satisfying the signed
-  // commits ruleset. expectedHeadOid fails the run if the branch moved since
-  // the reset.
-  const response = api('POST', 'graphql', {
-    query: commitMutation,
-    variables: {
-      input: {
-        branch: { repositoryNameWithOwner: repository, branchName: branch },
-        expectedHeadOid: source,
-        message: { headline: 'Version Packages' },
-        fileChanges: { additions, deletions },
-      },
-    },
+  // Build the release commit on a temp branch from dev, then move the release
+  // branch straight to it. Resetting the release branch to dev first made its
+  // head equal the base, which closes the open release PR (#1624). Only
+  // changeset-release/* refs are written; rulesets block force pushes to main
+  // and dev.
+  api('POST', `${repo}/git/refs`, {
+    ref: `refs/heads/${temporary}`,
+    sha: source,
   });
-  const commit = response.data.createCommitOnBranch.commit;
-  if (!commit.signature?.isValid) {
-    throw new Error('GitHub did not verify the release commit signature');
+  try {
+    // createCommitOnBranch commits are signed by GitHub, satisfying the signed
+    // commits ruleset. expectedHeadOid fails the run if the temp branch moved.
+    const response = api('POST', 'graphql', {
+      query: commitMutation,
+      variables: {
+        input: {
+          branch: {
+            repositoryNameWithOwner: repository,
+            branchName: temporary,
+          },
+          expectedHeadOid: source,
+          message: { headline: 'Version Packages' },
+          fileChanges: { additions, deletions },
+        },
+      },
+    });
+    const commit = response.data.createCommitOnBranch.commit;
+    if (!commit.signature?.isValid) {
+      throw new Error('GitHub did not verify the release commit signature');
+    }
+
+    const refs = api('GET', `${repo}/git/matching-refs/heads/${branch}`);
+    if (refs.some((ref) => ref.ref === `refs/heads/${branch}`)) {
+      api('PATCH', `${repo}/git/refs/heads/${branch}`, {
+        sha: commit.oid,
+        force: true,
+      });
+    } else {
+      api('POST', `${repo}/git/refs`, {
+        ref: `refs/heads/${branch}`,
+        sha: commit.oid,
+      });
+    }
+  } finally {
+    api('DELETE', `${repo}/git/refs/heads/${temporary}`);
   }
 
   const params = new URLSearchParams({
@@ -101,10 +136,18 @@ export function updateRelease({ repository, source, tree, git, api = github }) {
     body: 'Updates package versions and CHANGELOG from the pending changesets on dev.\n\nGenerated by the Release workflow as one GitHub-signed commit on top of dev.',
     base: 'dev',
   };
-  const pullRequest = existing
-    ? api('PATCH', `${repo}/pulls/${existing.number}`, details)
-    : api('POST', `${repo}/pulls`, { ...details, head: branch });
-  return pullRequest.html_url;
+  if (existing) {
+    return api('PATCH', `${repo}/pulls/${existing.number}`, details).html_url;
+  }
+  try {
+    return api('POST', `${repo}/pulls`, { ...details, head: branch }).html_url;
+  } catch (error) {
+    if (error.status !== 403) throw error;
+    throw new Error(
+      `GitHub Actions cannot create the release PR for ${branch}. Enable Settings → Actions → General → Allow GitHub Actions to create and approve pull requests, then rerun the Release workflow.`,
+      { cause: error }
+    );
+  }
 }
 
 function main() {

@@ -25,9 +25,15 @@ let server;
 let api;
 let events;
 let pullRequest;
+let closedPulls;
+let releaseShas;
+let canCreatePulls;
+let nextPull;
 const repository = 'owner/maze';
 const branch = 'changeset-release/dev';
 const ref = `refs/heads/${branch}`;
+const temporary = 'changeset-release/tmp-test';
+const isTemporary = (name) => /^changeset-release\/tmp-[\w-]+$/.test(name);
 
 beforeEach(() => {
   directory = mkdtempSync(join(tmpdir(), 'maze-release-test-'));
@@ -59,51 +65,64 @@ beforeEach(() => {
   });
   events = [];
   pullRequest = null;
+  closedPulls = [];
+  releaseShas = [];
+  canCreatePulls = true;
+  nextPull = 1624;
 
-  // The fake API writes real Git objects and rejects stale expected heads and
-  // any ref write outside the release branch. No GitHub branches change.
-  const append = (head, tree, message) => {
-    const commit = server(['commit-tree', tree, '-p', head], { input: message })
-      .toString()
-      .trim();
-    server(['update-ref', ref, commit, head]);
-    return commit;
+  // The fake API writes real Git objects, rejects stale expected heads and
+  // only lets changeset-release/* refs change. Like GitHub, it closes the open
+  // release PR whenever its head is moved onto dev. No GitHub branches change.
+  const setRef = (name, sha, old) => {
+    server(['update-ref', `refs/heads/${name}`, sha, old]);
+    if (name !== branch) return;
+    releaseShas.push(sha);
+    if (pullRequest && sha === revParse('refs/heads/dev')) {
+      closedPulls.push(pullRequest.number);
+      pullRequest = null;
+    }
   };
   api = (method, endpoint, body) => {
     events.push({ method, endpoint, body });
-    expect(method).not.toBe('DELETE');
     if (endpoint.includes('/git/ref')) {
       expect(endpoint).not.toMatch(/heads\/(main|dev)$/);
     }
-    const head = () => server(['rev-parse', ref]).toString().trim();
-    if (endpoint.endsWith(`/git/matching-refs/heads/${branch}`)) {
-      const output = server(['for-each-ref', '--format=%(objectname)', ref])
+    const head = (name) =>
+      server(['for-each-ref', '--format=%(objectname)', `refs/heads/${name}`])
         .toString()
         .trim();
-      return output ? [{ ref, object: { sha: output } }] : [];
+    const target = endpoint.split('/git/refs/heads/')[1];
+    if (endpoint.endsWith(`/git/matching-refs/heads/${branch}`)) {
+      const sha = head(branch);
+      return sha ? [{ ref, object: { sha } }] : [];
     }
     if (method === 'POST' && endpoint.endsWith('/git/refs')) {
-      expect(body.ref).toBe(ref);
-      server(['update-ref', ref, body.sha, '0'.repeat(40)]);
+      expect(body.ref).toMatch(/^refs\/heads\/changeset-release\//);
+      setRef(body.ref.replace('refs/heads/', ''), body.sha, '0'.repeat(40));
       return { object: { sha: body.sha } };
     }
-    if (method === 'PATCH' && endpoint.endsWith(`/git/refs/heads/${branch}`)) {
+    if (method === 'PATCH' && target) {
+      expect(target).toBe(branch);
       expect(body.force).toBe(true);
-      server(['update-ref', ref, body.sha, head()]);
+      setRef(target, body.sha, head(target));
       return { object: { sha: body.sha } };
+    }
+    if (method === 'DELETE' && target) {
+      expect(isTemporary(target)).toBe(true);
+      server(['update-ref', '-d', `refs/heads/${target}`, head(target)]);
+      return null;
     }
     if (endpoint === 'graphql') {
       const input = body.variables.input;
-      expect(input.branch).toEqual({
-        repositoryNameWithOwner: repository,
-        branchName: branch,
-      });
-      if (head() !== input.expectedHeadOid) throw new Error('Stale head');
+      expect(input.branch.repositoryNameWithOwner).toBe(repository);
+      const name = input.branch.branchName;
+      expect(isTemporary(name)).toBe(true);
+      if (head(name) !== input.expectedHeadOid) throw new Error('Stale head');
       const index = join(directory, 'api-index');
       const options = {
         env: { ...process.env, GIT_INDEX_FILE: index, GIT_WORK_TREE: work },
       };
-      server(['read-tree', head()], options);
+      server(['read-tree', head(name)], options);
       for (const { path } of input.fileChanges.deletions) {
         server(['update-index', '--force-remove', path], options);
       }
@@ -120,7 +139,12 @@ beforeEach(() => {
       }
       const tree = server(['write-tree'], options).toString().trim();
       rmSync(index);
-      const oid = append(head(), tree, input.message.headline);
+      const oid = server(['commit-tree', tree, '-p', head(name)], {
+        input: input.message.headline,
+      })
+        .toString()
+        .trim();
+      setRef(name, oid, head(name));
       return {
         data: {
           createCommitOnBranch: {
@@ -130,37 +154,75 @@ beforeEach(() => {
       };
     }
     if (method === 'GET' && endpoint.includes('/pulls?')) {
-      expect(new URLSearchParams(endpoint.split('?')[1]).get('base')).toBe(
-        'dev'
-      );
+      const params = new URLSearchParams(endpoint.split('?')[1]);
+      expect(params.get('base')).toBe('dev');
+      expect(params.get('head')).toBe(`owner:${branch}`);
       return pullRequest ? [pullRequest] : [];
     }
-    if (method === 'PATCH' && endpoint.endsWith('/pulls/1624')) {
+    if (
+      method === 'PATCH' &&
+      endpoint.endsWith(`/pulls/${pullRequest?.number}`)
+    ) {
       expect(body.title).toBe('Version Packages');
       return pullRequest;
     }
     if (method === 'POST' && endpoint.endsWith('/pulls')) {
+      if (!canCreatePulls) {
+        throw Object.assign(
+          new Error(
+            'GitHub Actions is not permitted to create or approve pull requests. (HTTP 403)'
+          ),
+          { status: 403 }
+        );
+      }
       expect(body).toMatchObject({
         head: branch,
         base: 'dev',
         title: 'Version Packages',
       });
-      pullRequest = { number: 1624, html_url: 'https://example.com/pull/1624' };
+      const number = nextPull++;
+      pullRequest = { number, html_url: `https://example.com/pull/${number}` };
       return pullRequest;
     }
     throw new Error(`Unexpected API call: ${method} ${endpoint}`);
   };
 });
 
-afterEach(() => rmSync(directory, { recursive: true, force: true }));
+afterEach(() => {
+  vi.unstubAllEnvs();
+  rmSync(directory, { recursive: true, force: true });
+});
 
 const revParse = (name) => server(['rev-parse', name]).toString().trim();
+const releaseHead = () =>
+  server(['for-each-ref', '--format=%(objectname)', ref]).toString().trim();
+const temporaryRefs = () =>
+  server([
+    'for-each-ref',
+    '--format=%(refname)',
+    'refs/heads/changeset-release/',
+  ])
+    .toString()
+    .split('\n')
+    .filter((name) => name.includes('/tmp-'));
 const refWrites = () =>
   events.filter(
     (event) => event.method !== 'GET' && event.endpoint.includes('/git/ref')
   );
 const graphqlCalls = () =>
   events.filter((event) => event.endpoint === 'graphql');
+const temporaryWrites = (source) => [
+  {
+    method: 'POST',
+    endpoint: `repos/${repository}/git/refs`,
+    body: { ref: `refs/heads/${temporary}`, sha: source },
+  },
+  {
+    method: 'DELETE',
+    endpoint: `repos/${repository}/git/refs/heads/${temporary}`,
+    body: undefined,
+  },
+];
 
 function writeFiles(files) {
   for (const [path, contents] of Object.entries(files)) {
@@ -181,7 +243,7 @@ function commitDev(files) {
   return git('rev-parse', 'HEAD').toString().trim();
 }
 
-function release(files = {}) {
+function release(files = {}, options = { id: 'test' }) {
   const source = git('rev-parse', 'HEAD').toString().trim();
   writeFiles({
     'package.json': '{"name":"maze","version":"1.0.1"}\n',
@@ -192,16 +254,19 @@ function release(files = {}) {
   git('add', '--all');
   const tree = git('write-tree').toString().trim();
   git('reset', '--hard', source);
-  const url = updateRelease({ repository, source, tree, git, api });
+  const url = updateRelease({ repository, source, tree, git, api, ...options });
   const head = revParse(ref);
   expect(revParse(`${head}^{tree}`)).toBe(tree);
-  // The branch is always dev plus exactly one release commit.
+  // The branch is always dev plus exactly one release commit, and never dev
+  // itself, which would close the open release PR.
   expect(revParse(`${head}^`)).toBe(source);
+  expect(releaseShas).not.toContain(source);
+  expect(temporaryRefs()).toEqual([]);
   expect(revParse('refs/heads/dev')).toBe(source);
   return { source, tree, head, url };
 }
 
-test('creates a missing release branch from dev with one signed commit and a PR', () => {
+test('creates a missing release branch at the version commit and opens a PR', () => {
   const binary = Buffer.from([0, 255, 128, 1]);
   const { source, head, url } = release({ 'generated.bin': binary });
   expect(url).toBe('https://example.com/pull/1624');
@@ -212,26 +277,40 @@ test('creates a missing release branch from dev with one signed commit and a PR'
   expect(() =>
     server(['cat-file', '-e', `${head}:.changeset/pending.md`])
   ).toThrow();
+  const [createTemporary, deleteTemporary] = temporaryWrites(source);
   expect(refWrites()).toEqual([
+    createTemporary,
     {
       method: 'POST',
       endpoint: `repos/${repository}/git/refs`,
-      body: { ref, sha: source },
+      body: { ref, sha: head },
     },
+    deleteTemporary,
   ]);
+  expect(releaseShas).toEqual([head]);
   expect(graphqlCalls()).toHaveLength(1);
-  expect(graphqlCalls()[0].body.variables.input.expectedHeadOid).toBe(source);
-  expect(events.at(-1).method).toBe('POST');
+  expect(graphqlCalls()[0].body.variables.input).toMatchObject({
+    branch: { branchName: temporary },
+    expectedHeadOid: source,
+  });
+  expect(events.at(-1)).toMatchObject({
+    method: 'POST',
+    endpoint: `repos/${repository}/pulls`,
+  });
 });
 
-test('resets an existing release branch to dev plus one commit', () => {
-  release();
+test('updates the open release PR without resetting its branch to dev', () => {
+  const first = release();
   const source = commitDev({
     'app.txt': 'current dev\n',
     'binary.dat': Buffer.from([0, 1, 255]),
   });
   events.length = 0;
-  const { head } = release();
+  releaseShas.length = 0;
+  const { head, url } = release();
+  expect(url).toBe(first.url);
+  expect(pullRequest.number).toBe(1624);
+  expect(closedPulls).toEqual([]);
   expect(
     server(['rev-list', '--count', `dev..${head}`])
       .toString()
@@ -241,15 +320,22 @@ test('resets an existing release branch to dev plus one commit', () => {
   expect(server(['show', `${head}:binary.dat`])).toEqual(
     Buffer.from([0, 1, 255])
   );
+  const [createTemporary, deleteTemporary] = temporaryWrites(source);
   expect(refWrites()).toEqual([
+    createTemporary,
     {
       method: 'PATCH',
       endpoint: `repos/${repository}/git/refs/heads/${branch}`,
-      body: { sha: source, force: true },
+      body: { sha: head, force: true },
     },
+    deleteTemporary,
   ]);
   expect(graphqlCalls()).toHaveLength(1);
-  expect(events.at(-1).endpoint).toContain('/pulls/1624');
+  expect(events.some((event) => event.endpoint.endsWith('/pulls'))).toBe(false);
+  expect(events.at(-1)).toMatchObject({
+    method: 'PATCH',
+    endpoint: `repos/${repository}/pulls/1624`,
+  });
 });
 
 test('replaces an append-only history that conflicts with dev', () => {
@@ -285,35 +371,60 @@ test('replaces an append-only history that conflicts with dev', () => {
       .toString()
       .trim()
   ).toBe('1');
+  expect(pullRequest.number).toBe(1624);
 });
 
 test.each(['merge', 'squash'])(
-  'starts the next release from dev after a %s release',
+  'opens a new PR from dev after a %s release',
   (mode) => {
     const previous = release();
     git('fetch', 'origin', branch);
     git('merge', mode === 'squash' ? '--squash' : '--no-edit', previous.head);
     if (mode === 'squash') git('commit', '-m', 'Version Packages (#1624)');
     commitDev({ '.changeset/pending.md': 'next release\n' });
+    // Merging closes the PR and the repo auto-deletes its branch.
     pullRequest = null;
+    server(['update-ref', '-d', ref]);
     events.length = 0;
-    release({ 'package.json': '{"name":"maze","version":"1.0.2"}\n' });
-    expect(refWrites()).toHaveLength(1);
-    expect(refWrites()[0].method).toBe('PATCH');
+    const { head, url } = release({
+      'package.json': '{"name":"maze","version":"1.0.2"}\n',
+    });
+    expect(url).toBe('https://example.com/pull/1625');
+    expect(refWrites().map(({ method, body }) => [method, body?.ref])).toEqual([
+      ['POST', `refs/heads/${temporary}`],
+      ['POST', ref],
+      ['DELETE', undefined],
+    ]);
+    expect(refWrites()[1].body.sha).toBe(head);
     expect(graphqlCalls()).toHaveLength(1);
     expect(events.at(-1).method).toBe('POST');
   }
 );
 
-test('recovers after an interrupted version commit', () => {
-  release();
+test('deletes the temp ref when createCommitOnBranch throws', () => {
+  const previous = release();
   commitDev({ 'app.txt': 'new dev content\n' });
   const originalApi = api;
   api = (method, endpoint, body) => {
-    if (endpoint === 'graphql') throw new Error('Interrupted');
+    if (endpoint === 'graphql') {
+      events.push({ method, endpoint, body });
+      throw new Error('Interrupted');
+    }
     return originalApi(method, endpoint, body);
   };
+  events.length = 0;
   expect(() => release()).toThrow('Interrupted');
+  expect(events.map(({ method, endpoint }) => `${method} ${endpoint}`)).toEqual(
+    [
+      `POST repos/${repository}/git/refs`,
+      'POST graphql',
+      `DELETE repos/${repository}/git/refs/heads/${temporary}`,
+    ]
+  );
+  expect(temporaryRefs()).toEqual([]);
+  expect(releaseHead()).toBe(previous.head);
+  expect(pullRequest.number).toBe(1624);
+
   api = originalApi;
   const { head } = release();
   expect(server(['show', `${head}:app.txt`]).toString()).toBe(
@@ -330,18 +441,15 @@ test('never writes main or dev refs', () => {
   release();
   expect(revParse('refs/heads/main')).toBe(main);
   expect(revParse('refs/heads/dev')).toBe(dev);
+  expect(refWrites()).toHaveLength(6);
   for (const event of refWrites()) {
-    expect(event.body.ref ?? event.endpoint).toMatch(
-      new RegExp(`heads/${branch}$`)
+    expect(event.body?.ref ?? event.endpoint).toMatch(
+      /heads\/changeset-release\/(dev|tmp-test)$/
     );
   }
-  expect(
-    events.every(
-      (event) =>
-        event.endpoint !== 'graphql' ||
-        event.body.variables.input.branch.branchName === branch
-    )
-  ).toBe(true);
+  for (const event of graphqlCalls()) {
+    expect(event.body.variables.input.branch.branchName).toBe(temporary);
+  }
 });
 
 test('makes no API calls when the versioned tree matches dev', () => {
@@ -391,32 +499,30 @@ test('exits without contacting GitHub when the real CLI reports no pending relea
   expect(output.toString()).toBe('No pending releases.\n');
 });
 
-test('stops when the release branch moves after the reset', () => {
+test('stops when the temp branch moves before the version commit', () => {
   const previous = release();
   commitDev({ 'app.txt': 'concurrent dev\n' });
   const originalApi = api;
-  let concurrent;
   api = (method, endpoint, body) => {
     const result = originalApi(method, endpoint, body);
-    if (method === 'PATCH' && endpoint.includes('/git/refs/')) {
-      concurrent = server(
+    if (method === 'POST' && body?.ref === `refs/heads/${temporary}`) {
+      const concurrent = server(
         ['commit-tree', `${previous.head}^{tree}`, '-p', body.sha],
-        {
-          input: 'Concurrent push',
-        }
+        { input: 'Concurrent push' }
       )
         .toString()
         .trim();
-      server(['update-ref', ref, concurrent]);
+      server(['update-ref', body.ref, concurrent]);
     }
     return result;
   };
   expect(() => release()).toThrow('Stale head');
-  expect(revParse(ref)).toBe(concurrent);
-  expect(events.at(-1).endpoint).toBe('graphql');
+  expect(releaseHead()).toBe(previous.head);
+  expect(temporaryRefs()).toEqual([]);
+  expect(events.at(-1).method).toBe('DELETE');
 });
 
-test('stops before updating the PR if the commit signature is not verified', () => {
+test('stops before moving the release branch if the commit signature is not verified', () => {
   const originalApi = api;
   api = (method, endpoint, body) => {
     const result = originalApi(method, endpoint, body);
@@ -426,5 +532,25 @@ test('stops before updating the PR if the commit signature is not verified', () 
     return result;
   };
   expect(() => release()).toThrow('did not verify');
+  expect(releaseHead()).toBe('');
+  expect(temporaryRefs()).toEqual([]);
   expect(pullRequest).toBeNull();
+});
+
+test('names the Actions setting when GitHub refuses to create the PR', () => {
+  canCreatePulls = false;
+  expect(() => release()).toThrow(
+    'Settings → Actions → General → Allow GitHub Actions to create and approve pull requests'
+  );
+  expect(temporaryRefs()).toEqual([]);
+  expect(pullRequest).toBeNull();
+});
+
+test('names the temp ref after the workflow run', () => {
+  vi.stubEnv('GITHUB_RUN_ID', '40409473291');
+  vi.stubEnv('GITHUB_RUN_ATTEMPT', '2');
+  release({}, {});
+  expect(graphqlCalls()[0].body.variables.input.branch.branchName).toBe(
+    'changeset-release/tmp-40409473291-2'
+  );
 });
