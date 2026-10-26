@@ -60,22 +60,21 @@ beforeEach(() => {
   events = [];
   pullRequest = null;
 
-  // The fake API writes real Git objects, rejecting stale expected heads and
-  // every non-fast-forward update. No GitHub requests or real branches change.
-  const append = (head, tree, message, parents = [head]) => {
-    const commit = server(
-      ['commit-tree', tree, ...parents.flatMap((parent) => ['-p', parent])],
-      { input: message }
-    )
+  // The fake API writes real Git objects and rejects stale expected heads and
+  // any ref write outside the release branch. No GitHub branches change.
+  const append = (head, tree, message) => {
+    const commit = server(['commit-tree', tree, '-p', head], { input: message })
       .toString()
       .trim();
-    server(['merge-base', '--is-ancestor', head, commit]);
     server(['update-ref', ref, commit, head]);
     return commit;
   };
   api = (method, endpoint, body) => {
     events.push({ method, endpoint, body });
     expect(method).not.toBe('DELETE');
+    if (endpoint.includes('/git/ref')) {
+      expect(endpoint).not.toMatch(/heads\/(main|dev)$/);
+    }
     const head = () => server(['rev-parse', ref]).toString().trim();
     if (endpoint.endsWith(`/git/matching-refs/heads/${branch}`)) {
       const output = server(['for-each-ref', '--format=%(objectname)', ref])
@@ -83,19 +82,16 @@ beforeEach(() => {
         .trim();
       return output ? [{ ref, object: { sha: output } }] : [];
     }
-    if (endpoint.endsWith('/git/refs')) {
+    if (method === 'POST' && endpoint.endsWith('/git/refs')) {
       expect(body.ref).toBe(ref);
       server(['update-ref', ref, body.sha, '0'.repeat(40)]);
-      return {};
-    }
-    if (method === 'PATCH' && endpoint.endsWith(`/git/refs/heads/${branch}`)) {
-      expect(body.force).toBe(false);
-      const current = head();
-      server(['merge-base', '--is-ancestor', current, body.sha]);
-      server(['update-ref', ref, body.sha, current]);
       return { object: { sha: body.sha } };
     }
-    expect(body?.force).toBeUndefined();
+    if (method === 'PATCH' && endpoint.endsWith(`/git/refs/heads/${branch}`)) {
+      expect(body.force).toBe(true);
+      server(['update-ref', ref, body.sha, head()]);
+      return { object: { sha: body.sha } };
+    }
     if (endpoint === 'graphql') {
       const input = body.variables.input;
       expect(input.branch).toEqual({
@@ -133,9 +129,6 @@ beforeEach(() => {
         },
       };
     }
-    if (endpoint.endsWith(`/git/ref/heads/${branch}`)) {
-      return { object: { sha: head() } };
-    }
     if (method === 'GET' && endpoint.includes('/pulls?')) {
       expect(new URLSearchParams(endpoint.split('?')[1]).get('base')).toBe(
         'dev'
@@ -160,6 +153,14 @@ beforeEach(() => {
 });
 
 afterEach(() => rmSync(directory, { recursive: true, force: true }));
+
+const revParse = (name) => server(['rev-parse', name]).toString().trim();
+const refWrites = () =>
+  events.filter(
+    (event) => event.method !== 'GET' && event.endpoint.includes('/git/ref')
+  );
+const graphqlCalls = () =>
+  events.filter((event) => event.endpoint === 'graphql');
 
 function writeFiles(files) {
   for (const [path, contents] of Object.entries(files)) {
@@ -192,124 +193,165 @@ function release(files = {}) {
   const tree = git('write-tree').toString().trim();
   git('reset', '--hard', source);
   const url = updateRelease({ repository, source, tree, git, api });
-  git('fetch', 'origin', branch);
-  const head = server(['rev-parse', ref]).toString().trim();
-  expect(
-    server(['rev-parse', `${head}^{tree}`])
-      .toString()
-      .trim()
-  ).toBe(tree);
+  const head = revParse(ref);
+  expect(revParse(`${head}^{tree}`)).toBe(tree);
+  // The branch is always dev plus exactly one release commit.
+  expect(revParse(`${head}^`)).toBe(source);
+  expect(revParse('refs/heads/dev')).toBe(source);
   return { source, tree, head, url };
 }
 
-test('creates a signed release commit and PR, including additions and deletions', () => {
+test('creates a missing release branch from dev with one signed commit and a PR', () => {
   const binary = Buffer.from([0, 255, 128, 1]);
-  const { head, url } = release({ 'generated.bin': binary });
+  const { source, head, url } = release({ 'generated.bin': binary });
   expect(url).toBe('https://example.com/pull/1624');
   expect(server(['show', `${head}:generated.bin`])).toEqual(binary);
   expect(server(['show', `${head}:CHANGELOG.md`]).toString()).toContain(
     '1.0.1'
   );
-  expect(events.filter((event) => event.endpoint === 'graphql')).toHaveLength(
-    1
-  );
+  expect(() =>
+    server(['cat-file', '-e', `${head}:.changeset/pending.md`])
+  ).toThrow();
+  expect(refWrites()).toEqual([
+    {
+      method: 'POST',
+      endpoint: `repos/${repository}/git/refs`,
+      body: { ref, sha: source },
+    },
+  ]);
+  expect(graphqlCalls()).toHaveLength(1);
+  expect(graphqlCalls()[0].body.variables.input.expectedHeadOid).toBe(source);
+  expect(events.at(-1).method).toBe('POST');
 });
 
-test('updates a divergent release branch without losing history or current dev files', () => {
-  const previous = release();
-  commitDev({
+test('resets an existing release branch to dev plus one commit', () => {
+  release();
+  const source = commitDev({
     'app.txt': 'current dev\n',
     'binary.dat': Buffer.from([0, 1, 255]),
   });
   events.length = 0;
   const { head } = release();
-  server(['merge-base', '--is-ancestor', previous.head, head]);
+  expect(
+    server(['rev-list', '--count', `dev..${head}`])
+      .toString()
+      .trim()
+  ).toBe('1');
   expect(server(['show', `${head}:app.txt`]).toString()).toBe('current dev\n');
   expect(server(['show', `${head}:binary.dat`])).toEqual(
     Buffer.from([0, 1, 255])
   );
-  expect(events.filter((event) => event.endpoint === 'graphql')).toHaveLength(
-    2
-  );
-  expect(events.some((event) => event.endpoint.endsWith('/merges'))).toBe(
-    false
+  expect(refWrites()).toEqual([
+    {
+      method: 'PATCH',
+      endpoint: `repos/${repository}/git/refs/heads/${branch}`,
+      body: { sha: source, force: true },
+    },
+  ]);
+  expect(graphqlCalls()).toHaveLength(1);
+  expect(events.at(-1).endpoint).toContain('/pulls/1624');
+});
+
+test('replaces an append-only history that conflicts with dev', () => {
+  // Reproduce #1624: the branch tree matched dev through a sync commit, but
+  // its history never included dev, so a changeset deleted on the branch and
+  // modified on dev became a modify/delete conflict.
+  const previous = release();
+  commitDev({ '.changeset/pending.md': 'pending release, edited\n' });
+  const sync = server(['commit-tree', 'dev^{tree}', '-p', previous.head], {
+    input: 'Sync release branch with current dev',
+  })
+    .toString()
+    .trim();
+  const index = join(directory, 'stale-index');
+  const options = {
+    env: { ...process.env, GIT_INDEX_FILE: index, GIT_WORK_TREE: work },
+  };
+  server(['read-tree', sync], options);
+  server(['update-index', '--force-remove', '.changeset/pending.md'], options);
+  const staleTree = server(['write-tree'], options).toString().trim();
+  const stale = server(['commit-tree', staleTree, '-p', sync], {
+    input: 'Version Packages',
+  })
+    .toString()
+    .trim();
+  server(['update-ref', ref, stale]);
+  expect(() => server(['merge-tree', '--write-tree', 'dev', ref])).toThrow();
+
+  const { head } = release();
+  server(['merge-tree', '--write-tree', 'dev', ref]);
+  expect(
+    server(['rev-list', '--count', `dev..${head}`])
+      .toString()
+      .trim()
+  ).toBe('1');
+});
+
+test.each(['merge', 'squash'])(
+  'starts the next release from dev after a %s release',
+  (mode) => {
+    const previous = release();
+    git('fetch', 'origin', branch);
+    git('merge', mode === 'squash' ? '--squash' : '--no-edit', previous.head);
+    if (mode === 'squash') git('commit', '-m', 'Version Packages (#1624)');
+    commitDev({ '.changeset/pending.md': 'next release\n' });
+    pullRequest = null;
+    events.length = 0;
+    release({ 'package.json': '{"name":"maze","version":"1.0.2"}\n' });
+    expect(refWrites()).toHaveLength(1);
+    expect(refWrites()[0].method).toBe('PATCH');
+    expect(graphqlCalls()).toHaveLength(1);
+    expect(events.at(-1).method).toBe('POST');
+  }
+);
+
+test('recovers after an interrupted version commit', () => {
+  release();
+  commitDev({ 'app.txt': 'new dev content\n' });
+  const originalApi = api;
+  api = (method, endpoint, body) => {
+    if (endpoint === 'graphql') throw new Error('Interrupted');
+    return originalApi(method, endpoint, body);
+  };
+  expect(() => release()).toThrow('Interrupted');
+  api = originalApi;
+  const { head } = release();
+  expect(server(['show', `${head}:app.txt`]).toString()).toBe(
+    'new dev content\n'
   );
   expect(events.at(-1).endpoint).toContain('/pulls/1624');
 });
 
-test.each(['sync', 'version'])(
-  'recovers after an interrupted %s step',
-  (step) => {
-    const previous = release();
-    commitDev({ 'app.txt': 'new dev content\n' });
-    const originalApi = api;
-    api = (method, endpoint, body) => {
-      if (
-        (step === 'sync' &&
-          endpoint === 'graphql' &&
-          body.variables.input.message.headline ===
-            'Sync release branch with current dev') ||
-        (step === 'version' &&
-          endpoint === 'graphql' &&
-          body.variables.input.message.headline === 'Version Packages')
-      ) {
-        throw new Error('Interrupted');
-      }
-      return originalApi(method, endpoint, body);
-    };
-    expect(() => release()).toThrow('Interrupted');
-    api = originalApi;
-    const { head } = release();
-    server(['merge-base', '--is-ancestor', previous.head, head]);
-    expect(server(['show', `${head}:app.txt`]).toString()).toBe(
-      'new dev content\n'
+test('never writes main or dev refs', () => {
+  git('push', 'origin', 'dev:main');
+  const main = revParse('refs/heads/main');
+  release();
+  const dev = commitDev({ 'app.txt': 'later dev\n' });
+  release();
+  expect(revParse('refs/heads/main')).toBe(main);
+  expect(revParse('refs/heads/dev')).toBe(dev);
+  for (const event of refWrites()) {
+    expect(event.body.ref ?? event.endpoint).toMatch(
+      new RegExp(`heads/${branch}$`)
     );
-    expect(events.at(-1).endpoint).toContain('/pulls/1624');
   }
-);
-
-test('does not append commits when rerun with the same release tree', () => {
-  const previous = release();
-  events.length = 0;
-  expect(release().head).toBe(previous.head);
-  expect(events.some((event) => event.endpoint === 'graphql')).toBe(false);
   expect(
-    events.some(
+    events.every(
       (event) =>
-        event.method === 'PATCH' &&
-        event.endpoint.endsWith(`/git/refs/heads/${branch}`)
+        event.endpoint !== 'graphql' ||
+        event.body.variables.input.branch.branchName === branch
     )
-  ).toBe(false);
+  ).toBe(true);
 });
 
-test.each(['merge', 'squash'])(
-  'reuses the retained branch after a %s release',
-  (mode) => {
-    const previous = release();
-    git('merge', mode === 'squash' ? '--squash' : '--no-edit', previous.head);
-    commitDev({ '.changeset/pending.md': 'next release\n' });
-    pullRequest = null;
-    events.length = 0;
-    const { head } = release({
-      'package.json': '{"name":"maze","version":"1.0.2"}\n',
-    });
-    server(['merge-base', '--is-ancestor', previous.head, head]);
-    expect(events.some((event) => event.endpoint.endsWith('/git/refs'))).toBe(
-      false
-    );
-    expect(
-      events.some(
-        (event) =>
-          event.method === 'PATCH' &&
-          event.endpoint.endsWith(`/git/refs/heads/${branch}`)
-      )
-    ).toBe(mode === 'merge');
-    expect(events.filter((event) => event.endpoint === 'graphql')).toHaveLength(
-      mode === 'merge' ? 1 : 2
-    );
-    expect(events.at(-1).method).toBe('POST');
-  }
-);
+test('makes no API calls when the versioned tree matches dev', () => {
+  const source = git('rev-parse', 'HEAD').toString().trim();
+  const tree = git('write-tree').toString().trim();
+  expect(() => updateRelease({ repository, source, tree, git, api })).toThrow(
+    'nothing to release'
+  );
+  expect(events).toEqual([]);
+});
 
 test('exits without contacting GitHub when the real CLI reports no pending releases', () => {
   commitDev({
@@ -329,10 +371,17 @@ test('exits without contacting GitHub when the real CLI reports no pending relea
     'dir'
   );
   const script = join(process.cwd(), '.github/scripts/release.mjs');
+  // A gh shim fails the test if the script reaches the GitHub API.
+  const bin = join(directory, 'bin');
+  mkdirSync(bin);
+  writeFileSync(join(bin, 'gh'), '#!/bin/sh\necho "gh called" >&2\nexit 1\n', {
+    mode: 0o755,
+  });
   const output = execFileSync(process.execPath, [script], {
     cwd: work,
     env: {
       ...process.env,
+      PATH: `${bin}:${process.env.PATH}`,
       GH_REPO: repository,
       GITHUB_REF: 'refs/heads/dev',
       GH_TOKEN: 'test-token',
@@ -342,18 +391,29 @@ test('exits without contacting GitHub when the real CLI reports no pending relea
   expect(output.toString()).toBe('No pending releases.\n');
 });
 
-test('stops when GitHub reports a stale expected head', () => {
+test('stops when the release branch moves after the reset', () => {
   const previous = release();
-  const originalApi = api;
-  api = (method, endpoint, body) => {
-    if (endpoint === 'graphql') {
-      body.variables.input.expectedHeadOid = '0'.repeat(40);
-    }
-    return originalApi(method, endpoint, body);
-  };
   commitDev({ 'app.txt': 'concurrent dev\n' });
+  const originalApi = api;
+  let concurrent;
+  api = (method, endpoint, body) => {
+    const result = originalApi(method, endpoint, body);
+    if (method === 'PATCH' && endpoint.includes('/git/refs/')) {
+      concurrent = server(
+        ['commit-tree', `${previous.head}^{tree}`, '-p', body.sha],
+        {
+          input: 'Concurrent push',
+        }
+      )
+        .toString()
+        .trim();
+      server(['update-ref', ref, concurrent]);
+    }
+    return result;
+  };
   expect(() => release()).toThrow('Stale head');
-  expect(server(['rev-parse', ref]).toString().trim()).toBe(previous.head);
+  expect(revParse(ref)).toBe(concurrent);
+  expect(events.at(-1).endpoint).toBe('graphql');
 });
 
 test('stops before updating the PR if the commit signature is not verified', () => {
