@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
 # Maze
 
 <!-- BADGER:BEGIN_INSERTION -->
@@ -24,7 +22,7 @@ Thanks for visiting!
 ## Getting Started
 
 Install Node.js 24 LTS (the patch release is pinned in `.nvmrc`) and Bun 1.4.4.
-Bun manages packages and scripts; Next.js, Vite, and Vitest run on Node.js.
+Bun manages packages and scripts; Vite and Vitest run on Node.js.
 
 ```bash
 nvm install
@@ -35,32 +33,25 @@ bun run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `src/pages/index.ts`. The page auto-updates as you edit the file.
+Start editing in `src/components/App/App.tsx`. Vite hot-reloads the page as you edit.
+
+| Script | Purpose |
+|---|---|
+| `bun run dev` | Vite dev server on port 3000 |
+| `bun run build` | Production build to `dist/` |
+| `bun run preview` | Serve `dist/` on port 3000 |
 
 ## TypeScript baseline
 
 The project uses TypeScript 5.9.3 with an ES2022 target, bundler module
 resolution, explicit type imports, checked indexed access, and the `@/*` alias
-for `src/*` in both Next.js and Vitest.
+for `src/*` in both Vite and Vitest.
 
 [TypeScript 7.0 is released](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/),
-but its native compiler does not expose the JavaScript compiler API required by
-Next.js 15.5.9 (`readConfigFile` / `createProgram`). Biome handles linting,
-formatting, and import organization independently of the TypeScript compiler.
-Keep 5.9.3 as the project's validated compiler for `bun run typecheck` and
-builds until compatibility with a newer compiler is confirmed.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+but this project has not validated its native compiler yet. Biome handles linting, formatting, and import organization independently of
+the TypeScript compiler. Keep 5.9.3 as the project's validated compiler for
+`bun run typecheck` until compatibility with a newer compiler is confirmed.
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Vercel builds with the Vite preset (`vercel.json`): `bun run build`, output `dist/`.

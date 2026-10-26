@@ -2,11 +2,11 @@ import { useSelector } from '@xstate/react';
 import type React from 'react';
 import { useState } from 'react';
 import type { EventFrom } from 'xstate';
-import Pause from '../../assets/svg/controls/pause.svg';
-import Play from '../../assets/svg/controls/play.svg';
-import StartOver from '../../assets/svg/controls/start-over.svg';
-import StepForward from '../../assets/svg/controls/step-forward.svg';
-import Stop from '../../assets/svg/controls/stop.svg';
+import Pause from '../../assets/svg/controls/pause.svg?react';
+import Play from '../../assets/svg/controls/play.svg?react';
+import StartOver from '../../assets/svg/controls/start-over.svg?react';
+import StepForward from '../../assets/svg/controls/step-forward.svg?react';
+import Stop from '../../assets/svg/controls/stop.svg?react';
 import {
   AppMachineContext,
   type appMachine,

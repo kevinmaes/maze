@@ -11,8 +11,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    // #1661 will replace this command with the Vite preview server.
-    command: 'bun run build && bun run start',
+    command: 'bun run build && bun run preview',
     url: 'http://localhost:3000',
     timeout: 120_000,
     reuseExistingServer: false,

@@ -8,13 +8,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": [
-      "**",
-      "!!**/.next",
-      "!!**/coverage",
-      "!CHANGELOG.md",
-      "!next-env.d.ts"
-    ]
+    "includes": ["**", "!!**/coverage", "!CHANGELOG.md"]
   },
   "formatter": {
     "enabled": true,

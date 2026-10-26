@@ -1,10 +1,9 @@
-import Image from 'next/image';
-import GitHub from '../../assets/svg/logos/github.svg';
-import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg';
-import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg';
-import ReactLogo from '../../assets/svg/technologies/react-logo.svg';
-import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg';
-import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg';
+import GitHub from '../../assets/svg/logos/github.svg?react';
+import StatelyLogo from '../../assets/svg/logos/stately-logo-black-nobg.svg?react';
+import CanvasLogo from '../../assets/svg/technologies/canvas-logo.svg?react';
+import ReactLogo from '../../assets/svg/technologies/react-logo.svg?react';
+import TypeScriptLogo from '../../assets/svg/technologies/typescript-logo.svg?react';
+import XStateLogo from '../../assets/svg/technologies/xstate-logo.svg?react';
 import {
   FooterContainer,
   ImageHolder,
@@ -14,16 +13,7 @@ import {
   VersionContainer,
 } from './Footer.css';
 
-declare const VERSION: string;
-
 export function Footer() {
-  let version = 'unknown';
-  try {
-    version = VERSION;
-  } catch (error) {
-    console.log('Cannot get version of application.', error);
-  }
-
   return (
     <FooterContainer>
       <Technologies>
@@ -43,7 +33,7 @@ export function Footer() {
           <ImageHolder>
             <GitHub />
           </ImageHolder>
-          <Version>v{version}</Version>
+          <Version>v{__APP_VERSION__}</Version>
         </Link>
         <Link
           className="App-link"
@@ -64,9 +54,9 @@ export function Footer() {
           rel="noreferrer"
         >
           <ImageHolder>
-            <Image
+            <img
               className="App-footer-image"
-              src={'/images/twitter-logo-transparent.png'}
+              src="/images/twitter-logo-transparent.png"
               alt="Twitter logo"
               width="20"
               height="16"

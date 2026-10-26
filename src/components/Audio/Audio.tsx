@@ -2,8 +2,8 @@ import { useSelector } from '@xstate/react';
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
-import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
-import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
+import SoundOff from '../../assets/svg/audio-controls/sound-off.svg?react';
+import SoundOn from '../../assets/svg/audio-controls/sound-on.svg?react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 import {

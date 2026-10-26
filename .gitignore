@@ -8,9 +8,6 @@
 # pnpm
 .pnpm-store/
 
-# next.js
-/.next/
-
 # xstate
 src/statechart/**.typegen.ts
 
@@ -21,6 +18,7 @@ src/statechart/**.typegen.ts
 
 # production
 /build
+/dist/
 
 # misc
 .DS_Store

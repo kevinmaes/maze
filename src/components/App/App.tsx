@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import { useEffect } from 'react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import GlobalStyle from '../../styles/GlobalStyles';
@@ -22,9 +21,6 @@ export default function App() {
 
   return (
     <>
-      <Head>
-        <title>Maze Generation</title>
-      </Head>
       <GlobalStyle />
       <AppContainer>
         <AppMachineContext.Provider>
