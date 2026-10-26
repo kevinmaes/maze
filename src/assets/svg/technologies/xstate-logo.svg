@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<!-- biome-ignore lint/a11y/noSvgWithoutTitle: accessible names belong at the usage site, see #1665 -->
 <svg width="60px" height="60px" viewBox="0 -176 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
 		<g fill="#000000">
 				<path d="M40.0963855,0 L132.420884,159.768675 L92.1188755,159.768675 L66.2104418,114.737349 L40.0963855,159.768675 L0,159.768675 L46.0594378,79.9871486 L0,0 L40.0963855,0 Z M132.215261,0 L91.7076305,70.3228916 C79.4936546,48.5413012 79.5730455,22.124507 91.7462878,0.649243142 L92.1188755,0 L132.215261,0 Z">

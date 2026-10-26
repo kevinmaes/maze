@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { useSelector } from '@xstate/react';
+import type React from 'react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import type { GenerationParams } from '../../types';
 import { Fieldset, Form, LeverSet } from './Levers.css';
@@ -21,6 +20,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 function GenerationParamInputLabel(props: InputLabelProps) {
+  // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor is passed via props, see #1665
   return <label {...props} />;
 }
 

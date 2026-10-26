@@ -3,7 +3,8 @@ import React from 'react';
 import { vi } from 'vitest';
 
 // Mock global VERSION for Footer
-(globalThis as any).VERSION = 'test-version';
+(globalThis as typeof globalThis & { VERSION: string }).VERSION =
+  'test-version';
 
 // Mock HTMLCanvasElement.getContext
 HTMLCanvasElement.prototype.getContext = vi.fn(
@@ -18,8 +19,8 @@ HTMLCanvasElement.prototype.getContext = vi.fn(
       lineTo: vi.fn(),
       stroke: vi.fn(),
       closePath: vi.fn(),
-    }) as any
-);
+    }) as unknown as CanvasRenderingContext2D
+) as unknown as HTMLCanvasElement['getContext'];
 
 // Mock use-sound library
 vi.mock('use-sound', () => ({
@@ -52,7 +53,7 @@ vi.mock('next/router', () => ({
 
 // Mock Next.js Image component
 vi.mock('next/image', () => ({
-  default: (props: any) => {
+  default: (props: React.ComponentProps<'img'>) => {
     return React.createElement('img', props);
   },
 }));

@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from '@xstate/react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
-import { audioOptions } from './audioOptions';
-import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
-
-import { useSelector } from '@xstate/react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 import {
@@ -16,8 +14,11 @@ import {
   Volume,
   VolumneContainer,
 } from './Audio.css';
+import { audioOptions } from './audioOptions';
+import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 
-interface AudioControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface AudioControlButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: 'audio.mute';
 }
 function AudioControlButton(props: AudioControlButtonProps) {
@@ -55,6 +56,7 @@ export function Audio() {
   );
   const prevFrequencyIndexRef = useRef<number>(startingNoteFrequency);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: generationSessionId resets the note on each new maze, see #1663
   useEffect(() => {
     prevFrequencyIndexRef.current = startingNoteFrequency;
   }, [generationSessionId, startingNoteFrequency]);
@@ -75,6 +77,7 @@ export function Audio() {
     },
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: extra deps go away with the actor subscription rework, see #1663
   useEffect(() => {
     algorithmActor?.subscribe((state) => {
       // Only reinitialize audio values if restarting the maze generation

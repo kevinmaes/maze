@@ -242,7 +242,7 @@ export function getStartingNoteFrequency(
 
 export function getNoteFrequency(note: keyof typeof frequencies) {
   let frequency = frequencies[note];
-  if (isNaN(frequency)) {
+  if (Number.isNaN(Number(frequency))) {
     frequency = frequencies.C0;
   }
 

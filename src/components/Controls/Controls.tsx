@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-
 import { useSelector } from '@xstate/react';
+import type React from 'react';
+import { useState } from 'react';
 import type { EventFrom } from 'xstate';
 import Pause from '../../assets/svg/controls/pause.svg';
 import Play from '../../assets/svg/controls/play.svg';
@@ -8,8 +8,8 @@ import StartOver from '../../assets/svg/controls/start-over.svg';
 import StepForward from '../../assets/svg/controls/step-forward.svg';
 import Stop from '../../assets/svg/controls/stop.svg';
 import {
-  appMachine,
   AppMachineContext,
+  type appMachine,
   type ControlEvent,
 } from '../../statechart/app.machine';
 import { Keyboard } from '../Keyboard/Keyboard';
@@ -22,11 +22,13 @@ import {
   Prompt,
 } from './Controls.css';
 
-interface PlayControlLabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+interface PlayControlLabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   htmlFor: ControlEvent['type'];
 }
 
-interface PlayControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface PlayControlButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: ControlEvent['type'];
 }
 

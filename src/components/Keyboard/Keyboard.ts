@@ -18,17 +18,19 @@ interface Props {
 }
 
 export function Keyboard({ eventEmitter, handlers, state }: Props) {
+  // biome-ignore lint/correctness/useExhaustiveDependencies: state re-subscribes handlers on state change, see #1663
   useEffect(() => {
     const entries = Object.entries(handlers);
 
-    entries.forEach(([eventName, handler]) =>
-      eventEmitter.addEventListener(eventName, handler)
-    );
+    entries.forEach(([eventName, handler]) => {
+      eventEmitter.addEventListener(eventName, handler);
+    });
 
-    return () =>
-      entries.forEach(([eventName, handler]) =>
-        eventEmitter.removeEventListener(eventName, handler)
-      );
+    return () => {
+      entries.forEach(([eventName, handler]) => {
+        eventEmitter.removeEventListener(eventName, handler);
+      });
+    };
   }, [state, eventEmitter, handlers]);
   return null;
 }

@@ -45,12 +45,10 @@ for `src/*` in both Next.js and Vitest.
 
 [TypeScript 7.0 is released](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/),
 but its native compiler does not expose the JavaScript compiler API required by
-Next.js 15.5.9 (`readConfigFile` / `createProgram`) and
-prettier-plugin-organize-imports 4.3.0 (`createLanguageService`). TypeScript 6.0.3
-is available, but the installed
-[typescript-eslint 8.50.1 parser requires TypeScript below 6](https://github.com/typescript-eslint/typescript-eslint/blob/v8.50.1/packages/typescript-estree/package.json).
-Keep 5.9.3, the latest compatible 5.x release, as the single compiler for
-`bun run typecheck`, builds, linting, and formatting until those tools are upgraded.
+Next.js 15.5.9 (`readConfigFile` / `createProgram`). Biome handles linting,
+formatting, and import organization independently of the TypeScript compiler.
+Keep 5.9.3 as the project's validated compiler for `bun run typecheck` and
+builds until compatibility with a newer compiler is confirmed.
 
 ## Learn More
 
