@@ -19,10 +19,12 @@
     "typecheck": "tsc --noEmit",
     "knip": "knip",
     "test": "vitest run",
-    "test:coverage": "vitest --coverage",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "act pull_request --workflows .github/workflows/ci.yml --container-architecture linux/amd64",
     "changeset": "changeset",
-    "changeset:version": "changeset version && bun install --lockfile-only"
+    "changeset:version": "changeset version && bun install --lockfile-only",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@xstate/react": "^6.1.0",
@@ -38,14 +40,16 @@
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
     "@changesets/cli": "^2.29.8",
+    "@playwright/test": "^1.64.1",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "@types/node": "^25.0.3",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "^5.1.2",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "4.0.16",
     "jsdom": "^27.3.0",
     "knip": "^5.76.3",
     "typescript": "5.9.3",

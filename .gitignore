@@ -15,7 +15,9 @@
 src/statechart/**.typegen.ts
 
 # testing
-/coverage
+/coverage/
+/test-results/
+/playwright-report/
 
 # production
 /build
