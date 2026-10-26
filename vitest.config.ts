@@ -29,14 +29,18 @@ function svgMockPlugin(): Plugin {
 export default defineConfig({
   plugins: [react(), svgMockPlugin()],
   test: {
+    include: ['src/**/*.test.{ts,tsx}', '.github/scripts/**/*.test.mjs'],
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     globals: true,
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'json-summary', 'html'],
+      include: ['src/**/*.{ts,tsx}'],
       exclude: [
         'node_modules/',
+        'src/pages/**',
+        'src/test/**',
         'src/**/*.d.ts',
         'src/**/*.stories.{js,jsx,ts,tsx}',
         'src/**/*.test.{js,jsx,ts,tsx}',
@@ -44,13 +48,12 @@ export default defineConfig({
         '.next/',
         'coverage/',
       ],
+      // Ratchet only: raise these floors as coverage improves.
       thresholds: {
-        global: {
-          branches: 70,
-          functions: 70,
-          lines: 70,
-          statements: 70,
-        },
+        branches: 81,
+        functions: 92,
+        lines: 90,
+        statements: 90,
       },
     },
   },

@@ -145,6 +145,7 @@ export function Audio() {
         </AudioControlButton>
         <HiddenLabel htmlFor="volume">Volumne</HiddenLabel>
         <Volume
+          data-testid="audio-volume"
           disabled={isMuted}
           type="range"
           name="volumne"

@@ -11,8 +11,11 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import process from 'node:process';
 import { URLSearchParams } from 'node:url';
-import { afterEach, beforeEach, expect, test } from 'vitest';
+import { afterEach, beforeEach, expect, test, vi } from 'vitest';
 import { updateRelease } from './release.mjs';
+
+// Git and Changesets subprocesses need headroom on busy hosts.
+vi.setConfig({ testTimeout: 15_000 });
 
 let directory;
 let work;
