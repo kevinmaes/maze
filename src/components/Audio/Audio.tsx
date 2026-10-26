@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from '@xstate/react';
+import type React from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useSound from 'use-sound';
 import SoundOff from '../../assets/svg/audio-controls/sound-off.svg';
 import SoundOn from '../../assets/svg/audio-controls/sound-on.svg';
-import { audioOptions } from './audioOptions';
-import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
-
-import { useSelector } from '@xstate/react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import { HiddenLabel } from '../shared/form.css';
 import {
@@ -16,8 +14,11 @@ import {
   Volume,
   VolumneContainer,
 } from './Audio.css';
+import { audioOptions } from './audioOptions';
+import { getNote, getNoteFrequency, getStartingNoteFrequency } from './notes';
 
-interface AudioControlButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface AudioControlButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   id: 'audio.mute';
 }
 function AudioControlButton(props: AudioControlButtonProps) {
