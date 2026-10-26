@@ -26,97 +26,70 @@ function github(method, endpoint, body) {
   return result;
 }
 
-// Dependencies are injectable so tests can enforce append-only API behavior
+// Dependencies are injectable so tests can exercise the GitHub API flow
 // against real Git histories without touching GitHub branches.
 export function updateRelease({ repository, source, tree, git, api = github }) {
   const branch = 'changeset-release/dev';
   const repo = `repos/${repository}`;
-  const text = (...args) =>
-    git(...args)
-      .toString()
-      .trim();
-  const paths = (from, to, filter) =>
+  const paths = (filter) =>
     git(
       'diff',
       '--name-only',
       '--no-renames',
       '-z',
       `--diff-filter=${filter}`,
-      from,
-      to
+      source,
+      tree
     )
       .toString()
       .split('\0')
       .filter(Boolean);
 
-  function appendTree(head, target, headline) {
-    const additions = paths(head, target, 'ACMT').map((path) => ({
-      path,
-      contents: Buffer.from(git('show', `${target}:${path}`)).toString(
-        'base64'
-      ),
-    }));
-    const deletions = paths(head, target, 'D').map((path) => ({ path }));
-    if (!additions.length && !deletions.length) return head;
-
-    const response = api('POST', 'graphql', {
-      query: commitMutation,
-      variables: {
-        input: {
-          branch: { repositoryNameWithOwner: repository, branchName: branch },
-          expectedHeadOid: head,
-          message: { headline },
-          fileChanges: { additions, deletions },
-        },
-      },
-    });
-    const commit = response.data.createCommitOnBranch.commit;
-    if (!commit.signature?.isValid) {
-      throw new Error('GitHub did not verify the release commit signature');
-    }
-    return commit.oid;
+  const additions = paths('ACMT').map((path) => ({
+    path,
+    contents: Buffer.from(git('show', `${tree}:${path}`)).toString('base64'),
+  }));
+  const deletions = paths('D').map((path) => ({ path }));
+  if (!additions.length && !deletions.length) {
+    throw new Error('Versioned tree matches dev; nothing to release');
   }
 
+  // Rebuild the branch from dev on every run so its history always contains
+  // dev. Appending sync commits kept the tree current but left the merge base
+  // behind, which made the release PR conflict. Only this branch is moved;
+  // rulesets block force pushes to main and dev.
   const refs = api('GET', `${repo}/git/matching-refs/heads/${branch}`);
-  let head = refs.find((ref) => ref.ref === `refs/heads/${branch}`)?.object.sha;
-  if (!head) {
+  if (refs.some((ref) => ref.ref === `refs/heads/${branch}`)) {
+    api('PATCH', `${repo}/git/refs/heads/${branch}`, {
+      sha: source,
+      force: true,
+    });
+  } else {
     api('POST', `${repo}/git/refs`, {
       ref: `refs/heads/${branch}`,
       sha: source,
     });
-    head = source;
-  } else {
-    git('fetch', 'origin', branch);
-    const base = text('merge-base', source, head);
-    if (head !== source && base === head) {
-      // Once a release PR was merged, its retained branch can move to the new
-      // dev tip without creating a commit or weakening signature enforcement.
-      const response = api('PATCH', `${repo}/git/refs/heads/${branch}`, {
-        sha: source,
-        force: false,
-      });
-      head = response.object.sha;
-      if (head !== source) {
-        throw new Error('Release branch did not fast-forward to current dev');
-      }
-    } else if (base !== source) {
-      // Squash merges leave the retained branch divergent. Append a signed
-      // commit with dev's tree instead of rewriting history or creating an
-      // unsigned server-side merge commit.
-      head = appendTree(head, source, 'Sync release branch with current dev');
-      git('fetch', 'origin', branch);
-      if (
-        text('rev-parse', `${head}^{tree}`) !==
-        text('rev-parse', `${source}^{tree}`)
-      ) {
-        throw new Error(
-          'Release branch changed unexpectedly while syncing dev'
-        );
-      }
-    }
   }
 
-  appendTree(head, tree, 'Version Packages');
+  // createCommitOnBranch commits are signed by GitHub, satisfying the signed
+  // commits ruleset. expectedHeadOid fails the run if the branch moved since
+  // the reset.
+  const response = api('POST', 'graphql', {
+    query: commitMutation,
+    variables: {
+      input: {
+        branch: { repositoryNameWithOwner: repository, branchName: branch },
+        expectedHeadOid: source,
+        message: { headline: 'Version Packages' },
+        fileChanges: { additions, deletions },
+      },
+    },
+  });
+  const commit = response.data.createCommitOnBranch.commit;
+  if (!commit.signature?.isValid) {
+    throw new Error('GitHub did not verify the release commit signature');
+  }
+
   const params = new URLSearchParams({
     state: 'open',
     base: 'dev',
@@ -125,7 +98,7 @@ export function updateRelease({ repository, source, tree, git, api = github }) {
   const [existing] = api('GET', `${repo}/pulls?${params}`);
   const details = {
     title: 'Version Packages',
-    body: 'Updates package versions and CHANGELOG from the pending changesets on dev.\n\nGenerated by the append-only Release workflow using GitHub-signed commits.',
+    body: 'Updates package versions and CHANGELOG from the pending changesets on dev.\n\nGenerated by the Release workflow as one GitHub-signed commit on top of dev.',
     base: 'dev',
   };
   const pullRequest = existing
