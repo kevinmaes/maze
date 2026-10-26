@@ -56,6 +56,7 @@ export function Audio() {
   );
   const prevFrequencyIndexRef = useRef<number>(startingNoteFrequency);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: generationSessionId resets the note on each new maze, see #1663
   useEffect(() => {
     prevFrequencyIndexRef.current = startingNoteFrequency;
   }, [generationSessionId, startingNoteFrequency]);
@@ -76,6 +77,7 @@ export function Audio() {
     },
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: extra deps go away with the actor subscription rework, see #1663
   useEffect(() => {
     algorithmActor?.subscribe((state) => {
       // Only reinitialize audio values if restarting the maze generation

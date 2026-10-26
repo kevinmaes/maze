@@ -59,7 +59,7 @@ export const appMachine =
         gridRows: GRID_SIZE_DEFAULT,
       },
       grid: null,
-      generationSessionId: new Date().getTime(),
+      generationSessionId: Date.now(),
     },
     id: 'app',
     initial: 'Idle',
@@ -67,7 +67,7 @@ export const appMachine =
       Idle: {
         tags: 'levers enabled',
         entry: assign({
-          generationSessionId: () => new Date().getTime(),
+          generationSessionId: () => Date.now(),
         }),
         on: {
           'grid.inject': {

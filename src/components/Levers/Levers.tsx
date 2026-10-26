@@ -20,6 +20,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 function GenerationParamInputLabel(props: InputLabelProps) {
+  // biome-ignore lint/a11y/noLabelWithoutControl: htmlFor is passed via props, see #1665
   return <label {...props} />;
 }
 

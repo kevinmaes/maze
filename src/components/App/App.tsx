@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import GlobalStyle from '../../styles/GlobalStyles';
 import { Audio } from '../Audio/Audio';
@@ -12,7 +12,7 @@ import { AppContainer } from './App.css';
 export default function App() {
   useEffect(() => {
     function ignoreSpace(e: KeyboardEvent) {
-      if (e.key == ' ' && e.target == document.body) {
+      if (e.key === ' ' && e.target === document.body) {
         e.preventDefault();
       }
     }

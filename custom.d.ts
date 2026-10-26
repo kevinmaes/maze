@@ -1,9 +1,11 @@
 declare module '*.svg' {
-  const content: any;
+  import type { FC, SVGProps } from 'react';
+
+  const content: FC<SVGProps<SVGSVGElement>>;
   export default content;
 }
 
 declare module '*.wav' {
-  const content: any;
+  const content: string;
   export default content;
 }

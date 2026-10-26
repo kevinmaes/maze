@@ -1,5 +1,5 @@
+import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import path from 'path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 
@@ -10,7 +10,7 @@ function svgMockPlugin(): Plugin {
     enforce: 'pre' as const,
     resolveId(source: string) {
       if (source.endsWith('.svg')) {
-        return source + '?mock';
+        return `${source}?mock`;
       }
       return null;
     },

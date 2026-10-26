@@ -1,5 +1,5 @@
 import { useSelector } from '@xstate/react';
-import React, { type Ref, useEffect, useRef } from 'react';
+import { type Ref, useEffect, useRef } from 'react';
 import { AppMachineContext } from '../../statechart/app.machine';
 import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
@@ -28,8 +28,9 @@ export function Stage({
   const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
   const gridRef = useRef<Grid | null>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: generationSessionId rebuilds the grid for each new maze, see #1663
   useEffect(() => {
-    if (canvasRef && canvasRef.current) {
+    if (canvasRef?.current) {
       const canvasCtx = canvasRef.current.getContext(
         '2d'
       ) as CanvasRenderingContext2D;

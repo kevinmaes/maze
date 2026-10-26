@@ -12,7 +12,7 @@ export const seek = ({
   pathId,
   current,
 }: SeekOptions): ICell | undefined => {
-  let next;
+  let next: ICell | undefined;
   if (current) {
     next = grid.pickNeighbor(current);
 
