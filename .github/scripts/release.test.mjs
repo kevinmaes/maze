@@ -546,6 +546,19 @@ test('names the Actions setting when GitHub refuses to create the PR', () => {
   expect(pullRequest).toBeNull();
 });
 
+test('preserves unrelated forbidden errors when creating the PR', () => {
+  const originalApi = api;
+  const forbidden = Object.assign(new Error('API rate limit exceeded'), {
+    status: 403,
+  });
+  api = (method, endpoint, body) => {
+    if (method === 'POST' && endpoint.endsWith('/pulls')) throw forbidden;
+    return originalApi(method, endpoint, body);
+  };
+  expect(() => release()).toThrow(forbidden);
+  expect(pullRequest).toBeNull();
+});
+
 test('names the temp ref after the workflow run', () => {
   vi.stubEnv('GITHUB_RUN_ID', '40409473291');
   vi.stubEnv('GITHUB_RUN_ATTEMPT', '2');

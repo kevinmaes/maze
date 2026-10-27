@@ -142,7 +142,15 @@ export function updateRelease({
   try {
     return api('POST', `${repo}/pulls`, { ...details, head: branch }).html_url;
   } catch (error) {
-    if (error.status !== 403) throw error;
+    const output = `${error.message}\n${String(error.stderr ?? '')}`;
+    if (
+      error.status !== 403 ||
+      !output.includes(
+        'GitHub Actions is not permitted to create or approve pull requests'
+      )
+    ) {
+      throw error;
+    }
     throw new Error(
       `GitHub Actions cannot create the release PR for ${branch}. Enable Settings → Actions → General → Allow GitHub Actions to create and approve pull requests, then rerun the Release workflow.`,
       { cause: error }
