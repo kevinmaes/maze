@@ -50,5 +50,13 @@
         "noExplicitAny": "warn"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": [".changeset/*.md"],
+      "formatter": {
+        "enabled": false
+      }
+    }
+  ]
 }

@@ -3,7 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, relative, resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import process from 'node:process';
 import { fileURLToPath, URLSearchParams } from 'node:url';
 
@@ -171,14 +171,8 @@ function main() {
   const directory = mkdtempSync(join(tmpdir(), 'maze-release-'));
   try {
     const statusPath = join(directory, 'status.json');
-    // CLI v2 joins --output to cwd, even when given an absolute path.
-    execute('bun', [
-      'run',
-      'changeset',
-      'status',
-      '--output',
-      relative(process.cwd(), statusPath),
-    ]);
+    // CLI v3 resolves absolute paths; keep the report outside the release tree.
+    execute('bun', ['run', 'changeset', 'status', '--output', statusPath]);
     const status = JSON.parse(readFileSync(statusPath, 'utf8'));
     if (!status.releases.length) {
       process.stdout.write('No pending releases.\n');
