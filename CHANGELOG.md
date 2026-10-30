@@ -1,5 +1,31 @@
 # maze
 
+## 1.1.0
+
+### Minor Changes
+
+- ec176ee: Migrate from Next.js to Vite.
+
+### Patch Changes
+
+- 2e5867b: Build the signed Version Packages commit on a temporary branch and move the release branch straight to it, so updating the release PR no longer closes it.
+- 467cafe: Replace ESLint and Prettier with Biome for linting, formatting, and import organizing.
+- 883d47a: Standardize on Node 24 LTS and a stricter TypeScript baseline with ES2022,
+  bundler resolution, type-only imports, checked indexed access, and the @/ alias.
+  Retain TypeScript 5.9.3 for compatibility with the current framework and tooling.
+- c79065d: Run CI for development pull requests, maintain signed release commits, promote signed development commits to production, and group dependency updates after a seven-day cooldown.
+- 9f8df1d: Reset the release branch to dev before adding the signed Version Packages commit, so the release pull request no longer conflicts with dev.
+- 576fb6f: Add characterization tests for maze generation, state machines, and controls, enforced coverage thresholds, and Chromium smoke tests in CI.
+- c621bb3: Migrate package management and scripts from pnpm to Bun while preserving dependency versions and the Node.js runtime.
+- ffa8f18: Remove unused boilerplate, assets, dependencies, and exports; use the bundled use-sound types and stop tracking local configuration and build caches.
+- f1044a9: Update Vite and Vitest dependencies and fix build error
+
+  - Updated Vite from v5.4.21 to v6.4.1
+  - Updated Vitest from v2.0.0 to v3.2.4
+  - Updated @vitejs/plugin-react and @vitest/coverage-v8 to compatible versions
+  - Updated Lucide icons to v0.562.0
+  - Fixed build error by excluding vitest.config.ts from Next.js type checking
+
 ## 1.0.26
 
 ### Patch Changes
