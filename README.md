@@ -35,11 +35,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 Start editing in `src/components/App/App.tsx`. Vite hot-reloads the page as you edit.
 
-| Script | Purpose |
-|---|---|
-| `bun run dev` | Vite dev server on port 3000 |
-| `bun run build` | Production build to `dist/` |
-| `bun run preview` | Serve `dist/` on port 3000 |
+| Script            | Purpose                      |
+| ----------------- | ---------------------------- |
+| `bun run dev`     | Vite dev server on port 3000 |
+| `bun run build`   | Production build to `dist/`  |
+| `bun run preview` | Serve `dist/` on port 3000   |
 
 ## TypeScript baseline
 

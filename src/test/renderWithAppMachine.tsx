@@ -4,18 +4,22 @@ import type { ReactNode } from 'react';
 import { type ActorRefFrom, SimulatedClock } from 'xstate';
 import { AppMachineContext, type appMachine } from '../statechart/app.machine';
 
+function CaptureActor({
+  capture,
+}: {
+  capture: (actor: ActorRefFrom<typeof appMachine>) => void;
+}) {
+  capture(AppMachineContext.useActorRef());
+  return null;
+}
+
 export function renderWithAppMachine(ui: ReactNode) {
   const clock = new SimulatedClock();
   let actor: ActorRefFrom<typeof appMachine> | undefined;
 
-  function CaptureActor() {
-    actor = AppMachineContext.useActorRef();
-    return null;
-  }
-
   const view = render(
     <AppMachineContext.Provider options={{ clock }}>
-      <CaptureActor />
+      <CaptureActor capture={(value) => (actor = value)} />
       {ui}
     </AppMachineContext.Provider>
   );
