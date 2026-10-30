@@ -74,6 +74,27 @@ function render(maze: Maze, options: Partial<Parameters<typeof drawMaze>[2]>) {
 const center = createMaze({ columns: 3, rows: 3 });
 
 describe('drawMaze', () => {
+  it.each([1, 2, 3])(
+    'clears the backing store and scales once for DPR %i',
+    (devicePixelRatio) => {
+      const { ctx, calls } = render(center, { devicePixelRatio });
+
+      expect(calls.map((call) => call.name).slice(0, 3)).toEqual([
+        'save',
+        'clearRect',
+        'scale',
+      ]);
+      expect(ctx.clearRect).toHaveBeenCalledWith(0, 0, 130, 130);
+      expect(ctx.scale).toHaveBeenCalledOnce();
+      expect(ctx.scale).toHaveBeenCalledWith(
+        devicePixelRatio,
+        devicePixelRatio
+      );
+      expect(calls.at(-1)?.name).toBe('restore');
+      expect(ctx.lineWidth).toBe(style.borderWeight);
+    }
+  );
+
   it('defaults to a device pixel ratio of 1', () => {
     const { ctx } = render(center, {});
 

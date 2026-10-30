@@ -36,6 +36,19 @@ afterEach(() => {
 });
 
 describe('Stage', () => {
+  it('sizes the backing store by devicePixelRatio and keeps the CSS size', () => {
+    vi.stubGlobal('devicePixelRatio', 2);
+
+    const { container } = renderWithAppMachine(<Stage />);
+    flushFrames();
+
+    const canvas = container.querySelector('canvas');
+    expect(canvas).toHaveAttribute('width', '608');
+    expect(canvas).toHaveAttribute('height', '608');
+    expect(canvas).toHaveStyle({ width: '304px', height: '304px' });
+    expect(lastContext().scale).toHaveBeenCalledWith(2, 2);
+  });
+
   it('coalesces snapshots into one draw per frame', () => {
     const { actor, clock } = renderWithAppMachine(<Stage />);
     flushFrames();

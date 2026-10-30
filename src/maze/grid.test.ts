@@ -84,6 +84,18 @@ describe('createMaze', () => {
     expect(getCell(maze, index).edges).toEqual(edges);
   });
 
+  it('marks blocked cells from a set of indices', () => {
+    const maze = createMaze({
+      columns: 3,
+      rows: 3,
+      blockedIndices: new Set([1, 4]),
+    });
+
+    expect(
+      maze.cells.filter((cell) => cell.blocked).map((cell) => cell.index)
+    ).toEqual([1, 4]);
+  });
+
   it.each([-1, 9])('rejects out-of-range start index %i', (startIndex) => {
     expect(() => createMaze({ columns: 3, rows: 3, startIndex })).toThrow(
       /out of range/
@@ -104,6 +116,13 @@ describe('createMaze', () => {
 });
 
 describe('getCell', () => {
+  // #1664: index === total must be rejected, not only index > total.
+  it.each([-1, 9, 10, 1.5])('rejects out-of-range index %d', (index) => {
+    const maze = createMaze({ columns: 3, rows: 3 });
+
+    expect(() => getCell(maze, index)).toThrow('Must be between 0 and 8');
+  });
+
   it('returns the first and last cells', () => {
     const maze = createMaze({ columns: 3, rows: 3 });
 
