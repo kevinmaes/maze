@@ -29,7 +29,7 @@ export default function App() {
           <Levers />
           <Audio />
           <Controls />
-          <Stage width={1000} height={1000} pixelRatio={1} />
+          <Stage />
           <Footer />
         </AppMachineContext.Provider>
       </AppContainer>

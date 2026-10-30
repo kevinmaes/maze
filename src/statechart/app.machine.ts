@@ -1,6 +1,7 @@
 import { createActorContext } from '@xstate/react';
 import { assign, sendTo, setup } from 'xstate';
-import type { IGrid } from '../components/generation/Grid';
+import { createMaze } from '../maze/grid';
+import type { Maze } from '../maze/types';
 import type { GenerationParams } from '../types';
 import { recursiveBacktrackerMachine } from './recursiveBacktracker.machine';
 
@@ -28,7 +29,7 @@ export const appMachine =
       context: {
         mazeId: string;
         generationParams: GenerationParams;
-        grid: IGrid | null;
+        maze: Maze;
         generationSessionId: number;
       };
       events:
@@ -36,14 +37,7 @@ export const appMachine =
         | {
             type: 'generation.param.set';
             generationParam: { name: string; value: number };
-          }
-        | {
-            type: 'grid.inject';
-            grid: IGrid;
           };
-    },
-    actions: {
-      drawGrid: ({ context }) => context.grid?.draw(),
     },
     actors: {
       generationAlgorithm: recursiveBacktrackerMachine,
@@ -58,7 +52,7 @@ export const appMachine =
         gridColumns: GRID_SIZE_DEFAULT,
         gridRows: GRID_SIZE_DEFAULT,
       },
-      grid: null,
+      maze: createMaze({ columns: GRID_SIZE_DEFAULT, rows: GRID_SIZE_DEFAULT }),
       generationSessionId: Date.now(),
     },
     id: 'app',
@@ -68,31 +62,30 @@ export const appMachine =
         tags: 'levers enabled',
         entry: assign({
           generationSessionId: () => Date.now(),
+          maze: ({ context: { generationParams } }) =>
+            createMaze({
+              columns: generationParams.gridColumns,
+              rows: generationParams.gridRows,
+            }),
         }),
-        on: {
-          'grid.inject': {
-            actions: [assign({ grid: ({ event }) => event.grid }), 'drawGrid'],
-            target: 'Generating',
-          },
-        },
+        // A fresh maze is ready immediately, so wait for play in Initializing.
+        always: 'Generating',
       },
       Generating: {
         initial: 'Initializing',
         invoke: {
           id: 'generationAlgorithm',
           src: 'generationAlgorithm',
-          input: ({ context }) => {
-            if (!context.grid) {
-              throw new Error('Grid is not available');
-            }
-            return {
-              canPlay: true,
-              fps: context.generationParams.fps,
-              grid: context.grid,
-              pathId: context.generationSessionId.toString(),
-            };
+          input: ({ context }) => ({
+            canPlay: true,
+            fps: context.generationParams.fps,
+            maze: context.maze,
+          }),
+          onDone: {
+            // Keep the finished maze for drawing after the algorithm actor stops.
+            actions: assign({ maze: ({ event }) => event.output }),
+            target: 'Done',
           },
-          onDone: 'Done',
         },
         states: {
           Initializing: {
@@ -134,7 +127,6 @@ export const appMachine =
         },
       },
       Done: {
-        entry: 'drawGrid',
         on: {
           'app.restart': '#app.Idle',
         },

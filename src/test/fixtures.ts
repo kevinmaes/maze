@@ -1,7 +1,9 @@
+import type { ActorRefFrom } from 'xstate';
 import Cell from '../components/generation/Cell';
 import type { CellPosition } from '../components/generation/Cell/types';
 import Grid from '../components/generation/Grid';
 import type { Maze } from '../maze/types';
+import type { appMachine } from '../statechart/app.machine';
 
 export function canvasContext() {
   const context = document.createElement('canvas').getContext('2d');
@@ -54,4 +56,10 @@ export function seededRng(seed: number) {
 
 export function countVisited(maze: Maze | undefined) {
   return maze?.cells.filter((cell) => cell.visited).length ?? 0;
+}
+
+/** The maze as the running algorithm actor currently sees it. */
+export function generationMaze(actor: ActorRefFrom<typeof appMachine>) {
+  return actor.getSnapshot().children.generationAlgorithm?.getSnapshot().context
+    .generation?.maze;
 }
