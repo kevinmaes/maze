@@ -43,10 +43,10 @@ export default defineConfig({
       ],
       // Ratchet only: raise these floors as coverage improves.
       thresholds: {
-        branches: 81,
-        functions: 92,
-        lines: 90,
-        statements: 90,
+        branches: 88,
+        functions: 95,
+        lines: 95,
+        statements: 95,
       },
     },
   },
