@@ -1,8 +1,10 @@
 import { Buffer } from 'node:buffer';
 import { execFileSync } from 'node:child_process';
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
+  readFileSync,
   rmSync,
   symlinkSync,
   writeFileSync,
@@ -497,6 +499,51 @@ test('exits without contacting GitHub when the real CLI reports no pending relea
     stdio: ['pipe', 'pipe', 'pipe'],
   });
   expect(output.toString()).toBe('No pending releases.\n');
+});
+
+test('the real CLI writes an absolute status report and versions with the repository config', () => {
+  commitDev({
+    'package.json': JSON.stringify({
+      name: 'maze',
+      version: '1.0.0',
+      private: true,
+      scripts: { changeset: 'changeset' },
+    }),
+    '.changeset/pending.md':
+      '---\n"maze": patch\n---\n\nUpgrade dev tooling.\n',
+    '.changeset/config.json': readFileSync(
+      join(process.cwd(), '.changeset/config.json'),
+      'utf8'
+    ),
+  });
+  symlinkSync(
+    join(process.cwd(), 'node_modules'),
+    join(work, 'node_modules'),
+    'dir'
+  );
+  const cli = (...args) =>
+    execFileSync('bun', ['run', 'changeset', ...args], {
+      cwd: work,
+      stdio: ['pipe', 'pipe', 'pipe'],
+    });
+  const statusPath = join(directory, 'status.json');
+  cli('status', '--output', statusPath);
+  const status = JSON.parse(readFileSync(statusPath, 'utf8'));
+  expect(status.releases).toEqual([
+    expect.objectContaining({
+      name: 'maze',
+      type: 'patch',
+      newVersion: '1.0.1',
+    }),
+  ]);
+  cli('version');
+  expect(
+    JSON.parse(readFileSync(join(work, 'package.json'), 'utf8')).version
+  ).toBe('1.0.1');
+  expect(readFileSync(join(work, 'CHANGELOG.md'), 'utf8')).toContain(
+    'Upgrade dev tooling.'
+  );
+  expect(existsSync(join(work, '.changeset/pending.md'))).toBe(false);
 });
 
 test('stops when the temp branch moves before the version commit', () => {
