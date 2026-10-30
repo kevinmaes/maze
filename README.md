@@ -4,7 +4,7 @@
 
 [![React](https://img.shields.io/badge/React-19.1.0-61DAFB?style=flat-square&logo=react)](https://react.dev)
 [![XState](https://img.shields.io/badge/XState-5.20.0-121212?style=flat-square&logo=xstate)](https://xstate.js.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6.0.3-3178C6?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Howler](https://img.shields.io/badge/Howler-2.2.4-FF6B6B?style=flat-square&logo=javascript)](https://howlerjs.com)
 
 <!-- BADGER:END_INSERTION -->
@@ -43,14 +43,18 @@ Start editing in `src/components/App/App.tsx`. Vite hot-reloads the page as you 
 
 ## TypeScript baseline
 
-The project uses TypeScript 5.9.3 with an ES2022 target, bundler module
+The project uses TypeScript 6.0.3 with an ES2022 target, bundler module
 resolution, explicit type imports, checked indexed access, and the `@/*` alias
 for `src/*` in both Vite and Vitest.
 
 [TypeScript 7.0 is released](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/),
-but this project has not validated its native compiler yet. Biome handles linting, formatting, and import organization independently of
-the TypeScript compiler. Keep 5.9.3 as the project's validated compiler for
-`bun run typecheck` until compatibility with a newer compiler is confirmed.
+but its native compiler does not provide the existing JavaScript compiler API.
+SVGR still depends on `cosmiconfig` 8, whose TypeScript configuration loader uses
+`transpileModule`, so this project keeps the TypeScript 6 compiler and API together.
+Revisit TypeScript 7 when that loader no longer needs the legacy API. Knip 6 uses
+Oxc, the Vite plugins do not need the compiler API, and Vitest typechecking is
+disabled; `bun run typecheck` runs `tsc --noEmit` separately. Biome handles linting,
+formatting, and import organization independently of the TypeScript compiler.
 
 ## Deploy on Vercel
 
