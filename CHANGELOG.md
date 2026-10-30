@@ -1,5 +1,11 @@
 # maze
 
+## 1.1.1
+
+### Patch Changes
+
+- 75d8630: Upgrade development tooling and preserve release versioning for the private app. No user-facing changes.
+
 ## 1.1.0
 
 ### Minor Changes
