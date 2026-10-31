@@ -3,6 +3,11 @@ import { countVisited, seededRng } from '../../test/fixtures';
 import { createMaze, getCell, getNeighbors } from '../grid';
 import type { Direction, Maze } from '../types';
 import {
+  advance,
+  backtrack,
+  findNeighbors,
+  isBackAtStart,
+  isDeadEnd,
   type RecursiveBacktrackerState,
   recursiveBacktracker,
 } from './recursiveBacktracker';
@@ -66,6 +71,7 @@ describe('recursiveBacktracker', () => {
 
     expect(state).toMatchObject({
       stack: [4],
+      eligibleNeighbors: [],
       currentIndex: 4,
       cursorIndex: 4,
     });
@@ -232,5 +238,78 @@ describe('recursiveBacktracker', () => {
 
     expect(isDone(state)).toBe(true);
     expect(noRng.currentIndex).toBe(1);
+  });
+});
+
+describe('recursive backtracker phases', () => {
+  // 3x1 maze starting in the middle: 0 | 1 | 2
+  const corridor = () =>
+    init(createMaze({ columns: 3, rows: 1, startIndex: 1 }), { now: 0 });
+
+  it('finds the unvisited neighbors of the cell on top of the stack', () => {
+    const state = findNeighbors(corridor());
+
+    expect(state.eligibleNeighbors).toEqual([2, 0]);
+    expect(isDeadEnd(state)).toBe(false);
+  });
+
+  it('advances to a picked neighbor and pushes it onto the path', () => {
+    const state = advance(
+      findNeighbors(corridor()),
+      env(() => 0.9)
+    );
+
+    expect(state).toMatchObject({
+      stack: [1, 0],
+      eligibleNeighbors: [],
+      currentIndex: 0,
+      cursorIndex: 0,
+    });
+    expect(getCell(state.maze, 0)).toMatchObject({
+      visited: true,
+      lastVisitedAt: 1_000,
+    });
+    expect(getCell(state.maze, 1).walls.Left).toBe(false);
+  });
+
+  it('does not advance without eligible neighbors', () => {
+    const state = corridor();
+
+    expect(
+      advance(
+        state,
+        env(() => 0)
+      )
+    ).toBe(state);
+  });
+
+  it('detects a dead end and backtracks one cell at a time', () => {
+    let state = findNeighbors(
+      advance(
+        findNeighbors(corridor()),
+        env(() => 0)
+      )
+    );
+    expect(state.currentIndex).toBe(2);
+    expect(isDeadEnd(state)).toBe(true);
+
+    state = backtrack(state);
+
+    expect(state).toMatchObject({
+      stack: [1],
+      currentIndex: 2,
+      cursorIndex: null,
+    });
+    expect(getCell(state.maze, 2).backtracked).toBe(true);
+    expect(isBackAtStart(state)).toBe(false);
+    expect(findNeighbors(state).eligibleNeighbors).toEqual([0]);
+  });
+
+  it('is back at the start once the start cell is popped', () => {
+    const state = backtrack(findNeighbors(corridor()));
+
+    expect(isBackAtStart(state)).toBe(true);
+    expect(findNeighbors(state).eligibleNeighbors).toEqual([]);
+    expect(backtrack(state)).toBe(state);
   });
 });

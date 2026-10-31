@@ -1,6 +1,6 @@
 import type { Maze } from '../types';
 
-interface AlgorithmEnv {
+export interface AlgorithmEnv {
   /** Returns a number in [0, 1). Defaults to Math.random; inject a seeded source in tests. */
   rng?: () => number;
   /** Time in ms recorded on newly visited cells. */
