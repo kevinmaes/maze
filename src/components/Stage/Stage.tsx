@@ -1,65 +1,81 @@
 import { useSelector } from '@xstate/react';
-import { type Ref, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import type { Subscription } from 'xstate';
+import { drawMaze, getMazeSize } from '../../render/canvasRenderer';
+import { mazePalette } from '../../render/mazeStyle';
 import { AppMachineContext } from '../../statechart/app.machine';
-import Grid from '../generation/Grid';
 import { Canvas } from './Stage.css';
 
-interface Props {
-  width?: number;
-  height?: number;
-  pixelRatio?: number;
-}
-
-export function Stage({
-  width = 100,
-  height = 100,
-  pixelRatio = window.devicePixelRatio,
-}: Props) {
+export function Stage() {
   const actorRef = AppMachineContext.useActorRef();
-  const { generationParams, generationSessionId } = useSelector(
+  const { cellSize, borderWeight, gridColumns, gridRows } = useSelector(
     actorRef,
-    (state) => ({
-      generationParams: state.context.generationParams,
-      generationSessionId: state.context.generationSessionId,
-    })
+    (state) => state.context.generationParams
   );
-  const { cellSize, borderWeight, gridColumns, gridRows } = generationParams;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
-  const gridRef = useRef<Grid | null>(null);
+  const devicePixelRatio = window.devicePixelRatio || 1;
+  const { width, height } = getMazeSize(
+    { columns: gridColumns, rows: gridRows },
+    { cellSize, borderWeight }
+  );
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: generationSessionId rebuilds the grid for each new maze, see #1663
   useEffect(() => {
-    if (canvasRef?.current) {
-      const canvasCtx = canvasRef.current.getContext(
-        '2d'
-      ) as CanvasRenderingContext2D;
-      canvasCtx.clearRect(0, 0, width, height);
-
-      gridRef.current = new Grid(
-        canvasCtx,
-        gridColumns,
-        gridRows,
-        0,
-        cellSize,
-        borderWeight
-        // blockedCells: [50, 54, 65, 80, 95, 110, 69, 84, 99, 114, 66, 68, 82],
-      );
-      actorRef.send({ type: 'grid.inject', grid: gridRef.current });
+    const ctx = canvasRef.current?.getContext('2d');
+    if (!ctx) {
+      return;
     }
-  }, [
-    height,
-    width,
-    borderWeight,
-    cellSize,
-    gridColumns,
-    gridRows,
-    actorRef,
-    generationSessionId,
-  ]);
+    const style = { ...mazePalette, cellSize, borderWeight };
+    let frameId: number | null = null;
 
-  const dw = Math.floor(pixelRatio * cellSize * gridColumns) + 2 * borderWeight;
-  const dh = Math.floor(pixelRatio * cellSize * gridRows) + 2 * borderWeight;
+    const draw = () => {
+      frameId = null;
+      const snapshot = actorRef.getSnapshot();
+      const generation =
+        snapshot.children.generationAlgorithm?.getSnapshot().context.generation;
+      drawMaze(ctx, generation?.maze ?? snapshot.context.maze, {
+        style,
+        cursorIndex: generation?.cursorIndex,
+        now: Date.now(),
+        devicePixelRatio,
+      });
+    };
 
-  return <Canvas ref={canvasRef} width={dw} height={dh} />;
+    // Coalesce snapshots so the canvas redraws at most once per frame.
+    const scheduleDraw = () => {
+      frameId ??= requestAnimationFrame(draw);
+    };
+
+    // Follow the algorithm actor, which is replaced on every new maze.
+    let algorithmActor = actorRef.getSnapshot().children.generationAlgorithm;
+    let algorithmSubscription: Subscription | undefined =
+      algorithmActor?.subscribe(scheduleDraw);
+    const appSubscription = actorRef.subscribe((snapshot) => {
+      const next = snapshot.children.generationAlgorithm;
+      if (next !== algorithmActor) {
+        algorithmSubscription?.unsubscribe();
+        algorithmActor = next;
+        algorithmSubscription = next?.subscribe(scheduleDraw);
+      }
+      scheduleDraw();
+    });
+    scheduleDraw();
+
+    return () => {
+      appSubscription.unsubscribe();
+      algorithmSubscription?.unsubscribe();
+      if (frameId !== null) {
+        cancelAnimationFrame(frameId);
+      }
+    };
+  }, [actorRef, cellSize, borderWeight, devicePixelRatio]);
+
+  return (
+    <Canvas
+      ref={canvasRef}
+      width={Math.floor(width * devicePixelRatio)}
+      height={Math.floor(height * devicePixelRatio)}
+      style={{ width, height }}
+    />
+  );
 }

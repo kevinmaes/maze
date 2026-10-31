@@ -88,8 +88,10 @@ export function Audio() {
         return;
       }
 
-      const columnIndex = state.context.currentCell?.getColumnIndex() ?? 0;
-      const rowIndex = state.context.currentCell?.getRowIndex() ?? 0;
+      const { generation } = state.context;
+      const currentCell = generation?.maze.cells[generation.currentIndex];
+      const columnIndex = currentCell?.column ?? 0;
+      const rowIndex = currentCell?.row ?? 0;
       const columnChange: number = columnIndex - prevColumnIndexRef.current;
       const rowChange: number = rowIndex - prevRowIndexRef.current;
 

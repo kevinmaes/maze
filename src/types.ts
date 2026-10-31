@@ -6,15 +6,15 @@ export interface AlgorithmGenerationParams {
 }
 
 export interface GenerationParams extends AlgorithmGenerationParams {
-  // Needed only by the State/Grid/Cells (not the algorithm).
-  borderWeight: number; // Passed down to Grid/cell.
+  // Needed only by the renderer (not the algorithm).
+  borderWeight: number;
 
-  // Needed only by the State/Grid/Cells (not the algorithm).
-  cellSize: number; // Passed down to Grid/cell.
+  // Needed only by the renderer (not the algorithm).
+  cellSize: number;
 
-  // Needed only by the State/Grid/Cells (not the algorithm).
+  // Used to create the maze (not the algorithm).
   gridColumns: number;
 
-  // Needed only by the State/Grid/Cells (not the algorithm).
+  // Used to create the maze (not the algorithm).
   gridRows: number;
 }

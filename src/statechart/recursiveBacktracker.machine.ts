@@ -1,7 +1,14 @@
 import { assign, setup } from 'xstate';
-import type { ICell } from '../components/generation/Cell';
-import type { IGrid } from '../components/generation/Grid';
-import { seek } from '../components/generation/seek';
+import {
+  advance,
+  backtrack,
+  findNeighbors,
+  isBackAtStart,
+  isDeadEnd,
+  type RecursiveBacktrackerState,
+  recursiveBacktracker,
+} from '../maze/algorithms/recursiveBacktracker';
+import type { Maze } from '../maze/types';
 import type { AlgorithmGenerationParams } from '../types';
 
 export const recursiveBacktrackerMachine =
@@ -10,19 +17,16 @@ export const recursiveBacktrackerMachine =
     types: {} as {
       context: {
         canPlay: boolean;
-        currentCell: ICell | undefined;
-        eligibleNeighbors: ICell[];
-        grid: IGrid;
-        pathId: string;
-        stack: ICell[];
-        startIndex: number;
+        // The untouched maze to generate from; `generation` holds progress.
+        maze: Maze;
+        generation: RecursiveBacktrackerState | null;
       } & AlgorithmGenerationParams;
       input: {
         canPlay: boolean;
         fps: number;
-        grid: IGrid;
-        pathId: string;
+        maze: Maze;
       };
+      output: Maze;
       events:
         | { type: 'generation.start' }
         | { type: 'controls.play' }
@@ -31,31 +35,29 @@ export const recursiveBacktrackerMachine =
     },
     guards: {
       'can play': ({ context }) => context.canPlay,
-      'reached a dead end': ({ context: { eligibleNeighbors } }) =>
-        eligibleNeighbors.length === 0,
-      'back at the start': ({ context: { stack } }) => stack.length === 0,
+      'reached a dead end': ({ context: { generation } }) =>
+        generation !== null && isDeadEnd(generation),
+      'back at the start': ({ context: { generation } }) =>
+        generation !== null && isBackAtStart(generation),
     },
+    // Each action applies one pure algorithm transition; nothing is mutated or drawn.
     actions: {
       setCurrentStartCell: assign({
-        currentCell: ({ context }) =>
-          context.grid.visitStartCell(context.pathId),
-      }),
-      pushToStack: assign({
-        stack: ({ context: { stack, currentCell } }) =>
-          currentCell ? [...stack, currentCell] : stack,
+        generation: ({ context }) =>
+          recursiveBacktracker.init(context.maze, { now: Date.now() }),
       }),
       findNeighbors: assign({
-        eligibleNeighbors: ({ context: { grid, currentCell } }) =>
-          grid.getNeighbors(currentCell as ICell),
+        generation: ({ context: { generation } }) =>
+          generation && findNeighbors(generation),
       }),
-      pickNextCell: assign(({ context: { grid, pathId, currentCell } }) => ({
-        currentCell: seek({
-          grid,
-          pathId,
-          current: currentCell as ICell,
-        }),
-      })),
-      drawGrid: ({ context: { grid } }) => grid.draw(),
+      pickNextCell: assign({
+        generation: ({ context: { generation } }) =>
+          generation && advance(generation, { now: Date.now() }),
+      }),
+      backtrack: assign({
+        generation: ({ context: { generation } }) =>
+          generation && backtrack(generation),
+      }),
     },
     delays: {
       seekWait: ({ context: { fps } }) => 1000 / fps,
@@ -63,13 +65,11 @@ export const recursiveBacktrackerMachine =
   }).createMachine({
     id: 'recursiveBacktracker',
     context: ({ input }) => ({
-      currentCell: undefined,
-      eligibleNeighbors: [],
-      stack: [],
-      startIndex: 0,
+      generation: null,
       ...input,
     }),
     initial: 'Generation Idle',
+    output: ({ context }) => context.generation?.maze ?? context.maze,
     on: {
       'controls.play': {
         actions: assign({ canPlay: true }),
@@ -87,7 +87,7 @@ export const recursiveBacktrackerMachine =
         },
       },
       Initializing: {
-        entry: ['setCurrentStartCell', 'pushToStack'],
+        entry: 'setCurrentStartCell',
         after: {
           seekWait: {
             guard: ({ context }) => context.canPlay,
@@ -96,29 +96,23 @@ export const recursiveBacktrackerMachine =
         },
       },
       Seeking: {
-        entry: ['findNeighbors', 'drawGrid'],
-        always: 'Advancing',
+        entry: 'findNeighbors',
+        always: [
+          { guard: 'reached a dead end', target: 'Backtracking' },
+          { target: 'Advancing' },
+        ],
       },
       Advancing: {
-        entry: ['pickNextCell', 'pushToStack'],
+        entry: 'pickNextCell',
         after: {
           seekWait: {
             guard: 'can play',
             target: 'Seeking',
           },
         },
-        always: {
-          guard: 'reached a dead end',
-          target: 'Backtracking',
-        },
       },
       Backtracking: {
-        // Pop from the stack
-        entry: assign(({ context: { stack } }) => {
-          const prevCell = stack.pop();
-          prevCell?.setAsBacktrack();
-          return { stack: [...stack], currentCell: prevCell };
-        }),
+        entry: 'backtrack',
         always: [
           { guard: 'back at the start', target: 'Finished' },
           { target: 'Seeking' },

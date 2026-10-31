@@ -1,6 +1,5 @@
 import { act, fireEvent, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import { createGrid } from '../../test/fixtures';
 import { renderWithAppMachine } from '../../test/renderWithAppMachine';
 import { Levers } from './Levers';
 
@@ -36,8 +35,6 @@ describe('Levers', () => {
   it('disables its fieldset and sliders while playing and paused', () => {
     const { actor } = renderWithAppMachine(<Levers />);
     const fieldset = screen.getByRole('group');
-    expect(fieldset).toBeEnabled();
-    act(() => actor.send({ type: 'grid.inject', grid: createGrid() }));
     expect(fieldset).toBeEnabled();
 
     act(() => actor.send({ type: 'controls.play' }));
